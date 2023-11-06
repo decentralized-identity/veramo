@@ -68,10 +68,7 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
-      dataStoreRemoveMediationPolicy: this.dataStoreRemoveMediationPolicy.bind(this),
       dataStoreIsMediationGranted: this.dataStoreIsMediationGranted.bind(this),
-      dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
       dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
       dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
@@ -166,38 +163,6 @@ export class DataStore implements IAgentPlugin {
     if (!presentationEntity) throw new Error('not_found: Verifiable presentation not found')
 
     return presentationEntity.raw
-  }
-
-  async dataStoreSaveMediationPolicy({ did, policy }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
-    const db = await getConnectedDb(this.dbConnection)
-    const existingDid = await db.getRepository(MediationPolicy).findOne({ where: { did } })
-    if (existingDid) throw new Error('already_exists: Mediation policy already exists for provided did')
-    const saveResult = await db.getRepository(MediationPolicy).save({ did, policy })
-    return saveResult.did
-  }
-
-  async dataStoreRemoveMediationPolicy({
-    did,
-  }: IDataStoreRemoveMediationPolicyArgs): Promise<RemoveMediationPolicyResult> {
-    const db = await getConnectedDb(this.dbConnection)
-    const existingEntry = await db.getRepository(MediationPolicy).findOne({ where: { did } })
-    if (!existingEntry) return null
-    await db.getRepository(MediationPolicy).remove(existingEntry)
-    return existingEntry.did
-  }
-
-  /**
-   * This is used internally when global policy DIDComm `isMediateDefaultGrantAll` is:
-   *  - true: with policy = MediatePolicy.DENY [All DIDs allowed except those explicitly denied]
-   *  - false: with policy = MediatePolicy.ALLOW [All DIDs denied except those explicitly allowed]
-   *
-   * @beta This API may change in future versions without a BREAKING CHANGE notice.
-   */
-  async dataStoreGetMediationPolicies({
-    policy,
-  }: IDataStoreGetMediationPoliciesArgs): Promise<any[]> {
-    const db = await getConnectedDb(this.dbConnection)
-    return await db.getRepository(MediationPolicy).findBy({ policy })
   }
 
   async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {

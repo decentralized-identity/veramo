@@ -9,6 +9,8 @@ import JSONB from 'json-buffer'
 
 export { KeyValueTypeORMOptions } from './types.js'
 
+export const Entities = [KeyValueStoreEntity]
+
 /**
  * TypeORM based key value store adapter
  * @beta

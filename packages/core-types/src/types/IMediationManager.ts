@@ -2,7 +2,7 @@ import { IPluginMethodMap } from './IAgent.js'
 
 export interface IMediationManagerSaveMediationPolicyArgs {
   did: string
-  policy: MediationPolicies
+  policy: MediationPolicy
 }
 
 export interface IMediationManagerRemoveMediationPolicyArgs {
@@ -13,7 +13,7 @@ export interface IMediationManagerGetMediationPolicyArgs {
   did: string
 }
 
-export type MediationPolicies = 'ALLOW' | 'DENY'
+export type MediationPolicy = 'ALLOW' | 'DENY'
 
 export type IMediationManagerRemoveMediationPolicyResult = string | null
 export type IMediationManagerGetMediationPolicyResult = string

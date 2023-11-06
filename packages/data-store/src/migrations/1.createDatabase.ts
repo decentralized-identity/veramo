@@ -226,30 +226,6 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
       true,
     )
 
-    debug('creating mediation_policies table')
-    await queryRunner.createTable(
-      new Table({
-        name: migrationGetTableName(queryRunner, 'mediation_policy'),
-        columns: [
-          { name: 'id', type: 'varchar', isPrimary: true },
-          { name: 'did', type: 'varchar', isNullable: false, isUnique: true },
-          { name: 'policy', type: 'varchar', isNullable: false },
-        ],
-      }),
-      true,
-    )
-
-    /**
-     * NOTE: sqlite does not support enums so we use this check contstraint instead
-     **/
-    // await queryRunner.createCheckConstraint(
-    //   'mediation_policy',
-    //   new TableCheck({
-    //     columnNames: ['policy'],
-    //     expression: `policy IN ('ALLOW', 'DENY')`,
-    //   }),
-    // )
-
     debug(`creating mediation table`)
     await queryRunner.createTable(
       new Table({

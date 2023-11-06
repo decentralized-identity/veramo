@@ -1,20 +1,19 @@
 import type {
   IAgentPlugin,
-  MediationPolicies,
+  MediationPolicy,
   IMediationManagerSaveMediationPolicyArgs,
   IMediationManagerRemoveMediationPolicyArgs,
   IMediationManagerGetMediationPolicyArgs,
   IMediationManagerRemoveMediationPolicyResult,
-  IMediationManagerGetMediationPolicyResult,
   IMediationManager,
 } from '@veramo/core-types'
 import { KeyValueStore } from '@veramo/kv-store'
 
 export class MediationManagerPlugin implements IAgentPlugin {
-  readonly #policyStore: KeyValueStore<MediationPolicies>
+  readonly #policyStore: KeyValueStore<MediationPolicy>
   readonly methods: IMediationManager
 
-  constructor(kvStore: KeyValueStore<MediationPolicies>) {
+  constructor(kvStore: KeyValueStore<MediationPolicy>) {
     this.#policyStore = kvStore
     this.methods = {
       mediationManagerSaveMediationPolicy: this.mediationManagerSaveMediationPolicy.bind(this),

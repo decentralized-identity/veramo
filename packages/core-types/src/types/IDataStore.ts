@@ -281,26 +281,6 @@ export interface IDataStore extends IPluginMethodMap {
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation>
 
-  /**
-   * Saves mediation policy to the data store
-   * @param args - mediation policy
-   * @returns a promise that resolves to the recipient did
-   */
-  dataStoreSaveMediationPolicy(args: IDataStoreSaveMediationPolicyArgs): Promise<string>
-
-  /**
-   * Removes a mediation policy from the data store
-   * @param args - mediation policy
-   * @returns a promise that resolves to the recipient did
-   */
-  dataStoreRemoveMediationPolicy(args: IDataStoreRemoveMediationPolicyArgs): Promise<any>
-
-  /**
-   * Gets mediation policies from the data store
-   * @param args - policy
-   * @returns a promise that resolves to the list of matched Mediation Policies
-   */
-  dataStoreGetMediationPolicies(args: IDataStoreGetMediationPoliciesArgs): Promise<any>
 
   /**
    * Saves mediation status to the data store

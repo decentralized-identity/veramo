@@ -5,10 +5,9 @@ import {
   IEventListener,
   IIdentifier,
   IKeyManager,
-  IMediationPolicy,
   IMessageHandler,
   IResolver,
-  MediationPolicies,
+  MediationPolicy,
   MediationStatus,
   TAgent,
 } from '../../../core/src'
@@ -40,7 +39,7 @@ import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
-import { MediationManager } from '../../../mediation-manager/src'
+import { MediationManagerPlugin } from '../../../mediation-manager/src'
 import { DataSource } from 'typeorm'
 
 import { jest } from '@jest/globals'
@@ -102,7 +101,7 @@ describe('coordinate-mediation-message-handler', () => {
         new DataStoreORM(dbConnection),
         DIDCommEventSniffer,
         new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-        new MediationManager(),
+        new MediationManagerPlugin(),
       ],
     })
 
@@ -287,7 +286,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should correctly update the data store MediationPolicy for dids to deny', async () => {
-        const policy = MediationPolicies.DENY
+        const policy = 'DENY'
         const did = denyRecipient.did
         const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
 
@@ -296,7 +295,7 @@ describe('coordinate-mediation-message-handler', () => {
         const [denyDid] = await agent.dataStoreGetMediationPolicies({ policy })
 
         expect(denyDid.did).toBe(denyRecipient.did)
-        expect(denyDid.policy).toBe(MediationPolicies.DENY)
+        expect(denyDid.policy).toBe('DENY')
       })
 
       it('should receive a mediate request', async () => {
@@ -376,7 +375,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should correctly update the data store MediationPolicy for dids to allow', async () => {
-        const policy = MediationPolicies.ALLOW
+        const policy = 'ALLOW'
         const did = recipient.did
         const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
 
@@ -385,7 +384,7 @@ describe('coordinate-mediation-message-handler', () => {
         const [allowDid] = await agent.dataStoreGetMediationPolicies({ policy })
 
         expect(allowDid.did).toBe(recipient.did)
-        expect(allowDid.policy).toBe(MediationPolicies.ALLOW)
+        expect(allowDid.policy).toBe('ALLOW')
       })
 
       it('should only allow mediation for dids with a MediationPolicy of ALLOW where isMediateDefaultGrantAll === false', async () => {
@@ -412,8 +411,8 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
-        const policies = await agent.dataStoreGetMediationPolicies({ policy: MediationPolicies.ALLOW })
-        const didIsAllowed = policies.some(({ did }: IMediationPolicy) => did === denyRecipient.did)
+        const policies = await agent.dataStoreGetMediationPolicies({ policy: 'ALLOW' })
+        const didIsAllowed = policies.some(({ did }: any) => did === denyRecipient.did)
 
         expect(didIsAllowed).toBeFalsy()
 

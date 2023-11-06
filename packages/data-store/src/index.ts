@@ -47,6 +47,8 @@ export const Entities = [
   Mediation,
   RecipientDid,
 ]
+export const entitiesConcat = (...entityArrays: unknown[][]) =>
+  entityArrays.reduce((acc, entityArray) => acc.concat(entityArray), [])
 export {
   KeyType,
   Key,
@@ -62,7 +64,7 @@ export {
   Mediation,
   RecipientDid,
 }
-export { migrations } from './migrations/index.js'
+export { migrations, migrationConcat } from './migrations/index.js'
 
 // re-export the interfaces that were moved to core for backward compatibility
 export { IDataStore, IDataStoreORM } from '@veramo/core-types'

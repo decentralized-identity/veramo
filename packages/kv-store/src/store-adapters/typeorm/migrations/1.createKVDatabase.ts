@@ -8,7 +8,7 @@ const debug = Debug('veramo:data-store:initial-migration')
  * @public
  */
 export class CreateKVDatabaseMigration implements MigrationInterface {
-  private readonly _tableName: string
+  private readonly _tableName: string = 'keyvaluestore'
   readonly name: string
 
   constructor(tableName?: string) {
@@ -28,7 +28,7 @@ export class CreateKVDatabaseMigration implements MigrationInterface {
     // CREATE TABLE "keyvaluestore" ("key" varchar PRIMARY KEY NOT NULL, "data" text NOT NULL)
     await queryRunner.createTable(
       new Table({
-        name: getTableName(this._tableName),
+        name: 'keyvaluestore',
         columns: [
           { name: 'key', type: 'varchar', isPrimary: true },
           { name: 'data', type: 'text', isNullable: false },

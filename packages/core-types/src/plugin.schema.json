@@ -2154,18 +2154,6 @@
           ],
           "description": "Represents mediation"
         },
-        "IDataStoreGetMediationPoliciesArgs": {
-          "type": "object",
-          "properties": {
-            "policy": {
-              "description": "Required. policy"
-            }
-          },
-          "required": [
-            "policy"
-          ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreGetMediationPolicies | dataStoreGetMediationPolicies }"
-        },
         "IDataStoreGetMessageArgs": {
           "type": "object",
           "properties": {
@@ -2633,19 +2621,6 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted }"
         },
-        "IDataStoreRemoveMediationPolicyArgs": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "Required. did"
-            }
-          },
-          "required": [
-            "did"
-          ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreRemoveMediationPolicy | dataStoreRemoveMediationPolicy }"
-        },
         "IDataStoreRemoveRecipientDid": {
           "type": "object",
           "properties": {
@@ -2688,23 +2663,6 @@
             "status"
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation }"
-        },
-        "IDataStoreSaveMediationPolicyArgs": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "Required. did"
-            },
-            "policy": {
-              "description": "Required. policy"
-            }
-          },
-          "required": [
-            "did",
-            "policy"
-          ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediationPolicy | dataStoreSaveMediationPolicy }"
         },
         "IDataStoreSaveMessageArgs": {
           "type": "object",
@@ -2783,15 +2741,6 @@
             "$ref": "#/components/schemas/DataStoreGetMediationResult"
           }
         },
-        "dataStoreGetMediationPolicies": {
-          "description": "Gets mediation policies from the data store",
-          "arguments": {
-            "$ref": "#/components/schemas/IDataStoreGetMediationPoliciesArgs"
-          },
-          "returnType": {
-            "type": "object"
-          }
-        },
         "dataStoreGetMessage": {
           "description": "Gets message from the data store",
           "arguments": {
@@ -2837,15 +2786,6 @@
             "type": "boolean"
           }
         },
-        "dataStoreRemoveMediationPolicy": {
-          "description": "Removes a mediation policy from the data store",
-          "arguments": {
-            "$ref": "#/components/schemas/IDataStoreRemoveMediationPolicyArgs"
-          },
-          "returnType": {
-            "type": "object"
-          }
-        },
         "dataStoreRemoveRecipientDid": {
           "description": "Removes recipient dids from the data store",
           "arguments": {
@@ -2859,15 +2799,6 @@
           "description": "Saves mediation status to the data store",
           "arguments": {
             "$ref": "#/components/schemas/IDataStoreSaveMediationArgs"
-          },
-          "returnType": {
-            "type": "string"
-          }
-        },
-        "dataStoreSaveMediationPolicy": {
-          "description": "Saves mediation policy to the data store",
-          "arguments": {
-            "$ref": "#/components/schemas/IDataStoreSaveMediationPolicyArgs"
           },
           "returnType": {
             "type": "string"

@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 
 import { getAgent } from './setup.js'
-import { MediationPolicies } from '@veramo/core-types'
+import { MediationPolicy } from '@veramo/core-types'
 
 type ConfiguredAgent = Awaited<ReturnType<typeof getAgent>>
 
@@ -19,7 +19,7 @@ type Options = Partial<{
 type UpdatePolicyParams = {
   dids: string[]
   agent: ConfiguredAgent
-  policy?: MediationPolicies
+  policy?: MediationPolicy
   remove?: boolean
 }
 
@@ -50,7 +50,7 @@ const promptForDids = async (action: string): Promise<string[]> => {
  * cli action functions
  **/
 
-const policy = (policy: MediationPolicies) => {
+const policy = (policy: MediationPolicy) => {
   return async function (
     { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
     cmd: Command,
