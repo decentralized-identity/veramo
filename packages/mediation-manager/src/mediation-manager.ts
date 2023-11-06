@@ -8,14 +8,39 @@ import type {
   IMediationManagerGetMediationPolicyResult,
   IMediationManager,
 } from '@veramo/core-types'
-import { KeyValueStore } from '@veramo/kv-store'
+import { IKeyValueStoreOptions, KeyValueStore } from '@veramo/kv-store'
+import {
+  Column,
+  PrimaryColumn,
+  BaseEntity,
+  DataSource,
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  Entity,
+} from 'typeorm'
+
+@Entity('mediation_policy')
+export class KeyValueStoreEntity extends BaseEntity {
+  @PrimaryColumn()
+  key!: string
+
+  @Column()
+  value!: string
+}
+
+const MediationPolicyStore: IKeyValueStoreOptions<MediationPolicy> = {
+  namespace: 'mediation_policy',
+  store: new Map<string, MediationPolicy>(),
+}
 
 export class MediationManagerPlugin implements IAgentPlugin {
   readonly #policyStore: KeyValueStore<MediationPolicy>
+
   readonly methods: IMediationManager
 
-  constructor() {
-    this.#policyStore = new KeyValueStore({ store: new Map<string, MediationPolicy>() })
+  constructor(kvStore: KeyValueStore<MediationPolicy>) {
+    this.#policyStore = kvStore
     this.methods = {
       mediationManagerSaveMediationPolicy: this.mediationManagerSaveMediationPolicy.bind(this),
       mediationManagerRemoveMediationPolicy: this.mediationManagerRemoveMediationPolicy.bind(this),

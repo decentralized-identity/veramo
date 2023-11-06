@@ -216,6 +216,9 @@ importers:
       '@veramo/kms-local':
         specifier: workspace:^
         version: link:../kms-local
+      '@veramo/kv-store':
+        specifier: workspace:^
+        version: link:../kv-store
       '@veramo/mediation-manager':
         specifier: workspace:^
         version: link:../mediation-manager

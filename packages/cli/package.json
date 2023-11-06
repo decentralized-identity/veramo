@@ -59,6 +59,7 @@
     "@veramo/message-handler": "workspace:^",
     "@veramo/remote-client": "workspace:^",
     "@veramo/remote-server": "workspace:^",
+    "@veramo/kv-store": "workspace:^",
     "@veramo/selective-disclosure": "workspace:^",
     "@veramo/url-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
