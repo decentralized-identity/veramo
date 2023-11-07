@@ -1,4 +1,5 @@
 import { DIDComm } from '../didcomm.js'
+import { KeyValueStore } from '../../../kv-store/src'
 import {
   createAgent,
   IDIDManager,
@@ -49,6 +50,9 @@ const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
   onEvent: jest.fn(() => Promise.resolve()),
 }
+
+const policyStore = new KeyValueStore<MediationPolicy>({ store: new Map() })
+const mediationStore = new KeyValueStore<MediationStatus>({ store: new Map() })
 
 describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
@@ -101,7 +105,8 @@ describe('coordinate-mediation-message-handler', () => {
         new DataStoreORM(dbConnection),
         DIDCommEventSniffer,
         new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-        new MediationManagerPlugin(),
+        // @ts-ignore
+        new MediationManagerPlugin(policyStore, mediationStore),
       ],
     })
 
@@ -318,12 +323,11 @@ describe('coordinate-mediation-message-handler', () => {
         const recipientDidUrl = mediator.did
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
-        const mediation = await agent.dataStoreGetMediation({
+        const mediation = await agent.mediationManagerSaveMediation({
           did: recipient.did,
-          status: MediationStatus.GRANTED,
+          status: 'GRANTED',
         })
-
-        expect(mediation!.status).toBe(MediationStatus.GRANTED)
+        expect(mediation!.status).toBe('GRANTED')
         expect(mediation!.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
       })
 
@@ -337,7 +341,7 @@ describe('coordinate-mediation-message-handler', () => {
         await agent.sendDIDCommMessage(didCommMessageContents)
         const mediation = await agent.dataStoreGetMediation({
           did: denyRecipient.did,
-          status: MediationStatus.DENIED,
+          status: 'DENIED',
         })
 
         expect(mediation!.status).toBe(MediationStatus.DENIED)

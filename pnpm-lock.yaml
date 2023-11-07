@@ -1114,6 +1114,9 @@ importers:
       '@veramo/core-types':
         specifier: workspace:*
         version: link:../core-types
+      '@veramo/kv-store':
+        specifier: workspace:*
+        version: 'link:'
       '@veramo/utils':
         specifier: workspace:*
         version: link:../utils
