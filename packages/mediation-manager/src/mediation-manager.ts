@@ -5,19 +5,24 @@ import type {
   IMediationManagerRemoveMediationPolicyArgs,
   IMediationManagerGetMediationPolicyArgs,
   IMediationManager,
+  IMediationGetArgs,
+  MediationStatus,
 } from '@veramo/core-types'
 import { KeyValueStore } from '@veramo/kv-store'
 
 export class MediationManagerPlugin implements IAgentPlugin {
   readonly #policyStore: KeyValueStore<MediationPolicy>
+  readonly #mediationStore: KeyValueStore<MediationStatus>
   readonly methods: IMediationManager
 
-  constructor(kvStore: KeyValueStore<MediationPolicy>) {
-    this.#policyStore = kvStore
+  constructor(policyStore: KeyValueStore<MediationPolicy>, mediationStore: KeyValueStore<MediationStatus>) {
+    this.#policyStore = policyStore
+    this.#mediationStore = mediationStore
     this.methods = {
       mediationManagerSaveMediationPolicy: this.mediationManagerSaveMediationPolicy.bind(this),
       mediationManagerRemoveMediationPolicy: this.mediationManagerRemoveMediationPolicy.bind(this),
       mediationManagerGetMediationPolicy: this.mediationManagerGetMediationPolicy.bind(this),
+      mediationManagerIsMediationGranted: this.mediationManagerIsMediationGranted.bind(this),
     }
   }
 
@@ -43,8 +48,9 @@ export class MediationManagerPlugin implements IAgentPlugin {
     return policy || null
   }
 
-  public async isMediationGranted(args: any, context: any) {
-    // logic
+  public async mediationManagerIsMediationGranted(args: IMediationGetArgs): Promise<boolean> {
+    const policy = await this.#mediationStore.get(args.did)
+    return policy === 'GRANTED'
   }
 
   public async getMediationPolicies(args: any, context: any) {

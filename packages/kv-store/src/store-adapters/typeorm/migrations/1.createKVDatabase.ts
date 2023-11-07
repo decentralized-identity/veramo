@@ -28,7 +28,7 @@ export class CreateKVDatabaseMigration implements MigrationInterface {
     // CREATE TABLE "keyvaluestore" ("key" varchar PRIMARY KEY NOT NULL, "data" text NOT NULL)
     await queryRunner.createTable(
       new Table({
-        name: 'keyvaluestore',
+        name: getTableName(this._tableName),
         columns: [
           { name: 'key', type: 'varchar', isPrimary: true },
           { name: 'data', type: 'text', isNullable: false },
