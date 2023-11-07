@@ -1,14 +1,4 @@
 /**
- * Represents mediation status
- * @public
- */
-
-export enum MediationStatus {
-  GRANTED = 'GRANTED',
-  DENIED = 'DENIED',
-}
-
-/**
  * Represents mediation
  * @public
  */
@@ -21,11 +11,5 @@ export interface IMediation {
   /**
    * required: mediation status
    */
-  status: MediationStatus
+  status: any
 }
-
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- * Represents data store get mediation result
- **/
-export type DataStoreGetMediationResult = IMediation | null

@@ -12,20 +12,11 @@ import {
   IMessage,
   VerifiableCredential,
   VerifiablePresentation,
-  IDataStoreSaveMediationArgs,
-  IDataStoreGetMediationArgs,
   IDataStoreRemoveRecipientDid,
   IDataStoreAddRecipientDid,
   IDataStoreGetRecipientDids,
-  IDataStoreSaveMediationPolicyArgs,
-  IDataStoreGetMediationPoliciesArgs,
   RemoveRecipientDidResult,
   RecipientDids,
-  IDataStoreRemoveMediationPolicyArgs,
-  RemoveMediationPolicyResult,
-  DataStoreGetMediationResult,
-  MediationStatus,
-  IDataStoreIsMediationGrantedArgs,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
 import { createMessage, createMessageEntity, Message } from './entities/message.js'
@@ -36,7 +27,6 @@ import { RecipientDid } from './entities/recipient_did.js'
 import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
-import { Mediation } from './entities/mediation.js'
 
 /**
  * This class implements the {@link @veramo/core-types#IDataStore} interface using a TypeORM compatible database.
@@ -68,9 +58,6 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      dataStoreIsMediationGranted: this.dataStoreIsMediationGranted.bind(this),
-      dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
-      dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
       dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
       dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
@@ -163,30 +150,6 @@ export class DataStore implements IAgentPlugin {
     if (!presentationEntity) throw new Error('not_found: Verifiable presentation not found')
 
     return presentationEntity.raw
-  }
-
-  async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
-    const db = await getConnectedDb(this.dbConnection)
-    const saveResult = await db.getRepository(Mediation).save({ did, status })
-    return saveResult.did
-  }
-
-  async dataStoreIsMediationGranted({ did }: IDataStoreIsMediationGrantedArgs): Promise<boolean> {
-    const mediationEntity = await (await getConnectedDb(this.dbConnection))
-      .getRepository(Mediation)
-      .findOne({ where: { did, status: MediationStatus.GRANTED } })
-    if (!mediationEntity) {
-      return false
-    }
-    return true
-  }
-
-  async dataStoreGetMediation({
-    did,
-    status,
-  }: IDataStoreGetMediationArgs): Promise<DataStoreGetMediationResult> {
-    const db = await getConnectedDb(this.dbConnection)
-    return await db.getRepository(Mediation).findOne({ where: { did, status } })
   }
 
   async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {

@@ -1,31 +1,22 @@
 import {
   AuthorizedDIDContext,
-  DataStoreGetMediationResult,
   FindArgs,
   IAgentPlugin,
   IDataStore,
   IDataStoreAddRecipientDid,
   IDataStoreDeleteMessageArgs,
   IDataStoreDeleteVerifiableCredentialArgs,
-  IDataStoreGetMediationPoliciesArgs,
   IDataStoreGetMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
-  IDataStoreIsMediationGrantedArgs,
   IDataStoreORM,
-  IDataStoreRemoveMediationPolicyArgs,
   IDataStoreRemoveRecipientDid,
-  IDataStoreSaveMediationArgs,
-  IDataStoreSaveMediationPolicyArgs,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
-  IMediation,
   IMessage,
-  MediationStatus,
   RecipientDids,
-  RemoveMediationPolicyResult,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -118,12 +109,6 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      dataStoreSaveMediationPolicy: this.dataStoreSaveMediationPolicy.bind(this),
-      dataStoreRemoveMediationPolicy: this.dataStoreRemoveMediationPolicy.bind(this),
-      dataStoreGetMediationPolicies: this.dataStoreGetMediationPolicies.bind(this),
-      dataStoreIsMediationGranted: this.dataStoreIsMediationGranted.bind(this),
-      dataStoreSaveMediation: this.dataStoreSaveMediation.bind(this),
-      dataStoreGetMediation: this.dataStoreGetMediation.bind(this),
       dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
       dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
       dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
@@ -143,50 +128,6 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreORMGetVerifiablePresentationsCount:
         this.dataStoreORMGetVerifiablePresentationsCount.bind(this),
     }
-  }
-
-  async dataStoreSaveMediationPolicy({ did, policy }: IDataStoreSaveMediationPolicyArgs): Promise<string> {
-    this.cacheTree.mediationPolicies[v4()] = { did, policy }
-    return did
-  }
-
-  async dataStoreRemoveMediationPolicy({
-    did,
-  }: IDataStoreRemoveMediationPolicyArgs): Promise<RemoveMediationPolicyResult> {
-    const exists = Object.entries(this.cacheTree.mediationPolicies).find(([, entry]) => entry.did === did)
-    if (!exists) return null
-    const [id, { did: removedPolicyDid }] = exists
-    delete this.cacheTree.mediationPolicies[id]
-    return removedPolicyDid
-  }
-
-  async dataStoreGetMediationPolicies({
-    policy: policySought,
-  }: IDataStoreGetMediationPoliciesArgs): Promise<any> {
-    const isPolicyMatch = ({ policy }: any) => policy === policySought
-    return Object.values(this.cacheTree.mediationPolicies).filter(isPolicyMatch)
-  }
-
-  async dataStoreSaveMediation({ did, status }: IDataStoreSaveMediationArgs): Promise<string> {
-    this.cacheTree.mediations[v4()] = { did, status }
-    return did
-  }
-
-  async dataStoreIsMediationGranted({ did }: IDataStoreIsMediationGrantedArgs): Promise<boolean> {
-    const mediation = Object.values(this.cacheTree.mediations).find(
-      (mediation) => mediation.did === did && mediation.status === MediationStatus.GRANTED,
-    )
-    if (mediation) return true
-    return false
-  }
-
-  async dataStoreGetMediation({
-    did,
-    status,
-  }: IDataStoreSaveMediationArgs): Promise<DataStoreGetMediationResult> {
-    const isMediationMatch = (medation: IMediation) => medation.did === did && medation.status === status
-    const mediation = Object.values(this.cacheTree.mediations).find(isMediationMatch)
-    return mediation || null
   }
 
   async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {

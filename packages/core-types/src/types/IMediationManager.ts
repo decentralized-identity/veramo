@@ -14,16 +14,12 @@ export interface IMediationManagerGetMediationPolicyArgs {
 }
 
 export type MediationPolicy = 'ALLOW' | 'DENY'
+export type MediationStatus = 'GRANTED' | 'DENIED'
 
-export type IMediationManagerRemoveMediationPolicyResult = string | null
 export type IMediationManagerGetMediationPolicyResult = string
 
 export interface IMediationManager extends IPluginMethodMap {
   mediationManagerSaveMediationPolicy(args: IMediationManagerSaveMediationPolicyArgs): Promise<string>
-  mediationManagerRemoveMediationPolicy(
-    args: IMediationManagerRemoveMediationPolicyArgs,
-  ): Promise<IMediationManagerRemoveMediationPolicyResult>
-  mediationManagerGetMediationPolicy(
-    args: IMediationManagerGetMediationPolicyArgs,
-  ): Promise<IMediationManagerGetMediationPolicyResult>
+  mediationManagerRemoveMediationPolicy(args: IMediationManagerRemoveMediationPolicyArgs): Promise<boolean>
+  mediationManagerGetMediationPolicy(args: IMediationManagerGetMediationPolicyArgs): Promise<string | null>
 }

@@ -2,7 +2,6 @@ import {
   IAgentContext,
   IDIDManager,
   IKeyManager,
-  IDataStore,
   MediationStatus,
   IMediationManager,
 } from '@veramo/core-types'
@@ -14,7 +13,10 @@ import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IMediationManager>
+const GRANTED = 'GRANTED'
+const DENIED = 'DENIED'
+
+type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IMediationManager>
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -340,13 +342,10 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
   }
 
   private async grantOrDenyMediation({ from: did }: Message, context: IContext): Promise<MediationStatus> {
-    if (!did) return MediationStatus.DENIED
+    if (!did) return DENIED
     const policy = await context.agent.mediationManagerGetMediationPolicies({ did })
-    if (this.#isMediateDefaultGrantAll) {
-      return policy === 'DENY' ? MediationStatus.DENIED : MediationStatus.GRANTED
-    } else {
-      return policy === 'ALLOW' ? MediationStatus.GRANTED : MediationStatus.DENIED
-    }
+    if (this.#isMediateDefaultGrantAll) return policy === 'DENY' ? DENIED : GRANTED
+    return policy === 'ALLOW' ? GRANTED : DENIED
   }
 
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
@@ -357,8 +356,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
        **/
       const decision = await this.grantOrDenyMediation(message, context)
       await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
-      const getResponse =
-        decision === MediationStatus.GRANTED ? createMediateGrantMessage : createMediateDenyMessage
+      const getResponse = decision === GRANTED ? createMediateGrantMessage : createMediateDenyMessage
       const response = getResponse(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,

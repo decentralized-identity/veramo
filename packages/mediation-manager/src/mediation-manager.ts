@@ -4,7 +4,6 @@ import type {
   IMediationManagerSaveMediationPolicyArgs,
   IMediationManagerRemoveMediationPolicyArgs,
   IMediationManagerGetMediationPolicyArgs,
-  IMediationManagerRemoveMediationPolicyResult,
   IMediationManager,
 } from '@veramo/core-types'
 import { KeyValueStore } from '@veramo/kv-store'
@@ -26,29 +25,22 @@ export class MediationManagerPlugin implements IAgentPlugin {
     did,
     policy,
   }: IMediationManagerSaveMediationPolicyArgs): Promise<string> {
-    console.log('did', did)
-    console.log('policy', policy)
-    // @ts-ignore
-    const res = await this.#policyStore.set(did, JSON.stringify(policy))
-    console.log('SUCCESS')
-    if (!res || !res.value) throw new Error('Failed to save mediation policy')
+    const res = await this.#policyStore.set(did, policy)
+    if (!res || !res.value) throw new Error('mediation_manager: failed to save mediation policy')
     return did
   }
 
   public async mediationManagerRemoveMediationPolicy({
     did,
-  }: IMediationManagerRemoveMediationPolicyArgs): Promise<IMediationManagerRemoveMediationPolicyResult> {
-    const res = await this.#policyStore.delete(did)
-    console.log(res)
-    return did
+  }: IMediationManagerRemoveMediationPolicyArgs): Promise<boolean> {
+    return await this.#policyStore.delete(did)
   }
 
   public async mediationManagerGetMediationPolicy({
     did,
-  }: IMediationManagerGetMediationPolicyArgs): Promise<string> {
+  }: IMediationManagerGetMediationPolicyArgs): Promise<string | null> {
     const policy = await this.#policyStore.get(did)
-    if (!policy) throw new Error('Failed to get mediation policy')
-    return policy
+    return policy || null
   }
 
   public async isMediationGranted(args: any, context: any) {

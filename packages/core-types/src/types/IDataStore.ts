@@ -1,5 +1,4 @@
 import { IPluginMethodMap } from './IAgent.js'
-import { DataStoreGetMediationResult, MediationStatus } from './IMediation.js'
 import { IMessage } from './IMessage.js'
 import { RecipientDids, RemoveRecipientDidResult } from './IRecipientDid.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
@@ -90,84 +89,6 @@ export interface IDataStoreGetVerifiablePresentationArgs {
    * Required. VerifiablePresentation hash
    */
   hash: string
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreSaveMediationPolicy | dataStoreSaveMediationPolicy}
- * @public
- */
-export interface IDataStoreSaveMediationPolicyArgs {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. policy
-   */
-  policy: any
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreRemoveMediationPolicy | dataStoreRemoveMediationPolicy}
- * @public
- */
-export interface IDataStoreRemoveMediationPolicyArgs {
-  /**
-   * Required. did
-   */
-  did: string
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreGetMediationPolicies | dataStoreGetMediationPolicies}
- * @public
- */
-export interface IDataStoreGetMediationPoliciesArgs {
-  /**
-   * Required. policy
-   */
-  policy: any
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation}
- * @public
- */
-export interface IDataStoreSaveMediationArgs {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. mediation status
-   */
-  status: MediationStatus
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted}
- * @public
- */
-export interface IDataStoreGetMediationArgs {
-  /**
-   * Required. did
-   */
-  did: string
-  /**
-   * Required. mediation status
-   */
-  status: MediationStatus
-}
-
-/**
- * Input arguments for {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted}
- * @public
- */
-export interface IDataStoreIsMediationGrantedArgs {
-  /**
-   * Required. did
-   */
-  did: string
 }
 
 /**
@@ -280,28 +201,6 @@ export interface IDataStore extends IPluginMethodMap {
   dataStoreGetVerifiablePresentation(
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation>
-
-
-  /**
-   * Saves mediation status to the data store
-   * @param args - mediation status
-   * @returns a promise that resolves to the recipient did
-   */
-  dataStoreSaveMediation(args: IDataStoreSaveMediationArgs): Promise<string>
-
-  /**
-   * Gets a boolean that indicates whether mediation is granted
-   * @param args - did
-   * @returns a promise that resolves
-   */
-  dataStoreIsMediationGranted(args: IDataStoreIsMediationGrantedArgs): Promise<boolean>
-
-  /**
-   * Gets mediation status from the data store
-   * @param args - did
-   * @returns a promise that resolves to the recipient did and mediation status
-   */
-  dataStoreGetMediation(args: IDataStoreGetMediationArgs): Promise<DataStoreGetMediationResult>
 
   /**
    * Saves recipient dids to the data store

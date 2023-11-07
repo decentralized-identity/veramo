@@ -2100,60 +2100,6 @@
           ],
           "description": "Input arguments for  {@link IDataStoreDeleteVerifiableCredentialArgs | IDataStoreDeleteVerifiableCredentialArgs }"
         },
-        "IDataStoreGetMediationArgs": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "Required. did"
-            },
-            "status": {
-              "$ref": "#/components/schemas/MediationStatus",
-              "description": "Required. mediation status"
-            }
-          },
-          "required": [
-            "did",
-            "status"
-          ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted }"
-        },
-        "MediationStatus": {
-          "type": "string",
-          "enum": [
-            "GRANTED",
-            "DENIED"
-          ],
-          "description": "Represents mediation status"
-        },
-        "DataStoreGetMediationResult": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/IMediation"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "IMediation": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "required: did"
-            },
-            "status": {
-              "$ref": "#/components/schemas/MediationStatus",
-              "description": "required: mediation status"
-            }
-          },
-          "required": [
-            "did",
-            "status"
-          ],
-          "description": "Represents mediation"
-        },
         "IDataStoreGetMessageArgs": {
           "type": "object",
           "properties": {
@@ -2608,19 +2554,6 @@
           ],
           "description": "Input arguments for  {@link IDataStore.dataStoreGetVerifiablePresentation | dataStoreGetVerifiablePresentation }"
         },
-        "IDataStoreIsMediationGrantedArgs": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "Required. did"
-            }
-          },
-          "required": [
-            "did"
-          ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreIsMediationGranted | dataStoreIsMediationGranted }"
-        },
         "IDataStoreRemoveRecipientDid": {
           "type": "object",
           "properties": {
@@ -2645,24 +2578,6 @@
             "null"
           ],
           "description": "Represents a did or null if not found"
-        },
-        "IDataStoreSaveMediationArgs": {
-          "type": "object",
-          "properties": {
-            "did": {
-              "type": "string",
-              "description": "Required. did"
-            },
-            "status": {
-              "$ref": "#/components/schemas/MediationStatus",
-              "description": "Required. mediation status"
-            }
-          },
-          "required": [
-            "did",
-            "status"
-          ],
-          "description": "Input arguments for  {@link IDataStore.dataStoreSaveMediation | dataStoreSaveMediation }"
         },
         "IDataStoreSaveMessageArgs": {
           "type": "object",
@@ -2732,15 +2647,6 @@
             "type": "boolean"
           }
         },
-        "dataStoreGetMediation": {
-          "description": "Gets mediation status from the data store",
-          "arguments": {
-            "$ref": "#/components/schemas/IDataStoreGetMediationArgs"
-          },
-          "returnType": {
-            "$ref": "#/components/schemas/DataStoreGetMediationResult"
-          }
-        },
         "dataStoreGetMessage": {
           "description": "Gets message from the data store",
           "arguments": {
@@ -2777,15 +2683,6 @@
             "$ref": "#/components/schemas/VerifiablePresentation"
           }
         },
-        "dataStoreIsMediationGranted": {
-          "description": "Gets a boolean that indicates whether mediation is granted",
-          "arguments": {
-            "$ref": "#/components/schemas/IDataStoreIsMediationGrantedArgs"
-          },
-          "returnType": {
-            "type": "boolean"
-          }
-        },
         "dataStoreRemoveRecipientDid": {
           "description": "Removes recipient dids from the data store",
           "arguments": {
@@ -2793,15 +2690,6 @@
           },
           "returnType": {
             "$ref": "#/components/schemas/RemoveRecipientDidResult"
-          }
-        },
-        "dataStoreSaveMediation": {
-          "description": "Saves mediation status to the data store",
-          "arguments": {
-            "$ref": "#/components/schemas/IDataStoreSaveMediationArgs"
-          },
-          "returnType": {
-            "type": "string"
           }
         },
         "dataStoreSaveMessage": {

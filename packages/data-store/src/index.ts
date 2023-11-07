@@ -22,7 +22,6 @@ import { Credential } from './entities/credential.js'
 import { Presentation } from './entities/presentation.js'
 import { Service } from './entities/service.js'
 import { Message, MetaData } from './entities/message.js'
-import { Mediation } from './entities/mediation.js'
 import { PrivateKey } from './entities/private-key.js'
 import { PreMigrationKey } from './entities/PreMigrationEntities.js'
 import { RecipientDid } from './entities/recipient_did.js'
@@ -44,7 +43,6 @@ export const Entities = [
   Service,
   PrivateKey,
   PreMigrationKey,
-  Mediation,
   RecipientDid,
 ]
 export const entitiesConcat = (...entityArrays: unknown[][]) =>
@@ -61,7 +59,6 @@ export {
   Service,
   PrivateKey,
   PreMigrationKey,
-  Mediation,
   RecipientDid,
 }
 export { migrations, migrationConcat } from './migrations/index.js'
