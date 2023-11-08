@@ -1,6 +1,5 @@
 import { IPluginMethodMap } from './IAgent.js'
 import { IMessage } from './IMessage.js'
-import { RecipientDids, RemoveRecipientDidResult } from './IRecipientDid.js'
 import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
 
 /**
@@ -201,25 +200,4 @@ export interface IDataStore extends IPluginMethodMap {
   dataStoreGetVerifiablePresentation(
     args: IDataStoreGetVerifiablePresentationArgs,
   ): Promise<VerifiablePresentation>
-
-  /**
-   * Saves recipient dids to the data store
-   * @param args - recipient dids
-   * @returns a promise that resolves to the added recipient did
-   */
-  dataStoreAddRecipientDid(args: IDataStoreAddRecipientDid): Promise<string>
-
-  /**
-   * Removes recipient dids from the data store
-   * @param args - recipient dids
-   * @returns a promise that resolves to the removed recipient did or null if not found
-   */
-  dataStoreRemoveRecipientDid(args: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult>
-
-  /**
-   * Saves recipient dids to the data store
-   * @param args - recipient dids
-   * @returns a promise that resolves to the list of recipient dids
-   */
-  dataStoreGetRecipientDids(args: IDataStoreGetRecipientDids): Promise<RecipientDids>
 }

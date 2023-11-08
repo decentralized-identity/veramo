@@ -3,20 +3,17 @@ import {
   FindArgs,
   IAgentPlugin,
   IDataStore,
-  IDataStoreAddRecipientDid,
   IDataStoreDeleteMessageArgs,
   IDataStoreDeleteVerifiableCredentialArgs,
   IDataStoreGetMessageArgs,
   IDataStoreGetVerifiableCredentialArgs,
   IDataStoreGetVerifiablePresentationArgs,
   IDataStoreORM,
-  IDataStoreRemoveRecipientDid,
   IDataStoreSaveMessageArgs,
   IDataStoreSaveVerifiableCredentialArgs,
   IDataStoreSaveVerifiablePresentationArgs,
   IIdentifier,
   IMessage,
-  RecipientDids,
   TClaimsColumns,
   TCredentialColumns,
   TIdentifiersColumns,
@@ -40,19 +37,11 @@ import {
   VeramoJsonStore,
 } from './types.js'
 import { normalizeCredential } from 'did-jwt-vc'
-import { v4 } from 'uuid'
 
 type LocalRecords = Required<
   Pick<
     VeramoJsonCache,
-    | 'dids'
-    | 'credentials'
-    | 'presentations'
-    | 'claims'
-    | 'messages'
-    | 'mediations'
-    | 'mediationPolicies'
-    | 'recipientDids'
+    'dids' | 'credentials' | 'presentations' | 'claims' | 'messages' | 'mediations' | 'mediationPolicies'
   >
 >
 
@@ -91,7 +80,6 @@ export class DataStoreJson implements IAgentPlugin {
       'messages',
       'mediations',
       'mediationPolicies',
-      'recipientDids',
     ] as (keyof LocalRecords)[]
     for (const table of tables) {
       if (!this.cacheTree[table]) {
@@ -109,9 +97,6 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
-      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
-      dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
 
       // IDataStoreORM methods
       dataStoreORMGetIdentifiers: this.dataStoreORMGetIdentifiers.bind(this),
@@ -128,25 +113,6 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreORMGetVerifiablePresentationsCount:
         this.dataStoreORMGetVerifiablePresentationsCount.bind(this),
     }
-  }
-
-  async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
-    this.cacheTree.recipientDids[v4()] = { did, recipient_did }
-    return recipient_did
-  }
-
-  async dataStoreRemoveRecipientDid({ did, recipient_did }: IDataStoreRemoveRecipientDid): Promise<string> {
-    const exists = Object.entries(this.cacheTree.recipientDids).find(([, entry]) => {
-      return entry.recipient_did === recipient_did && entry.did === did
-    })
-    if (!exists) throw new Error('Recipient DID does not exist')
-    const [id, removedEntry] = exists
-    delete this.cacheTree.recipientDids[id]
-    return removedEntry.recipient_did
-  }
-
-  async dataStoreGetRecipientDids({ did }: IDataStoreRemoveRecipientDid): Promise<RecipientDids> {
-    return Object.values(this.cacheTree.recipientDids).filter((entry) => entry.did === did)
   }
 
   async dataStoreSaveMessage(args: IDataStoreSaveMessageArgs): Promise<string> {

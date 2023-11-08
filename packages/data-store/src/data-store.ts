@@ -23,7 +23,6 @@ import { createMessage, createMessageEntity, Message } from './entities/message.
 import { createCredentialEntity, Credential } from './entities/credential.js'
 import { Claim } from './entities/claim.js'
 import { createPresentationEntity, Presentation } from './entities/presentation.js'
-import { RecipientDid } from './entities/recipient_did.js'
 import { DataSource } from 'typeorm'
 import { getConnectedDb } from './utils.js'
 import { OrPromise } from '@veramo/utils'
@@ -58,9 +57,6 @@ export class DataStore implements IAgentPlugin {
       dataStoreGetVerifiableCredential: this.dataStoreGetVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      dataStoreAddRecipientDid: this.dataStoreAddRecipientDid.bind(this),
-      dataStoreRemoveRecipientDid: this.dataStoreRemoveRecipientDid.bind(this),
-      dataStoreGetRecipientDids: this.dataStoreGetRecipientDids.bind(this),
     }
   }
 
@@ -150,33 +146,5 @@ export class DataStore implements IAgentPlugin {
     if (!presentationEntity) throw new Error('not_found: Verifiable presentation not found')
 
     return presentationEntity.raw
-  }
-
-  async dataStoreAddRecipientDid({ did, recipient_did }: IDataStoreAddRecipientDid): Promise<string> {
-    const db = await getConnectedDb(this.dbConnection)
-    const existing = await db.getRepository(RecipientDid).findOne({ where: { did, recipient_did } })
-    if (existing) return recipient_did
-    const result = await db.getRepository(RecipientDid).save({ did, recipient_did })
-    return result.recipient_did
-  }
-
-  async dataStoreRemoveRecipientDid({
-    did,
-    recipient_did,
-  }: IDataStoreRemoveRecipientDid): Promise<RemoveRecipientDidResult> {
-    const db = await getConnectedDb(this.dbConnection)
-    const existingEntry = await db.getRepository(RecipientDid).findOne({ where: { did, recipient_did } })
-    if (!existingEntry) return null
-    await db.getRepository(RecipientDid).remove(existingEntry)
-    return existingEntry.recipient_did
-  }
-
-  async dataStoreGetRecipientDids({
-    did,
-    offset: _offset,
-    limit: _limit,
-  }: IDataStoreGetRecipientDids): Promise<RecipientDids> {
-    const db = await getConnectedDb(this.dbConnection)
-    return await db.getRepository(RecipientDid).findBy({ did })
   }
 }

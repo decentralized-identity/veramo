@@ -24,7 +24,6 @@ import { Service } from './entities/service.js'
 import { Message, MetaData } from './entities/message.js'
 import { PrivateKey } from './entities/private-key.js'
 import { PreMigrationKey } from './entities/PreMigrationEntities.js'
-import { RecipientDid } from './entities/recipient_did.js'
 
 /**
  * The TypeORM entities used by this package.
@@ -43,7 +42,6 @@ export const Entities = [
   Service,
   PrivateKey,
   PreMigrationKey,
-  RecipientDid,
 ]
 export const entitiesConcat = (...entityArrays: unknown[][]) =>
   entityArrays.reduce((acc, entityArray) => acc.concat(entityArray), [])
@@ -59,7 +57,6 @@ export {
   Service,
   PrivateKey,
   PreMigrationKey,
-  RecipientDid,
 }
 export { migrations, migrationConcat } from './migrations/index.js'
 
