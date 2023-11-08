@@ -396,14 +396,15 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
       const updates: Update[] = message.data.updates
 
       const applyUpdate = async (did: string, update: Update) => {
-        const filter = { did, recipient_did: update.recipient_did }
+        const { recipient_did: recipientDid } = update
         try {
           if (update.action === UpdateAction.ADD) {
-            await context.agent.dataStoreAddRecipientDid(filter)
+            await context.agent.mediationManagerAddRecipientDid({ did, recipientDid })
             return { ...update, result: RecipientUpdateResult.SUCCESS }
           }
           if (update.action === UpdateAction.REMOVE) {
-            const result = await context.agent.dataStoreRemoveRecipientDid(filter)
+            // TODO: ensure did relatedto recipientDid
+            const result = await context.agent.mediationManagerRemoveRecipientDid({ recipientDid })
             if (result) return { ...update, result: RecipientUpdateResult.SUCCESS }
             return { ...update, result: RecipientUpdateResult.NO_CHANGE }
           }
