@@ -91,7 +91,6 @@ describe('routing-message-handler', () => {
         new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         new MessageHandler({
           messageHandlers: [
-            // @ts-ignore
             new DIDCommMessageHandler(),
             new CoordinateMediationV3MediatorMessageHandler(),
             new CoordinateMediationRecipientMessageHandler(),

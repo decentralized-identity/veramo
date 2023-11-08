@@ -100,7 +100,7 @@ describe('coordinate-mediation-message-handler', () => {
         new MessageHandler({
           messageHandlers: [
             new DIDCommMessageHandler(),
-            new CoordinateMediationV3MediatorMessageHandler({ isMediateDefaultGrantAll: true }),
+            new CoordinateMediationV3MediatorMessageHandler(),
             new CoordinateMediationRecipientMessageHandler(),
           ],
         }),

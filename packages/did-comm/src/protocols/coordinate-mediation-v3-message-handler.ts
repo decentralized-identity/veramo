@@ -340,9 +340,12 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
 
   private async grantOrDenyMediation({ from: did }: Message, context: IContext): Promise<MediationStatus> {
     if (!did) return DENIED
-    const policy = await context.agent.mediationManagerGetMediationPolicies({ did })
-    if (await context.agent.isMediateDefaultGrantAll()) return policy === 'DENY' ? DENIED : GRANTED
-    return policy === 'ALLOW' ? GRANTED : DENIED
+    const policy = await context.agent.mediationManagerGetMediationPolicy({ did })
+    if (await context.agent.isMediateDefaultGrantAll()) {
+      return policy === 'DENY' ? DENIED : GRANTED
+    } else {
+      return policy === 'ALLOW' ? GRANTED : DENIED
+    }
   }
 
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
@@ -352,7 +355,6 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
        * TODO: allow the mediator to inject the decision making logic or use the below as default
        **/
       const decision = await this.grantOrDenyMediation(message, context)
-      console.log('decision', decision)
       await context.agent.mediationManagerSaveMediation({ status: decision, did: message.from })
       const getResponse = decision === GRANTED ? createMediateGrantMessage : createMediateDenyMessage
       const response = getResponse(message.from, message.to, message.id)
