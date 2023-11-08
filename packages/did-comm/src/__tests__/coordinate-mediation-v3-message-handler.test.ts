@@ -331,7 +331,7 @@ describe('coordinate-mediation-message-handler', () => {
         expect(readMediation).toBe('GRANTED')
       })
 
-      it.only('should record the mediation status to the db where request is DENIED', async () => {
+      it('should record the mediation status to the db where request is DENIED', async () => {
         const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
@@ -376,14 +376,13 @@ describe('coordinate-mediation-message-handler', () => {
       it('should correctly update the data store MediationPolicy for dids to allow', async () => {
         const policy = 'ALLOW'
         const did = recipient.did
-        const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
+        const insertedMediationPolicyDid = await agent.mediationManagerSaveMediationPolicy({ did, policy })
 
         expect(insertedMediationPolicyDid).toBe(recipient.did)
 
-        const [allowDid] = await agent.dataStoreGetMediationPolicies({ policy })
+        const savedPolicy = await agent.mediationManagerGetMediationPolicy({ did })
 
-        expect(allowDid.did).toBe(recipient.did)
-        expect(allowDid.policy).toBe('ALLOW')
+        expect(savedPolicy).toBe('ALLOW')
       })
 
       it('should only allow mediation for dids with a MediationPolicy of ALLOW where isMediateDefaultGrantAll === false', async () => {
@@ -410,8 +409,8 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
-        const policies = await agent.dataStoreGetMediationPolicies({ policy: 'ALLOW' })
-        const didIsAllowed = policies.some(({ did }: any) => did === denyRecipient.did)
+        const policy = await agent.mediationManagerGetMediationPolicy({ did: denyRecipient.did })
+        const didIsAllowed = policy === 'ALLOW'
 
         expect(didIsAllowed).toBeFalsy()
 

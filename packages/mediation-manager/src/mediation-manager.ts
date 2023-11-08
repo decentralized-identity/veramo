@@ -9,20 +9,30 @@ import type {
   MediationStatus,
   Did,
   IMediationManagerSaveMediationArgs,
+  IMediationManagerRecipientDidArgs,
+  IMediationManagerAddRecipientDidArgs,
 } from '@veramo/core-types'
 import { KeyValueStore } from '@veramo/kv-store'
 
 type PolicyStore = KeyValueStore<MediationPolicy>
 type MediationStore = KeyValueStore<MediationStatus>
+type RecipientDidStore = KeyValueStore<Did>
 
 export class MediationManagerPlugin implements IAgentPlugin {
   readonly #policyStore: KeyValueStore<MediationPolicy>
   readonly #mediationStore: KeyValueStore<MediationStatus>
+  readonly #recipientDidStore: KeyValueStore<Did>
   readonly methods: IMediationManager
 
-  constructor(isMediateDefaultGrantAll = true, policyStore: PolicyStore, mediationStore: MediationStore) {
+  constructor(
+    isMediateDefaultGrantAll = true,
+    policyStore: PolicyStore,
+    mediationStore: MediationStore,
+    recipientDidStore: RecipientDidStore,
+  ) {
     this.#policyStore = policyStore
     this.#mediationStore = mediationStore
+    this.#recipientDidStore = recipientDidStore
     this.methods = {
       isMediateDefaultGrantAll: () => Promise.resolve(isMediateDefaultGrantAll),
       /* Mediation Policy Methods */
@@ -34,6 +44,10 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerSaveMediation: this.mediationManagerSaveMediation.bind(this),
       mediationManagerGetMediation: this.mediationManagerGetMediation.bind(this),
       mediationManagerRemoveMediation: this.mediationManagerRemoveMediation.bind(this),
+      /* Receipient Did Methods */
+      mediationManagerAddRecipientDid: this.mediationManagerAddRecipientDid.bind(this),
+      mediationManagerRemoveRecipientDid: this.mediationManagerRemoveRecipientDid.bind(this),
+      mediationManagerGetRecipientDid: this.mediationManagerGetRecipientDid.bind(this),
     }
   }
 
@@ -82,15 +96,25 @@ export class MediationManagerPlugin implements IAgentPlugin {
     return await this.#mediationStore.delete(args.did)
   }
 
-  public async addRecipientDid(args: any, context: any) {
-    // logic
+  public async mediationManagerAddRecipientDid({
+    recipientDid,
+    did,
+  }: IMediationManagerAddRecipientDidArgs): Promise<Did> {
+    const addResult = await this.#recipientDidStore.set(recipientDid, did)
+    if (!addResult || !addResult.value) throw new Error('mediation_manager: failed to add recipient did')
+    return addResult.value
   }
 
-  public async removeRecipientDid(args: any, context: any) {
-    // logic
+  public async mediationManagerRemoveRecipientDid({
+    recipientDid,
+  }: IMediationManagerRecipientDidArgs): Promise<boolean> {
+    return await this.#recipientDidStore.delete(recipientDid)
   }
 
-  public async getRecipientDids({ args, context }: { args: any; context: any }) {
-    // logic
+  public async mediationManagerGetRecipientDid({
+    recipientDid,
+  }: IMediationManagerRecipientDidArgs): Promise<Did | null> {
+    const did = await this.#recipientDidStore.get(recipientDid)
+    return did || null
   }
 }

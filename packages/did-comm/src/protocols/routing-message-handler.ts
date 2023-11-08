@@ -1,4 +1,4 @@
-import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IDataStoreORM } from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IDataStoreORM, IMediationManager } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
@@ -6,7 +6,7 @@ import { IDIDComm } from '../types/IDIDComm.js'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM>
+type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM & IMediationManager>
 
 export const FORWARD_MESSAGE_TYPE = 'https://didcomm.org/routing/2.0/forward'
 export const QUEUE_MESSAGE_TYPE = 'https://didcomm.org/routing/2.0/forward/queue-message'
@@ -34,7 +34,7 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
         if (!did) throw new Error('invalid_argument: Forward received without `body.next` set')
 
         if (attachments.length) {
-          const isMediationGranted = await context.agent.dataStoreIsMediationGranted({ did })
+          const isMediationGranted = await context.agent.mediationManagerIsMediationGranted({ did })
 
           if (isMediationGranted) {
             const recipients = attachments[0].data.json.recipients

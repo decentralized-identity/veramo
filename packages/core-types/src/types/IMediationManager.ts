@@ -22,10 +22,18 @@ export interface IMediationManagerSaveMediationArgs {
   status: MediationStatus
 }
 
+export interface IMediationManagerAddRecipientDidArgs {
+  recipientDid: string
+  did: string
+}
+
+export interface IMediationManagerRecipientDidArgs {
+  recipientDid: string
+}
+
 export type Did = string
 export type MediationPolicy = 'ALLOW' | 'DENY'
 export type MediationStatus = 'GRANTED' | 'DENIED'
-export type IMediationManagerGetMediationPolicyResult = string
 
 export interface IMediationManager extends IPluginMethodMap {
   isMediateDefaultGrantAll(): Promise<boolean>
@@ -38,4 +46,7 @@ export interface IMediationManager extends IPluginMethodMap {
   mediationManagerGetMediation(args: IMediationGetArgs): Promise<MediationStatus | null>
   mediationManagerRemoveMediation(args: IMediationGetArgs): Promise<boolean>
   mediationManagerSaveMediation(args: IMediationManagerSaveMediationArgs): Promise<Did>
+  mediationManagerAddRecipientDid(args: IMediationManagerAddRecipientDidArgs): Promise<Did>
+  mediationManagerRemoveRecipientDid(args: IMediationManagerRecipientDidArgs): Promise<boolean>
+  mediationManagerGetRecipientDid(args: IMediationManagerRecipientDidArgs): Promise<Did | null>
 }
