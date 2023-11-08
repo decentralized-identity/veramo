@@ -73,11 +73,6 @@ export class MediationManagerPlugin implements IAgentPlugin {
     return policy || null
   }
 
-  public async mediationManagerIsMediationGranted(args: IMediationGetArgs): Promise<boolean> {
-    const policy = await this.#mediationStore.get(args.did)
-    return policy === 'GRANTED'
-  }
-
   public async mediationManagerGetMediation({ did }: IMediationGetArgs): Promise<MediationStatus | null> {
     const mediation = await this.#mediationStore.get(did)
     return mediation || null
@@ -116,5 +111,9 @@ export class MediationManagerPlugin implements IAgentPlugin {
   }: IMediationManagerRecipientDidArgs): Promise<Did | null> {
     const did = await this.#recipientDidStore.get(recipientDid)
     return did || null
+  }
+
+  public async mediationManagerIsMediationGranted(args: IMediationGetArgs): Promise<boolean> {
+    return !!await this.#recipientDidStore.get(args.did)
   }
 }
