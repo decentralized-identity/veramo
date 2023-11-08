@@ -18,7 +18,7 @@ import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
-  CoordinateMediationMediatorMessageHandler,
+  CoordinateMediationV3MediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   CoordinateMediation,
@@ -93,7 +93,7 @@ describe('routing-message-handler', () => {
           messageHandlers: [
             // @ts-ignore
             new DIDCommMessageHandler(),
-            new CoordinateMediationMediatorMessageHandler(),
+            new CoordinateMediationV3MediatorMessageHandler(),
             new CoordinateMediationRecipientMessageHandler(),
             new RoutingMessageHandler(),
           ],

@@ -31,10 +31,7 @@ const updatePolicies = async (options: UpdatePolicyParams): Promise<void> => {
   const { dids, agent, policy, remove = false } = options
   if (remove) return dids.forEach(async (did) => await agent.mediationManagerRemoveMediationPolicy({ did }))
   if (!policy) throw new Error('No policy provided')
-  const savedDids = await Promise.all(
-    dids.map(async (did) => await agent.mediationManagerSaveMediationPolicy({ did, policy })),
-  )
-  console.log('savedDids', savedDids)
+  return dids.forEach(async (did) => await agent.mediationManagerSaveMediationPolicy({ did, policy }))
 }
 
 const promptForDids = async (action: string): Promise<string[]> => {

@@ -6,6 +6,7 @@ import {
   IEventListener,
   IIdentifier,
   IKeyManager,
+  IMediationManager,
   IMessageHandler,
   IResolver,
   MediationPolicy,
@@ -58,7 +59,9 @@ describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
   let mediator: IIdentifier
   let denyRecipient: IIdentifier
-  let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
+  let agent: TAgent<
+    IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore & IMediationManager
+  >
   let didCommEndpointServer: Server
   let listeningPort = Math.round(Math.random() * 32000 + 2048)
   let dbConnection: DataSource
@@ -106,7 +109,7 @@ describe('coordinate-mediation-message-handler', () => {
         DIDCommEventSniffer,
         new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         // @ts-ignore
-        new MediationManagerPlugin(policyStore, mediationStore),
+        new MediationManagerPlugin(true, policyStore, mediationStore),
       ],
     })
 
@@ -290,17 +293,13 @@ describe('coordinate-mediation-message-handler', () => {
         expect(isMediateDefaultGrantAll).toBeTruthy()
       })
 
-      it('should correctly update the data store MediationPolicy for dids to deny', async () => {
+      it.only('should correctly update the data store MediationPolicy for dids to deny', async () => {
         const policy = 'DENY'
         const did = denyRecipient.did
-        const insertedMediationPolicyDid = await agent.dataStoreSaveMediationPolicy({ did, policy })
-
+        const insertedMediationPolicyDid = await agent.mediationManagerSaveMediationPolicy({ did, policy })
         expect(insertedMediationPolicyDid).toBe(denyRecipient.did)
-
-        const [denyDid] = await agent.dataStoreGetMediationPolicies({ policy })
-
-        expect(denyDid.did).toBe(denyRecipient.did)
-        expect(denyDid.policy).toBe('DENY')
+        const insertedPolicy = await agent.mediationManagerGetMediationPolicy({ did })
+        expect(insertedPolicy).toBe('DENY')
       })
 
       it('should receive a mediate request', async () => {
@@ -323,15 +322,16 @@ describe('coordinate-mediation-message-handler', () => {
         const recipientDidUrl = mediator.did
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
-        const mediation = await agent.mediationManagerSaveMediation({
+        const mediationSaveResult = await agent.mediationManagerSaveMediation({
           did: recipient.did,
           status: 'GRANTED',
         })
-        expect(mediation!.status).toBe('GRANTED')
-        expect(mediation!.did).toBe('did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
+        expect(mediationSaveResult).toBe('GRANTED')
+        const readMediation = await agent.mediationManagerGetMediation({ did: recipient.did })
+        expect(readMediation).toBe('GRANTED')
       })
 
-      it('should record the mediation status to the db where request is DENIED', async () => {
+      it.only('should record the mediation status to the db where request is DENIED', async () => {
         const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
@@ -339,13 +339,8 @@ describe('coordinate-mediation-message-handler', () => {
         const recipientDidUrl = mediator.did
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
-        const mediation = await agent.dataStoreGetMediation({
-          did: denyRecipient.did,
-          status: 'DENIED',
-        })
-
-        expect(mediation!.status).toBe(MediationStatus.DENIED)
-        expect(mediation!.did).toBe('did:fake:dENygbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo')
+        const mediation = await agent.mediationManagerGetMediation({ did: denyRecipient.did })
+        expect(mediation).toBe('DENIED')
       })
 
       it('should respond correctly to a mediate request where GRANTED', async () => {

@@ -17,21 +17,25 @@ export interface IMediationGetArgs {
   did: string
 }
 
-export interface IMediationManagerSaveMediationPolicyArgs {
+export interface IMediationManagerSaveMediationArgs {
   did: string
   status: MediationStatus
 }
 
+export type Did = string
 export type MediationPolicy = 'ALLOW' | 'DENY'
 export type MediationStatus = 'GRANTED' | 'DENIED'
 export type IMediationManagerGetMediationPolicyResult = string
 
 export interface IMediationManager extends IPluginMethodMap {
-  mediationManagerSaveMediationPolicy(args: IMediationManagerSaveMediationPolicyArgs): Promise<string>
+  isMediateDefaultGrantAll(): Promise<boolean>
+  mediationManagerSaveMediationPolicy(args: IMediationManagerSaveMediationPolicyArgs): Promise<Did>
   mediationManagerRemoveMediationPolicy(args: IMediationManagerRemoveMediationPolicyArgs): Promise<boolean>
-  mediationManagerGetMediationPolicy(args: IMediationManagerGetMediationPolicyArgs): Promise<string | null>
+  mediationManagerGetMediationPolicy(
+    args: IMediationManagerGetMediationPolicyArgs,
+  ): Promise<MediationPolicy | null>
   mediationManagerIsMediationGranted(args: IMediationGetArgs): Promise<boolean>
-  mediationManagerGetMediation(args: IMediationGetArgs): Promise<string | null>
-  mediationManagerRemoveMediation(args: IMediationGetArgs): Promise<string | null>
-  mediationManagerSaveMediation(args: IMediationManagerSaveMediationPolicyArgs): Promise<string>
+  mediationManagerGetMediation(args: IMediationGetArgs): Promise<MediationStatus | null>
+  mediationManagerRemoveMediation(args: IMediationGetArgs): Promise<boolean>
+  mediationManagerSaveMediation(args: IMediationManagerSaveMediationArgs): Promise<Did>
 }

@@ -334,17 +334,14 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessageHandler {
-  readonly #isMediateDefaultGrantAll: boolean
-
-  constructor({ isMediateDefaultGrantAll }: CoordinateMediationV3MediatorMessageHandlerOptions) {
+  constructor() {
     super()
-    this.#isMediateDefaultGrantAll = isMediateDefaultGrantAll
   }
 
   private async grantOrDenyMediation({ from: did }: Message, context: IContext): Promise<MediationStatus> {
     if (!did) return DENIED
     const policy = await context.agent.mediationManagerGetMediationPolicies({ did })
-    if (this.#isMediateDefaultGrantAll) return policy === 'DENY' ? DENIED : GRANTED
+    if (await context.agent.isMediateDefaultGrantAll()) return policy === 'DENY' ? DENIED : GRANTED
     return policy === 'ALLOW' ? GRANTED : DENIED
   }
 
@@ -355,7 +352,8 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
        * TODO: allow the mediator to inject the decision making logic or use the below as default
        **/
       const decision = await this.grantOrDenyMediation(message, context)
-      await context.agent.dataStoreSaveMediation({ status: decision, did: message.from })
+      console.log('decision', decision)
+      await context.agent.mediationManagerSaveMediation({ status: decision, did: message.from })
       const getResponse = decision === GRANTED ? createMediateGrantMessage : createMediateDenyMessage
       const response = getResponse(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
