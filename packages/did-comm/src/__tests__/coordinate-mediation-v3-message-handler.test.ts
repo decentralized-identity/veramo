@@ -84,12 +84,10 @@ describe('coordinate-mediation-message-handler', () => {
       type: 'sqlite',
       database: ':memory:',
       synchronize: false,
-      // @ts-ignore
-      migrations: migrationConcat(dataStoreMigrations, kvStoreMigrations),
+      migrations: dataStoreMigrations.concat(kvStoreMigrations),
       migrationsRun: true,
       logging: false,
-      // @ts-ignore
-      entities: entitiesConcat(DataStoreEntities, KVStoreEntities),
+      entities: (KVStoreEntities as any).concat(DataStoreEntities),
     })
 
     policyStore = new KeyValueStore<PreMediationRequestPolicy>({
