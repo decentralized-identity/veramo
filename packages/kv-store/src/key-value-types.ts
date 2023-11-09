@@ -54,7 +54,7 @@ export interface IKeyValueStoreAdapter<ValueType> {
  *
  * @public
  */
-export type ValueStoreType = object |  string | number | boolean
+export type ValueStoreType = object | string | number | boolean
 
 /**
  * A Key Value store is responsible for managing Values identified by keys.

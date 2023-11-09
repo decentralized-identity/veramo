@@ -69,15 +69,7 @@ export class DataStoreJson implements IAgentPlugin {
   constructor(jsonStore: VeramoJsonStore) {
     this.notifyUpdate = jsonStore.notifyUpdate
     this.cacheTree = jsonStore as LocalRecords
-    const tables = [
-      'dids',
-      'credentials',
-      'presentations',
-      'claims',
-      'messages',
-      'mediations',
-      'mediationPolicies',
-    ] as (keyof LocalRecords)[]
+    const tables = ['dids', 'credentials', 'presentations', 'claims', 'messages'] as (keyof LocalRecords)[]
     for (const table of tables) {
       if (!this.cacheTree[table]) {
         this.cacheTree[table] = {}
