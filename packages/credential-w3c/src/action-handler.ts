@@ -485,10 +485,10 @@ export class CredentialPlugin implements IAgentPlugin {
 
   /**
    * Checks if a key is suitable for signing JWT payloads.
-   * @param key
-   * @param context
+   * @param key - the key to check for support
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
-   * @internal
+   * @beta
    */
   async matchKeyForJWT(key: IKey, context: IssuerAgentContext): Promise<boolean> {
     switch (key.type) {

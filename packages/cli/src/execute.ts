@@ -2,8 +2,10 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 import { getAgent } from './setup.js'
 import fs from 'fs'
-import OasResolver from 'oas-resolver'
 import fuzzy from 'fuzzy'
+import Debug from 'debug'
+
+const debug = Debug('veramo:cli:execute')
 
 const execute = new Command('execute')
   .description('Execute agent method')
@@ -18,8 +20,6 @@ const execute = new Command('execute')
       let argsString = options.argsJSON
       let argsFile = options.argsFile
       let argsObj
-
-      const { openapi } = await OasResolver.resolve(agent.getSchema(), null, { resolveInternal: true })
 
       if (!method) {
         const answers = await inquirer.prompt({
@@ -38,78 +38,30 @@ const execute = new Command('execute')
         })
         method = answers.method
       }
-      const methodApi = openapi.components.methods[method]
 
       if (!argsString && !argsFile) {
-        // parse schema, generate options
-
-        const questions = []
-        // console.log(methodApi.arguments.type)
-        if (methodApi.arguments.type === 'object') {
-          for (const property in methodApi.arguments.properties) {
-            const propertySchema = methodApi.arguments.properties[property]
-            // console.log({property, propertySchema})
-            let question: any = {
-              name: property,
-              message: property + ' - ' + propertySchema.description,
-            }
-
-            // TODO handle anyOf
-            switch (propertySchema.type) {
-              case 'object':
-                question.type = 'input'
-                question.filter = (input: string) => JSON.parse(input === '' ? '{}' : input)
-                question.transformer = (input: object) => JSON.stringify(input)
-                break
-              case 'string':
-                question.type = 'input'
-                break
-              case 'number':
-                question.type = 'number'
-                break
-              case 'boolean':
-                question.type = 'confirm'
-                break
-              // TODO
-              case 'array':
-              default:
-                console.log(`Method argument type ${propertySchema.type} not supported yet`)
-                process.exit(1)
-            }
-
-            if (question.type) {
-              if (propertySchema.enum) {
-                question.type = 'list'
-                question.choices = propertySchema.enum
-              }
-              questions.push(question)
-            }
-          }
-        }
-
-        argsObj = await inquirer.prompt(questions)
+        console.error(`No arguments provided for execute method=${method}`)
+        process.exit(1)
       } else {
+        debug(`Attempting to extract method arguments from file (${argsFile})`)
         if (argsFile) {
-          console.log({ argsFile })
           argsString = fs.readFileSync(argsFile).toString('utf-8')
         }
         try {
           argsObj = JSON.parse(argsString!)
         } catch (e: any) {
           console.error('could not parse arguments JSON')
+          process.exit(1)
         }
       }
 
-      console.log('\nMethod: ', method)
-      console.log('\nArguments: ', JSON.stringify(argsObj, null, 2))
+      debug('\nMethod: ', method)
+      debug('\nArguments: ', JSON.stringify(argsObj, null, 2))
 
       const result = await agent.execute(method, argsObj)
 
-      console.log(
-        '\nResult',
-        methodApi.returnType.description ? `(${methodApi.returnType.description}):` : ':',
-        JSON.stringify(result, null, 2),
-      )
+      debug('\nResult: ', JSON.stringify(result, null, 2))
+      console.log(JSON.stringify(result))
     } catch (e: any) {
       console.error(e.message)
     }
