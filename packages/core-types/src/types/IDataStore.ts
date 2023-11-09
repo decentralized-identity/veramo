@@ -90,7 +90,6 @@ export interface IDataStoreGetVerifiablePresentationArgs {
   hash: string
 }
 
-
 /**
  * Basic data store interface
  * @public

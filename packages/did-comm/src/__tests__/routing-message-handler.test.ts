@@ -27,6 +27,9 @@ import {
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   CoordinateMediation,
+  createRecipientUpdateMessage,
+  Update,
+  UpdateAction,
 } from '../protocols/coordinate-mediation-v3-message-handler.js'
 import { DIDCommMessageMediaType } from '../types/message-types.js'
 import {
@@ -198,13 +201,27 @@ describe('routing-message-handler', () => {
   it('should save forward message in queue for recipient', async () => {
     expect.assertions(2)
 
-    // 1. Coordinate mediation
+    // 1. Request Mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const message = { packing: 'authcrypt', message: mediateRequestMessage } as const
-    const packedMessage = await agent.packDIDCommMessage(message)
+    const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
     const recipientDidUrl = mediator.did
-    const messageId = mediateRequestMessage.id
-    await agent.sendDIDCommMessage({ messageId, packedMessage, recipientDidUrl })
+    await agent.sendDIDCommMessage({
+      messageId: mediateRequestMessage.id,
+      packedMessage: packedMediateRequestMessage,
+      recipientDidUrl,
+    })
+
+    // 2. Recipient Update
+    const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
+    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
+    const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
+    await agent.sendDIDCommMessage({
+      messageId: updateMessage.id,
+      packedMessage: packedUpdateMessage,
+      recipientDidUrl,
+    })
 
     // 2. Forward message
     const innerMessage = await agent.packDIDCommMessage({
@@ -277,40 +294,33 @@ describe('routing-message-handler', () => {
   })
 
   it('should save forward message in queue for recipient previously denied', async () => {
+    // set up agent to deny mediation
+    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+
     expect.assertions(1)
-
-    // 1. Coordinate mediation
+    // 1. Request Mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
+    const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
+    const recipientDidUrl = mediator.did
     await agent.sendDIDCommMessage({
       messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      packedMessage: packedMediateRequestMessage,
+      recipientDidUrl,
     })
 
-    // 2. Save deny message
-    await agent.dataStoreSaveMessage({
-      message: {
-        type: CoordinateMediation.MEDIATE_DENY,
-        from: mediator.did,
-        to: recipient.did,
-        id: v4(),
-        createdAt: new Date().toISOString(),
-        data: {},
-      },
-    })
-
-    // 3. Request again
+    // 2. Recipient Update
+    const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
+    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
+    const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
     await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      messageId: updateMessage.id,
+      packedMessage: packedUpdateMessage,
+      recipientDidUrl,
     })
 
-    // 4. Forward message
+    // 3. Forward message
     const innerMessage = await agent.packDIDCommMessage({
       packing: 'authcrypt',
       message: {
@@ -359,21 +369,33 @@ describe('routing-message-handler', () => {
   })
 
   it('should not save forward message in queue for recipient denied', async () => {
-    expect.assertions(1)
+    // set up agent to deny mediation
+    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
 
-    // 1. Coordinate mediation
+    expect.assertions(1)
+    // 1. Request Mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
+    const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
+    const recipientDidUrl = mediator.did
     await agent.sendDIDCommMessage({
       messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      packedMessage: packedMediateRequestMessage,
+      recipientDidUrl,
     })
 
-    // 2. Save deny message
+    // 2. Recipient Update
+    const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
+    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
+    const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
+    await agent.sendDIDCommMessage({
+      messageId: updateMessage.id,
+      packedMessage: packedUpdateMessage,
+      recipientDidUrl,
+    })
+
+    // 3. Save deny message
     await agent.dataStoreSaveMessage({
       message: {
         type: CoordinateMediation.MEDIATE_DENY,
@@ -385,7 +407,7 @@ describe('routing-message-handler', () => {
       },
     })
 
-    // 3. Forward message
+    // 4. Forward message
     const innerMessage = await agent.packDIDCommMessage({
       packing: 'authcrypt',
       message: {

@@ -89,7 +89,6 @@ export class MediationManagerPlugin implements IAgentPlugin {
 
   public async mediationManagerRemoveMediation({ requesterDid }: IMediationGetArgs): Promise<boolean> {
     return await this.#mediationResponseStore.delete(requesterDid)
-
   }
 
   public async mediationManagerAddRecipientDid({
