@@ -4,7 +4,7 @@ import {
   KeyValueTypeORMStoreAdapter,
   Entities as KVStoreEntities,
   kvStoreMigrations,
-} from '../../../kv-store/src'
+} from '@veramo/kv-store'
 import {
   createAgent,
   RequesterDid,
