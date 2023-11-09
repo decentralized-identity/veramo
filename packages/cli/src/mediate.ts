@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 
 import { getAgent } from './setup.js'
-import { MediationPolicy } from '@veramo/core-types'
+import { PreMediationRequestPolicy, RequesterDid } from '@veramo/core-types'
 
 type ConfiguredAgent = Awaited<ReturnType<typeof getAgent>>
 
@@ -19,7 +19,7 @@ type Options = Partial<{
 type UpdatePolicyParams = {
   dids: string[]
   agent: ConfiguredAgent
-  policy?: MediationPolicy
+  policy?: PreMediationRequestPolicy
   remove?: boolean
 }
 
@@ -29,9 +29,15 @@ type UpdatePolicyParams = {
 
 const updatePolicies = async (options: UpdatePolicyParams): Promise<void> => {
   const { dids, agent, policy, remove = false } = options
-  if (remove) return dids.forEach(async (did) => await agent.mediationManagerRemoveMediationPolicy({ did }))
+  if (remove) {
+    return dids.forEach(
+      async (requesterDid) => await agent.mediationManagerRemoveMediationPolicy({ requesterDid }),
+    )
+  }
   if (!policy) throw new Error('No policy provided')
-  return dids.forEach(async (did) => await agent.mediationManagerSaveMediationPolicy({ did, policy }))
+  return dids.forEach(
+    async (requesterDid) => await agent.mediationManagerSaveMediationPolicy({ requesterDid, policy }),
+  )
 }
 
 const promptForDids = async (action: string): Promise<string[]> => {
@@ -47,7 +53,7 @@ const promptForDids = async (action: string): Promise<string[]> => {
  * cli action functions
  **/
 
-const policy = (policy: MediationPolicy) => {
+const policy = (policy: PreMediationRequestPolicy) => {
   return async function (
     { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
     cmd: Command,
@@ -84,8 +90,14 @@ async function readPolicies(options: Pick<Options, 'interactive' | 'fileJson'>, 
   else if (options.fileJson) dids = (await import(options.fileJson, { assert: { type: 'json' } })).default
   else dids = cmd.args
   if (!dids || !dids.length) throw new Error('No dids provided')
-  const policies = dids.map(async (did) => await agent.mediationManagerGetMediationPolicy({ did }))
-  console.log('policies', await Promise.all(policies))
+  const policies = dids.map<Promise<[requesterDid: RequesterDid, policy: PreMediationRequestPolicy | null]>>(
+    async (requesterDid) => {
+      const policy = await agent.mediationManagerGetMediationPolicy({ requesterDid })
+      return [requesterDid, policy]
+    },
+  )
+  console.log('POLICIES')
+  console.table(policies)
 }
 
 async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cmd: Command): Promise<void> {
