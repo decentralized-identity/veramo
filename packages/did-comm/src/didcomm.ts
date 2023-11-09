@@ -717,11 +717,38 @@ export class DIDComm implements IAgentPlugin {
 
     const didDoc = await resolveDidOrThrow(recipientDidUrl, context)
 
-    const services = didDoc.service?.filter(
-      (service: any) => service.type === 'DIDCommMessaging',
-      // FIXME: TODO: only send the message if the service section either explicitly supports
-      // `didcomm/v2`, or no `accept` property is present.
-    )
+    function processServiceObject(service: Service) {
+      if (service.type === 'DIDCommMessaging') {
+        return service
+      } else if (service.t === 'dm') {
+        return {
+          type: 'DIDCommMessaging',
+          serviceEndpoint: service.s,
+          accept: service.a,
+          routingKeys: service.r,
+          id: `#dm+` + (service.id ?? service.s),
+        } as Service
+      }
+    }
+
+    // FIXME: only send the message if the service section either explicitly supports `didcomm/v2`, or no
+    // `accept` property is present.
+
+    const services = (didDoc.service || [])
+      ?.map((service: any) => {
+        if (Array.isArray(service)) {
+          return service.map((s) => {
+            if (typeof s === 'object') {
+              return processServiceObject(s)
+            }
+          })
+        } else {
+          return processServiceObject(service)
+        }
+      })
+      .flat()
+      .filter(isDefined)
+
     if (!services || services.length === 0) {
       throw new Error(
         `not_found: could not find DIDComm Messaging service in DID document for '${recipientDidUrl}'`,

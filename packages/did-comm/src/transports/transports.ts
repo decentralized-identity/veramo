@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import { fetch } from 'cross-fetch'
 
 /**
  * Result interface for sending DIDComm messages through
@@ -102,21 +103,20 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
   isServiceSupported(service: any) {
     // serviceEndpoint can be a string, a ServiceEndpoint object, or an array of strings or ServiceEndpoint objects
     return (
-      (typeof service.serviceEndpoint === 'string'  && (
-        service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
-      ))
-      ||
-      (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
-        service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
-      ))
-      ||
-      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0] === 'string' && (
-        service.serviceEndpoint[0].startsWith('http://') || service.serviceEndpoint[0].startsWith('https://')
-      ))
-      ||
-      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
-        service.serviceEndpoint[0].uri.startsWith('http://') || service.serviceEndpoint[0].uri.startsWith('https://')
-      ))
+      (typeof service.serviceEndpoint === 'string' &&
+        (service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://'))) ||
+      (service.serviceEndpoint.uri &&
+        typeof service.serviceEndpoint.uri === 'string' &&
+        (service.serviceEndpoint.uri.startsWith('http://') ||
+          service.serviceEndpoint.uri.startsWith('https://'))) ||
+      (service.serviceEndpoint.length > 0 &&
+        typeof service.serviceEndpoint[0] === 'string' &&
+        (service.serviceEndpoint[0].startsWith('http://') ||
+          service.serviceEndpoint[0].startsWith('https://'))) ||
+      (service.serviceEndpoint.length > 0 &&
+        typeof service.serviceEndpoint[0].uri === 'string' &&
+        (service.serviceEndpoint[0].uri.startsWith('http://') ||
+          service.serviceEndpoint[0].uri.startsWith('https://')))
     )
   }
 
@@ -144,7 +144,7 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
       let result
       if (response.ok) {
         let returnMessage
-        
+
         // Check if response is a DIDComm message
         if (response.headers.get('Content-Type')?.startsWith('application/didcomm')) {
           returnMessage = await response.json()
