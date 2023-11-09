@@ -39,10 +39,7 @@ import {
 import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<
-  Pick<
-    VeramoJsonCache,
-    'dids' | 'credentials' | 'presentations' | 'claims' | 'messages' | 'mediations' | 'mediationPolicies'
-  >
+  Pick<VeramoJsonCache, 'dids' | 'credentials' | 'presentations' | 'claims' | 'messages'>
 >
 
 /**

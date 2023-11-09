@@ -2,16 +2,16 @@ import { DIDComm } from '../didcomm.js'
 import { KeyValueStore } from '../../../kv-store/src'
 import {
   createAgent,
-  Did,
+  RequesterDid,
   IDIDManager,
   IEventListener,
   IIdentifier,
   IKeyManager,
+  MediationResponse,
   IMediationManager,
+  PreMediationRequestPolicy,
   IMessageHandler,
   IResolver,
-  MediationPolicy,
-  MediationStatus,
   TAgent,
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -53,9 +53,9 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-const policyStore = new KeyValueStore<MediationPolicy>({ store: new Map() })
-const mediationStore = new KeyValueStore<MediationStatus>({ store: new Map() })
-const recipientDidStore = new KeyValueStore<Did>({ store: new Map() })
+const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Map() })
+const mediationStore = new KeyValueStore<MediationResponse>({ store: new Map() })
+const recipientDidStore = new KeyValueStore<RequesterDid>({ store: new Map() })
 
 describe('routing-message-handler', () => {
   let recipient: IIdentifier

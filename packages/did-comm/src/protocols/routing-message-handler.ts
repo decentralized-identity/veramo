@@ -38,12 +38,12 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     if (message.type === FORWARD_MESSAGE_TYPE) {
       debug('Forward Message Received')
       try {
-        const { attachments, data: { next: did = '' } = {} } = message
+        const { attachments, data: { next: recipientDid = '' } = {} } = message
         if (!attachments) throw new Error('invalid_argument: Forward received without `attachments` set')
-        if (!did) throw new Error('invalid_argument: Forward received without `body.next` set')
+        if (!recipientDid) throw new Error('invalid_argument: Forward received without `body.next` set')
 
         if (attachments.length) {
-          const isMediationGranted = await context.agent.mediationManagerIsMediationGranted({ did })
+          const isMediationGranted = await context.agent.mediationManagerIsMediationGranted({ recipientDid })
 
           if (isMediationGranted) {
             const recipients = attachments[0].data.json.recipients

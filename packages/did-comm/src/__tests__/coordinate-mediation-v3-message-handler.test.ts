@@ -2,7 +2,7 @@ import { DIDComm } from '../didcomm.js'
 import { KeyValueStore } from '../../../kv-store/src'
 import {
   createAgent,
-  Did,
+  RequesterDid,
   IDIDManager,
   IEventListener,
   IIdentifier,
@@ -10,8 +10,8 @@ import {
   IMediationManager,
   IMessageHandler,
   IResolver,
-  MediationPolicy,
-  MediationStatus,
+  PreMediationRequestPolicy,
+  MediationResponse,
   TAgent,
 } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -53,9 +53,9 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-const policyStore = new KeyValueStore<MediationPolicy>({ store: new Map() })
-const mediationStore = new KeyValueStore<MediationStatus>({ store: new Map() })
-const recipientDidStore = new KeyValueStore<Did>({ store: new Map() })
+const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Map() })
+const mediationStore = new KeyValueStore<MediationResponse>({ store: new Map() })
+const recipientDidStore = new KeyValueStore<RequesterDid>({ store: new Map() })
 
 describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
@@ -297,10 +297,13 @@ describe('coordinate-mediation-message-handler', () => {
 
       it('should correctly update the data store MediationPolicy for dids to deny', async () => {
         const policy = 'DENY'
-        const did = denyRecipient.did
-        const insertedMediationPolicyDid = await agent.mediationManagerSaveMediationPolicy({ did, policy })
+        const requesterDid = denyRecipient.did
+        const insertedMediationPolicyDid = await agent.mediationManagerSaveMediationPolicy({
+          requesterDid,
+          policy,
+        })
         expect(insertedMediationPolicyDid).toBe(denyRecipient.did)
-        const insertedPolicy = await agent.mediationManagerGetMediationPolicy({ did })
+        const insertedPolicy = await agent.mediationManagerGetMediationPolicy({ requesterDid })
         expect(insertedPolicy).toBe('DENY')
       })
 
@@ -325,11 +328,11 @@ describe('coordinate-mediation-message-handler', () => {
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
         const mediationSaveResult = await agent.mediationManagerSaveMediation({
-          did: recipient.did,
+          requesterDid: recipient.did,
           status: 'GRANTED',
         })
         expect(mediationSaveResult).toBe('GRANTED')
-        const readMediation = await agent.mediationManagerGetMediation({ did: recipient.did })
+        const readMediation = await agent.mediationManagerGetMediation({ requesterDid: recipient.did })
         expect(readMediation).toBe('GRANTED')
       })
 
@@ -341,7 +344,7 @@ describe('coordinate-mediation-message-handler', () => {
         const recipientDidUrl = mediator.did
         const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
         await agent.sendDIDCommMessage(didCommMessageContents)
-        const mediation = await agent.mediationManagerGetMediation({ did: denyRecipient.did })
+        const mediation = await agent.mediationManagerGetMediation({ requesterDid: denyRecipient.did })
         expect(mediation).toBe('DENIED')
       })
 
@@ -377,12 +380,15 @@ describe('coordinate-mediation-message-handler', () => {
 
       it('should correctly update the data store MediationPolicy for dids to allow', async () => {
         const policy = 'ALLOW'
-        const did = recipient.did
-        const insertedMediationPolicyDid = await agent.mediationManagerSaveMediationPolicy({ did, policy })
+        const requesterDid = recipient.did
+        const insertedMediationPolicyDid = await agent.mediationManagerSaveMediationPolicy({
+          requesterDid,
+          policy,
+        })
 
         expect(insertedMediationPolicyDid).toBe(recipient.did)
 
-        const savedPolicy = await agent.mediationManagerGetMediationPolicy({ did })
+        const savedPolicy = await agent.mediationManagerGetMediationPolicy({ requesterDid })
 
         expect(savedPolicy).toBe('ALLOW')
       })
@@ -411,7 +417,7 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
-        const policy = await agent.mediationManagerGetMediationPolicy({ did: denyRecipient.did })
+        const policy = await agent.mediationManagerGetMediationPolicy({ requesterDid: denyRecipient.did })
         const didIsAllowed = policy === 'ALLOW'
 
         expect(didIsAllowed).toBeFalsy()
@@ -514,7 +520,7 @@ describe('coordinate-mediation-message-handler', () => {
 
     it('should remove an existing recipient_did from the data store', async () => {
       const { mockRecipientDid_00: recipientDid } = mockRecipientDids
-      await agent.mediationManagerAddRecipientDid({ did: recipient.did, recipientDid })
+      await agent.mediationManagerAddRecipientDid({ requesterDid: recipient.did, recipientDid })
       const existingRecipientDid = await agent.mediationManagerGetRecipientDid({ recipientDid })
 
       /* ensure the recipient_did exists in the data store so that it can be removed */
@@ -577,7 +583,7 @@ describe('coordinate-mediation-message-handler', () => {
 
     it('should respond correctly to a recipient update request on remove SUCCESS', async () => {
       await agent.mediationManagerAddRecipientDid({
-        did: recipient.did,
+        requesterDid: recipient.did,
         recipientDid: mockRecipientDids.mockRecipientDid_01,
       })
 
@@ -653,8 +659,6 @@ describe('coordinate-mediation-message-handler', () => {
     })
 
     it('should respond correctly to a recipient query request on no recipient_dids', async () => {
-      const did = recipient.did
-
       await agent.mediationManagerRemoveRecipientDid({ recipientDid: mockRecipientDids.mockRecipientDid_00 })
       await agent.mediationManagerRemoveRecipientDid({ recipientDid: mockRecipientDids.mockRecipientDid_01 })
       await agent.mediationManagerRemoveRecipientDid({ recipientDid: mockRecipientDids.mockRecipientDid_02 })
@@ -679,8 +683,14 @@ describe('coordinate-mediation-message-handler', () => {
        * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
        */
 
-      const insertOperationOne = { recipientDid: mockRecipientDids.mockRecipientDid_00, did: recipient.did }
-      const insertOperationTwo = { recipientDid: mockRecipientDids.mockRecipientDid_01, did: recipient.did }
+      const insertOperationOne = {
+        recipientDid: mockRecipientDids.mockRecipientDid_00,
+        requesterDid: recipient.did,
+      }
+      const insertOperationTwo = {
+        recipientDid: mockRecipientDids.mockRecipientDid_01,
+        requesterDid: recipient.did,
+      }
       await agent.mediationManagerAddRecipientDid(insertOperationOne)
       await agent.mediationManagerAddRecipientDid(insertOperationTwo)
       const recipientDidOne = await agent.mediationManagerGetRecipientDid({

@@ -69,7 +69,7 @@ export class MediationManagerPlugin implements IAgentPlugin {
   public async mediationManagerGetMediationPolicy({
     requesterDid,
   }: IMediationManagerGetMediationPolicyArgs): Promise<PreMediationRequestPolicy | null> {
-return await this.#preRequestPolicyStore.get(requesterDid) || null
+    return (await this.#preRequestPolicyStore.get(requesterDid)) || null
   }
 
   public async mediationManagerGetMediation({

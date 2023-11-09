@@ -2,8 +2,10 @@ import {
   IAgentContext,
   IDIDManager,
   IKeyManager,
-  MediationStatus,
+  MediationResponse,
   IMediationManager,
+  RequesterDid,
+  RecipientDid,
 } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
@@ -59,7 +61,7 @@ export interface CoordinateMediationV3MediatorMessageHandlerOptions {
  * Represents the structure of a specific update on RECIPIENT_UPDATE
  */
 export interface Update {
-  recipient_did: string
+  recipient_did: RecipientDid
   action: UpdateAction
 }
 
@@ -79,13 +81,13 @@ interface Query {
 
 interface MediateRequestMessage extends Message {
   to: string
-  from: string
+  from: RequesterDid
   type: CoordinateMediation.MEDIATE_REQUEST
 }
 
 interface RecipientUpdateMessage extends Message {
   to: string
-  from: string
+  from: RequesterDid
   type: CoordinateMediation.RECIPIENT_UPDATE
   body: { updates: Update[] }
   return_route: 'all'
@@ -93,7 +95,7 @@ interface RecipientUpdateMessage extends Message {
 
 interface RecipientQueryMessage extends Message {
   to: string
-  from: string
+  from: RequesterDid
   type: CoordinateMediation.RECIPIENT_QUERY
   body: { paginate?: Query }
 }
@@ -191,7 +193,7 @@ export const createRecipientQueryResponseMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
-  dids: Record<'recipient_did', string>[],
+  dids: Record<'recipient_did', RecipientDid>[],
 ): IDIDCommMessage => {
   return {
     type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
@@ -338,9 +340,12 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
     super()
   }
 
-  private async grantOrDenyMediation({ from: did }: Message, context: IContext): Promise<MediationStatus> {
-    if (!did) return DENIED
-    const policy = await context.agent.mediationManagerGetMediationPolicy({ did })
+  private async grantOrDenyMediation(
+    { from: requesterDid }: Message,
+    context: IContext,
+  ): Promise<MediationResponse> {
+    if (!requesterDid) return DENIED
+    const policy = await context.agent.mediationManagerGetMediationPolicy({ requesterDid })
     if (await context.agent.isMediateDefaultGrantAll()) {
       return policy === 'DENY' ? DENIED : GRANTED
     } else {
@@ -354,9 +359,10 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
       /**
        * TODO: allow the mediator to inject the decision making logic or use the below as default
        **/
-      const decision = await this.grantOrDenyMediation(message, context)
-      await context.agent.mediationManagerSaveMediation({ status: decision, did: message.from })
-      const getResponse = decision === GRANTED ? createMediateGrantMessage : createMediateDenyMessage
+      const requesterDid = message.from
+      const status = await this.grantOrDenyMediation(message, context)
+      await context.agent.mediationManagerSaveMediation({ status, requesterDid })
+      const getResponse = status === GRANTED ? createMediateGrantMessage : createMediateDenyMessage
       const response = getResponse(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
@@ -395,15 +401,13 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
       debug('MediateRecipientUpdate Message Received')
       const updates: Update[] = message.data.updates
 
-      const applyUpdate = async (did: string, update: Update) => {
+      const applyUpdate = async (requesterDid: RequesterDid, update: Update) => {
         const { recipient_did: recipientDid } = update
         try {
           if (update.action === UpdateAction.ADD) {
-            await context.agent.mediationManagerAddRecipientDid({ did, recipientDid })
+            await context.agent.mediationManagerAddRecipientDid({ requesterDid, recipientDid })
             return { ...update, result: RecipientUpdateResult.SUCCESS }
-          }
-          if (update.action === UpdateAction.REMOVE) {
-            // TODO: ensure did relatedto recipientDid
+          } else if (update.action === UpdateAction.REMOVE) {
             const result = await context.agent.mediationManagerRemoveRecipientDid({ recipientDid })
             if (result) return { ...update, result: RecipientUpdateResult.SUCCESS }
             return { ...update, result: RecipientUpdateResult.NO_CHANGE }
