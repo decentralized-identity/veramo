@@ -39,7 +39,6 @@ import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
-
 import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 

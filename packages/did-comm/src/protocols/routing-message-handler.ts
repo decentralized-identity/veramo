@@ -75,7 +75,8 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
         if (!recipientDid) throw new Error('invalid_argument: Forward received without `body.next` set')
 
         if (attachments.length) {
-          const isMediationGranted =             (await this.isV3MediationGranted(recipientDid, context)) ||
+          const isMediationGranted =
+            (await this.isV3MediationGranted(recipientDid, context)) ||
             (await this.isV2MediationGranted(message, context))
 
           if (isMediationGranted) {

@@ -1,5 +1,10 @@
 import { DIDComm } from '../didcomm.js'
-import { KeyValueStore } from '../../../kv-store/src'
+import {
+  KeyValueStore,
+  KeyValueTypeORMStoreAdapter,
+  Entities as KVStoreEntities,
+  kvStoreMigrations,
+} from '../../../kv-store/src'
 import {
   createAgent,
   RequesterDid,
@@ -36,7 +41,13 @@ import {
 import type { Update, UpdateResult } from '../protocols/coordinate-mediation-v3-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
-import { Entities, IDataStore, migrations } from '../../../data-store/src'
+import {
+  Entities as DataStoreEntities,
+  entitiesConcat,
+  IDataStore,
+  migrationConcat,
+  migrations as dataStoreMigrations,
+} from '../../../data-store/src'
 
 import express from 'express'
 import { Server } from 'http'
@@ -53,10 +64,6 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Map() })
-const mediationStore = new KeyValueStore<MediationResponse>({ store: new Map() })
-const recipientDidStore = new KeyValueStore<RequesterDid>({ store: new Map() })
-
 describe('coordinate-mediation-message-handler', () => {
   let recipient: IIdentifier
   let mediator: IIdentifier
@@ -67,6 +74,9 @@ describe('coordinate-mediation-message-handler', () => {
   let didCommEndpointServer: Server
   let listeningPort = Math.round(Math.random() * 32000 + 2048)
   let dbConnection: DataSource
+  let policyStore: KeyValueStore<PreMediationRequestPolicy>
+  let mediationStore: KeyValueStore<MediationResponse>
+  let recipientDidStore: KeyValueStore<RequesterDid>
 
   beforeAll(async () => {
     dbConnection = new DataSource({
@@ -74,11 +84,29 @@ describe('coordinate-mediation-message-handler', () => {
       type: 'sqlite',
       database: ':memory:',
       synchronize: false,
-      migrations: migrations,
+      // @ts-ignore
+      migrations: migrationConcat(dataStoreMigrations, kvStoreMigrations),
       migrationsRun: true,
       logging: false,
-      entities: Entities,
+      // @ts-ignore
+      entities: entitiesConcat(DataStoreEntities, KVStoreEntities),
     })
+
+    policyStore = new KeyValueStore<PreMediationRequestPolicy>({
+      namespace: 'mediation_policy',
+      store: new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'mediation_policy' }),
+    })
+
+    mediationStore = new KeyValueStore<MediationResponse>({
+      namespace: 'mediation_response',
+      store: new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'mediation_response' }),
+    })
+
+    recipientDidStore = new KeyValueStore<RequesterDid>({
+      namespace: 'recipient_did',
+      store: new KeyValueTypeORMStoreAdapter({ dbConnection, namespace: 'recipient_did' }),
+    })
+
     agent = createAgent({
       plugins: [
         new KeyManager({
