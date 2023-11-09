@@ -1,10 +1,15 @@
 import { DIDComm } from '../didcomm.js'
+import { KeyValueStore } from '../../../kv-store/src'
 import {
   createAgent,
+  RequesterDid,
   IDIDManager,
   IEventListener,
   IIdentifier,
   IKeyManager,
+  MediationResponse,
+  IMediationManager,
+  PreMediationRequestPolicy,
   IMessageHandler,
   IResolver,
   TAgent,
@@ -18,11 +23,14 @@ import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
-  CoordinateMediationMediatorMessageHandler,
+  CoordinateMediationV3MediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
-  MEDIATE_DENY_MESSAGE_TYPE,
-} from '../protocols/coordinate-mediation-message-handler.js'
+  CoordinateMediation,
+  createRecipientUpdateMessage,
+  Update,
+  UpdateAction,
+} from '../protocols/coordinate-mediation-v3-message-handler.js'
 import { DIDCommMessageMediaType } from '../types/message-types.js'
 import {
   RoutingMessageHandler,
@@ -32,13 +40,13 @@ import {
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
-// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
+import { MediationManagerPlugin } from '../../../mediation-manager/src'
 
 import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
@@ -48,10 +56,16 @@ const DIDCommEventSniffer: IEventListener = {
   onEvent: jest.fn(() => Promise.resolve()),
 }
 
-describe('routing-message-handler', () => {
+const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Map() })
+const mediationStore = new KeyValueStore<MediationResponse>({ store: new Map() })
+const recipientDidStore = new KeyValueStore<RequesterDid>({ store: new Map() })
+
+describe('routing-message-handler [V3 CoordinateMediation]', () => {
   let recipient: IIdentifier
   let mediator: IIdentifier
-  let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
+  let agent: TAgent<
+    IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore & IMediationManager
+  >
   let didCommEndpointServer: Server
   let listeningPort = Math.round(Math.random() * 32000 + 2048)
   let dbConnection: DataSource
@@ -89,17 +103,17 @@ describe('routing-message-handler', () => {
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
           }),
         }),
-        // @ts-ignore
-        new DIDComm([new DIDCommHttpTransport()]),
+        new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         new MessageHandler({
           messageHandlers: [
-            // @ts-ignore
             new DIDCommMessageHandler(),
-            new CoordinateMediationMediatorMessageHandler(),
+            new CoordinateMediationV3MediatorMessageHandler(),
             new CoordinateMediationRecipientMessageHandler(),
             new RoutingMessageHandler(),
           ],
         }),
+        // @ts-ignore
+        new MediationManagerPlugin(true, policyStore, mediationStore, recipientDidStore),
         new DataStore(dbConnection),
         new DataStoreORM(dbConnection),
         DIDCommEventSniffer,
@@ -151,8 +165,6 @@ describe('routing-message-handler', () => {
       provider: 'did:fake',
       alias: 'receiver',
     })
-    // console.log('sender: ', sender)
-    // console.log('recipient: ', recipient)
 
     const requestWithAgent = RequestWithAgentRouter({ agent })
 
@@ -175,7 +187,7 @@ describe('routing-message-handler', () => {
 
   afterAll(async () => {
     try {
-      await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      await new Promise((resolve, _reject) => didCommEndpointServer?.close(resolve))
     } catch (e: any) {
       //nop
     }
@@ -189,16 +201,26 @@ describe('routing-message-handler', () => {
   it('should save forward message in queue for recipient', async () => {
     expect.assertions(2)
 
-    // 1. Coordinate mediation
+    // 1. Request Mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
+    const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
+    const recipientDidUrl = mediator.did
     await agent.sendDIDCommMessage({
       messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      packedMessage: packedMediateRequestMessage,
+      recipientDidUrl,
+    })
+
+    // 2. Recipient Update
+    const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
+    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
+    const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
+    await agent.sendDIDCommMessage({
+      messageId: updateMessage.id,
+      packedMessage: packedUpdateMessage,
+      recipientDidUrl,
     })
 
     // 2. Forward message
@@ -272,40 +294,33 @@ describe('routing-message-handler', () => {
   })
 
   it('should save forward message in queue for recipient previously denied', async () => {
+    // set up agent to deny mediation
+    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+
     expect.assertions(1)
-
-    // 1. Coordinate mediation
+    // 1. Request Mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
+    const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
+    const recipientDidUrl = mediator.did
     await agent.sendDIDCommMessage({
       messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      packedMessage: packedMediateRequestMessage,
+      recipientDidUrl,
     })
 
-    // 2. Save deny message
-    await agent.dataStoreSaveMessage({
-      message: {
-        type: MEDIATE_DENY_MESSAGE_TYPE,
-        from: mediator.did,
-        to: recipient.did,
-        id: v4(),
-        createdAt: new Date().toISOString(),
-        data: {},
-      },
-    })
-
-    // 3. Request again
+    // 2. Recipient Update
+    const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
+    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
+    const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
     await agent.sendDIDCommMessage({
-      messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      messageId: updateMessage.id,
+      packedMessage: packedUpdateMessage,
+      recipientDidUrl,
     })
 
-    // 4. Forward message
+    // 3. Forward message
     const innerMessage = await agent.packDIDCommMessage({
       packing: 'authcrypt',
       message: {
@@ -354,24 +369,36 @@ describe('routing-message-handler', () => {
   })
 
   it('should not save forward message in queue for recipient denied', async () => {
-    expect.assertions(1)
+    // set up agent to deny mediation
+    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
 
-    // 1. Coordinate mediation
+    expect.assertions(1)
+    // 1. Request Mediation
     const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
-    const packedMessage = await agent.packDIDCommMessage({
-      packing: 'authcrypt',
-      message: mediateRequestMessage,
-    })
+    const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
+    const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
+    const recipientDidUrl = mediator.did
     await agent.sendDIDCommMessage({
       messageId: mediateRequestMessage.id,
-      packedMessage,
-      recipientDidUrl: mediator.did,
+      packedMessage: packedMediateRequestMessage,
+      recipientDidUrl,
     })
 
-    // 2. Save deny message
+    // 2. Recipient Update
+    const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
+    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
+    const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
+    await agent.sendDIDCommMessage({
+      messageId: updateMessage.id,
+      packedMessage: packedUpdateMessage,
+      recipientDidUrl,
+    })
+
+    // 3. Save deny message
     await agent.dataStoreSaveMessage({
       message: {
-        type: MEDIATE_DENY_MESSAGE_TYPE,
+        type: CoordinateMediation.MEDIATE_DENY,
         from: mediator.did,
         to: recipient.did,
         id: v4(),
@@ -380,7 +407,7 @@ describe('routing-message-handler', () => {
       },
     })
 
-    // 3. Forward message
+    // 4. Forward message
     const innerMessage = await agent.packDIDCommMessage({
       packing: 'authcrypt',
       message: {
