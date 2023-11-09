@@ -5,11 +5,16 @@ import {
   IDataStore,
   IDataStoreORM,
   IMediationManager,
+  RecipientDid,
 } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
+import {
+  MEDIATE_DENY_MESSAGE_TYPE,
+  MEDIATE_GRANT_MESSAGE_TYPE,
+} from './coordinate-mediation-message-handler.js'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 
@@ -30,6 +35,33 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     super()
   }
 
+  private isV2MediationGranted = async (message: Message, context: IContext): Promise<boolean> => {
+    // Check if receiver has been granted mediation
+    const mediationResponses = await context.agent.dataStoreORMGetMessages({
+      where: [
+        {
+          column: 'type',
+          value: [MEDIATE_GRANT_MESSAGE_TYPE, MEDIATE_DENY_MESSAGE_TYPE],
+          op: 'In',
+        },
+        {
+          column: 'to',
+          value: [message.data.next],
+          op: 'In',
+        },
+      ],
+      order: [{ column: 'createdAt', direction: 'DESC' }],
+    })
+    return mediationResponses.length > 0 && mediationResponses[0].type === MEDIATE_GRANT_MESSAGE_TYPE
+  }
+
+  private isV3MediationGranted = async (recipientDid: RecipientDid, context: IContext): Promise<boolean> => {
+    if ('isMediateDefaultGrantAll' in context.agent) {
+      return await context.agent.mediationManagerIsMediationGranted({ recipientDid })
+    }
+    return false
+  }
+
   /**
    * Handles forward messages for Routing protocol
    * https://didcomm.org/routing/2.0/
@@ -43,7 +75,8 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
         if (!recipientDid) throw new Error('invalid_argument: Forward received without `body.next` set')
 
         if (attachments.length) {
-          const isMediationGranted = await context.agent.mediationManagerIsMediationGranted({ recipientDid })
+          const isMediationGranted =             (await this.isV3MediationGranted(recipientDid, context)) ||
+            (await this.isV2MediationGranted(message, context))
 
           if (isMediationGranted) {
             const recipients = attachments[0].data.json.recipients

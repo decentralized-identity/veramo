@@ -60,7 +60,7 @@ const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Ma
 const mediationStore = new KeyValueStore<MediationResponse>({ store: new Map() })
 const recipientDidStore = new KeyValueStore<RequesterDid>({ store: new Map() })
 
-describe('routing-message-handler', () => {
+describe('routing-message-handler [V3 CoordinateMediation]', () => {
   let recipient: IIdentifier
   let mediator: IIdentifier
   let agent: TAgent<
