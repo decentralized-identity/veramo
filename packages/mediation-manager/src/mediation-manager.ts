@@ -1,37 +1,37 @@
 import type {
   IAgentPlugin,
-  MediationPolicy,
+  PreMediationRequestPolicy,
   IMediationManagerSaveMediationPolicyArgs,
   IMediationManagerRemoveMediationPolicyArgs,
   IMediationManagerGetMediationPolicyArgs,
   IMediationManager,
   IMediationGetArgs,
-  MediationStatus,
-  Did,
+  MediationResponse,
+  RequesterDid,
   IMediationManagerSaveMediationArgs,
   IMediationManagerRecipientDidArgs,
   IMediationManagerAddRecipientDidArgs,
 } from '@veramo/core-types'
 import { KeyValueStore } from '@veramo/kv-store'
 
-type PolicyStore = KeyValueStore<MediationPolicy>
-type MediationStore = KeyValueStore<MediationStatus>
-type RecipientDidStore = KeyValueStore<Did>
+type PreRequestPolicyStore = KeyValueStore<PreMediationRequestPolicy>
+type MediationResponseStore = KeyValueStore<MediationResponse>
+type RecipientDidStore = KeyValueStore<RequesterDid>
 
 export class MediationManagerPlugin implements IAgentPlugin {
-  readonly #policyStore: KeyValueStore<MediationPolicy>
-  readonly #mediationStore: KeyValueStore<MediationStatus>
-  readonly #recipientDidStore: KeyValueStore<Did>
+  readonly #preRequestPolicyStore: KeyValueStore<PreMediationRequestPolicy>
+  readonly #mediationResponseStore: KeyValueStore<MediationResponse>
+  readonly #recipientDidStore: KeyValueStore<RequesterDid>
   readonly methods: IMediationManager
 
   constructor(
     isMediateDefaultGrantAll = true,
-    policyStore: PolicyStore,
-    mediationStore: MediationStore,
+    preRequestPolicyStore: PreRequestPolicyStore,
+    mediationResponseStore: MediationResponseStore,
     recipientDidStore: RecipientDidStore,
   ) {
-    this.#policyStore = policyStore
-    this.#mediationStore = mediationStore
+    this.#preRequestPolicyStore = preRequestPolicyStore
+    this.#mediationResponseStore = mediationResponseStore
     this.#recipientDidStore = recipientDidStore
     this.methods = {
       isMediateDefaultGrantAll: () => Promise.resolve(isMediateDefaultGrantAll),
@@ -40,7 +40,6 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerRemoveMediationPolicy: this.mediationManagerRemoveMediationPolicy.bind(this),
       mediationManagerGetMediationPolicy: this.mediationManagerGetMediationPolicy.bind(this),
       /* Mediation Methods */
-      mediationManagerIsMediationGranted: this.mediationManagerIsMediationGranted.bind(this),
       mediationManagerSaveMediation: this.mediationManagerSaveMediation.bind(this),
       mediationManagerGetMediation: this.mediationManagerGetMediation.bind(this),
       mediationManagerRemoveMediation: this.mediationManagerRemoveMediation.bind(this),
@@ -48,54 +47,55 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerAddRecipientDid: this.mediationManagerAddRecipientDid.bind(this),
       mediationManagerRemoveRecipientDid: this.mediationManagerRemoveRecipientDid.bind(this),
       mediationManagerGetRecipientDid: this.mediationManagerGetRecipientDid.bind(this),
+      mediationManagerIsMediationGranted: this.mediationManagerIsMediationGranted.bind(this),
     }
   }
 
   public async mediationManagerSaveMediationPolicy({
-    did,
+    requesterDid,
     policy,
-  }: IMediationManagerSaveMediationPolicyArgs): Promise<Did> {
-    const res = await this.#policyStore.set(did, policy)
+  }: IMediationManagerSaveMediationPolicyArgs): Promise<RequesterDid> {
+    const res = await this.#preRequestPolicyStore.set(requesterDid, policy)
     if (!res || !res.value) throw new Error('mediation_manager: failed to save mediation policy')
-    return did
+    return requesterDid
   }
 
   public async mediationManagerRemoveMediationPolicy({
-    did,
+    requesterDid,
   }: IMediationManagerRemoveMediationPolicyArgs): Promise<boolean> {
-    return await this.#policyStore.delete(did)
+    return await this.#preRequestPolicyStore.delete(requesterDid)
   }
 
   public async mediationManagerGetMediationPolicy({
-    did,
-  }: IMediationManagerGetMediationPolicyArgs): Promise<MediationPolicy | null> {
-    const policy = await this.#policyStore.get(did)
-    return policy || null
+    requesterDid,
+  }: IMediationManagerGetMediationPolicyArgs): Promise<PreMediationRequestPolicy | null> {
+return await this.#preRequestPolicyStore.get(requesterDid) || null
   }
 
-  public async mediationManagerGetMediation({ did }: IMediationGetArgs): Promise<MediationStatus | null> {
-    const mediation = await this.#mediationStore.get(did)
-    return mediation || null
+  public async mediationManagerGetMediation({
+    requesterDid,
+  }: IMediationGetArgs): Promise<MediationResponse | null> {
+    return (await this.#mediationResponseStore.get(requesterDid)) || null
   }
 
   public async mediationManagerSaveMediation({
-    did,
+    requesterDid,
     status,
-  }: IMediationManagerSaveMediationArgs): Promise<MediationStatus> {
-    const res = await this.#mediationStore.set(did, status)
+  }: IMediationManagerSaveMediationArgs): Promise<MediationResponse> {
+    const res = await this.#mediationResponseStore.set(requesterDid, status)
     if (!res.value) throw new Error('mediation_manager: failed to save mediation')
     return res.value
   }
 
-  public async mediationManagerRemoveMediation(args: IMediationGetArgs): Promise<boolean> {
-    return await this.#mediationStore.delete(args.did)
+  public async mediationManagerRemoveMediation({ requesterDid }: IMediationGetArgs): Promise<boolean> {
+    return await this.#mediationResponseStore.delete(requesterDid)
   }
 
   public async mediationManagerAddRecipientDid({
     recipientDid,
-    did,
-  }: IMediationManagerAddRecipientDidArgs): Promise<Did> {
-    const addResult = await this.#recipientDidStore.set(recipientDid, did)
+    requesterDid,
+  }: IMediationManagerAddRecipientDidArgs): Promise<RequesterDid> {
+    const addResult = await this.#recipientDidStore.set(recipientDid, requesterDid)
     if (!addResult || !addResult.value) throw new Error('mediation_manager: failed to add recipient did')
     return addResult.value
   }
@@ -108,12 +108,13 @@ export class MediationManagerPlugin implements IAgentPlugin {
 
   public async mediationManagerGetRecipientDid({
     recipientDid,
-  }: IMediationManagerRecipientDidArgs): Promise<Did | null> {
-    const did = await this.#recipientDidStore.get(recipientDid)
-    return did || null
+  }: IMediationManagerRecipientDidArgs): Promise<RequesterDid | null> {
+    return (await this.#recipientDidStore.get(recipientDid)) || null
   }
 
-  public async mediationManagerIsMediationGranted(args: IMediationGetArgs): Promise<boolean> {
-    return !!await this.#recipientDidStore.get(args.did)
+  public async mediationManagerIsMediationGranted({
+    recipientDid,
+  }: IMediationManagerRecipientDidArgs): Promise<boolean> {
+    return !!(await this.#recipientDidStore.get(recipientDid))
   }
 }

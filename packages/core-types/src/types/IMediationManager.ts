@@ -1,52 +1,53 @@
 import { IPluginMethodMap } from './IAgent.js'
 
 export interface IMediationManagerSaveMediationPolicyArgs {
-  did: string
-  policy: MediationPolicy
+  requesterDid: RequesterDid
+  policy: PreMediationRequestPolicy
 }
 
 export interface IMediationManagerRemoveMediationPolicyArgs {
-  did: string
+  requesterDid: RequesterDid
 }
 
 export interface IMediationManagerGetMediationPolicyArgs {
-  did: string
+  requesterDid: RequesterDid
 }
 
 export interface IMediationGetArgs {
-  did: string
+  requesterDid: RequesterDid
 }
 
 export interface IMediationManagerSaveMediationArgs {
-  did: string
-  status: MediationStatus
+  requesterDid: RequesterDid
+  status: MediationResponse
 }
 
 export interface IMediationManagerAddRecipientDidArgs {
-  recipientDid: string
-  did: string
+  recipientDid: RecipientDid
+  requesterDid: RequesterDid
 }
 
 export interface IMediationManagerRecipientDidArgs {
-  recipientDid: string
+  recipientDid: RecipientDid
 }
 
-export type Did = string
-export type MediationPolicy = 'ALLOW' | 'DENY'
-export type MediationStatus = 'GRANTED' | 'DENIED'
+export type RecipientDid = string
+export type RequesterDid = string
+export type PreMediationRequestPolicy = 'ALLOW' | 'DENY'
+export type MediationResponse = 'GRANTED' | 'DENIED'
 
 export interface IMediationManager extends IPluginMethodMap {
   isMediateDefaultGrantAll(): Promise<boolean>
-  mediationManagerSaveMediationPolicy(args: IMediationManagerSaveMediationPolicyArgs): Promise<Did>
+  mediationManagerSaveMediationPolicy(args: IMediationManagerSaveMediationPolicyArgs): Promise<RequesterDid>
   mediationManagerRemoveMediationPolicy(args: IMediationManagerRemoveMediationPolicyArgs): Promise<boolean>
   mediationManagerGetMediationPolicy(
     args: IMediationManagerGetMediationPolicyArgs,
-  ): Promise<MediationPolicy | null>
-  mediationManagerIsMediationGranted(args: IMediationGetArgs): Promise<boolean>
-  mediationManagerGetMediation(args: IMediationGetArgs): Promise<MediationStatus | null>
+  ): Promise<PreMediationRequestPolicy | null>
+  mediationManagerGetMediation(args: IMediationGetArgs): Promise<MediationResponse | null>
   mediationManagerRemoveMediation(args: IMediationGetArgs): Promise<boolean>
-  mediationManagerSaveMediation(args: IMediationManagerSaveMediationArgs): Promise<Did>
-  mediationManagerAddRecipientDid(args: IMediationManagerAddRecipientDidArgs): Promise<Did>
+  mediationManagerSaveMediation(args: IMediationManagerSaveMediationArgs): Promise<RequesterDid>
+  mediationManagerAddRecipientDid(args: IMediationManagerAddRecipientDidArgs): Promise<RequesterDid>
   mediationManagerRemoveRecipientDid(args: IMediationManagerRecipientDidArgs): Promise<boolean>
-  mediationManagerGetRecipientDid(args: IMediationManagerRecipientDidArgs): Promise<Did | null>
+  mediationManagerGetRecipientDid(args: IMediationManagerRecipientDidArgs): Promise<RequesterDid | null>
+  mediationManagerIsMediationGranted(args: IMediationManagerRecipientDidArgs): Promise<boolean>
 }
