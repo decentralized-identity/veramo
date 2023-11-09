@@ -8,7 +8,7 @@ const debug = Debug('veramo:data-store:initial-migration')
  * @public
  */
 export class CreateKVDatabaseMigration implements MigrationInterface {
-  private readonly _tableName: string = 'keyvaluestore'
+  private readonly _tableName: string 
   readonly name: string
 
   constructor(tableName?: string) {
