@@ -18,6 +18,16 @@ type PreRequestPolicyStore = KeyValueStore<PreMediationRequestPolicy>
 type MediationResponseStore = KeyValueStore<MediationResponse>
 type RecipientDidStore = KeyValueStore<RequesterDid>
 
+/**
+ * Mediation Manager Plugin for {@link @veramo/core#Agent}
+ *
+ * This plugin exposes methods pertaining to the {@link @veramo/core-types#IMediationManager} interface.
+ *
+ * @remarks be advised that the {@link @veramo/core-types#IMediationManager} interface is for use with
+ * {@link @veramo/did-comm#DIDComm | DIDCOmm} and specifically the V3 Coordinate Mediation Protocol implementation.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export class MediationManagerPlugin implements IAgentPlugin {
   readonly #preRequestPolicyStore: KeyValueStore<PreMediationRequestPolicy>
   readonly #mediationResponseStore: KeyValueStore<MediationResponse>
