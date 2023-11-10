@@ -125,6 +125,17 @@ export interface ISendMessageDIDCommAlpha1Args {
 }
 
 /**
+ * The config for the {@link DIDComm} DIDComm plugin.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export interface DIDCOmmConfig<T = IDIDCommTransport> {
+  transports?: T[]
+  isMediateDefaultGrantAll?: boolean
+}
+
+
+/**
  * DID Comm plugin for {@link @veramo/core#Agent}
  *
  * This plugin provides a method of creating an encrypted message according to the initial
@@ -146,10 +157,10 @@ export class DIDComm implements IAgentPlugin {
    * @param transports - A list of {@link IDIDCommTransport} objects. Defaults to
    *   {@link @veramo/did-comm#DIDCommHttpTransport | DIDCommHttpTransport}
    */
-  constructor(
-    transports: IDIDCommTransport[] = [new DIDCommHttpTransport()],
+  constructor({
+    transports = [new DIDCommHttpTransport()],
     isMediateDefaultGrantAll = true,
-  ) {
+  }: DIDCOmmConfig = {}) {
     this.transports = transports
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),
