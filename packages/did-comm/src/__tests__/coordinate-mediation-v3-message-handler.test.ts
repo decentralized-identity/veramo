@@ -43,9 +43,7 @@ import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import {
   Entities as DataStoreEntities,
-  entitiesConcat,
   IDataStore,
-  migrationConcat,
   migrations as dataStoreMigrations,
 } from '../../../data-store/src'
 

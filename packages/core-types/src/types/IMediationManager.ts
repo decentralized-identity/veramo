@@ -81,19 +81,24 @@ export type RecipientDid = string
 export type RequesterDid = string
 
 /**
- * Can be "ALLOW" or "DENY" and is used to determine whether a mediation request for a specific {@link #RequesterDid} should be ALLOW or DENY.
+ * Can be "ALLOW" or "DENY" and is used to determine whether a mediation request for a specific {@link RequesterDid} should be ALLOW or DENY.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type PreMediationRequestPolicy = 'ALLOW' | 'DENY'
 
 /**
- * Can be "GRANTED" or "DENIED" and is used to record whether a mediation response for a specific {@link #RequesterDid} has been granted or denied.
+ * Can be "GRANTED" or "DENIED" and is used to record whether a mediation response for a specific {@link RequesterDid} has been granted or denied.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type MediationResponse = 'GRANTED' | 'DENIED'
 
+/**
+ * MediationManager plugin interface for {@link @veramo/core#Agent}
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManager extends IPluginMethodMap {
   /**
    * Returns a boolean indicating whether the agent is configured to "ALLOW" or "DENY" all mediation requests
