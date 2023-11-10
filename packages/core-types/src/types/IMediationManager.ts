@@ -31,9 +31,32 @@ export interface IMediationManagerRecipientDidArgs {
   recipientDid: RecipientDid
 }
 
+/**
+ * A string representing the Recipient Did
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export type RecipientDid = string
+
+/**
+ * A string representing the Requester Did
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export type RequesterDid = string
+
+/**
+ * Can be "ALLOW" or "DENY" and is used to determine whether a mediation request for a specific {@link #RequesterDid} should be ALLOW or DENY.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export type PreMediationRequestPolicy = 'ALLOW' | 'DENY'
+
+/**
+ * Can be "GRANTED" or "DENIED" and is used to record whether a mediation response for a specific {@link #RequesterDid} has been granted or denied.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export type MediationResponse = 'GRANTED' | 'DENIED'
 
 export interface IMediationManager extends IPluginMethodMap {
