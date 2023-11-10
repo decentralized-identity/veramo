@@ -43,6 +43,14 @@ export const Entities = [
   PrivateKey,
   PreMigrationKey,
 ]
+
+/**
+ * Helper function to concatenate multiple arrays of TypeORM entities.
+ *
+ * This array CAN be used when creating a TypeORM connection.
+ *
+ * @public
+ */
 export const entitiesConcat = (...entityArrays: unknown[][]) =>
   entityArrays.reduce((acc, entityArray) => acc.concat(entityArray), [])
 export {
