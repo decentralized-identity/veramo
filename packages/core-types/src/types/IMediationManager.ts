@@ -1,32 +1,67 @@
 import { IPluginMethodMap } from './IAgent.js'
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerSaveMediationPolicy} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManagerSaveMediationPolicyArgs {
   requesterDid: RequesterDid
   policy: PreMediationRequestPolicy
 }
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerRemoveMediationPolicy} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManagerRemoveMediationPolicyArgs {
   requesterDid: RequesterDid
 }
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerGetMediationPolicy} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManagerGetMediationPolicyArgs {
   requesterDid: RequesterDid
 }
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerGetMediation} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationGetArgs {
   requesterDid: RequesterDid
 }
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerSaveMediation} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManagerSaveMediationArgs {
   requesterDid: RequesterDid
   status: MediationResponse
 }
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerAddRecipientDid} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManagerAddRecipientDidArgs {
   recipientDid: RecipientDid
   requesterDid: RequesterDid
 }
 
+/**
+ * The input to the {@link IMediationManager.mediationManagerGetRecipientDid} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IMediationManagerRecipientDidArgs {
   recipientDid: RecipientDid
 }
