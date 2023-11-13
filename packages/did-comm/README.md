@@ -9,7 +9,7 @@ Veramo messaging plugin implementing DIDComm v2, as specified by the [DIDComm v2
 Message Envelopes:
 
 | Envelope | Veramo 'packing' | IANA type (`typ`) | packDIDCommMessage | unpackDIDCommMessage | notes |
-| -------- | ---------------- | ----------------- | ------------------ | -------------------- | |
+| -------- | ---------------- | ----------------- | ------------------ | -------------------- | -------------------- |
 | plaintext | 'none' | `application/didcomm-plain+json` | [X] | [X] | |
 | signed(plaintext) | 'jws' | `application/didcomm-signed+json` | [X] | [X] | |
 | anoncrypt(plaintext) | 'anoncrypt' | `application/didcomm-encrypted+json` | [X] | [X] | |
