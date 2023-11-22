@@ -350,9 +350,6 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
   private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
     try {
       debug('MediateRequest Message Received')
-      /**
-       * TODO: allow the mediator to inject the decision making logic or use the below as default
-       **/
       const requesterDid = message.from
       const status = await this.grantOrDenyMediation(message, context)
       await context.agent.mediationManagerSaveMediation({ status, requesterDid })
