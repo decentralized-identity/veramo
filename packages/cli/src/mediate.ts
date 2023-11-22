@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 
 import { getAgent } from './setup.js'
-import { PreMediationRequestPolicy, RequesterDid } from '@veramo/core-types'
+import { PreMediationRequestPolicy, RequesterDid } from '@veramo/mediation-manager'
 
 type ConfiguredAgent = Awaited<ReturnType<typeof getAgent>>
 

@@ -5,11 +5,14 @@ import {
   IDataStoreORM,
   IDIDManager,
   IKeyManager,
-  IMediationManager,
   IMessageHandler,
   IResolver,
   TAgent,
 } from '@veramo/core-types'
+import {
+  IMediationManager,
+
+} from "@veramo/mediation-manager"
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDIDDiscovery } from '@veramo/did-discovery'

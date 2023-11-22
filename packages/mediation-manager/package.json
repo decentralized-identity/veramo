@@ -37,9 +37,9 @@
     "url": "https://github.com/decentralized-identity/veramo.git",
     "directory": "packages/mediation-manager"
   },
-  "author": "Radley Sidwell-Lewis <radley.lewis@proton.me>",
+  "author": "Radley Sidwell-Lewis <radley.lewis@gmail.com>",
   "contributors": [
-    "Paul Desmond Parker <>",
+    "Paul Desmond Parker <pauldesmondparker@gmail.com>",
     "Mircea Nistor <mircea.nistor@mesh.xyz>"
   ],
   "keywords": [

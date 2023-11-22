@@ -1,12 +1,6 @@
-import {
-  IAgentContext,
-  IDIDManager,
-  IKeyManager,
-  MediationResponse,
-  IMediationManager,
-  RequesterDid,
-  RecipientDid,
-} from '@veramo/core-types'
+import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core-types'
+import { MediationResponse, IMediationManager, RequesterDid, RecipientDid } from '@veramo/mediation-manager'
+
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'

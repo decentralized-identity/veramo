@@ -7,18 +7,20 @@ import {
 } from '@veramo/kv-store'
 import {
   createAgent,
-  RequesterDid,
   IDIDManager,
   IEventListener,
   IIdentifier,
   IKeyManager,
-  IMediationManager,
   IMessageHandler,
   IResolver,
-  PreMediationRequestPolicy,
-  MediationResponse,
   TAgent,
 } from '../../../core/src'
+import {
+  RequesterDid,
+  IMediationManager,
+  PreMediationRequestPolicy,
+  MediationResponse,
+} from '../../../mediation-manager'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'

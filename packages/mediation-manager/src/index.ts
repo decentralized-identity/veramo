@@ -5,3 +5,4 @@
  * @packageDocumentation
  */
 export { MediationManagerPlugin } from './mediation-manager.js'
+export * from './types/IMediationManager.js'

@@ -2,18 +2,20 @@ import { DIDComm } from '../didcomm.js'
 import { KeyValueStore } from '../../../kv-store/src'
 import {
   createAgent,
-  RequesterDid,
   IDIDManager,
   IEventListener,
   IIdentifier,
   IKeyManager,
-  MediationResponse,
-  IMediationManager,
-  PreMediationRequestPolicy,
   IMessageHandler,
   IResolver,
   TAgent,
 } from '../../../core/src'
+import {
+  RequesterDid,
+  MediationResponse,
+  IMediationManager,
+  PreMediationRequestPolicy,
+} from '../../../mediation-manager'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'

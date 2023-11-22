@@ -673,6 +673,9 @@ importers:
       '@veramo/kv-store':
         specifier: workspace:^
         version: link:../kv-store
+      '@veramo/mediation-manager':
+        specifier: workspace:^
+        version: link:../mediation-manager
       '@veramo/message-handler':
         specifier: workspace:^
         version: link:../message-handler

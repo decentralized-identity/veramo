@@ -1,5 +1,4 @@
 import type {
-  IAgentPlugin,
   PreMediationRequestPolicy,
   IMediationManagerSaveMediationPolicyArgs,
   IMediationManagerRemoveMediationPolicyArgs,
@@ -11,8 +10,9 @@ import type {
   IMediationManagerSaveMediationArgs,
   IMediationManagerRecipientDidArgs,
   IMediationManagerAddRecipientDidArgs,
-} from '@veramo/core-types'
-import { KeyValueStore } from '@veramo/kv-store'
+} from './types/IMediationManager'
+import type { IAgentPlugin } from '@veramo/core-types'
+import type { KeyValueStore } from '@veramo/kv-store'
 
 type PreRequestPolicyStore = KeyValueStore<PreMediationRequestPolicy>
 type MediationResponseStore = KeyValueStore<MediationResponse>
@@ -53,7 +53,7 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerSaveMediation: this.mediationManagerSaveMediation.bind(this),
       mediationManagerGetMediation: this.mediationManagerGetMediation.bind(this),
       mediationManagerRemoveMediation: this.mediationManagerRemoveMediation.bind(this),
-      /* Receipient Did Methods */
+      /* Recipient Did Methods */
       mediationManagerAddRecipientDid: this.mediationManagerAddRecipientDid.bind(this),
       mediationManagerRemoveRecipientDid: this.mediationManagerRemoveRecipientDid.bind(this),
       mediationManagerGetRecipientDid: this.mediationManagerGetRecipientDid.bind(this),

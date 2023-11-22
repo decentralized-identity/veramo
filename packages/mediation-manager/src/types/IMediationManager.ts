@@ -1,4 +1,4 @@
-import { IPluginMethodMap } from './IAgent.js'
+import { IPluginMethodMap } from '@veramo/core-types'
 
 /**
  * The input to the {@link IMediationManager.mediationManagerSaveMediationPolicy} method.
