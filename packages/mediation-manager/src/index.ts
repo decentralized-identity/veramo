@@ -1,6 +1,6 @@
 /**
  * Provides a {@link @veramo/mediation-manager#MediationManager | plugin} for the
- * {@link @veramo/core#Agent} that implements the {@link @veramo/core-types#IMediationManager} interface.
+ * {@link @veramo/core#Agent} that implements the {@link @veramo/mediation-manager#IMediationManager} interface.
  *
  * @packageDocumentation
  */
