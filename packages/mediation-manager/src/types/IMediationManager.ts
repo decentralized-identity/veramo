@@ -140,6 +140,14 @@ export interface IMediationManager extends IPluginMethodMap {
   ): Promise<PreMediationRequestPolicy | null>
 
   /**
+   * Returns an object of keys and their associated {@link PreMediationRequestPolicy} it from the store.
+   *
+   * @returns - a Promise that resolves to an object {@link PreMediationRequestPolicy}.
+   * @beta This API may change without a BREAKING CHANGE notice.
+   */
+  mediationManagerListMediationPolicies(): Promise<Record<string, PreMediationRequestPolicy>>
+
+  /**
    * Takes a Requester Did and returns the {@link MediationResponse} associated with it from the store.
    *
    * @param args - an object {@link IMediationGetArgs}

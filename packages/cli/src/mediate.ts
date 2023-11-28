@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 
 import { getAgent } from './setup.js'
-import { PreMediationRequestPolicy, RequesterDid } from '@veramo/mediation-manager'
+import { PreMediationRequestPolicy, RecipientDid, RequesterDid } from '@veramo/mediation-manager'
 
 type ConfiguredAgent = Awaited<ReturnType<typeof getAgent>>
 
@@ -90,24 +90,23 @@ async function readPolicies(options: Pick<Options, 'interactive' | 'fileJson'>, 
   else if (options.fileJson) dids = (await import(options.fileJson, { assert: { type: 'json' } })).default
   else dids = cmd.args
   if (!dids || !dids.length) throw new Error('No dids provided')
-  const policies = dids.map<Promise<[requesterDid: RequesterDid, policy: PreMediationRequestPolicy | null]>>(
-    async (requesterDid) => {
-      const policy = await agent.mediationManagerGetMediationPolicy({ requesterDid })
-      return [requesterDid, policy]
-    },
-  )
+  const policies: Record<RequesterDid, RecipientDid | null> = {}
+  for await (const requesterDid of dids) {
+    policies[requesterDid] = await agent.mediationManagerGetMediationPolicy({ requesterDid })
+  }
   console.log('POLICIES')
   console.table(policies)
 }
 
 async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cmd: Command): Promise<void> {
   try {
-    // NOTE: disabled as kv-store has no getAll method
-    // const agent = await getAgent(cmd.optsWithGlobals().config)
-    // const policies = await agent.dataStoreGetMediationPolicies()
-    // if (options.allowFrom) return console.log(policies.filter((policy) => policy.policy === ALLOW))
-    // else if (options.denyFrom) return console.log(policies.filter((policy) => policy.policy === DENY))
-    // else console.log(policies)
+    const agent = await getAgent(cmd.optsWithGlobals().config)
+    const res = await agent.mediationManagerListMediationPolicies()
+    console.log('POLICIES')
+    if (options.allowFrom) return console.table(Object.entries(res).filter(([, policy]) => policy === ALLOW))
+    else if (options.denyFrom)
+      return console.table(Object.entries(res).filter(([, policy]) => policy === DENY))
+    else console.table(res)
   } catch (e) {
     console.error(e.message)
   }

@@ -50,6 +50,35 @@ export class KeyValueTypeORMStoreAdapter
     return options?.raw !== true || !result ? result?.data : { value: result?.data, expires: result?.expires }
   }
 
+  async *iterator(namespace?: string) {
+    const limit = 10 // NOTE: return 10 entries at a time
+    async function* iterate(
+      offset: number,
+      options: Options_<string>,
+      db: OrPromise<DataSource>,
+    ): AsyncGenerator<any, void> {
+      const connection = await _getConnectedDb(db)
+      const entries = await connection.getRepository(KeyValueStoreEntity).find({
+        where: {
+          key: Like(`${namespace ? namespace + ':' : ''}%`),
+        },
+        take: limit,
+        skip: offset,
+      })
+
+      for (const entry of entries) {
+        yield [entry.key, entry.data]
+      }
+
+      if (entries.length === limit) {
+        offset += limit
+        yield* iterate(offset, options, db)
+      }
+    }
+
+    yield* iterate(0, this.opts, this.dbConnection)
+  }
+
   async getMany(keys: string[], options?: { raw?: boolean }): Promise<Array<KeyvStoredData<string>>> {
     const connection = await _getConnectedDb(this.dbConnection)
     const results = await connection.getRepository(KeyValueStoreEntity).findBy({

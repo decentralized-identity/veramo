@@ -49,6 +49,7 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerSaveMediationPolicy: this.mediationManagerSaveMediationPolicy.bind(this),
       mediationManagerRemoveMediationPolicy: this.mediationManagerRemoveMediationPolicy.bind(this),
       mediationManagerGetMediationPolicy: this.mediationManagerGetMediationPolicy.bind(this),
+      mediationManagerListMediationPolicies: this.mediationManagerListMediationPolicies.bind(this),
       /* Mediation Methods */
       mediationManagerSaveMediation: this.mediationManagerSaveMediation.bind(this),
       mediationManagerGetMediation: this.mediationManagerGetMediation.bind(this),
@@ -80,6 +81,14 @@ export class MediationManagerPlugin implements IAgentPlugin {
     requesterDid,
   }: IMediationManagerGetMediationPolicyArgs): Promise<PreMediationRequestPolicy | null> {
     return (await this.preRequestPolicyStore.get(requesterDid)) || null
+  }
+
+  public async mediationManagerListMediationPolicies(): Promise<Record<string, PreMediationRequestPolicy>> {
+    const policies: Record<string, PreMediationRequestPolicy> = {}
+    for await (const result of this.preRequestPolicyStore.getIterator()) {
+      policies[result[0]] = result[1]
+    }
+    return policies
   }
 
   public async mediationManagerGetMediation({
