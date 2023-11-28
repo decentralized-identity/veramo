@@ -447,8 +447,13 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
     try {
       debug('MediateRecipientQuery Message Received')
       const { paginate = {} } = message.data
-      const dids = await context.agent.dataStoreGetRecipientDids({ did: message.from, ...paginate })
-      const response = createRecipientQueryResponseMessage(message.from, message.to, message.id, dids)
+      const dids = await context.agent.mediationManagerListRecipientDids({ did: message.from, ...paginate })
+      const response = createRecipientQueryResponseMessage(
+        message.from,
+        message.to,
+        message.id,
+        dids.map((did) => ({ recipient_did: did })),
+      )
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
         packing: 'authcrypt',

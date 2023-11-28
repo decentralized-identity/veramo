@@ -104,8 +104,7 @@ async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cm
     const res = await agent.mediationManagerListMediationPolicies()
     console.log('POLICIES')
     if (options.allowFrom) return console.table(Object.entries(res).filter(([, policy]) => policy === ALLOW))
-    else if (options.denyFrom)
-      return console.table(Object.entries(res).filter(([, policy]) => policy === DENY))
+    if (options.denyFrom) return console.table(Object.entries(res).filter(([, policy]) => policy === DENY))
     else console.table(res)
   } catch (e) {
     console.error(e.message)

@@ -20,6 +20,15 @@ export interface IMediationManagerRemoveMediationPolicyArgs {
 }
 
 /**
+ * The input to the {@link IMediationManager.mediationManagerListRecipientDids} method.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export interface IMediationManagerListRecipientDidsArgs {
+  requesterDid: RequesterDid
+}
+
+/**
  * The input to the {@link IMediationManager.mediationManagerGetMediationPolicy} method.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -203,6 +212,15 @@ export interface IMediationManager extends IPluginMethodMap {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   mediationManagerGetRecipientDid(args: IMediationManagerRecipientDidArgs): Promise<RequesterDid | null>
+
+  /**
+   * Takes a {@link RequesterDid} and returns all associated {@link RecipientDid}.
+   *
+   * @param args - an object {@link IMediationManagerGetMediationPolicyArgs}
+   * @returns - a Promise that resolves to an array of {@link RecipientDid}
+   * @beta This API may change without a BREAKING CHANGE notice.
+   */
+  mediationManagerListRecipientDids(args: IMediationManagerListRecipientDidsArgs): Promise<RecipientDid[]>
 
   /**
    * Takes a {@link RecipientDid} and returns a boolean indicating whether it has been granted mediation.

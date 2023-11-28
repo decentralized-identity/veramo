@@ -630,7 +630,7 @@ describe('coordinate-mediation-message-handler', () => {
     })
   })
 
-  describe.skip('RECIPIENT QUERY', () => {
+  describe('RECIPIENT QUERY', () => {
     const expectRecieveRecipientQuery = (msgid: string) => {
       expect(DIDCommEventSniffer.onEvent).toHaveBeenCalledWith(
         {

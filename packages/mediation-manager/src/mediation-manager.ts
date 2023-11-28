@@ -10,6 +10,8 @@ import type {
   IMediationManagerSaveMediationArgs,
   IMediationManagerRecipientDidArgs,
   IMediationManagerAddRecipientDidArgs,
+  RecipientDid,
+  IMediationManagerListRecipientDidsArgs,
 } from './types/IMediationManager'
 import type { IAgentPlugin } from '@veramo/core-types'
 import type { KeyValueStore } from '@veramo/kv-store'
@@ -58,6 +60,7 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerAddRecipientDid: this.mediationManagerAddRecipientDid.bind(this),
       mediationManagerRemoveRecipientDid: this.mediationManagerRemoveRecipientDid.bind(this),
       mediationManagerGetRecipientDid: this.mediationManagerGetRecipientDid.bind(this),
+      mediationManagerListRecipientDids: this.mediationManagerListRecipientDids.bind(this),
       mediationManagerIsMediationGranted: this.mediationManagerIsMediationGranted.bind(this),
     }
   }
@@ -129,6 +132,18 @@ export class MediationManagerPlugin implements IAgentPlugin {
     recipientDid,
   }: IMediationManagerRecipientDidArgs): Promise<RequesterDid | null> {
     return (await this.recipientDidStore.get(recipientDid)) || null
+  }
+
+  public async mediationManagerListRecipientDids({
+    requesterDid,
+  }: IMediationManagerListRecipientDidsArgs): Promise<RecipientDid[]> {
+    const dids: RecipientDid[] = []
+    for await (const results of this.recipientDidStore.getIterator()) {
+      Object.entries(results).forEach(([did, recipientDid]) => {
+        if (did === requesterDid) dids.push(recipientDid)
+      })
+    }
+    return dids
   }
 
   public async mediationManagerIsMediationGranted({
