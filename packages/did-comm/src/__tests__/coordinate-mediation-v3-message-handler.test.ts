@@ -708,7 +708,6 @@ describe('coordinate-mediation-message-handler', () => {
       /**
        * NOTE: we need to insert a recipient_did into the data store to ensure a populated query
        */
-
       const insertOperationOne = {
         recipientDid: mockRecipientDids.mockRecipientDid_00,
         requesterDid: recipient.did,
@@ -719,14 +718,29 @@ describe('coordinate-mediation-message-handler', () => {
       }
       await agent.mediationManagerAddRecipientDid(insertOperationOne)
       await agent.mediationManagerAddRecipientDid(insertOperationTwo)
+
+      /**
+       * NOTE: we add a recipient did on another requester did to ensure that the query response
+       * only contains the inserted recipient_dids that it controls and not all recipient_dids
+       * that exist in the data store
+       **/
+      const insertOperationThree = {
+        recipientDid: mockRecipientDids.mockRecipientDid_02,
+        requesterDid: denyRecipient.did,
+      }
+      await agent.mediationManagerAddRecipientDid(insertOperationThree)
       const recipientDidOne = await agent.mediationManagerGetRecipientDid({
         recipientDid: insertOperationOne.recipientDid,
       })
       const recipientDidTwo = await agent.mediationManagerGetRecipientDid({
         recipientDid: insertOperationTwo.recipientDid,
       })
+      const recipientDidThree = await agent.mediationManagerGetRecipientDid({
+        recipientDid: insertOperationThree.recipientDid,
+      })
       expect(recipientDidOne).toBe(recipient.did)
       expect(recipientDidTwo).toBe(recipient.did)
+      expect(recipientDidThree).toBe(denyRecipient.did)
 
       /**
        * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_dids
