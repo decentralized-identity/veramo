@@ -446,7 +446,6 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
   private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
     try {
       const dids = await context.agent.mediationManagerListRecipientDids({ requesterDid: message.from })
-      console.log('DIDS', dids)
       const response = createRecipientQueryResponseMessage(
         message.from,
         message.to,
@@ -463,6 +462,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
         contentType: DIDCommMessageMediaType.ENCRYPTED,
       }
       message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+
       await context.agent.dataStoreSaveMessage({
         message: {
           type: response.type,

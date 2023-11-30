@@ -738,14 +738,15 @@ describe('coordinate-mediation-message-handler', () => {
       const recipientDidUrl = mediator.did
       const didCommMessageContents = { messageId, packedMessage, recipientDidUrl }
       await agent.sendDIDCommMessage(didCommMessageContents)
+      const dids = [
+        { recipient_did: mockRecipientDids.mockRecipientDid_00 },
+        { recipient_did: mockRecipientDids.mockRecipientDid_01 },
+      ]
 
       expectMessageSent(messageId)
       expectRecieveRecipientQuery(messageId)
       expectMessageSent(messageId)
-      expectRecipientQueryReponse(messageId, [
-        { recipient_did: recipientDidOne! },
-        { recipient_did: recipientDidTwo! },
-      ])
+      expectRecipientQueryReponse(messageId, dids)
     })
   })
 
