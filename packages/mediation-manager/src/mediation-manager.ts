@@ -56,7 +56,7 @@ export class MediationManagerPlugin implements IAgentPlugin {
       mediationManagerSaveMediation: this.mediationManagerSaveMediation.bind(this),
       mediationManagerGetMediation: this.mediationManagerGetMediation.bind(this),
       mediationManagerRemoveMediation: this.mediationManagerRemoveMediation.bind(this),
-      mediationManagerGetAllMediations: this.mediationManagerGetAllmediations.bind(this),
+      mediationManagerGetAllMediations: this.mediationManagerGetAllMediations.bind(this),
       /* Recipient Did Methods */
       mediationManagerAddRecipientDid: this.mediationManagerAddRecipientDid.bind(this),
       mediationManagerRemoveRecipientDid: this.mediationManagerRemoveRecipientDid.bind(this),
@@ -89,8 +89,8 @@ export class MediationManagerPlugin implements IAgentPlugin {
 
   public async mediationManagerListMediationPolicies(): Promise<Record<string, PreMediationRequestPolicy>> {
     const policies: Record<string, PreMediationRequestPolicy> = {}
-    for await (const result of this.preRequestPolicyStore.getIterator()) {
-      policies[result[0]] = result[1]
+    for await (const [requesterDid, policy] of this.preRequestPolicyStore.getIterator()) {
+      policies[requesterDid] = policy
     }
     return policies
   }
@@ -114,14 +114,12 @@ export class MediationManagerPlugin implements IAgentPlugin {
     return await this.mediationResponseStore.delete(requesterDid)
   }
 
-  public async mediationManagerGetAllmediations(): Promise<Record<string, MediationResponse>> {
-    const mediations: Record<string, MediationResponse> = {}
-    for await (const mediation of this.mediationResponseStore.getIterator()) {
-      Object.entries(mediation).forEach(([requesterDid, mediationResponse]) => {
-        mediations[requesterDid] = mediationResponse
-      })
+  public async mediationManagerGetAllMediations(): Promise<Record<string, MediationResponse>> {
+    const mediationResponses: Record<string, MediationResponse> = {}
+    for await (const [requesterDid, response] of this.mediationResponseStore.getIterator()) {
+      mediationResponses[requesterDid] = response
     }
-    return mediations
+    return mediationResponses
   }
 
   public async mediationManagerAddRecipientDid({
@@ -148,13 +146,11 @@ export class MediationManagerPlugin implements IAgentPlugin {
   public async mediationManagerListRecipientDids({
     requesterDid,
   }: IMediationManagerListRecipientDidsArgs): Promise<RecipientDid[]> {
-    const dids: RecipientDid[] = []
-    for await (const results of this.recipientDidStore.getIterator()) {
-      Object.entries(results).forEach(([did, recipientDid]) => {
-        if (did === requesterDid) dids.push(recipientDid)
-      })
+    const recipientDids: RecipientDid[] = []
+    for await (const [recipientDid, did] of this.recipientDidStore.getIterator()) {
+      if (did === requesterDid) recipientDids.push(recipientDid)
     }
-    return dids
+    return recipientDids
   }
 
   public async mediationManagerIsMediationGranted({

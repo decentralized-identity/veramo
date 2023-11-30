@@ -231,7 +231,7 @@ export interface IMediationManager extends IPluginMethodMap {
   /**
    * Takes a {@link RequesterDid} and returns all associated {@link RecipientDid}.
    *
-   * @param args - an object {@link IMediationManagerGetMediationPolicyArgs}
+   * @param args - an object {@link IMediationManagerListRecipientDidsArgs}
    * @returns - a Promise that resolves to an array of {@link RecipientDid}
    * @beta This API may change without a BREAKING CHANGE notice.
    */

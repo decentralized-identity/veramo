@@ -46,7 +46,7 @@ export class KeyValueStore<ValueType extends ValueStoreType> implements IKeyValu
     return this.toDeserializedValueData(result)
   }
 
-  getIterator(): AsyncGenerator<Record<string, ValueType>, void> {
+  getIterator(): AsyncGenerator<[key: string, value: ValueType], void> {
     if (!this.keyv.iterator) throw new Error('keyv: iterator not available')
     return this.keyv.iterator()
   }

@@ -742,7 +742,10 @@ describe('coordinate-mediation-message-handler', () => {
       expectMessageSent(messageId)
       expectRecieveRecipientQuery(messageId)
       expectMessageSent(messageId)
-      // expectRecipientQueryReponse(messageId, [recipientDidOne, recipientDidTwo!])
+      expectRecipientQueryReponse(messageId, [
+        { recipient_did: recipientDidOne! },
+        { recipient_did: recipientDidTwo! },
+      ])
     })
   })
 

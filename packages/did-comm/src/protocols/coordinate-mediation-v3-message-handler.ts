@@ -445,9 +445,8 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
    **/
   private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
     try {
-      debug('MediateRecipientQuery Message Received')
-      const { paginate = {} } = message.data
-      const dids = await context.agent.mediationManagerListRecipientDids({ did: message.from, ...paginate })
+      const dids = await context.agent.mediationManagerListRecipientDids({ requesterDid: message.from })
+      console.log('DIDS', dids)
       const response = createRecipientQueryResponseMessage(
         message.from,
         message.to,
