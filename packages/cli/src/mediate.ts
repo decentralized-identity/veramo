@@ -10,6 +10,8 @@ const ALLOW = 'ALLOW'
 const DENY = 'DENY'
 
 type Options = Partial<{
+  granted: boolean
+  denied: boolean
   allowFrom: boolean
   denyFrom: boolean
   interactive: boolean
@@ -111,6 +113,22 @@ async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cm
   }
 }
 
+async function listResponses(
+  { granted, denied }: Pick<Options, 'granted' | 'denied'>,
+  cmd: Command,
+): Promise<void> {
+  try {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
+    const res = await agent.mediationManagerGetAllMediations()
+    console.log('MEDIATIONS')
+    if (granted) return console.table(Object.entries(res).filter(([, response]) => response === 'GRANTED'))
+    if (denied) return console.table(Object.entries(res).filter(([, response]) => response === 'DENIED'))
+    else console.table(res)
+  } catch (e) {
+    console.error(e.message)
+  }
+}
+
 async function removePolicies(
   { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
   cmd: Command,
@@ -160,11 +178,18 @@ mediate
   .action(readPolicies)
 
 mediate
-  .command('list')
+  .command('list-policies')
   .description('list mediation policies')
   .option('-a, --allow-from', 'list allow policies')
   .option('-d, --deny-from', 'list deny policies')
   .action(listPolicies)
+
+mediate
+  .command('list-responses')
+  .description('list mediation responses')
+  .option('-a, --granted', 'list granted policies')
+  .option('-d, --denied', 'list denied policies')
+  .action(listResponses)
 
 mediate
   .command('remove')
