@@ -104,6 +104,13 @@ export type PreMediationRequestPolicy = 'ALLOW' | 'DENY'
 export type MediationResponse = 'GRANTED' | 'DENIED'
 
 /**
+ * An object of keys and their associated {@link PreMediationRequestPolicy}
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
+export type Mediations = Record<RequesterDid, MediationResponse>
+
+/**
  * MediationManager plugin interface for {@link @veramo/core#Agent}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -184,6 +191,14 @@ export interface IMediationManager extends IPluginMethodMap {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   mediationManagerSaveMediation(args: IMediationManagerSaveMediationArgs): Promise<RequesterDid>
+
+  /**
+   * Returns a record of all {@link RequesterDid} and their associated {@link MediationResponse}.
+   *
+   * @returns - a Promise that resolves to a list of {@link RequesterDid} saved to the store.
+   * @beta This API may change without a BREAKING CHANGE notice.
+   */
+  mediationManagerGetAllMediations(): Promise<Record<RequesterDid, MediationResponse>>
 
   /**
    * Takes a {@link RecipientDid} and its owning {@link RequesterDid} and adds it to the store.
