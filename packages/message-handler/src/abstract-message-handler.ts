@@ -18,9 +18,7 @@ export abstract class AbstractMessageHandler {
   }
 
   public async handle(message: Message, context: IAgentContext<{}>): Promise<Message> {
-    if (this.nextMessageHandler) {
-      return this.nextMessageHandler.handle(message, context)
-    }
+    if (this.nextMessageHandler) return this.nextMessageHandler.handle(message, context)
     debug("can't handle message: ", message)
     return Promise.reject(unsupportedMessageTypeError)
   }

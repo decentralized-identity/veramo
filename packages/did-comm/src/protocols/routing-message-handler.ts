@@ -1,16 +1,19 @@
 import { IAgentContext, IDIDManager, IKeyManager, IDataStore, IDataStoreORM } from '@veramo/core-types'
+import { IMediationManager, RecipientDid } from '@veramo/mediation-manager'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
 import {
-  MEDIATE_GRANT_MESSAGE_TYPE,
   MEDIATE_DENY_MESSAGE_TYPE,
+  MEDIATE_GRANT_MESSAGE_TYPE,
 } from './coordinate-mediation-message-handler.js'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM>
+type IContext = IAgentContext<
+  IDIDManager & IKeyManager & IDIDComm & IDataStore & IDataStoreORM & IMediationManager
+>
 
 export const FORWARD_MESSAGE_TYPE = 'https://didcomm.org/routing/2.0/forward'
 export const QUEUE_MESSAGE_TYPE = 'https://didcomm.org/routing/2.0/forward/queue-message'
@@ -25,6 +28,33 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     super()
   }
 
+  private isV2MediationGranted = async (message: Message, context: IContext): Promise<boolean> => {
+    // Check if receiver has been granted mediation
+    const mediationResponses = await context.agent.dataStoreORMGetMessages({
+      where: [
+        {
+          column: 'type',
+          value: [MEDIATE_GRANT_MESSAGE_TYPE, MEDIATE_DENY_MESSAGE_TYPE],
+          op: 'In',
+        },
+        {
+          column: 'to',
+          value: [message.data.next],
+          op: 'In',
+        },
+      ],
+      order: [{ column: 'createdAt', direction: 'DESC' }],
+    })
+    return mediationResponses.length > 0 && mediationResponses[0].type === MEDIATE_GRANT_MESSAGE_TYPE
+  }
+
+  private isV3MediationGranted = async (recipientDid: RecipientDid, context: IContext): Promise<boolean> => {
+    if ('isMediateDefaultGrantAll' in context.agent) {
+      return await context.agent.mediationManagerIsMediationGranted({ recipientDid })
+    }
+    return false
+  }
+
   /**
    * Handles forward messages for Routing protocol
    * https://didcomm.org/routing/2.0/
@@ -33,34 +63,16 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     if (message.type === FORWARD_MESSAGE_TYPE) {
       debug('Forward Message Received')
       try {
-        const { attachments, data } = message
-        if (!attachments) {
-          throw new Error('invalid_argument: Forward received without `attachments` set')
-        }
-        if (!data.next) {
-          throw new Error('invalid_argument: Forward received without `body.next` set')
-        }
+        const { attachments, data: { next: recipientDid = '' } = {} } = message
+        if (!attachments) throw new Error('invalid_argument: Forward received without `attachments` set')
+        if (!recipientDid) throw new Error('invalid_argument: Forward received without `body.next` set')
 
-        if (attachments.length > 0) {
-          // Check if receiver has been granted mediation
-          const mediationResponses = await context.agent.dataStoreORMGetMessages({
-            where: [
-              {
-                column: 'type',
-                value: [MEDIATE_GRANT_MESSAGE_TYPE, MEDIATE_DENY_MESSAGE_TYPE],
-                op: 'In',
-              },
-              {
-                column: 'to',
-                value: [data.next],
-                op: 'In',
-              },
-            ],
-            order: [{ column: 'createdAt', direction: 'DESC' }],
-          })
+        if (attachments.length) {
+          const isMediationGranted =
+            (await this.isV3MediationGranted(recipientDid, context)) ||
+            (await this.isV2MediationGranted(message, context))
 
-          // If last mediation response was a grant (not deny)
-          if (mediationResponses.length > 0 && mediationResponses[0].type === MEDIATE_GRANT_MESSAGE_TYPE) {
+          if (isMediationGranted) {
             const recipients = attachments[0].data.json.recipients
             for (let i = 0; i < recipients.length; i++) {
               const recipient = recipients[i].header.kid

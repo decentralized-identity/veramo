@@ -9,6 +9,10 @@ import {
   IResolver,
   TAgent,
 } from '@veramo/core-types'
+import {
+  IMediationManager,
+
+} from "@veramo/mediation-manager"
 import { ISelectiveDisclosure } from '@veramo/selective-disclosure'
 import { IDIDComm } from '@veramo/did-comm'
 import { IDIDDiscovery } from '@veramo/did-discovery'
@@ -57,7 +61,8 @@ export type EnabledInterfaces = IDIDManager &
   IDIDComm &
   ICredentialPlugin &
   ISelectiveDisclosure &
-  IDIDDiscovery
+  IDIDDiscovery &
+  IMediationManager
 
 export type ConfiguredAgent = TAgent<EnabledInterfaces>
 

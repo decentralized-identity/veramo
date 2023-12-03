@@ -312,7 +312,7 @@ export class Keyv<Value = any> extends EventEmitter implements KeyvStore<Value> 
   }
 }
 
-const iterableAdapters = ['sqlite', 'postgres', 'mysql', 'mongo', 'redis', 'tiered']
+const iterableAdapters = ['typeorm', 'sqlite', 'postgres', 'mysql', 'mongo', 'redis', 'tiered']
 
 function toValue<Value>(input: KeyvDeserializedData<Value> | string | Value) {
   return input !== null && typeof input === 'object' && 'value' in input ? input.value : input

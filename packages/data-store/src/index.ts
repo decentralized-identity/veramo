@@ -43,6 +43,16 @@ export const Entities = [
   PrivateKey,
   PreMigrationKey,
 ]
+
+/**
+ * Helper function to concatenate multiple arrays of TypeORM entities.
+ *
+ * This array CAN be used when creating a TypeORM connection.
+ *
+ * @public
+ */
+export const entitiesConcat = (...entityArrays: unknown[][]) =>
+  entityArrays.reduce((acc, entityArray) => acc.concat(entityArray), [])
 export {
   KeyType,
   Key,
@@ -56,7 +66,7 @@ export {
   PrivateKey,
   PreMigrationKey,
 }
-export { migrations } from './migrations/index.js'
+export { migrations, migrationConcat } from './migrations/index.js'
 
 // re-export the interfaces that were moved to core for backward compatibility
 export { IDataStore, IDataStoreORM } from '@veramo/core-types'

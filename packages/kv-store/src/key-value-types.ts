@@ -77,6 +77,17 @@ export interface IKeyValueStore<ValueType extends ValueStoreType> {
   getAsValueData(key: string): Promise<IValueData<ValueType>>
 
   /**
+   * @remarks in order to consume the iterator, you need to use the for await syntax as follows:
+   *
+   * for await (const result of store.getIterator()) {
+   *   console.log(result)
+   * }
+   *
+   * @returns An async iterator for all the keys in the store
+   */
+  getIterator(): AsyncGenerator<any, void>
+
+  /**
    * Get multiple values from the store. Will always return an array with values, but the values can be undefined in case the actual store does not contain the value for the respective key
    *
    * @param keys - Contains the keys to search for

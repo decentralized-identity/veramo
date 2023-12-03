@@ -64,3 +64,4 @@ agent:
                 - createSelectiveDisclosureRequest
                 - getVerifiableCredentialsForSdr
                 - validatePresentationAgainstSdr
+

@@ -216,6 +216,12 @@ importers:
       '@veramo/kms-local':
         specifier: workspace:^
         version: link:../kms-local
+      '@veramo/kv-store':
+        specifier: workspace:^
+        version: link:../kv-store
+      '@veramo/mediation-manager':
+        specifier: workspace:^
+        version: link:../mediation-manager
       '@veramo/message-handler':
         specifier: workspace:^
         version: link:../message-handler
@@ -664,6 +670,12 @@ importers:
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
+      '@veramo/kv-store':
+        specifier: workspace:^
+        version: link:../kv-store
+      '@veramo/mediation-manager':
+        specifier: workspace:^
+        version: link:../mediation-manager
       '@veramo/message-handler':
         specifier: workspace:^
         version: link:../message-handler
@@ -1157,6 +1169,34 @@ importers:
       keyv:
         specifier: 4.5.3
         version: 4.5.3
+      timekeeper:
+        specifier: 2.3.1
+        version: 2.3.1
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+
+  packages/mediation-manager:
+    dependencies:
+      '@veramo/core-types':
+        specifier: workspace:^
+        version: link:../core-types
+      '@veramo/kv-store':
+        specifier: workspace:^
+        version: link:../kv-store
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+    devDependencies:
+      eslint:
+        specifier: 8.50.0
+        version: 8.50.0
+      eslint-plugin-promise:
+        specifier: 6.1.1
+        version: 6.1.1(eslint@8.50.0)
       timekeeper:
         specifier: 2.3.1
         version: 2.3.1

@@ -100,8 +100,7 @@ describe('messagepickup-message-handler', () => {
               ...new FakeDidResolver(() => agent).getDidFakeResolver(),
             }),
           }),
-          // @ts-ignore
-          new DIDComm([new DIDCommHttpTransport()]),
+          new DIDComm({ transports: [new DIDCommHttpTransport()]}),
           new MessageHandler({
             messageHandlers: [
               // @ts-ignore
@@ -847,8 +846,7 @@ describe('messagepickup-message-handler', () => {
               ...new FakeDidResolver(() => agent).getDidFakeResolver(),
             }),
           }),
-          // @ts-ignore
-          new DIDComm([new DIDCommHttpTransport()]),
+          new DIDComm({ transports: [new DIDCommHttpTransport()]}),
           new MessageHandler({
             messageHandlers: [
               // @ts-ignore
