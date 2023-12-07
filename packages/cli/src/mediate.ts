@@ -159,7 +159,13 @@ const removePolicies: Action<Pick<Options, 'fileJson' | 'interactive'>> = async 
   }
 }
 
-const mediate = new Command('mediate').description('Mediate allow or deny policy on dids')
+const mediate = new Command('mediate').description('Mediate allow or deny policy on dids').addHelpText(
+  'before',
+  `
+    IMPORTANT! in order to use the commands below, you need to configure the Mediate Manager in your agent.yml',
+    see the README (packages/mediation-manager/README.md) for guidance.
+  `,
+)
 
 mediate
   .command('allow-from')
