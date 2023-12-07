@@ -12,7 +12,7 @@ const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 const GRANTED = 'GRANTED'
 const DENIED = 'DENIED'
 
-type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IMediationManager>
+type Context = IAgentContext<IDIDManager & IKeyManager & IDIDComm & IMediationManager>
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -111,20 +111,19 @@ export enum CoordinateMediation {
   RECIPIENT_QUERY = 'https://didcomm.org/coordinate-mediation/3.0/recipient-query',
   RECIPIENT_QUERY_RESPONSE = 'https://didcomm.org/coordinate-mediation/3.0/recipient',
 }
-/**
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export const STATUS_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status-request'
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/delivery-request'
+export enum MessagePickup {
+  STATUS_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/status-request',
+  DELIVERY_REQUEST_MESSAGE_TYPE = 'https://didcomm.org/messagepickup/3.0/delivery-request',
+}
 
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createMediateGrantMessage(
+export function createV3MediateGrantMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
@@ -142,7 +141,7 @@ export function createMediateGrantMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const createMediateDenyMessage = (
+export const createV3MediateDenyMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
@@ -162,7 +161,7 @@ export const createMediateDenyMessage = (
  * @beta This API may change without a BREAKING CHANGE notice.
  * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
-export function createRecipientUpdateResponseMessage(
+export function createV3RecipientUpdateResponseMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
@@ -183,7 +182,7 @@ export function createRecipientUpdateResponseMessage(
  * @beta This API may change without a BREAKING CHANGE notice.
  * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
-export const createRecipientQueryResponseMessage = (
+export const createV3RecipientQueryResponseMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   thid: string,
@@ -206,7 +205,7 @@ export const createRecipientQueryResponseMessage = (
  * @returns a structured message for the Mediator Coordinator protocol
  * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
-export function createMediateRequestMessage(
+export function createV3MediateRequestMessage(
   recipientDidUrl: string,
   mediatorDidUrl: string,
 ): IDIDCommMessage {
@@ -223,13 +222,13 @@ export function createMediateRequestMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const createStatusRequestMessage = (
+export const createV3StatusRequestMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
 ): IDIDCommMessage => {
   return {
     id: v4(),
-    type: STATUS_REQUEST_MESSAGE_TYPE,
+    type: MessagePickup.STATUS_REQUEST_MESSAGE_TYPE,
     to: mediatorDidUrl,
     from: recipientDidUrl,
     return_route: 'all',
@@ -243,7 +242,7 @@ export const createStatusRequestMessage = (
  * @returns a structured upate message for the Mediator Coordinator protocol
  * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
-export const createRecipientUpdateMessage = (
+export const createV3RecipientUpdateMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
   updates: Update[],
@@ -265,7 +264,7 @@ export const createRecipientUpdateMessage = (
  * @returns a structured query message for the Mediator Coordinator protocol
  * @see {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
-export const createRecipientQueryMessage = (
+export const createV3RecipientQueryMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
 ): IDIDCommMessage => {
@@ -282,13 +281,13 @@ export const createRecipientQueryMessage = (
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export const createDeliveryRequestMessage = (
+export const createV3DeliveryRequestMessage = (
   recipientDidUrl: string,
   mediatorDidUrl: string,
 ): IDIDCommMessage => {
   return {
     id: v4(),
-    type: DELIVERY_REQUEST_MESSAGE_TYPE,
+    type: MessagePickup.DELIVERY_REQUEST_MESSAGE_TYPE,
     to: mediatorDidUrl,
     from: recipientDidUrl,
     return_route: 'all',
@@ -336,7 +335,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
 
   private async grantOrDenyMediation(
     { from: requesterDid }: Message,
-    context: IContext,
+    context: Context,
   ): Promise<MediationResponse> {
     if (!requesterDid) return DENIED
     const policy = await context.agent.mediationManagerGetMediationPolicy({ requesterDid })
@@ -347,13 +346,13 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
     }
   }
 
-  private async handleMediateRequest(message: MediateRequestMessage, context: IContext): Promise<Message> {
+  private async handleMediateRequest(message: MediateRequestMessage, context: Context): Promise<Message> {
     try {
       debug('MediateRequest Message Received')
       const requesterDid = message.from
       const status = await this.grantOrDenyMediation(message, context)
       await context.agent.mediationManagerSaveMediation({ status, requesterDid })
-      const getResponse = status === GRANTED ? createMediateGrantMessage : createMediateDenyMessage
+      const getResponse = status === GRANTED ? createV3MediateGrantMessage : createV3MediateDenyMessage
       const response = getResponse(message.from, message.to, message.id)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
@@ -387,7 +386,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
   /**
    * Used to notify the mediator of DIDs in use by the recipient
    **/
-  private async handleRecipientUpdate(message: RecipientUpdateMessage, context: IContext): Promise<Message> {
+  private async handleRecipientUpdate(message: RecipientUpdateMessage, context: Context): Promise<Message> {
     try {
       debug('MediateRecipientUpdate Message Received')
       const updates: Update[] = message.data.updates
@@ -411,7 +410,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
       }
 
       const updated = await Promise.all(updates.map(async (u) => await applyUpdate(message.from, u)))
-      const response = createRecipientUpdateResponseMessage(message.from, message.to, message.id, updated)
+      const response = createV3RecipientUpdateResponseMessage(message.from, message.to, message.id, updated)
       const packedResponse = await context.agent.packDIDCommMessage({
         message: response,
         packing: 'authcrypt',
@@ -443,10 +442,10 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
   /**
    * Query mediator for a list of DIDs registered for this connection
    **/
-  private async handleRecipientQuery(message: RecipientQueryMessage, context: IContext): Promise<Message> {
+  private async handleRecipientQuery(message: RecipientQueryMessage, context: Context): Promise<Message> {
     try {
       const dids = await context.agent.mediationManagerListRecipientDids({ requesterDid: message.from })
-      const response = createRecipientQueryResponseMessage(
+      const response = createV3RecipientQueryResponseMessage(
         message.from,
         message.to,
         message.id,
@@ -484,7 +483,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
    * Handles a Mediator Coordinator messages for the mediator role
    * https://didcomm.org/mediator-coordination/3.0/
    */
-  public async handle(message: Message, context: IContext): Promise<Message> {
+  public async handle(message: Message, context: Context): Promise<Message> {
     if (isMediateRequest(message)) return this.handleMediateRequest(message, context)
     if (isRecipientUpdate(message)) return this.handleRecipientUpdate(message, context)
     if (isRecipientQuery(message)) return this.handleRecipientQuery(message, context)
@@ -496,7 +495,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
  * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the recipient role.
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CoordinateMediationRecipientMessageHandler extends AbstractMessageHandler {
+export class CoordinateMediationV3RecipientMessageHandler extends AbstractMessageHandler {
   constructor() {
     super()
   }
@@ -505,7 +504,7 @@ export class CoordinateMediationRecipientMessageHandler extends AbstractMessageH
    * Handles a Mediator Coordinator messages for the recipient role
    * https://didcomm.org/mediator-coordination/2.0/
    */
-  public async handle(message: Message, context: IContext): Promise<Message> {
+  public async handle(message: Message, context: Context): Promise<Message> {
     if (message.type === CoordinateMediation.MEDIATE_GRANT) {
       debug('MediateGrant Message Received')
       try {
