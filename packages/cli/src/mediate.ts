@@ -51,6 +51,21 @@ const promptForDids = async (action: string): Promise<string[]> => {
   return dids.split(' ')
 }
 
+type Action<T extends Options = Options> = (options: T, cmd: Command, agent: ConfiguredAgent) => Promise<void>
+
+function handler(action: Action) {
+  return async (options: Options, cmd: Command) => {
+    const agent = await getAgent(cmd.optsWithGlobals().config)
+    /**
+     * NOTE: check if the mediation-manager plugin is configured
+     **/
+    if ('isMediateDefaultGrantAll' in agent) return await action(options, cmd, agent)
+    console.log('[warning] it appears that the Mediation Manager plugin is not configured')
+    console.log('[tip] refer to the README (packages/mediation-manager/README.md) for guidance')
+    throw new Error('[error] Mediation Manager not configured!')
+  }
+}
+
 /**
  * cli action functions
  **/
@@ -59,12 +74,10 @@ const policy = (policy: PreMediationRequestPolicy) => {
   return async function (
     { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
     cmd: Command,
+    agent: ConfiguredAgent,
   ): Promise<void> {
     try {
       if (fileJson && interactive) throw new Error('Please specify only one input method')
-
-      const agent = await getAgent(cmd.optsWithGlobals().config)
-      console.log('AGENT CREATED')
 
       if (fileJson) {
         const jsonData = await import(fileJson, { assert: { type: 'json' } })
@@ -84,9 +97,7 @@ const policy = (policy: PreMediationRequestPolicy) => {
     }
   }
 }
-
-async function readPolicies(options: Pick<Options, 'interactive' | 'fileJson'>, cmd: Command): Promise<void> {
-  const agent = await getAgent(cmd.optsWithGlobals().config)
+const readPolicies: Action<Pick<Options, 'interactive' | 'fileJson'>> = async (options, cmd, agent) => {
   let dids: string[]
   if (options.interactive) dids = await promptForDids('read')
   else if (options.fileJson) dids = (await import(options.fileJson, { assert: { type: 'json' } })).default
@@ -100,9 +111,8 @@ async function readPolicies(options: Pick<Options, 'interactive' | 'fileJson'>, 
   console.table(policies)
 }
 
-async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cmd: Command): Promise<void> {
+const listPolicies: Action<Pick<Options, 'allowFrom' | 'denyFrom'>> = async (options, _cmd, agent) => {
   try {
-    const agent = await getAgent(cmd.optsWithGlobals().config)
     const res = await agent.mediationManagerListMediationPolicies()
     console.log('POLICIES')
     if (options.allowFrom) return console.table(Object.entries(res).filter(([, policy]) => policy === ALLOW))
@@ -113,12 +123,9 @@ async function listPolicies(options: Pick<Options, 'allowFrom' | 'denyFrom'>, cm
   }
 }
 
-async function listResponses(
-  { granted, denied }: Pick<Options, 'granted' | 'denied'>,
-  cmd: Command,
-): Promise<void> {
+const listResponses: Action<Pick<Options, 'granted' | 'denied'>> = async (options, _cmd, agent) => {
   try {
-    const agent = await getAgent(cmd.optsWithGlobals().config)
+    const { granted, denied } = options
     const res = await agent.mediationManagerGetAllMediations()
     console.log('MEDIATIONS')
     if (granted) return console.table(Object.entries(res).filter(([, response]) => response === 'GRANTED'))
@@ -129,25 +136,19 @@ async function listResponses(
   }
 }
 
-async function removePolicies(
-  { fileJson, interactive }: Pick<Options, 'fileJson' | 'interactive'>,
-  cmd: Command,
-): Promise<void> {
+const removePolicies: Action<Pick<Options, 'fileJson' | 'interactive'>> = async (options, cmd, agent) => {
   try {
-    const agent = await getAgent(cmd.optsWithGlobals().config)
-
-    if (fileJson) {
-      const jsonData = await import(fileJson, { assert: { type: 'json' } })
+    if (options.fileJson) {
+      const jsonData = await import(options.fileJson, { assert: { type: 'json' } })
       const dids = jsonData.default
       await updatePolicies({ dids, remove: true, agent })
-    } else if (interactive) {
+    } else if (options.interactive) {
       const dids = await promptForDids('Remove')
       await updatePolicies({ dids, remove: true, agent })
     } else {
       const dids = cmd.args
       await updatePolicies({ dids, remove: true, agent })
     }
-
     console.log('Mediation policies removed')
   } catch (e) {
     console.error(e.message)
@@ -161,41 +162,41 @@ mediate
   .description('add dids that should be allowed for mediation')
   .option('-f, --file-json <string>', 'read dids from json file')
   .option('-i, --interactive', 'interactively input dids')
-  .action(policy(ALLOW))
+  .action(handler(policy(ALLOW)))
 
 mediate
   .command('deny-from')
   .description('deny dids that should be denied for mediation')
   .option('-f, --file-json <string>', 'read dids from json file')
   .option('-i, --interactive', 'interactively input dids')
-  .action(policy(DENY))
+  .action(handler(policy(DENY)))
 
 mediate
   .command('read')
-  .description('read mediation policy for a specific did')
+  .description('read mediation policy for a specific did (or list of dids)')
   .option('-i, --interactive', 'interactively input dids')
   .option('-f, --file-json <string>', 'read dids from json file')
-  .action(readPolicies)
+  .action(handler(readPolicies))
 
 mediate
   .command('list-policies')
   .description('list mediation policies')
   .option('-a, --allow-from', 'list allow policies')
   .option('-d, --deny-from', 'list deny policies')
-  .action(listPolicies)
+  .action(handler(listPolicies))
 
 mediate
   .command('list-responses')
   .description('list mediation responses')
   .option('-a, --granted', 'list granted policies')
   .option('-d, --denied', 'list denied policies')
-  .action(listResponses)
+  .action(handler(listResponses))
 
 mediate
   .command('remove')
   .description('remove mediation policies')
   .option('-f, --file-json <string>', 'read dids from json file')
   .option('-i, --interactive', 'interactively input dids')
-  .action(removePolicies)
+  .action(handler(removePolicies))
 
 export { mediate }
