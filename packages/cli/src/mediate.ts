@@ -51,6 +51,10 @@ const promptForDids = async (action: string): Promise<string[]> => {
   return dids.split(' ')
 }
 
+/**
+ * handler function instantiates agent and directs user to README if no Mediation Manager plugin is configured
+ **/
+
 type Action<T extends Options = Options> = (options: T, cmd: Command, agent: ConfiguredAgent) => Promise<void>
 
 function handler(action: Action) {
@@ -60,8 +64,8 @@ function handler(action: Action) {
      * NOTE: check if the mediation-manager plugin is configured
      **/
     if ('isMediateDefaultGrantAll' in agent) return await action(options, cmd, agent)
-    console.log('[warning] it appears that the Mediation Manager plugin is not configured')
-    console.log('[tip] refer to the README (packages/mediation-manager/README.md) for guidance')
+    console.log('[warning] it appears that the Mediation Manager plugin is not configured.')
+    console.log('[tip] refer to the README (packages/mediation-manager/README.md) for guidance. \n')
     throw new Error('[error] Mediation Manager not configured!')
   }
 }
