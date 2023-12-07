@@ -31,14 +31,14 @@ import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
   CoordinateMediationV3MediatorMessageHandler,
-  CoordinateMediationRecipientMessageHandler,
-  createMediateRequestMessage,
-  createMediateGrantMessage,
-  createRecipientUpdateMessage,
+  CoordinateMediationV3RecipientMessageHandler,
+  createV3MediateRequestMessage,
+  createV3MediateGrantMessage,
+  createV3RecipientUpdateMessage,
   UpdateAction,
   RecipientUpdateResult,
   CoordinateMediation,
-  createRecipientQueryMessage,
+  createV3RecipientQueryMessage,
 } from '../protocols/coordinate-mediation-v3-message-handler.js'
 import type { Update, UpdateResult } from '../protocols/coordinate-mediation-v3-message-handler.js'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
@@ -129,7 +129,7 @@ describe('coordinate-mediation-message-handler', () => {
           messageHandlers: [
             new DIDCommMessageHandler(),
             new CoordinateMediationV3MediatorMessageHandler(),
-            new CoordinateMediationRecipientMessageHandler(),
+            new CoordinateMediationV3RecipientMessageHandler(),
           ],
         }),
         new DataStore(dbConnection),
@@ -334,7 +334,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should receive a mediate request', async () => {
-        const message = createMediateRequestMessage(recipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(recipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -346,7 +346,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should save the mediation status to the db where request is GRANTED', async () => {
-        const message = createMediateRequestMessage(recipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(recipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -363,7 +363,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should record the mediation status to the db where request is DENIED', async () => {
-        const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -375,7 +375,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should respond correctly to a mediate request where GRANTED', async () => {
-        const message = createMediateRequestMessage(recipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(recipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -390,7 +390,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should respond correctly to a mediate request where DENIED', async () => {
-        const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -424,7 +424,7 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
-        const message = createMediateRequestMessage(recipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(recipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -448,7 +448,7 @@ describe('coordinate-mediation-message-handler', () => {
 
         expect(didIsAllowed).toBeFalsy()
 
-        const message = createMediateRequestMessage(denyRecipient.did, mediator.did)
+        const message = createV3MediateRequestMessage(denyRecipient.did, mediator.did)
         const messageId = message.id
         const packedMessageContents = { packing: 'authcrypt', message: message } as const
         const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -518,7 +518,7 @@ describe('coordinate-mediation-message-handler', () => {
     it('should receive an update request', async () => {
       const { mockRecipientDid_00: recipient_did } = mockRecipientDids
       const update = { recipient_did, action: UpdateAction.ADD }
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      const message = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -532,7 +532,7 @@ describe('coordinate-mediation-message-handler', () => {
     it('should add a new recipient_did to the data store', async () => {
       const { mockRecipientDid_00: recipient_did } = mockRecipientDids
       const update = { recipient_did, action: UpdateAction.ADD }
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      const message = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -553,7 +553,7 @@ describe('coordinate-mediation-message-handler', () => {
       expect(existingRecipientDid).toBe(recipient.did)
 
       const update = { recipient_did: recipientDid, action: UpdateAction.REMOVE }
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      const message = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -570,7 +570,7 @@ describe('coordinate-mediation-message-handler', () => {
         { recipient_did: mockRecipientDids.mockRecipientDid_01, action: UpdateAction.ADD },
         { recipient_did: mockRecipientDids.mockRecipientDid_02, action: UpdateAction.ADD },
       ]
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, updates)
+      const message = createV3RecipientUpdateMessage(recipient.did, mediator.did, updates)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -593,7 +593,7 @@ describe('coordinate-mediation-message-handler', () => {
        */
       const { mockRecipientDid_03: recipient_did } = mockRecipientDids
       const update = { recipient_did, action: UpdateAction.REMOVE }
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      const message = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -615,7 +615,7 @@ describe('coordinate-mediation-message-handler', () => {
 
       const { mockRecipientDid_01: recipient_did } = mockRecipientDids
       const update = { recipient_did, action: UpdateAction.REMOVE }
-      const message = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+      const message = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -673,7 +673,7 @@ describe('coordinate-mediation-message-handler', () => {
     }
 
     it('should receive a query request', async () => {
-      const message = createRecipientQueryMessage(recipient.did, mediator.did)
+      const message = createV3RecipientQueryMessage(recipient.did, mediator.did)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -690,7 +690,7 @@ describe('coordinate-mediation-message-handler', () => {
       await agent.mediationManagerRemoveRecipientDid({ recipientDid: mockRecipientDids.mockRecipientDid_02 })
       await agent.mediationManagerRemoveRecipientDid({ recipientDid: mockRecipientDids.mockRecipientDid_03 })
 
-      const message = createRecipientQueryMessage(recipient.did, mediator.did)
+      const message = createV3RecipientQueryMessage(recipient.did, mediator.did)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -745,7 +745,7 @@ describe('coordinate-mediation-message-handler', () => {
       /**
        * NOTE: now we query the recipient dids and expect the response to contain the inserted recipient_dids
        */
-      const message = createRecipientQueryMessage(recipient.did, mediator.did)
+      const message = createV3RecipientQueryMessage(recipient.did, mediator.did)
       const messageId = message.id
       const packedMessageContents = { packing: 'authcrypt', message } as const
       const packedMessage = await agent.packDIDCommMessage(packedMessageContents)
@@ -768,7 +768,7 @@ describe('coordinate-mediation-message-handler', () => {
     describe('MEDIATE REQUEST RESPONSE', () => {
       it('should save new service on mediate grant', async () => {
         const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-        const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+        const mediateRequestMessage = createV3MediateRequestMessage(recipient.did, mediator.did)
         mediateRequestMessage.id = messageId
         const packedMessage = await agent.packDIDCommMessage({
           packing: 'authcrypt',
@@ -787,7 +787,7 @@ describe('coordinate-mediation-message-handler', () => {
 
       it('should remove service on mediate deny', async () => {
         const messageId = '858b8fcb-2e8e-44db-a3aa-eac10a63bfa2l'
-        const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+        const mediateRequestMessage = createV3MediateRequestMessage(recipient.did, mediator.did)
         mediateRequestMessage.id = messageId
         const packedMessage = await agent.packDIDCommMessage({
           packing: 'authcrypt',
@@ -823,7 +823,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should not save service if mediate request cannot be found', async () => {
-        const mediateGrantMessage = createMediateGrantMessage(recipient.did, mediator.did, '')
+        const mediateGrantMessage = createV3MediateGrantMessage(recipient.did, mediator.did, '')
         const packedMessage = await agent.packDIDCommMessage({
           packing: 'authcrypt',
           message: mediateGrantMessage,

@@ -174,7 +174,7 @@ describe('routing-message-handler', () => {
 
   afterAll(async () => {
     try {
-      await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      await new Promise((resolve, _reject) => didCommEndpointServer?.close(resolve))
     } catch (e: any) {
       //nop
     }
