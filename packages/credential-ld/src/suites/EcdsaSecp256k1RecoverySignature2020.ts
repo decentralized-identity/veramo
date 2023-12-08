@@ -1,7 +1,7 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import ldsEcdsa from '@veramo-community/lds-ecdsa-secp256k1-recovery2020'
-import { asArray, bytesToBase64, concat, encodeJoseBlob, stringToUtf8Bytes } from '@veramo/utils'
+import { asArray, bytesToBase64, concat, encodeJoseBlob, intersect, stringToUtf8Bytes } from '@veramo/utils'
 
 const { EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020 } = ldsEcdsa
 
@@ -72,14 +72,24 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
   preSigningCredModification(credential: CredentialPayload): void {}
 
   async preDidResolutionModification(didUrl: string, didDoc: DIDDocument): Promise<DIDDocument> {
-    //    did:ethr
-    const idx =
-      didDoc['@context']?.indexOf(
-        'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld',
-      ) || -1
-    if (Array.isArray(didDoc['@context']) && idx !== -1) {
-      didDoc['@context'][idx] = this.getContext()
+    const ctx = asArray(didDoc['@context'])
+    const legacyContext =
+      'https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld'
+    const unstableContext = 'https://w3id.org/security/v3-unstable'
+
+    //  Old did:ethr resolvers would return a broken context link
+    const idx = ctx.indexOf(legacyContext)
+    if (idx !== -1) {
+      ctx[idx] = this.getContext()
     }
+
+    // this verification suite does not support both https://w3id.org/security/suites/secp256k1recovery-2020/v2 and
+    // https://w3id.org/security/v3-unstable as DID document @context, complaining that the `blockchainAccountId` is
+    // being redefined.
+    if (intersect(ctx, [unstableContext, this.getContext()]).length == 2) {
+      ctx.splice(ctx.indexOf(unstableContext), 1)
+    }
+    didDoc['@context'] = ctx
 
     if (didUrl.toLowerCase().startsWith('did:ethr')) {
       //EcdsaSecp256k1RecoveryMethod2020 does not support older format blockchainAccountId
@@ -94,6 +104,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     }
     return didDoc
   }
+
   getContext(): string {
     return 'https://w3id.org/security/suites/secp256k1recovery-2020/v2'
   }

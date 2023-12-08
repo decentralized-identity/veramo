@@ -347,18 +347,35 @@
           "description": "Represents an endpoint of a Service entry in a DID document."
         },
         "DIDDocumentSection": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/KeyCapabilitySection"
+            },
+            {
+              "type": "string",
+              "const": "verificationMethod"
+            },
+            {
+              "type": "string",
+              "const": "publicKey"
+            },
+            {
+              "type": "string",
+              "const": "service"
+            }
+          ],
+          "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link  https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
+        },
+        "KeyCapabilitySection": {
           "type": "string",
           "enum": [
-            "verificationMethod",
-            "publicKey",
-            "service",
             "authentication",
             "assertionMethod",
             "keyAgreement",
             "capabilityInvocation",
             "capabilityDelegation"
           ],
-          "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link  https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
+          "description": "Represents the Verification Relationship between a DID subject and a Verification Method."
         },
         "DIDDocComponent": {
           "anyOf": [

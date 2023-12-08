@@ -52,10 +52,7 @@ describe('Browser integration tests', () => {
           contentType: 'application/did+ld+json',
         },
         didDocument: {
-          '@context': [
-            'https://www.w3.org/ns/did/v1',
-            'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
-          ],
+          '@context': expect.anything(),
           id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
             {

@@ -71,10 +71,7 @@ describe('@veramo/did-resolver', () => {
       resolverPlugin.resolveDid({ didUrl: 'did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb' }),
     ).resolves.toEqual({
       didDocument: {
-        '@context': [
-          'https://www.w3.org/ns/did/v1',
-          'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
-        ],
+        '@context': expect.anything(),
         id: 'did:ethr:mainnet:0xaafe788d8ca214a080b0f6ac7f48480b2aefa9bb',
         verificationMethod: [
           {
