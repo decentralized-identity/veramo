@@ -218,7 +218,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             {
               name: 'ganache',
               chainId: 1337,
-              provider,
+              provider: provider as any,
               registry,
             },
           ],

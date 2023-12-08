@@ -76,8 +76,8 @@ importers:
         specifier: 6.7.1
         version: 6.7.1
       ethr-did-resolver:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 10.1.0
+        version: 10.1.0
       express:
         specifier: 4.18.2
         version: 4.18.2
@@ -268,7 +268,7 @@ importers:
         specifier: ^16.3.1
         version: 16.3.1
       ethr-did-resolver:
-        specifier: ^10.0.0
+        specifier: ^10.1.0
         version: 10.1.0
       express:
         specifier: ^4.18.2
@@ -1013,8 +1013,8 @@ importers:
         specifier: 4.1.8
         version: 4.1.8
       ethr-did-resolver:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 10.1.0
+        version: 10.1.0
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -1406,7 +1406,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       ethr-did-resolver:
-        specifier: ^10.0.0
+        specifier: ^10.1.0
         version: 10.1.0
       path:
         specifier: npm:path-browserify
@@ -1591,6 +1591,9 @@ importers:
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
       ipfs-unixfs:
         specifier: ^11.1.0
         version: 11.1.0
@@ -1617,7 +1620,6 @@ packages:
 
   /@adraffy/ens-normalize@1.10.0:
     resolution: {integrity: sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==}
-    dev: false
 
   /@adraffy/ens-normalize@1.9.2:
     resolution: {integrity: sha512-0h+FrQDqe2Wn+IIGFkTCd4aAwTJ+7834Ek1COohCyV26AXhwQ7WQaz+4F/nLOeVl/3BtWHOHLPsq46V8YB46Eg==}
@@ -7329,7 +7331,6 @@ packages:
     resolution: {integrity: sha512-oYclrNgRaM9SsBUBVbb8M6DTV7ZHRTKugureoYEncY5c65HOmRzvSiTE3y5CYaPYJA/GVkrhXEoF0M3Ya9PMnw==}
     dependencies:
       '@noble/hashes': 1.3.2
-    dev: false
 
   /@noble/ed25519@1.7.1:
     resolution: {integrity: sha512-Rk4SkJFaXZiznFyC/t77Q0NKS4FL7TLJJsVG2V2oiEq3kJVeTdxysEe/yRWSpnWMe808XRDJ+VFh5pt/FN5plw==}
@@ -7349,7 +7350,6 @@ packages:
   /@noble/hashes@1.3.2:
     resolution: {integrity: sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==}
     engines: {node: '>= 16'}
-    dev: false
 
   /@noble/secp256k1@1.7.1:
     resolution: {integrity: sha512-hOUk6AyBFmqVrv7k5WAw/LpszxVbj9gGN4JRkIX52fdFAj1UA61KXmZDvqVEm+pOyec3+fIeZB02LYa/pWOArw==}
@@ -13969,7 +13969,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /ethjs-util@0.1.6:
     resolution: {integrity: sha512-CUnVOQq7gSpDHZVVrQW8ExxUETWrnrvXYvYz55wOU8Uj4VCgw56XC2B/fVqQN+f7gmrnRHSLVnFAwsCuNwji8w==}
@@ -13986,7 +13985,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /ethr-did-resolver@9.0.0:
     resolution: {integrity: sha512-L+c3NZk4fEC+jB1WWPtlUVPZk0r1XItxP54oRLhYpRMRwpG7lPnCzKV6XjuiCTDI7bJEfzrAYYn9sbxbIwEtLA==}
@@ -13996,6 +13994,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: false
 
   /ethr-did@3.0.1:
     resolution: {integrity: sha512-EuxsA8nMDQcIkOh98vmjjXPRqRHw7ObfZ9nwAryVar/oIejp77oWtpn0dQwlM6RAi9B14z4b8iVXK5KQzMnrnw==}
