@@ -202,10 +202,17 @@ export class DataStoreORM implements IAgentPlugin {
     context: AuthorizedDIDContext,
   ): Promise<Array<UniqueVerifiableCredential>> {
     const claims = await (await this.claimsQuery(args, context)).getMany()
-    return claims.map((claim) => ({
-      hash: claim.credential.hash,
-      verifiableCredential: claim.credential.raw,
-    }))
+    return claims
+      .map((claim) => ({
+        hash: claim.credential.hash,
+        verifiableCredential: claim.credential.raw,
+      }))
+      .reduce((acc: UniqueVerifiableCredential[], current: UniqueVerifiableCredential) => {
+        if (!acc.some((item) => item.hash === current.hash)) {
+          acc.push(current)
+        }
+        return acc
+      }, [])
   }
 
   async dataStoreORMGetVerifiableCredentialsByClaimsCount(
