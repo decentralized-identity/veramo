@@ -136,7 +136,6 @@ describe('coordinate-mediation-message-handler', () => {
         new DataStoreORM(dbConnection),
         DIDCommEventSniffer,
         new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-        // @ts-ignore
         new MediationManagerPlugin(true, policyStore, mediationStore, recipientDidStore),
       ],
     })
