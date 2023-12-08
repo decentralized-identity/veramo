@@ -49,6 +49,9 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
   }
 
   private isV3MediationGranted = async (recipientDid: RecipientDid, context: IContext): Promise<boolean> => {
+    /**
+     * NOTE: the below check is used to determine if the agent is using the v3 mediation manager
+     **/
     if ('isMediateDefaultGrantAll' in context.agent) {
       return await context.agent.mediationManagerIsMediationGranted({ recipientDid })
     }
