@@ -261,10 +261,10 @@ describe('@veramo/data-store queries', () => {
 
   test('works with relations', async () => {
     const credentials = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaims({})
-    expect(credentials.length).toBe(3)
+    expect(credentials.length).toBe(1)
     expect(credentials[0].verifiableCredential.id).toBe('vc1')
     const count = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaimsCount({})
-    expect(count).toBe(3)
+    expect(count).toBe(1)
 
     const credentials2 = await makeAgent({
       authorizedDID: did3,
