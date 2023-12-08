@@ -31,7 +31,7 @@
     "buffer": "npm:buffer",
     "crypto": "npm:crypto-browserify",
     "did-resolver": "^4.1.0",
-    "ethr-did-resolver": "^9.0.0",
+    "ethr-did-resolver": "^10.0.0",
     "path": "npm:path-browserify",
     "process": "npm:process",
     "react": "18.2.0",
