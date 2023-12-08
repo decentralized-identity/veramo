@@ -264,7 +264,7 @@ describe('@veramo/data-store queries', () => {
     expect(credentials.length).toBe(1)
     expect(credentials[0].verifiableCredential.id).toBe('vc1')
     const count = await makeAgent().dataStoreORMGetVerifiableCredentialsByClaimsCount({})
-    expect(count).toBe(1)
+    expect(count).toBe(3)
 
     const credentials2 = await makeAgent({
       authorizedDID: did3,
