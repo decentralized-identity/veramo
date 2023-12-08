@@ -7,8 +7,7 @@ import {
   Resolvable,
   JsonWebKey,
 } from 'did-resolver'
-import { encodeBase64url, decodeBase64url } from '@veramo/utils'
-import { isJWK } from './jwkDidUtils.js'
+import { encodeBase64url, decodeBase64url, isJWK } from '@veramo/utils'
 
 function generateDidResolution(jwk: JsonWebKey, parsed: ParsedDID): Promise<DIDResolutionResult> {
   return new Promise((resolve, reject) => {

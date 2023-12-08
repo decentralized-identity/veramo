@@ -1,9 +1,8 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { encodeJoseBlob } from '@veramo/utils'
+import { JwkDidSupportedKeyTypes, encodeJoseBlob, generateJwkFromVerificationMethod } from '@veramo/utils'
 import { VerificationMethod } from 'did-resolver'
-import type { JwkCreateIdentifierOptions, JwkDidImportOrGenerateKeyArgs, JwkDidSupportedKeyTypes } from './types/jwk-provider-types.js'
-import { generateJwkFromVerificationMethod } from './jwkDidUtils.js'
+import type { JwkCreateIdentifierOptions, JwkDidImportOrGenerateKeyArgs } from './types/jwk-provider-types.js'
 
 import Debug from 'debug'
 const debug = Debug('veramo:did-jwk:identifier-provider')
@@ -44,7 +43,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
       {
         publicKeyHex: key.publicKeyHex,
       } as VerificationMethod,
-      options?.keyUse
+      options?.keyUse,
     )
     const jwkBase64url = encodeJoseBlob(jwk as {})
 
@@ -70,55 +69,42 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     throw new Error('not_supported: JwkDIDProvider updateIdentifier not possible')
   }
 
-  async deleteIdentifier(
-    identifier: IIdentifier,
-    context: IContext
-  ): Promise<boolean> {
+  async deleteIdentifier(identifier: IIdentifier, context: IContext): Promise<boolean> {
     for (const { kid } of identifier.keys) {
       await context.agent.keyManagerDelete({ kid })
     }
     return true
   }
 
-  async addKey({
-      identifier,
-      key,
-      options,
-    }: { identifier: IIdentifier; key: IKey; options?: any },
-    context: IContext
+  async addKey(
+    { identifier, key, options }: { identifier: IIdentifier; key: IKey; options?: any },
+    context: IContext,
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider addKey not possible')
   }
 
-  async addService({
-      identifier,
-      service,
-      options,
-    }: { identifier: IIdentifier; service: IService; options?: any },
-    context: IContext
+  async addService(
+    { identifier, service, options }: { identifier: IIdentifier; service: IService; options?: any },
+    context: IContext,
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider addService not possible')
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
-    context: IContext
+    context: IContext,
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider removeKey not possible')
-
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
-    context: IContext
+    context: IContext,
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider removeService not possible')
   }
 
-  private async importOrGenerateKey(
-    args: JwkDidImportOrGenerateKeyArgs,
-    context: IContext
-  ): Promise<IKey> {
+  private async importOrGenerateKey(args: JwkDidImportOrGenerateKeyArgs, context: IContext): Promise<IKey> {
     if (args.options.privateKeyHex) {
       return context.agent.keyManagerImport({
         kms: args.kms || this.defaultKms,
