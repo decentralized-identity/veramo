@@ -26,10 +26,10 @@ import { IDIDComm } from '../types/IDIDComm.js'
 import { MessageHandler } from '../../../message-handler/src'
 import {
   CoordinateMediationV3MediatorMessageHandler,
-  CoordinateMediationRecipientMessageHandler,
-  createMediateRequestMessage,
+  CoordinateMediationV3RecipientMessageHandler,
+  createV3MediateRequestMessage,
   CoordinateMediation,
-  createRecipientUpdateMessage,
+  createV3RecipientUpdateMessage,
   Update,
   UpdateAction,
 } from '../protocols/coordinate-mediation-v3-message-handler.js'
@@ -110,7 +110,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
           messageHandlers: [
             new DIDCommMessageHandler(),
             new CoordinateMediationV3MediatorMessageHandler(),
-            new CoordinateMediationRecipientMessageHandler(),
+            new CoordinateMediationV3RecipientMessageHandler(),
             new RoutingMessageHandler(),
           ],
         }),
@@ -204,7 +204,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
     expect.assertions(2)
 
     // 1. Request Mediation
-    const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+    const mediateRequestMessage = createV3MediateRequestMessage(recipient.did, mediator.did)
     const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
     const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
     const recipientDidUrl = mediator.did
@@ -216,7 +216,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
     // 2. Recipient Update
     const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
-    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessage = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
     const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
     const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
     await agent.sendDIDCommMessage({
@@ -301,7 +301,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
     expect.assertions(1)
     // 1. Request Mediation
-    const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+    const mediateRequestMessage = createV3MediateRequestMessage(recipient.did, mediator.did)
     const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
     const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
     const recipientDidUrl = mediator.did
@@ -313,7 +313,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
     // 2. Recipient Update
     const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
-    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessage = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
     const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
     const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
     await agent.sendDIDCommMessage({
@@ -376,7 +376,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
     expect.assertions(1)
     // 1. Request Mediation
-    const mediateRequestMessage = createMediateRequestMessage(recipient.did, mediator.did)
+    const mediateRequestMessage = createV3MediateRequestMessage(recipient.did, mediator.did)
     const mediateRequestMessageContents = { packing: 'authcrypt', message: mediateRequestMessage } as const
     const packedMediateRequestMessage = await agent.packDIDCommMessage(mediateRequestMessageContents)
     const recipientDidUrl = mediator.did
@@ -388,7 +388,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
     // 2. Recipient Update
     const update: Update = { recipient_did: recipient.did, action: UpdateAction.ADD }
-    const updateMessage = createRecipientUpdateMessage(recipient.did, mediator.did, [update])
+    const updateMessage = createV3RecipientUpdateMessage(recipient.did, mediator.did, [update])
     const updateMessageContents = { packing: 'authcrypt', message: updateMessage } as const
     const packedUpdateMessage = await agent.packDIDCommMessage(updateMessageContents)
     await agent.sendDIDCommMessage({
