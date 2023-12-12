@@ -776,6 +776,9 @@ importers:
       debug:
         specifier: ^4.3.3
         version: 4.3.4
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
       ethr-did:
         specifier: ^3.0.1
         version: 3.0.1
@@ -837,6 +840,9 @@ importers:
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
       multihashes:
         specifier: ^4.0.3
         version: 4.0.3
@@ -911,6 +917,9 @@ importers:
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -964,6 +973,9 @@ importers:
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1039,6 +1051,9 @@ importers:
       did-jwt:
         specifier: ^7.4.1
         version: 7.4.1
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.6
@@ -1082,6 +1097,9 @@ importers:
       did-jwt:
         specifier: ^7.4.1
         version: 7.4.1
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
