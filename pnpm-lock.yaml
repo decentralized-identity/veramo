@@ -841,8 +841,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
-        specifier: ^6.7.1
-        version: 6.7.1
+        specifier: ^6.9.0
+        version: 6.9.0
       multihashes:
         specifier: ^4.0.3
         version: 4.0.3
@@ -918,8 +918,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
-        specifier: ^6.7.1
-        version: 6.7.1
+        specifier: ^6.9.0
+        version: 6.9.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -974,8 +974,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
-        specifier: ^6.7.1
-        version: 6.7.1
+        specifier: ^6.9.0
+        version: 6.9.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1052,8 +1052,8 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1
       ethers:
-        specifier: ^6.7.1
-        version: 6.7.1
+        specifier: ^6.9.0
+        version: 6.9.0
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.6
@@ -1098,8 +1098,8 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1
       ethers:
-        specifier: ^6.7.1
-        version: 6.7.1
+        specifier: ^6.9.0
+        version: 6.9.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1610,8 +1610,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
-        specifier: ^6.7.1
-        version: 6.7.1
+        specifier: ^6.9.0
+        version: 6.9.0
       ipfs-unixfs:
         specifier: ^11.1.0
         version: 11.1.0
@@ -1638,10 +1638,6 @@ packages:
 
   /@adraffy/ens-normalize@1.10.0:
     resolution: {integrity: sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==}
-
-  /@adraffy/ens-normalize@1.9.2:
-    resolution: {integrity: sha512-0h+FrQDqe2Wn+IIGFkTCd4aAwTJ+7834Ek1COohCyV26AXhwQ7WQaz+4F/nLOeVl/3BtWHOHLPsq46V8YB46Eg==}
-    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -9001,10 +8997,6 @@ packages:
     resolution: {integrity: sha512-/extjhkwFupyopDrt80OMWKdLgP429qLZj+z6sYJz90rF2Iz0gjZh2ArMKPImUl13Kx+0EXI2hN9T/KJV0/Zng==}
     dev: false
 
-  /@noble/hashes@1.1.2:
-    resolution: {integrity: sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==}
-    dev: false
-
   /@noble/hashes@1.3.1:
     resolution: {integrity: sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==}
     engines: {node: '>= 16'}
@@ -9016,10 +9008,6 @@ packages:
   /@noble/hashes@1.3.3:
     resolution: {integrity: sha512-V7/fPHgl+jsVPXqqeOzT8egNj2iBIVt+ECeMMG8TdcnTikP3oaBtUVqpT/gYCR68aEBJSF+XbYUxStjbFMqIIA==}
     engines: {node: '>= 16'}
-
-  /@noble/secp256k1@1.7.1:
-    resolution: {integrity: sha512-hOUk6AyBFmqVrv7k5WAw/LpszxVbj9gGN4JRkIX52fdFAj1UA61KXmZDvqVEm+pOyec3+fIeZB02LYa/pWOArw==}
-    dev: false
 
   /@noble/secp256k1@2.0.0:
     resolution: {integrity: sha512-rUGBd95e2a45rlmFTqQJYEFA4/gdIARFfuTuTqLglz0PZ6AKyzyXsEZZq7UZn8hZsvaBgpCzKKBJizT2cJERXw==}
@@ -16096,22 +16084,6 @@ packages:
       '@noble/hashes': 1.3.1
       '@scure/bip32': 1.3.1
       '@scure/bip39': 1.2.1
-
-  /ethers@6.7.1:
-    resolution: {integrity: sha512-qX5kxIFMfg1i+epfgb0xF4WM7IqapIIu50pOJ17aebkxxa4BacW5jFrQRmCJpDEg2ZK2oNtR5QjrQ1WDBF29dA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.2
-      '@noble/hashes': 1.1.2
-      '@noble/secp256k1': 1.7.1
-      '@types/node': 18.15.13
-      aes-js: 4.0.0-beta.5
-      tslib: 2.4.0
-      ws: 8.5.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
 
   /ethers@6.9.0:
     resolution: {integrity: sha512-pmfNyQzc2mseLe91FnT2vmNaTt8dDzhxZ/xItAV7uGsF4dI4ek2ufMu3rAkgQETL/TIs0GS5A+U05g9QyWnv3Q==}
