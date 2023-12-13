@@ -150,6 +150,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
+                name: 'sepolia',
+                chainId: 11155111,
+                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
+              },
+              {
                 chainId: 421613,
                 name: 'arbitrum:goerli',
                 rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,

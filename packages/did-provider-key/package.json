@@ -18,7 +18,7 @@
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "did-resolver": "^4.1.0",
-    "ethers": "^6.7.1"
+    "ethers": "^6.9.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

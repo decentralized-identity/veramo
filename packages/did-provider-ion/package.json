@@ -25,7 +25,7 @@
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
     "did-resolver": "^4.1.0",
-    "ethers": "^6.7.1",
+    "ethers": "^6.9.0",
     "multihashes": "^4.0.3"
   },
   "devDependencies": {
