@@ -58,6 +58,17 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
+    it('should create identifier using did:ethr:sepolia provider', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:ethr:sepolia',
+      })
+      expect(identifier.provider).toEqual('did:ethr:sepolia')
+      expect(identifier.did).toMatch(/^did:ethr:sepolia:0x.*$/)
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
     it('should translate identifier using chainId 421613 to arbitrum', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:ethr',
