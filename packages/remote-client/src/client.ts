@@ -20,7 +20,7 @@ export class AgentRestClient implements IAgentPlugin {
     url: string
     enabledMethods: string[]
     schema?: IAgentPluginSchema
-    headers?: Record<string, string> | (() => Record<string, string>)
+    headers?: Record<string, string> | (() => Promise<Record<string, string>>)
   }) {
     this.url = options.url
     this.schema = options.schema
