@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "5.5.3",
+  "version": "5.6.0",
   "exports": {
     ".": {
       "types": "./build/cli.d.ts",
@@ -56,14 +56,14 @@
     "@veramo/did-resolver": "workspace:^",
     "@veramo/key-manager": "workspace:^",
     "@veramo/kms-local": "workspace:^",
+    "@veramo/kv-store": "workspace:^",
+    "@veramo/mediation-manager": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/remote-client": "workspace:^",
     "@veramo/remote-server": "workspace:^",
-    "@veramo/kv-store": "workspace:^",
     "@veramo/selective-disclosure": "workspace:^",
     "@veramo/url-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "@veramo/mediation-manager": "workspace:^",
     "blessed": "^0.1.81",
     "commander": "^11.0.0",
     "console-table-printer": "^2.11.2",

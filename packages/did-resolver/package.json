@@ -1,7 +1,7 @@
 {
   "name": "@veramo/did-resolver",
   "description": "A DID resolver plugin for Veramo",
-  "version": "5.5.3",
+  "version": "5.6.0",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
@@ -17,8 +17,8 @@
     "did-resolver": "^4.1.0"
   },
   "devDependencies": {
-    "ethr-did-resolver": "10.1.0",
     "@types/debug": "4.1.8",
+    "ethr-did-resolver": "10.1.0",
     "typescript": "5.2.2",
     "web-did-resolver": "2.0.27"
   },
