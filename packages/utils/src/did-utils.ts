@@ -346,7 +346,7 @@ export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: bo
       !['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) &&
       !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')
     ) {
-      return ''
+      return bytesToHex(keyBytes)
     }
   }
   return bytesToHex(keyBytes)
