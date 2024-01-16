@@ -1,9 +1,7 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { hexToBytes } from '@veramo/utils'
-import { computePublicKey } from '@ethersproject/signing-key'
-import { base58btc } from 'multiformats/bases/base58'
-import Multicodec from 'multicodec'
+import { hexToBytes, bytesToMultibase } from '@veramo/utils'
+import { SigningKey } from 'ethers'
 
 import Debug from 'debug'
 
@@ -11,11 +9,11 @@ const debug = Debug('veramo:did-key:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
 type CreateKeyDidOptions = {
-  keyType?: keyof typeof keyOptions
+  keyType?: keyof typeof keyCodecs
   privateKeyHex?: string
 }
 
-const keyOptions = {
+const keyCodecs = {
   Ed25519: 'ed25519-pub',
   X25519: 'x25519-pub',
   Secp256k1: 'secp256k1-pub',
@@ -38,7 +36,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateKeyDidOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType = (options?.keyType && keyOptions[options?.keyType] && options.keyType) || 'Ed25519'
+    const keyType = (options?.keyType && keyCodecs[options?.keyType] && options.keyType) || 'Ed25519'
     const key = await this.importOrGenerateKey(
       {
         kms: kms || this.defaultKms,
@@ -50,9 +48,8 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       context,
     )
 
-    const publicKeyHex = key.type === 'Secp256k1' ? computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
-    const multicodecEncoded = Multicodec.addPrefix(keyOptions[keyType], hexToBytes(publicKeyHex))
-    const methodSpecificId: string = base58btc.encode(multicodecEncoded)
+    const publicKeyHex = key.type === 'Secp256k1' ? SigningKey.computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
+    const methodSpecificId: string = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', keyCodecs[keyType])
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:key:' + methodSpecificId,

@@ -80,13 +80,17 @@ import {
 } from '@veramo/utils'
 
 import Debug from 'debug'
-import { IDIDComm } from './types/IDIDComm.js'
+import {
+  IDIDComm,
+  IPackDIDCommMessageArgs,
+  ISendDIDCommMessageArgs,
+  ISendDIDCommMessageResponse,
+  IUnpackDIDCommMessageArgs,
+} from './types/IDIDComm.js'
 import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports.js'
 import {
   DIDCommMessageMediaType,
-  DIDCommMessagePacking,
   IDIDCommMessage,
-  IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
 } from './types/message-types.js'
@@ -119,41 +123,15 @@ export interface ISendMessageDIDCommAlpha1Args {
   headers?: Record<string, string>
 }
 
-// interface arguments
-
 /**
- * The input to the {@link DIDComm.unpackDIDCommMessage} method.
+ * The config for the {@link DIDComm} DIDComm plugin.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage
-
-/**
- * The input to the {@link DIDComm.packDIDCommMessage} method.
- * When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface IPackDIDCommMessageArgs {
-  message: IDIDCommMessage
-  packing: DIDCommMessagePacking
-  keyRef?: string
-  options?: IDIDCommOptions
+export interface DIDCommConfig<T extends IDIDCommTransport = DIDCommHttpTransport> {
+  transports?: T[]
 }
 
-/**
- * The input to the {@link DIDComm.sendDIDCommMessage} method.
- * The provided `messageId` will be used in the emitted
- * event to allow event/message correlation.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ISendDIDCommMessageArgs {
-  packedMessage: IPackedDIDCommMessage
-  messageId: string
-  returnTransportId?: string
-  recipientDidUrl: string
-}
 
 /**
  * DID Comm plugin for {@link @veramo/core#Agent}
@@ -177,7 +155,7 @@ export class DIDComm implements IAgentPlugin {
    * @param transports - A list of {@link IDIDCommTransport} objects. Defaults to
    *   {@link @veramo/did-comm#DIDCommHttpTransport | DIDCommHttpTransport}
    */
-  constructor(transports: IDIDCommTransport[] = [new DIDCommHttpTransport()]) {
+  constructor({ transports = [new DIDCommHttpTransport()] }: DIDCommConfig = {}) {
     this.transports = transports
     this.methods = {
       sendMessageDIDCommAlpha1: this.sendMessageDIDCommAlpha1.bind(this),
@@ -422,7 +400,8 @@ export class DIDComm implements IAgentPlugin {
                 recipient.publicKeyBytes,
                 <ECDH>senderECDH,
                 { kid: recipient.kid },
-            )} else if (options?.alg?.endsWith('+A256KW')) {
+              )
+            } else if (options?.alg?.endsWith('+A256KW')) {
               // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
               return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
                 kid: recipient.kid,
@@ -715,8 +694,8 @@ export class DIDComm implements IAgentPlugin {
   /** {@inheritdoc IDIDComm.sendDIDCommMessage} */
   async sendDIDCommMessage(
     args: ISendDIDCommMessageArgs,
-    context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
-  ): Promise<string> {
+    context: IAgentContext<IDIDManager & IKeyManager & IResolver & IMessageHandler>,
+  ): Promise<ISendDIDCommMessageResponse> {
     const { packedMessage, returnTransportId, recipientDidUrl, messageId } = args
 
     if (returnTransportId) {
@@ -839,11 +818,12 @@ export class DIDComm implements IAgentPlugin {
 
     if (response.returnMessage) {
       // Handle return message
-      await context.agent.handleMessage({
+      const returnMessage = await context.agent.handleMessage({
         raw: response.returnMessage,
       })
+      return { transportId: transport.id, returnMessage }
     }
-    return transport.id
+    return { transportId: transport.id }
   }
 
   /** {@inheritdoc IDIDComm.sendMessageDIDCommAlpha1} */

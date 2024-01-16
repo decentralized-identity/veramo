@@ -1,4 +1,4 @@
-import { computeAddress } from '@ethersproject/transactions';
+import { computeAddress } from 'ethers';
 import {
   IAgentContext,
   IIdentifier,

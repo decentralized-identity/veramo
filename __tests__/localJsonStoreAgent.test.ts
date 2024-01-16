@@ -16,9 +16,7 @@ import {
   IResolver,
   TAgent,
 } from '../packages/core-types/src'
-import {
-  createAgent
-} from '../packages/core/src'
+import { createAgent } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { DIDManager } from '../packages/did-manager/src'
@@ -53,6 +51,7 @@ import {
   PrivateKeyStoreJson,
 } from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
@@ -77,6 +76,7 @@ import messageHandler from './shared/messageHandler'
 import utils from './shared/utils'
 import { JsonFileStore } from './utils/json-file-store'
 import credentialStatus from './shared/credentialStatus'
+import credentialPluginTests from './shared/credentialPluginTests'
 import dbInitOptions from "./shared/dbInitOptions";
 
 jest.setTimeout(120000)
@@ -150,6 +150,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
+                name: 'sepolia',
+                chainId: 11155111,
+                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
+              },
+              {
                 chainId: 421613,
                 name: 'arbitrum:goerli',
                 rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
@@ -161,6 +166,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
           }),
           'did:key': new KeyDIDProvider({
+            defaultKms: 'local',
+          }),
+          'did:peer': new PeerDIDProvider({
             defaultKms: 'local',
           }),
           'did:pkh': new PkhDIDProvider({
@@ -177,6 +185,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...ethrDidResolver({ infuraProjectId }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
+          ...getDidPeerResolver(),
           ...getDidPkhResolver(),
           ...getDidJwkResolver(),
           ...new FakeDidResolver(() => agent).getDidFakeResolver(),
@@ -239,5 +248,6 @@ describe('Local json-data-store integration tests', () => {
   didCommPacking(testContext)
   utils(testContext)
   credentialStatus(testContext)
+  credentialPluginTests(testContext)
   dbInitOptions(testContext)
 })

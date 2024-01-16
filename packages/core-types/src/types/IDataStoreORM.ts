@@ -106,6 +106,7 @@ export type TCredentialColumns =
   | 'subject'
   | 'expirationDate'
   | 'issuanceDate'
+  | 'hash'
 
 /**
  * The columns that can be searched for the claims of a {@link VerifiableCredential}

@@ -47,6 +47,7 @@ import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from "../packages/did-provider-peer/src";
 import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
@@ -98,6 +99,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
+import credentialPluginTests from "./shared/credentialPluginTests";
 
 jest.setTimeout(120000)
 
@@ -176,6 +178,11 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
                 rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
               },
               {
+                name: 'sepolia',
+                chainId: 11155111,
+                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
+              },
+              {
                 chainId: 421613,
                 name: 'arbitrum:goerli',
                 rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
@@ -188,6 +195,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           }),
           'did:key': new KeyDIDProvider({
             defaultKms: 'local',
+          }),
+          'did:peer': new PeerDIDProvider({
+            defaultKms: 'local'
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
@@ -204,6 +214,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),
+          ...getDidPeerResolver(),
           ...getDidPkhResolver(),
           ...getDidJwkResolver(),
           ...new FakeDidResolver(() => serverAgent as TAgent<IDIDManager>).getDidFakeResolver(),
@@ -219,7 +230,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm([new DIDCommHttpTransport()]),
+      new DIDComm({ transports: [new DIDCommHttpTransport()]}),
       // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
@@ -298,4 +309,5 @@ describe('REST integration tests', () => {
   didDiscovery(testContext)
   utils(testContext)
   credentialStatus(testContext)
+  credentialPluginTests(testContext)
 })

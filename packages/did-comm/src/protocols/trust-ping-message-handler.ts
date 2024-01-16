@@ -73,7 +73,7 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
           packedMessage: packedResponse,
           recipientDidUrl: from!,
         })
-        message.addMetaData({ type: 'TrustPingResponseSent', value: sent })
+        message.addMetaData({ type: 'TrustPingResponseSent', value: JSON.stringify(sent) })
       } catch (ex) {
         debug(ex)
       }

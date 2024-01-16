@@ -20,15 +20,17 @@ export class AgentRestClient implements IAgentPlugin {
     url: string
     enabledMethods: string[]
     schema?: IAgentPluginSchema
-    headers?: Record<string, string>
+    headers?: Record<string, string> | (() => Promise<Record<string, string>>)
   }) {
     this.url = options.url
     this.schema = options.schema
 
     for (const method of options.enabledMethods) {
       this.methods[method] = async (args: any) => {
+        // in case headers is an async call, we will wait for it to resolve
+        const headers = typeof options.headers === 'function' ? await options.headers() : options.headers
         const res = await fetch(this.url + '/' + method, {
-          headers: { ...options.headers, 'Content-Type': 'application/json' },
+          headers: { ...headers, 'Content-Type': 'application/json' },
           method: 'post',
           body: JSON.stringify(args),
         })

@@ -49,6 +49,11 @@ function toDidDoc(did: string, blockchainAccountId: string): any {
   return doc;
 }
 
+/**
+ * Creates a DID resolver that resolves PKH DIDs
+ *
+ * @public
+ */
 export function getResolver(): ResolverRegistry {
   return {
     pkh: async (

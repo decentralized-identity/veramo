@@ -46,10 +46,16 @@ export class KeyValueStore<ValueType extends ValueStoreType> implements IKeyValu
     return this.toDeserializedValueData(result)
   }
 
-  async getMany(keys: string[]): Promise<Array<ValueType | undefined>> {
+  getIterator(): AsyncGenerator<[key: string, value: ValueType], void> {
+    if (!this.keyv.iterator) throw new Error('keyv: iterator not available')
+    return this.keyv.iterator()
+  }
+
+  async getMany(keys?: string[]): Promise<Array<ValueType | undefined>> {
     if (!keys || keys.length === 0) {
       return []
     }
+
     let result = await this.keyv.getMany(keys, { raw: false })
 
     // Making sure we return the same array length as the amount of key(s) passed in

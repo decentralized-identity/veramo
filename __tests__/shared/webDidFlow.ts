@@ -66,10 +66,8 @@ export default (testContext: {
     it('should create identifier with alias: alice', async () => {
       alice = await agent.didManagerGetOrCreate({
         alias: 'alice',
-        provider: 'did:ethr:goerli',
       })
 
-      expect(alice.provider).toEqual('did:ethr:goerli')
       expect(alice.alias).toEqual('alice')
       expect(alice.did).toBeDefined()
     })
@@ -77,10 +75,8 @@ export default (testContext: {
     it('should create identifier with alias: bob', async () => {
       bob = await agent.didManagerGetOrCreate({
         alias: 'bob',
-        provider: 'did:ethr:goerli',
       })
 
-      expect(bob.provider).toEqual('did:ethr:goerli')
       expect(bob.alias).toEqual('bob')
       expect(bob.did).toBeDefined()
     })
@@ -115,12 +111,10 @@ export default (testContext: {
       it('issuer - Alice, subject - Bob', async () => {
         const a = await agent.didManagerGetOrCreate({
           alias: 'alice',
-          provider: 'did:ethr:goerli',
         })
 
         const b = await agent.didManagerGetOrCreate({
           alias: 'bob',
-          provider: 'did:ethr:goerli',
         })
 
         const verifiableCredential = await agent.createVerifiableCredential({

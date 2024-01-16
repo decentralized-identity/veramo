@@ -12,6 +12,7 @@ import { presentation } from './presentation.js'
 import { explore } from './explore/index.js'
 import { sdr } from './sdr.js'
 import { server } from './server.js'
+import { mediate } from './mediate.js'
 
 const requireCjs = module.createRequire(import.meta.url)
 const { version } = requireCjs('../package.json')
@@ -30,5 +31,6 @@ const veramo = new Command('veramo')
   .addCommand(presentation)
   .addCommand(sdr)
   .addCommand(server)
+  .addCommand(mediate)
 
 export { veramo }

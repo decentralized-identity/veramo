@@ -1,0 +1,56 @@
+{
+  "name": "@veramo/mediation-manager",
+  "description": "Mediation Manager Plugin for Veramo",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config=../../jest.config.mjs",
+    "test:ci": "jest --config=../../jest.config.mjs",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core-types": "workspace:^",
+    "@veramo/kv-store": "workspace:^",
+    "debug": "^4.3.4",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "8.50.0",
+    "eslint-plugin-promise": "6.1.1",
+    "timekeeper": "2.3.1",
+    "typescript": "5.2.2"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/mediation-manager"
+  },
+  "author": "Radley Sidwell-Lewis <radley.lewis@gmail.com>",
+  "contributors": [
+    "Paul Desmond Parker <pauldesmondparker@gmail.com>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
+  "keywords": [
+    "Veramo",
+    "mediation-manager",
+    "veramo-plugin"
+  ],
+  "license": "Apache-2.0",
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

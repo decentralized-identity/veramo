@@ -32,6 +32,7 @@
     { "path": "../did-provider-ethr" },
     { "path": "../did-provider-jwk" },
     { "path": "../did-provider-key" },
+    { "path": "../did-provider-peer" },
     { "path": "../did-provider-pkh" },
     { "path": "../did-provider-web" },
     { "path": "../did-resolver" },

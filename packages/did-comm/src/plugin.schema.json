@@ -43,7 +43,7 @@
             "message",
             "packing"
           ],
-          "description": "The input to the  {@link  DIDComm.packDIDCommMessage }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided."
+          "description": "The input to the  {@link  IDIDComm.packDIDCommMessage }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided."
         },
         "IDIDCommMessage": {
           "type": "object",
@@ -222,61 +222,22 @@
             "messageId",
             "recipientDidUrl"
           ],
-          "description": "The input to the  {@link  DIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
+          "description": "The input to the  {@link  IDIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
         },
-        "ISendMessageDIDCommAlpha1Args": {
+        "ISendDIDCommMessageResponse": {
           "type": "object",
           "properties": {
-            "url": {
+            "transportId": {
               "type": "string"
             },
-            "save": {
-              "type": "boolean"
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "from": {
-                  "type": "string"
-                },
-                "to": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
-                "body": {
-                  "anyOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
-                }
-              },
-              "required": [
-                "from",
-                "to",
-                "type",
-                "body"
-              ]
-            },
-            "headers": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
+            "returnMessage": {
+              "$ref": "#/components/schemas/IMessage"
             }
           },
           "required": [
-            "data"
+            "transportId"
           ],
-          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
+          "description": "The response from the  {@link  IDIDComm.sendDIDCommMessage }  method."
         },
         "IMessage": {
           "type": "object",
@@ -647,9 +608,63 @@
           },
           "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
         },
+        "ISendMessageDIDCommAlpha1Args": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "save": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "body": {
+                  "anyOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "from",
+                "to",
+                "type",
+                "body"
+              ]
+            },
+            "headers": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
+        },
         "IUnpackDIDCommMessageArgs": {
           "$ref": "#/components/schemas/IPackedDIDCommMessage",
-          "description": "The input to the  {@link  DIDComm.unpackDIDCommMessage }  method."
+          "description": "The input to the  {@link  IDIDComm.unpackDIDCommMessage }  method."
         },
         "IUnpackedDIDCommMessage": {
           "type": "object",
@@ -700,12 +715,12 @@
           }
         },
         "sendDIDCommMessage": {
-          "description": "Sends the given message to the recipient. If a return transport is provided it will be checked whether the parent thread allows reusing the route. You cannot reuse the transport if the message was forwarded from a DIDComm mediator.",
+          "description": "Sends the given message to the recipient. If a return-transport is provided it will be checked whether the parent thread allows reusing the route. You cannot reuse the transport if the message was forwarded from a DIDComm mediator.",
           "arguments": {
             "$ref": "#/components/schemas/ISendDIDCommMessageArgs"
           },
           "returnType": {
-            "type": "string"
+            "$ref": "#/components/schemas/ISendDIDCommMessageResponse"
           }
         },
         "sendMessageDIDCommAlpha1": {

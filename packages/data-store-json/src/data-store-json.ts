@@ -86,7 +86,6 @@ export class DataStoreJson implements IAgentPlugin {
       dataStoreDeleteVerifiableCredential: this.dataStoreDeleteVerifiableCredential.bind(this),
       dataStoreSaveVerifiablePresentation: this.dataStoreSaveVerifiablePresentation.bind(this),
       dataStoreGetVerifiablePresentation: this.dataStoreGetVerifiablePresentation.bind(this),
-      //dataStoreDeleteVerifiablePresentation: this.dataStoreDeleteVerifiablePresentation.bind(this),
 
       // IDataStoreORM methods
       dataStoreORMGetIdentifiers: this.dataStoreORMGetIdentifiers.bind(this),
@@ -295,13 +294,15 @@ export class DataStoreJson implements IAgentPlugin {
       expirationDate = new Date(vp.expirationDate)
     }
 
-    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map((cred: W3CVerifiableCredential) => {
-      if (typeof cred === 'string') {
-        return normalizeCredential(cred)
-      } else {
-        return <VerifiableCredential>cred
-      }
-    })
+    const credentials: VerifiableCredential[] = asArray(vp.verifiableCredential).map(
+      (cred: W3CVerifiableCredential) => {
+        if (typeof cred === 'string') {
+          return normalizeCredential(cred)
+        } else {
+          return <VerifiableCredential>cred
+        }
+      },
+    )
 
     const presentation: PresentationTableEntry = {
       hash,
@@ -599,7 +600,9 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
         const colA = a[col]
         const colB = b[col]
         if (typeof colA?.getTime === 'function') {
-          result = direction * (colA.getTime() - colB.getTime() || 0)
+          const aTime = colA.getTime()
+          const bTime = typeof colB?.getTime === 'function' ? colB.getTime() : 0
+          result = direction * (aTime - bTime || 0)
         } else if (typeof colA?.localeCompare === 'function') {
           result = direction * colA.localeCompare(colB)
         } else {
@@ -615,7 +618,7 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
     filteredCollection = filteredCollection.slice(input.skip)
   }
   if (input.take) {
-    const start = input.skip && input.skip - 1 || 0
+    const start = (input.skip && input.skip - 1) || 0
     const end = start + input.take
     filteredCollection = filteredCollection.slice(start, end)
   }

@@ -50,8 +50,8 @@ export class DIDStoreJson extends AbstractDIDStore {
 
     if (did !== undefined && alias === undefined) {
       where = { did }
-    } else if (did === undefined && alias !== undefined && provider !== undefined) {
-      where = { alias, provider }
+    } else if (did === undefined && alias !== undefined) {
+      where = { alias }
     } else {
       throw Error('invalid_arguments: DidStoreJson.get requires did or (alias and provider)')
     }
@@ -61,7 +61,7 @@ export class DIDStoreJson extends AbstractDIDStore {
       identifier = this.cacheTree.dids[where.did]
     } else {
       identifier = Object.values(this.cacheTree.dids).find(
-        (iid: IIdentifier) => iid.provider === where.provider && iid.alias === where.alias,
+        (iid: IIdentifier) => iid.alias === where.alias,
       )
     }
 

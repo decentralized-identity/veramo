@@ -10,19 +10,16 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/bytes": "^5.7.0",
-    "@ethersproject/strings": "^5.7.0",
-    "@ethersproject/transactions": "^5.7.0",
     "@noble/curves": "^1.1.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.4",
-    "did-jwt": "^7.2.5",
+    "did-jwt": "^7.4.1",
+    "ethers": "^6.9.0",
     "uint8arrays": "^4.0.6",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
     "typescript": "5.2.2"

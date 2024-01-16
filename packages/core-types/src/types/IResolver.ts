@@ -2,6 +2,7 @@ import {
   DIDDocument,
   DIDResolutionOptions,
   DIDResolutionResult,
+  KeyCapabilitySection,
   ServiceEndpoint,
   VerificationMethod,
 } from 'did-resolver'
@@ -78,10 +79,7 @@ export interface IResolver extends IPluginMethodMap {
    *   didUrl: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
    * })
    * expect(doc.didDocument).toEqual({
-   *   '@context': [
-   *     'https://www.w3.org/ns/did/v1',
-   *     'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
-   *   ],
+   *   '@context': expect.anything(),
    *   id: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
    *   verificationMethod: [
    *     {
@@ -142,11 +140,7 @@ export interface IResolver extends IPluginMethodMap {
  * @public
  */
 export type DIDDocumentSection =
+  | KeyCapabilitySection
   | 'verificationMethod'
   | 'publicKey' //used for backward compatibility
   | 'service'
-  | 'authentication'
-  | 'assertionMethod'
-  | 'keyAgreement'
-  | 'capabilityInvocation'
-  | 'capabilityDelegation'

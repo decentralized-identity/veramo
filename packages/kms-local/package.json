@@ -10,13 +10,6 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@ethersproject/abstract-provider": "^5.7.0",
-    "@ethersproject/bytes": "^5.7.0",
-    "@ethersproject/random": "^5.7.0",
-    "@ethersproject/signing-key": "^5.7.0",
-    "@ethersproject/strings": "^5.7.0",
-    "@ethersproject/transactions": "^5.7.0",
-    "@ethersproject/wallet": "^5.7.0",
     "@noble/curves": "^1.1.0",
     "@stablelib/nacl": "^1.0.4",
     "@stablelib/random": "^1.0.2",
@@ -24,7 +17,8 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^7.2.5"
+    "did-jwt": "^7.4.1",
+    "ethers": "^6.9.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

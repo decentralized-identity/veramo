@@ -39,7 +39,6 @@ import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
-
 import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 
@@ -175,7 +174,7 @@ describe('routing-message-handler', () => {
 
   afterAll(async () => {
     try {
-      await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+      await new Promise((resolve, _reject) => didCommEndpointServer?.close(resolve))
     } catch (e: any) {
       //nop
     }

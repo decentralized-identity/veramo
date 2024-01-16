@@ -12,10 +12,9 @@ import {
   IonPublicKeyPurpose,
   JwkEs256k,
 } from '@decentralized-identity/ion-sdk'
-import { computePublicKey } from '@ethersproject/signing-key'
 import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 import keyto from '@trust/keyto'
-import { randomBytes } from '@ethersproject/random'
+import { randomBytes, SigningKey } from 'ethers'
 import { ed25519 } from '@noble/curves/ed25519'
 import Debug from 'debug'
 import { JsonCanonicalizer } from './json-canonicalizer.js'
@@ -103,7 +102,7 @@ const publicKeyJwkFromPublicKeyHex = (publicKeyHex: string) => {
   const compressedHexEncodedPublicKeyLength = 66
   if (publicKeyHex.length === compressedHexEncodedPublicKeyLength) {
     const publicBytes = hexToBytes(publicKeyHex)
-    key = computePublicKey(publicBytes, true).substring(2)
+    key = SigningKey.computePublicKey(publicBytes, true).substring(2)
   }
   const jwk = {
     ...keyto.from(key, 'blk').toJwk('public'),

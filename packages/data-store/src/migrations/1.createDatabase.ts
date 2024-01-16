@@ -10,7 +10,6 @@ const debug = Debug('veramo:data-store:initial-migration')
  * @public
  */
 export class CreateDatabase1447159020001 implements MigrationInterface {
-
   name = 'CreateDatabase1447159020001' // Used in case this class gets minified, which would change the classname
 
   async up(queryRunner: QueryRunner): Promise<void> {
@@ -21,7 +20,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE UNIQUE INDEX \"IDX_6098cca69c838d91e55ef32fe1\" ON \"identifier\" (\"alias\", \"provider\")",
     await queryRunner.createTable(
       new Table({
-        name: migrationGetTableName(queryRunner,'identifier'),
+        name: migrationGetTableName(queryRunner, 'identifier'),
         columns: [
           { name: 'did', type: 'varchar', isPrimary: true },
           { name: 'provider', type: 'varchar', isNullable: true },
@@ -44,7 +43,7 @@ export class CreateDatabase1447159020001 implements MigrationInterface {
     // "CREATE TABLE \"key\" (\"kid\" varchar PRIMARY KEY NOT NULL, \"kms\" varchar NOT NULL, \"type\" varchar NOT NULL, \"publicKeyHex\" varchar NOT NULL, \"privateKeyHex\" varchar NOT NULL, \"meta\" text, \"identifierDid\" varchar, CONSTRAINT \"FK_3f40a9459b53adf1729dbd3b787\" FOREIGN KEY (\"identifierDid\") REFERENCES \"identifier\" (\"did\") ON DELETE NO ACTION ON UPDATE NO ACTION)",
     await queryRunner.createTable(
       new Table({
-        name: migrationGetTableName(queryRunner,'key'),
+        name: migrationGetTableName(queryRunner, 'key'),
         columns: [
           { name: 'kid', type: 'varchar', isPrimary: true },
           { name: 'kms', type: 'varchar' },

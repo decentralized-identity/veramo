@@ -45,3 +45,14 @@ export type OrPromise<T> = T | Promise<T>
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export type RecordLike<T> = Map<string, T> | Record<string, T>
+
+export enum SupportedKeyTypes {
+  Secp256r1 = 'Secp256r1',
+  Secp256k1 = 'Secp256k1',
+  Ed25519 = 'Ed25519',
+  X25519 = 'X25519',
+}
+
+export type KeyUse = 'sig' | 'enc'
+
+export type JwkDidSupportedKeyTypes = keyof typeof SupportedKeyTypes

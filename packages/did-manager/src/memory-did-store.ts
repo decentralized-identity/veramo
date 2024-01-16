@@ -21,9 +21,9 @@ export class MemoryDIDStore extends AbstractDIDStore {
     if (did && !alias) {
       if (!this.identifiers[did]) throw Error(`not_found: IIdentifier not found with did=${did}`)
       return this.identifiers[did]
-    } else if (!did && alias && provider) {
+    } else if (!did && alias) {
       for (const key of Object.keys(this.identifiers)) {
-        if (this.identifiers[key].alias === alias && this.identifiers[key].provider === provider) {
+        if (this.identifiers[key].alias === alias) {
           return this.identifiers[key]
         }
       }

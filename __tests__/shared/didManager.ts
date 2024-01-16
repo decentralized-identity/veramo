@@ -37,7 +37,7 @@ export default (testContext: {
       identifier = await agent.didManagerCreate({
         // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
         provider: 'did:pkh',
-        options: { chainId: "1"}
+        options: { chainId: '1' },
       })
       expect(identifier.provider).toEqual('did:pkh')
       //expect(identifier.did).toMatch(/^did:pkh:eip155:*$/)
@@ -58,7 +58,18 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using chainId 3', async () => {
+    it('should create identifier using did:ethr:sepolia provider', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:ethr:sepolia',
+      })
+      expect(identifier.provider).toEqual('did:ethr:sepolia')
+      expect(identifier.did).toMatch(/^did:ethr:sepolia:0x.*$/)
+      expect(identifier.keys.length).toEqual(1)
+      expect(identifier.services.length).toEqual(0)
+      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
+    })
+
+    it('should translate identifier using chainId 421613 to arbitrum', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:ethr',
         options: {
@@ -81,7 +92,7 @@ export default (testContext: {
         provider: 'did:jwk',
         options: {
           keyType,
-        }
+        },
       })
       expect(identifier.provider).toEqual('did:jwk')
       expect(identifier.keys[0].type).toEqual(keyType)
@@ -94,8 +105,9 @@ export default (testContext: {
         provider: 'did:jwk',
         options: {
           keyType,
-          privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0',
-        }
+          privateKeyHex:
+            'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0',
+        },
       })
       expect(identifier.provider).toEqual('did:jwk')
       expect(identifier.keys[0].type).toEqual(keyType)
@@ -108,40 +120,46 @@ export default (testContext: {
         provider: 'did:jwk',
         options: {
           privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b0',
-        }
+        },
       })
       expect(identifier.provider).toEqual('did:jwk')
       expect(identifier.keys[0].type).toEqual(keyType)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
     it('should throw error for invalid privateKEyHex', async () => {
-      await expect( agent.didManagerCreate({
-        provider: 'did:jwk',
-        options: {
-          privateKeyHex: '1234',
-        }
-      })).rejects.toThrow()
+      await expect(
+        agent.didManagerCreate({
+          provider: 'did:jwk',
+          options: {
+            privateKeyHex: '1234',
+          },
+        }),
+      ).rejects.toThrow()
       expect(identifier.provider).toEqual('did:jwk')
     })
     it('should throw error for invalid keyUse parameter', async () => {
-      await expect( agent.didManagerCreate({
-        provider: 'did:jwk',
-        options: {
-          keyType: 'Secp256k1',
-          keyUse: 'signing',
-        }
-      })).rejects.toThrow('illegal_argument: Key use must be sig or enc')
+      await expect(
+        agent.didManagerCreate({
+          provider: 'did:jwk',
+          options: {
+            keyType: 'Secp256k1',
+            keyUse: 'signing',
+          },
+        }),
+      ).rejects.toThrow('illegal_argument: Key use must be sig or enc')
       expect(identifier.provider).toEqual('did:jwk')
     })
     it('should throw error for invalid Ed25519 key use', async () => {
-      await expect( agent.didManagerCreate({
-        provider: 'did:jwk',
-        alias: 'test1',
-        options: {
-          keyType: 'Ed25519',
-          keyUse: 'enc',
-        }
-      })).rejects.toThrow('illegal_argument: Ed25519 keys cannot be used for encryption')
+      await expect(
+        agent.didManagerCreate({
+          provider: 'did:jwk',
+          alias: 'test1',
+          options: {
+            keyType: 'Ed25519',
+            keyUse: 'enc',
+          },
+        }),
+      ).rejects.toThrow('illegal_argument: Ed25519 keys cannot be used for encryption')
       expect(identifier.provider).toEqual('did:jwk')
     })
 
@@ -154,7 +172,7 @@ export default (testContext: {
         options: {
           keyType,
           privateKeyHex: 'f3157fbbb356a0d56a84a1a9752f81d0638cce4153168bd1b46f68a6e62b82b1',
-        }
+        },
       })
       expect(identifier.provider).toEqual('did:key')
       expect(identifier.keys[0].type).toEqual(keyType)
@@ -167,7 +185,7 @@ export default (testContext: {
           provider: 'did:web',
           alias: 'example.com',
         }),
-      ).rejects.toThrow('Identifier with alias: example.com, provider: did:web already exists')
+      ).rejects.toThrow(/Identifier with alias: example.com already exists/)
     })
 
     it('should get identifier', async () => {
@@ -187,38 +205,36 @@ export default (testContext: {
 
     it('should get or create identifier', async () => {
       const identifier3 = await agent.didManagerGetOrCreate({
-        alias: 'alice',
-        provider: 'did:ethr:goerli',
+        alias: 'aliceDID11',
+        provider: 'did:ethr:mainnet',
       })
 
       const identifier4 = await agent.didManagerGetOrCreate({
-        alias: 'alice',
-        provider: 'did:ethr:goerli',
+        alias: 'aliceDID11',
       })
 
       expect(identifier3).toEqual(identifier4)
 
       const identifierKey1 = await agent.didManagerGetOrCreate({
-        alias: 'carol',
+        alias: 'caroline',
         provider: 'did:key',
       })
 
       const identifierKey2 = await agent.didManagerGetOrCreate({
-        alias: 'carol',
-        provider: 'did:key',
+        alias: 'caroline',
       })
 
       expect(identifierKey1).toEqual(identifierKey2)
 
       const identifier5 = await agent.didManagerGetOrCreate({
-        alias: 'alice',
+        alias: 'aliceDID11',
         provider: 'did:ethr',
       })
 
-      expect(identifier5).not.toEqual(identifier4)
+      expect(identifier5).toEqual(identifier4)
 
       const identifier6 = await agent.didManagerGetByAlias({
-        alias: 'alice',
+        alias: 'aliceDID11',
         provider: 'did:ethr',
       })
 
@@ -230,22 +246,22 @@ export default (testContext: {
       expect(allIdentifiers.length).toBeGreaterThanOrEqual(5)
 
       const aliceIdentifiers = await agent.didManagerFind({
-        alias: 'alice',
+        alias: 'aliceDID11',
       })
-      expect(aliceIdentifiers.length).toEqual(2)
+      expect(aliceIdentifiers.length).toEqual(1)
 
-      const goerliIdentifiers = await agent.didManagerFind({
-        provider: 'did:ethr:goerli',
+      const ethrIdentifiers = await agent.didManagerFind({
+        provider: 'did:ethr',
       })
-      expect(goerliIdentifiers.length).toBeGreaterThanOrEqual(1)
+      expect(ethrIdentifiers.length).toBeGreaterThanOrEqual(1)
 
       // Default provider 'did:ethr:goerli'
-      await agent.didManagerCreate({ provider: 'did:ethr:goerli' })
+      await agent.didManagerCreate({ provider: 'did:ethr' })
 
-      const goerliIdentifiers2 = await agent.didManagerFind({
-        provider: 'did:ethr:goerli',
+      const ethrIdentifiers2 = await agent.didManagerFind({
+        provider: 'did:ethr',
       })
-      expect(goerliIdentifiers2.length).toEqual(goerliIdentifiers.length + 1)
+      expect(ethrIdentifiers2.length).toEqual(ethrIdentifiers.length + 1)
     })
 
     it('should delete identifier', async () => {
@@ -435,6 +451,19 @@ export default (testContext: {
       })
 
       expect(identifier2).toEqual({ ...identifier, alias: 'dave' })
+    })
+
+    it('should refuse to getOrCreate identifier with existing alias but different provider', async () => {
+      expect.assertions(1)
+      await agent.didManagerGetOrCreate({ alias: 'I am the same', provider: 'did:ethr' })
+      await expect(
+        agent.didManagerGetOrCreate({
+          alias: 'I am the same',
+          provider: 'did:key',
+        }),
+      ).rejects.toThrow(
+        /illegal_argument: Identifier with alias:.*already exists.*but was created with a different provider.*/,
+      )
     })
   })
 }
