@@ -184,7 +184,8 @@ dev
       interfaces[pluginInterfaceName] = api
     }
 
-    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces, null, 2))
+    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces))
+    writeFileSync(resolve('./src/plugin.schema.ts'), `export default ${JSON.stringify(interfaces)}`)
   })
 
 dev

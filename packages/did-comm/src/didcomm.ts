@@ -54,7 +54,7 @@ import {
   xc20pAuthEncrypterEcdh1PuV3x25519WithXC20PKW,
 } from './encryption/xc20pkw-encrypters.js'
 
-import schema from './plugin.schema.json' assert { type: 'json' }
+import schema from './plugin.schema'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -131,7 +131,6 @@ export interface ISendMessageDIDCommAlpha1Args {
 export interface DIDCommConfig<T extends IDIDCommTransport = DIDCommHttpTransport> {
   transports?: T[]
 }
-
 
 /**
  * DID Comm plugin for {@link @veramo/core#Agent}

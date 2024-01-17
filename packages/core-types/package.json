@@ -9,7 +9,8 @@
       "require": "./build/index.js",
       "import": "./build/index.js"
     },
-    "./build/plugin.schema.json": "./build/plugin.schema.json"
+    "./build/plugin.schema.json": "./build/plugin.schema.json",
+    "./build/plugin.schema": "./build/plugin.schema.js"
   },
   "types": "build/index.d.ts",
   "scripts": {
