@@ -13,7 +13,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "credential-status": "^2.0.5",
-    "did-jwt": "^7.4.1",
+    "did-jwt": "^8.0.0",
     "did-resolver": "^4.1.0"
   },
   "devDependencies": {

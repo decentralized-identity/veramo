@@ -109,5 +109,6 @@ export function generateJwkFromVerificationMethod(
   key: VerificationMethod,
   keyUse?: KeyUse,
 ) {
-  return createJWK(keyType, extractPublicKeyHex(key), keyUse)
+  const { publicKeyHex, keyType: extractedType } = extractPublicKeyHex(key)
+  return createJWK(keyType, publicKeyHex, keyUse)
 }
