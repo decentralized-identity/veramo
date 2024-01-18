@@ -24,7 +24,7 @@ import {
   ISelectiveDisclosureRequest,
   IValidatePresentationAgainstSdrArgs,
 } from './types.js'
-import schema from './plugin.schema'
+import schema from './plugin.schema.js'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 import {

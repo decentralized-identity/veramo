@@ -10,7 +10,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
-import schema from './plugin.schema'
+import schema from './plugin.schema.js'
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader.js'
 import {
