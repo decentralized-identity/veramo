@@ -75,18 +75,18 @@ describe('@veramo/utils did utils', () => {
     // let expectedMultibase = `z8FRmkyRH9xAsLCk51yXN2Qy6uq4eN4iAesa3v3Hv889v`;
 
     // // multibase + multicodec
-    let expectedMultibase = `z6MkmhgpMDfiVVfLShamhYVCsWX6jQLVmwxXLtUykKFw3LwJ`;
+    let expectedMultibase = `z6MkmhgpMDfiVVfLShamhYVCsWX6jQLVmwxXLtUykKFw3LwJ`
 
     expect(computedMultibase).toEqual(expectedMultibase)
 
-    const computedHex = extractPublicKeyHex({
+    const computed = extractPublicKeyHex({
       publicKeyMultibase: expectedMultibase,
       type: 'Ed25519VerificationKey2020',
       id: 'dummy key',
       controller: 'dummy controller',
     })
 
-    expect(computedHex).toEqual(publicKeyHex)
+    expect(computed).toEqual({ publicKeyHex, keyType: 'Ed25519' })
   })
 
   it('should convert to multibase and back', async () => {
@@ -94,22 +94,22 @@ describe('@veramo/utils did utils', () => {
     const computedMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', 'ed25519-pub')
 
     // // multibase + multicodec
-    let expectedMultibase = `z6MkmhgpMDfiVVfLShamhYVCsWX6jQLVmwxXLtUykKFw3LwJ`;
+    let expectedMultibase = `z6MkmhgpMDfiVVfLShamhYVCsWX6jQLVmwxXLtUykKFw3LwJ`
 
     expect(computedMultibase).toEqual(expectedMultibase)
 
     const computedXMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', 'x25519-pub')
-    let expectedXMultibase = `z6LSivbwHHE9FQtcRb7qYd3KM1Bakybm4ftKXrHjQVwSqVvg`;
+    let expectedXMultibase = `z6LSivbwHHE9FQtcRb7qYd3KM1Bakybm4ftKXrHjQVwSqVvg`
 
     expect(computedXMultibase).toEqual(expectedXMultibase)
 
-    const computedHex = extractPublicKeyHex({
+    const computed = extractPublicKeyHex({
       publicKeyMultibase: expectedMultibase,
       type: 'Ed25519VerificationKey2020',
       id: 'dummy key',
       controller: 'dummy controller',
     })
 
-    expect(computedHex).toEqual(publicKeyHex)
+    expect(computed).toEqual({ publicKeyHex, keyType: 'Ed25519' })
   })
 })
