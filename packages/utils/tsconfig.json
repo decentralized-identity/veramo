@@ -6,5 +6,6 @@
     "declarationDir": "build",
     "skipLibCheck": true
   },
+  "include": ["src/**/*"],  // Source files to include
   "references": [{ "path": "../core-types" }]
 }
