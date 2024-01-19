@@ -4,8 +4,7 @@
   "version": "5.6.0",
   "main": "build/index.js",
   "exports": {
-    ".": "./build/index.js",
-    "./build/plugin.schema.json": "./build/plugin.schema.json"
+    ".": "./build/index.js"
   },
   "types": "build/index.d.ts",
   "scripts": {
@@ -25,8 +24,7 @@
   },
   "files": [
     "build/**/*",
-    "src/**/*",
-    "plugin.schema.json",
+    "src/**/*",    
     "README.md",
     "LICENSE"
   ],
