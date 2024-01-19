@@ -95,9 +95,11 @@ dev
     'package.json file containing a Veramo plugin interface config',
     './package.json',
   )
+  .option('-o, --output <string>', 'Output file of the schema', './src/plugin.schema.json')
 
   .action(async (options) => {
     const apiExtractorJsonPath: string = resolve(options.extractorConfig)
+    const outPutPath: string = resolve(options.output)
     const extractorConfig: ExtractorConfig = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath)
 
     const extractorResult: ExtractorResult = Extractor.invoke(extractorConfig, {
@@ -183,9 +185,9 @@ dev
 
       interfaces[pluginInterfaceName] = api
     }
-
-    writeFileSync(resolve('./src/plugin.schema.json'), JSON.stringify(interfaces))
-    writeFileSync(resolve('./src/plugin.schema.ts'), `export default ${JSON.stringify(interfaces)}`)
+  
+    writeFileSync(resolve(outPutPath.replace(/\.json$/, '.ts')), `export default ${JSON.stringify(interfaces)}`)
+    writeFileSync(resolve(outPutPath), JSON.stringify(interfaces, null, 2))
   })
 
 dev

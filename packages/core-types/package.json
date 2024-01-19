@@ -36,7 +36,7 @@
   "dependencies": {
     "credential-status": "^2.0.5",
     "debug": "^4.3.3",
-    "did-jwt-vc": "^3.2.10",
+    "did-jwt-vc": "^4.0.0",
     "did-resolver": "^4.1.0"
   },
   "devDependencies": {

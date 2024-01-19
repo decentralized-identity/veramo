@@ -72,6 +72,7 @@ import {
   decodeJoseBlob,
   dereferenceDidKeys,
   encodeJoseBlob,
+  extractPublicKeyHex,
   hexToBytes,
   isDefined,
   mapIdentifierKeysToDoc,
@@ -302,6 +303,7 @@ export class DIDComm implements IAgentPlugin {
     interface IRecipient {
       kid: string
       publicKeyBytes: Uint8Array
+      keyType: string
     }
 
     let recipients: IRecipient[] = []
@@ -323,7 +325,16 @@ export class DIDComm implements IAgentPlugin {
 
       // 2.3 get public key bytes and key IDs for supported recipient keys
       const tempRecipients = keyAgreementKeys
-        .map((pk) => ({ kid: pk.id, publicKeyBytes: hexToBytes(pk.publicKeyHex!) }))
+        .map((pk) => {
+          // FIXME: only supporting X25519 keys for now. Add support for P-256 and P-384 & others
+          const { publicKeyHex, keyType } = extractPublicKeyHex(pk, true)
+          if (keyType === 'X25519') {
+            return { kid: pk.id, publicKeyBytes: hexToBytes(publicKeyHex), keyType: pk.type }
+          } else {
+            debug(`not_supported: key agreement key type ${pk.type} is not supported for encryption`)
+            return null
+          }
+        })
         .filter(isDefined)
 
       if (tempRecipients.length === 0) {

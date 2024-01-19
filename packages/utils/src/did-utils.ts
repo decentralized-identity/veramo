@@ -46,7 +46,7 @@ export function convertEd25519PrivateKeyToX25519(privateKey: Uint8Array): Uint8A
  *
  * @param identifier - the identifier with keys
  *
- * @returns the array of converted keys filtered to contain only those usable for encryption.
+ * @returns the array of converted keys filtered to contain ONLY X25519 keys usable for encryption.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -109,21 +109,13 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 function compareBlockchainAccountId(localKey: IKey, verificationMethod: VerificationMethod): boolean {
-  if (
-    !(
-      verificationMethod.type === 'EcdsaSecp256k1RecoveryMethod2020' ||
-      verificationMethod.type === 'EcdsaSecp256k1VerificationKey2019' ||
-      (verificationMethod.type === 'JsonWebKey2020' &&
-        verificationMethod.publicKeyJwk &&
-        verificationMethod.publicKeyJwk.crv === 'secp256k1') ||
-      localKey.type === 'Secp256k1'
-    )
-  ) {
+  if (localKey.type !== 'Secp256k1') {
     return false
   }
   let vmEthAddr = getEthereumAddress(verificationMethod)
+  const localAccount = localKey.meta?.account ?? localKey.meta?.ethereumAddress
   if (localKey.meta?.account) {
-    return vmEthAddr === localKey.meta?.account.toLowerCase()
+    return vmEthAddr === localAccount.toLowerCase()
   }
   const computedAddr = computeAddress('0x' + localKey.publicKeyHex).toLowerCase()
   return computedAddr === vmEthAddr
@@ -146,14 +138,12 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
       vmEthAddr = verificationMethod.blockchainAccountId?.split('@eip155')[0].toLowerCase()
     } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
       vmEthAddr = verificationMethod.blockchainAccountId.split(':')[2]?.toLowerCase()
-    } else if (
-      verificationMethod.publicKeyHex ||
-      verificationMethod.publicKeyBase58 ||
-      verificationMethod.publicKeyBase64 ||
-      verificationMethod.publicKeyJwk
-    ) {
-      const pbBytes = extractPublicKeyBytes(verificationMethod)
-      const pbHex = SigningKey.computePublicKey(pbBytes, false)
+    } else {
+      const { keyBytes, keyType } = extractPublicKeyBytes(verificationMethod)
+      if (keyType !== 'Secp256k1') {
+        return undefined
+      }
+      const pbHex = SigningKey.computePublicKey(keyBytes, false)
 
       vmEthAddr = computeAddress(pbHex).toLowerCase()
     }
@@ -302,7 +292,7 @@ export async function dereferenceDidKeys(
   )
     .filter(isDefined)
     .map((key) => {
-      const hexKey = extractPublicKeyHex(key, convert)
+      const { publicKeyHex: hexKey, keyType } = extractPublicKeyHex(key, convert)
       const {
         publicKeyHex,
         publicKeyBase58,
@@ -315,10 +305,12 @@ export async function dereferenceDidKeys(
 
       // With a JWK `key`, `newKey` does not have information about crv (Ed25519 vs X25519)
       // Should type of `newKey` change?
-      if (convert && 'Ed25519VerificationKey2018' === newKey.type) {
-        newKey.type = 'X25519KeyAgreementKey2019'
-      } else if (convert && ['Ed25519VerificationKey2020', 'JsonWebKey2020'].includes(newKey.type)) {
-        newKey.type = 'X25519KeyAgreementKey2020'
+      if (convert) {
+        if ('Ed25519VerificationKey2018' === newKey.type) {
+          newKey.type = 'X25519KeyAgreementKey2019'
+        } else if ('Ed25519VerificationKey2020' === newKey.type || 'X25519' === keyType) {
+          newKey.type = 'X25519KeyAgreementKey2020'
+        }
       }
 
       return newKey
@@ -330,24 +322,23 @@ export async function dereferenceDidKeys(
  *
  * @param pk - the VerificationMethod to be converted
  * @param convert - when this flag is set to true, Ed25519 keys are converted to their X25519 pairs
- * @returns the hex encoding of the public key
+ * @returns the hex encoding of the public key along with the inferred key type
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function extractPublicKeyHex(pk: _ExtendedVerificationMethod, convert: boolean = false): string {
-  let keyBytes = extractPublicKeyBytes(pk)
+export function extractPublicKeyHex(
+  pk: _ExtendedVerificationMethod,
+  convert: boolean = false,
+): {
+  publicKeyHex: string
+  keyType: string | undefined
+} {
+  let { keyBytes, keyType } = extractPublicKeyBytes(pk)
   if (convert) {
-    if (
-      ['Ed25519', 'Ed25519VerificationKey2018', 'Ed25519VerificationKey2020'].includes(pk.type) ||
-      (pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'Ed25519')
-    ) {
+    if (keyType === 'Ed25519') {
       keyBytes = convertEd25519PublicKeyToX25519(keyBytes)
-    } else if (
-      !['X25519', 'X25519KeyAgreementKey2019', 'X25519KeyAgreementKey2020'].includes(pk.type) &&
-      !(pk.type === 'JsonWebKey2020' && pk.publicKeyJwk?.crv === 'X25519')
-    ) {
-      return ''
+      keyType = 'X25519'
     }
   }
-  return bytesToHex(keyBytes)
+  return { publicKeyHex: bytesToHex(keyBytes), keyType }
 }

@@ -138,7 +138,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
       ;(vm as any)['@context'] = 'https://w3id.org/security/suites/ed25519-2020/v1'
       // publicKeyMultibase is required by this suite
       if (!vm.publicKeyMultibase) {
-        const publicKeyHex = extractPublicKeyHex(vm)
+        const { publicKeyHex } = extractPublicKeyHex(vm)
         vm.publicKeyMultibase = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', 'ed25519-pub')
       }
     }
