@@ -2,16 +2,17 @@
   "name": "@veramo/utils",
   "description": "Helper methods for Veramo plugins",
   "version": "5.6.0",
-  "main": "build/index.js",  
+  "main": "build/index.cjs.js",  
+  "module": "build/index.esm.js",
   "types": "build/index.d.ts",
   "exports": {
     ".": {
-      "import": "./build/index.js",
-      "require": "./build/index.js"
+      "import": "./build/index.esm.js",
+      "require": "./build/index.cjs.js"
     }
   },
   "scripts": {
-    "build": "tsc --noEmit && node esbuild.js && tsc --emitDeclarationOnly",
+    "build": "node esbuild.js && tsc --emitDeclarationOnly",    
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {

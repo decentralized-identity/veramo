@@ -3821,7 +3821,7 @@
             "save": {
               "type": "boolean",
               "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
-              "deprecated": "Please call {@link @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
+              "deprecated": "Please call {@link @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\r\nhandling the message and determining that it must be saved."
             }
           },
           "required": [
@@ -4225,7 +4225,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved.",
-              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
+              "deprecated": "Please call\r\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\r\nsave the credential after creating it."
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
@@ -4439,7 +4439,7 @@
             "save": {
               "type": "boolean",
               "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved. <p/><p/>",
-              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation |}   *   dataStoreSaveVerifiablePresentation()} to save the credential after creating it."
+              "deprecated": "Please call\r\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation |}   *   dataStoreSaveVerifiablePresentation()} to save the credential after creating it."
             },
             "challenge": {
               "type": "string",

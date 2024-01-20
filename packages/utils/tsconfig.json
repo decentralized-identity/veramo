@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
+    "declaration": true,
     "declarationDir": "build",
     "skipLibCheck": true
   },
