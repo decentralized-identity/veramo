@@ -15,7 +15,7 @@ build({
 // Building for ECMAScript Module
 build({
     entryPoints: ['src/index.ts'], // Your entry file
-    bundle: true,
+    bundle: false,
     outfile: 'build/index.esm.js', // Output file for ESM
     format: 'esm', // Specify ESM format
     sourcemap: true, // Enable source maps (optional)
