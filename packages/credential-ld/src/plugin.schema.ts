@@ -1,4 +1,4 @@
-{
+export default {
   "ICredentialIssuerLD": {
     "components": {
       "schemas": {

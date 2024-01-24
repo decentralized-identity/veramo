@@ -1,4 +1,4 @@
-{
+export default {
   "IDIDComm": {
     "components": {
       "schemas": {
@@ -660,7 +660,7 @@
           "required": [
             "data"
           ],
-          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
+          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\r\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
         },
         "IUnpackDIDCommMessageArgs": {
           "$ref": "#/components/schemas/IPackedDIDCommMessage",

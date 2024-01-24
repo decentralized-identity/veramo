@@ -1,4 +1,4 @@
-{
+export default {
   "ICredentialIssuerEIP712": {
     "components": {
       "schemas": {
