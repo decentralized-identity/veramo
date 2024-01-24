@@ -47,7 +47,7 @@ export function isJWK(data: unknown): data is JsonWebKey {
   return false
 }
 
-function createJWK(
+export function createJWK(
   keyType: JwkDidSupportedKeyTypes,
   pubKey: string | Uint8Array,
   passedKeyUse?: KeyUse,
