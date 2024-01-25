@@ -1,4 +1,4 @@
-import { Agent } from '../agent.js'
+import { Agent } from '../agent'
 import { CoreEvents, IEventListener } from '../../../core-types/src'
 import { jest } from '@jest/globals'
 

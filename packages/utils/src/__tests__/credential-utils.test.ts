@@ -4,7 +4,7 @@ import {
   decodePresentationToObject,
   extractIssuer,
   processEntryToArray,
-} from '../credential-utils.js'
+} from '../credential-utils'
 
 describe('@veramo/utils credential utils', () => {
   it('processEntryToArray', () => {
@@ -180,9 +180,7 @@ describe('@veramo/utils credential utils', () => {
     const serializedCred = `{"credentialSubject":{"you":"Rock","id":"did:web:example.com"},"issuer":{"id":"did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7"},"type":["VerifiableCredential"],"@context":["https://www.w3.org/2018/credentials/v1"],"issuanceDate":"2021-11-23T15:11:57.000Z","proof":{"type":"JwtProof2020","jwt":"${jwt}"}}`
     expect(computeEntryHash(expandedCred)).toEqual(computeEntryHash(serializedCred))
     expect(computeEntryHash(jwt)).toEqual(computeEntryHash(serializedCred))
-    expect(computeEntryHash(serializedCred)).toEqual(
-      'QmYBWeZCoB1zbJwGou1svfgrq9muVQyy7uzokMfdeSEoHH',
-    )
+    expect(computeEntryHash(serializedCred)).toEqual('QmYBWeZCoB1zbJwGou1svfgrq9muVQyy7uzokMfdeSEoHH')
   })
 
   it('computeEntryHash for LD', () => {
@@ -207,9 +205,7 @@ describe('@veramo/utils credential utils', () => {
     const serializedCred =
       '{"issuer":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn"},"@context":["https://www.w3.org/2018/credentials/v1","https://veramo.io/contexts/profile/v1"],"type":["VerifiableCredential","Profile"],"issuanceDate":"2021-11-23T15:06:12.820Z","credentialSubject":{"id":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","name":"Martin, the great"},"proof":{"type":"Ed25519Signature2018","created":"2021-11-23T15:06:12Z","verificationMethod":"did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn#z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn","proofPurpose":"assertionMethod","jws":"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..wKMmMZNdIgL_19HYJgpRL9SeKVzYT85S-ZyVdF3IMiaiL8nhX8i48D82TQtuQlTT960h_TOQ18fQFula6QxADA"}}'
     expect(computeEntryHash(expandedCred)).toEqual(computeEntryHash(serializedCred))
-    expect(computeEntryHash(serializedCred)).toEqual(
-      'QmYeBhqpqiFUcsTS1qz7tkuVCJq8Z4VrrSJsjJc4Q7k9ig',
-    )
+    expect(computeEntryHash(serializedCred)).toEqual('QmYeBhqpqiFUcsTS1qz7tkuVCJq8Z4VrrSJsjJc4Q7k9ig')
   })
 
   it('extractIssuer', () => {
@@ -241,8 +237,12 @@ describe('@veramo/utils credential utils', () => {
       'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InlvdSI6IlJvY2sifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5jb20iLCJuYmYiOjE2Mzc2ODAzMTcsImlzcyI6ImRpZDpldGhyOnJpbmtlYnk6MHgwMmY2NDk1NWRkMDVkZGU1NTkxMGYzNzllYzU3ODVlZWUwOGJiZTZlNTBkZGFlNmJhY2UwNTk2ZmQ4ZDQ2MDE4ZjcifQ.ujM4zNm8h5-Cg01vh4ka_7NmdwYl8HAjO90XjxYYwSa0-4rqzM5ndt-OE6vS6y0gPwhwlQWHmDxg4X7OTzCUoQ'
     expect(extractIssuer(ldCred1)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(ldCred2)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
-    expect(extractIssuer(ldCred3)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn?versionTime=2023-01-01T00:00:00Z')
-    expect(extractIssuer(ldCred3, { removeParameters: true })).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
+    expect(extractIssuer(ldCred3)).toEqual(
+      'did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn?versionTime=2023-01-01T00:00:00Z',
+    )
+    expect(extractIssuer(ldCred3, { removeParameters: true })).toEqual(
+      'did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn',
+    )
     expect(extractIssuer(ldPres)).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
     expect(extractIssuer(jwt)).toEqual(
       'did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7',

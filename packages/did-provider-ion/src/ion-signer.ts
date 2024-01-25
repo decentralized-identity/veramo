@@ -1,4 +1,4 @@
-import { IContext } from './types/ion-provider-types.js'
+import { IContext } from './types/ion-provider-types'
 import { sha256 } from '@noble/hashes/sha256'
 import { bytesToBase64url, bytesToHex, stringToUtf8Bytes } from '@veramo/utils'
 
@@ -15,7 +15,10 @@ export class IonSigner {
    * @param context The agent context
    * @param kid The Veramo update or recovery Key ID (kid)
    */
-  constructor(private context: IContext, kid: string) {
+  constructor(
+    private context: IContext,
+    kid: string,
+  ) {
     this.kid = kid
   }
 

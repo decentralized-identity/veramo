@@ -1,6 +1,6 @@
-import { IAgentContext, IPluginMethodMap } from './IAgent.js'
-import { IMessage, IMetaData } from './IMessage.js'
-import { IDataStore } from './IDataStore.js'
+import { IAgentContext, IPluginMethodMap } from './IAgent'
+import { IMessage, IMetaData } from './IMessage'
+import { IDataStore } from './IDataStore'
 
 /**
  * Input arguments for {@link IMessageHandler.handleMessage | handleMessage}

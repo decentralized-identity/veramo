@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { getOpenApiSchema } from '@veramo/remote-client'
-import { RequestWithAgent } from './request-agent-router.js'
+import { RequestWithAgent } from './request-agent-router'
 
 /**
  * @public

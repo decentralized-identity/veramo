@@ -4,14 +4,14 @@
  *
  * @packageDocumentation
  */
-export { KeyManager } from './key-manager.js'
-export { AbstractKeyManagementSystem } from './abstract-key-management-system.js'
-export { AbstractKeyStore } from './abstract-key-store.js'
+export { KeyManager } from './key-manager'
+export { AbstractKeyManagementSystem } from './abstract-key-management-system'
+export { AbstractKeyStore } from './abstract-key-store'
 export {
   AbstractPrivateKeyStore,
   ImportablePrivateKey,
   ManagedPrivateKey,
-} from './abstract-private-key-store.js'
-export { AbstractSecretBox } from './abstract-secret-box.js'
-export { MemoryKeyStore, MemoryPrivateKeyStore } from './memory-key-store.js'
-export * from './types.js'
+} from './abstract-private-key-store'
+export { AbstractSecretBox } from './abstract-secret-box'
+export { MemoryKeyStore, MemoryPrivateKeyStore } from './memory-key-store'
+export * from './types'

@@ -1,4 +1,4 @@
-import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import ldsEcdsa from '@veramo-community/lds-ecdsa-secp256k1-recovery2020'
 import { asArray, bytesToBase64, concat, encodeJoseBlob, intersect, stringToUtf8Bytes } from '@veramo/utils'

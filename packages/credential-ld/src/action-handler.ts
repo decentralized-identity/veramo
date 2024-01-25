@@ -9,10 +9,10 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
-import { VeramoLdSignature } from './index.js'
+import { VeramoLdSignature } from './index'
 import schema from './plugin.schema.json' assert { type: 'json' }
 import Debug from 'debug'
-import { LdContextLoader } from './ld-context-loader.js'
+import { LdContextLoader } from './ld-context-loader'
 import {
   _ExtendedIKey,
   extractIssuer,
@@ -26,8 +26,8 @@ import {
   removeDIDParameters,
 } from '@veramo/utils'
 
-import { LdCredentialModule } from './ld-credential-module.js'
-import { LdSuiteLoader } from './ld-suite-loader.js'
+import { LdCredentialModule } from './ld-credential-module'
+import { LdSuiteLoader } from './ld-suite-loader'
 import {
   ContextDoc,
   ICreateVerifiableCredentialLDArgs,
@@ -36,7 +36,7 @@ import {
   IRequiredContext,
   IVerifyCredentialLDArgs,
   IVerifyPresentationLDArgs,
-} from './types.js'
+} from './types'
 
 const debug = Debug('veramo:credential-ld:action-handler')
 

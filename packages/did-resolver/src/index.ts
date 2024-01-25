@@ -4,5 +4,5 @@
  *
  * @packageDocumentation
  */
-export { DIDResolverPlugin } from './resolver.js'
-export { UniversalResolver, getUniversalResolver, getUniversalResolverFor } from './universal-resolver.js'
+export { DIDResolverPlugin } from './resolver'
+export { UniversalResolver, getUniversalResolver, getUniversalResolverFor } from './universal-resolver'

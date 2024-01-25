@@ -2,7 +2,7 @@ import { IIdentifier } from '@veramo/core-types'
 import { AbstractDIDStore } from '@veramo/did-manager'
 
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types.js'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
 import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:did-store')
@@ -38,10 +38,10 @@ export class DIDStoreJson extends AbstractDIDStore {
   }
 
   async getDID({
-              did,
-              alias,
-              provider,
-            }: {
+    did,
+    alias,
+    provider,
+  }: {
     did?: string
     alias?: string
     provider?: string
@@ -60,9 +60,7 @@ export class DIDStoreJson extends AbstractDIDStore {
     if (where.did) {
       identifier = this.cacheTree.dids[where.did]
     } else {
-      identifier = Object.values(this.cacheTree.dids).find(
-        (iid: IIdentifier) => iid.alias === where.alias,
-      )
+      identifier = Object.values(this.cacheTree.dids).find((iid: IIdentifier) => iid.alias === where.alias)
     }
 
     if (!identifier) throw Error('Identifier not found')

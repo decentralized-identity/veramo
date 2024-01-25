@@ -13,8 +13,8 @@ import {
   VerifiablePresentation,
 } from '../../../core-types/src'
 import { Agent } from '../../../core/src'
-import { DataStoreJson } from '../data-store-json.js'
-import { VeramoJsonStore } from '../types.js'
+import { DataStoreJson } from '../data-store-json'
+import { VeramoJsonStore } from '../types'
 
 const did1 = 'did:test:111'
 const did2 = 'did:test:222'

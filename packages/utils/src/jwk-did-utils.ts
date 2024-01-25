@@ -1,9 +1,9 @@
-import { JwkDidSupportedKeyTypes, KeyUse, SupportedKeyTypes } from './types/utility-types.js'
+import { JwkDidSupportedKeyTypes, KeyUse, SupportedKeyTypes } from './types/utility-types'
 import type { VerificationMethod, JsonWebKey } from 'did-resolver'
 import { secp256k1 } from '@noble/curves/secp256k1'
 import { p256 } from '@noble/curves/p256'
 import { bytesToBase64url, hexToBytes } from 'did-jwt'
-import { extractPublicKeyHex } from './did-utils.js'
+import { extractPublicKeyHex } from './did-utils'
 
 export function getKeyUse(keyType: JwkDidSupportedKeyTypes, passedKeyUse?: KeyUse): KeyUse {
   if (passedKeyUse) {

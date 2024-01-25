@@ -3,11 +3,8 @@ import { IMediationManager, RecipientDid } from '@veramo/mediation-manager'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
-import { IDIDComm } from '../types/IDIDComm.js'
-import {
-  MEDIATE_DENY_MESSAGE_TYPE,
-  MEDIATE_GRANT_MESSAGE_TYPE,
-} from './coordinate-mediation-message-handler.js'
+import { IDIDComm } from '../types/IDIDComm'
+import { MEDIATE_DENY_MESSAGE_TYPE, MEDIATE_GRANT_MESSAGE_TYPE } from './coordinate-mediation-message-handler'
 
 const debug = Debug('veramo:did-comm:routing-message-handler')
 

@@ -22,10 +22,10 @@ import {
   KeyOpts,
   KeyType,
   VerificationMethod,
-} from './types/ion-provider-types.js'
+} from './types/ion-provider-types'
 
-import { IonSigner } from './ion-signer.js'
-import { resolveDidIonFromIdentifier } from './ion-did-resolver.js'
+import { IonSigner } from './ion-signer'
+import { resolveDidIonFromIdentifier } from './ion-did-resolver'
 
 import { IonPublicKeyModel, IonPublicKeyPurpose, IonRequest } from '@decentralized-identity/ion-sdk'
 import {
@@ -42,7 +42,7 @@ import {
   toIonPublicKeyJwk,
   toJwkEs256k,
   truncateKidIfNeeded,
-} from './functions.js'
+} from './functions'
 import { IonPoW } from '@sphereon/ion-pow'
 
 const debug = Debug('veramo:ion-did-provider')

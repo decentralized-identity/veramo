@@ -1,7 +1,7 @@
-import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
-import { IIdentifier } from './IIdentifier.js'
-import { IAgentContext, IPluginMethodMap } from './IAgent.js'
-import { IMessage } from './IMessage.js'
+import { VerifiableCredential, VerifiablePresentation } from './vc-data-model'
+import { IIdentifier } from './IIdentifier'
+import { IAgentContext, IPluginMethodMap } from './IAgent'
+import { IMessage } from './IMessage'
 
 /**
  * Represents the sort order of results from a {@link FindArgs} query.

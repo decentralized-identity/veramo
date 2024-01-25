@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 import Debug from 'debug'
-import { migrationGetTableName } from './migration-functions.js'
+import { migrationGetTableName } from './migration-functions'
 
 const debug = Debug('veramo:data-store:initial-migration')
 

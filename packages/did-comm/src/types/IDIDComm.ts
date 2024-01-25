@@ -7,7 +7,7 @@ import {
   IPluginMethodMap,
   IResolver,
 } from '@veramo/core-types'
-import { ISendMessageDIDCommAlpha1Args } from '../didcomm.js'
+import { ISendMessageDIDCommAlpha1Args } from '../didcomm'
 import {
   DIDCommMessageMediaType,
   DIDCommMessagePacking,
@@ -15,7 +15,7 @@ import {
   IDIDCommOptions,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
-} from './message-types.js'
+} from './message-types'
 
 /**
  * The input to the {@link IDIDComm.unpackDIDCommMessage} method.

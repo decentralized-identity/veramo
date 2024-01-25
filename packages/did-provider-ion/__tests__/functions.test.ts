@@ -1,6 +1,6 @@
 import { ManagedKeyInfo } from '../../core-types/src'
-import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions.js'
-import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types.js'
+import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions'
+import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types'
 
 const PRIVATE_RECOVERY_KEY_HEX = '7c90c0575643d09a370c35021c91e9d8af2c968c5f3a4bf73802693511a55b9f'
 const PRIVATE_UPDATE_KEY_HEX = '7288a92f6219c873446abd1f8d26fcbbe1caa5274b47f6f086ef3e7e75dcad8b'
@@ -48,10 +48,16 @@ describe('functions: ionKeys', () => {
     })
   })
   it('temp recovery Memory Key should be deterministic and have a commitment ', async () => {
-    const tmpKey = await tempMemoryKey(KeyType.Secp256k1, PRIVATE_RECOVERY_KEY_HEX, 'test-recovery-kid', 'test-recovery-kms', {
-      relation: KeyIdentifierRelation.RECOVERY,
-      actionTimestamp: 2,
-    })
+    const tmpKey = await tempMemoryKey(
+      KeyType.Secp256k1,
+      PRIVATE_RECOVERY_KEY_HEX,
+      'test-recovery-kid',
+      'test-recovery-kms',
+      {
+        relation: KeyIdentifierRelation.RECOVERY,
+        actionTimestamp: 2,
+      },
+    )
     expect(tmpKey).toMatchObject<ManagedKeyInfo>({
       kid: 'test-recovery-kid',
       kms: 'test-recovery-kms',
@@ -68,10 +74,16 @@ describe('functions: ionKeys', () => {
     })
   })
   it('temp update Memory Key should be deterministic and have a commitment ', async () => {
-    const tmpKey = await tempMemoryKey(KeyType.Secp256k1, PRIVATE_UPDATE_KEY_HEX, 'test-update-kid', 'test-update-kms', {
-      relation: KeyIdentifierRelation.UPDATE,
-      actionTimestamp: 4,
-    })
+    const tmpKey = await tempMemoryKey(
+      KeyType.Secp256k1,
+      PRIVATE_UPDATE_KEY_HEX,
+      'test-update-kid',
+      'test-update-kms',
+      {
+        relation: KeyIdentifierRelation.UPDATE,
+        actionTimestamp: 4,
+      },
+    )
     expect(tmpKey).toMatchObject<ManagedKeyInfo>({
       kid: 'test-update-kid',
       kms: 'test-update-kms',

@@ -35,7 +35,7 @@ import {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from './types.js'
+} from './types'
 import { normalizeCredential } from 'did-jwt-vc'
 
 type LocalRecords = Required<

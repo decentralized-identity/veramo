@@ -6,7 +6,7 @@ import {
   ServiceEndpoint,
   VerificationMethod,
 } from 'did-resolver'
-import { IPluginMethodMap } from './IAgent.js'
+import { IPluginMethodMap } from './IAgent'
 
 export { DIDDocument, DIDResolutionOptions, DIDResolutionResult } from 'did-resolver'
 

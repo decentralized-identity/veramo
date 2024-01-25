@@ -11,9 +11,9 @@ import {
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
-import { IDIDComm } from '../types/IDIDComm.js'
-import { QUEUE_MESSAGE_TYPE } from './routing-message-handler.js'
-import { IDIDCommMessage, DIDCommMessageMediaType, IDIDCommMessageAttachment } from '../types/message-types.js'
+import { IDIDComm } from '../types/IDIDComm'
+import { QUEUE_MESSAGE_TYPE } from './routing-message-handler'
+import { IDIDCommMessage, DIDCommMessageMediaType, IDIDCommMessageAttachment } from '../types/message-types'
 const debug = Debug('veramo:did-comm:messagepickup-message-handler')
 
 type IContext = IAgentContext<

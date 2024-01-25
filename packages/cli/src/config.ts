@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import { SecretBox } from '@veramo/kms-local'
-import { getAgent } from './setup.js'
+import { getAgent } from './setup'
 import fs from 'fs'
 import { dirname } from 'path'
 

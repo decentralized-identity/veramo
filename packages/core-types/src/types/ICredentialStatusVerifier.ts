@@ -1,7 +1,7 @@
 import { DIDDocument } from 'did-resolver'
-import { IAgentContext, IPluginMethodMap } from './IAgent.js'
-import { VerifiableCredential, CredentialStatus } from './vc-data-model.js'
-import { IResolver } from './IResolver.js'
+import { IAgentContext, IPluginMethodMap } from './IAgent'
+import { VerifiableCredential, CredentialStatus } from './vc-data-model'
+import { IResolver } from './IResolver'
 
 /**
  * Arguments for calling {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus}.

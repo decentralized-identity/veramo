@@ -1,11 +1,11 @@
 import blessed from 'blessed'
-import { ConfiguredAgent } from '../setup.js'
-import { styles } from './styles.js'
+import { ConfiguredAgent } from '../setup'
+import { styles } from './styles'
 
-import { getManagedIdentifiersTable } from './managed-identifiers.js'
-import { getMessagesTable } from './messages.js'
-import { getCredentialsTable } from './credentials.js'
-import { getPresentationsTable } from './presentations.js'
+import { getManagedIdentifiersTable } from './managed-identifiers'
+import { getMessagesTable } from './messages'
+import { getCredentialsTable } from './credentials'
+import { getPresentationsTable } from './presentations'
 
 const defaultScreenTitle = 'Agent'
 

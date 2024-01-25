@@ -1,5 +1,5 @@
-import { ICredentialIssuer } from './ICredentialIssuer.js'
-import { ICredentialVerifier } from './ICredentialVerifier.js'
+import { ICredentialIssuer } from './ICredentialIssuer'
+import { ICredentialVerifier } from './ICredentialVerifier'
 
 /**
  * The interface definition for a plugin that can generate and verify Verifiable Credentials and Presentations

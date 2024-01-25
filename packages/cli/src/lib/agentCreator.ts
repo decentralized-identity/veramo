@@ -1,5 +1,5 @@
 import { TAgent, IPluginMethodMap } from '@veramo/core-types'
-import { createObjects } from './objectCreator.js'
+import { createObjects } from './objectCreator'
 
 /**
  * Creates a Veramo agent from a config object containing an `/agent` pointer.

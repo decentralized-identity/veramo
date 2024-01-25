@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm'
-import { PrivateKey } from '../index.js'
-import { PreMigrationKey } from '../entities/PreMigrationEntities.js'
+import { PrivateKey } from '../index'
+import { PreMigrationKey } from '../entities/PreMigrationEntities'
 import Debug from 'debug'
-import { migrationGetExistingTableByName, migrationGetTableName } from './migration-functions.js'
+import { migrationGetExistingTableByName, migrationGetTableName } from './migration-functions'
 
 const debug = Debug('veramo:data-store:migrate-private-keys')
 
@@ -12,7 +12,6 @@ const debug = Debug('veramo:data-store:migrate-private-keys')
  * @public
  */
 export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface {
-
   name = 'CreatePrivateKeyStorage1629293428674' // Used in case this class gets minified, which would change the classname
 
   async up(queryRunner: QueryRunner): Promise<void> {
@@ -58,14 +57,15 @@ export class CreatePrivateKeyStorage1629293428674 implements MigrationInterface 
       .execute()
     // 3. drop old column
     debug(`dropping privKeyHex column from old key table`)
-    await queryRunner.dropColumn(migrationGetExistingTableByName(queryRunner, 'PreMigrationKey', true), 'privateKeyHex')
+    await queryRunner.dropColumn(
+      migrationGetExistingTableByName(queryRunner, 'PreMigrationKey', true),
+      'privateKeyHex',
+    )
     //4. done
     debug(`migrated ${privKeys.length} keys to private key storage`)
-
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
-
     // 1. add old column back
     debug(`adding back privateKeyHex column to key table`)
     await queryRunner.addColumn(

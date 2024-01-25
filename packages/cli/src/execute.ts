@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import inquirer from 'inquirer'
-import { getAgent } from './setup.js'
+import { getAgent } from './setup'
 import fs from 'fs'
 import OasResolver from 'oas-resolver'
 import fuzzy from 'fuzzy'

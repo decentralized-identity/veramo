@@ -4,6 +4,6 @@
  *
  * @packageDocumentation
  */
-export { JwkDIDProvider } from './jwk-did-provider.js'
-export { getDidJwkResolver } from './resolver.js'
-export * from './types/jwk-provider-types.js'
+export { JwkDIDProvider } from './jwk-did-provider'
+export { getDidJwkResolver } from './resolver'
+export * from './types/jwk-provider-types'

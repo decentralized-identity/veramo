@@ -1,7 +1,7 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
-import { KmsEthereumSigner } from './kms-eth-signer.js'
+import { KmsEthereumSigner } from './kms-eth-signer'
 import Debug from 'debug'
 import { EthrDID } from 'ethr-did'
 
@@ -182,17 +182,17 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({kms: kms || this.defaultKms, type: 'Secp256k1'})
+    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
 
     let networkSpecifier
-    if(options?.network) {
-      if(typeof options.network === 'number') {
+    if (options?.network) {
+      if (typeof options.network === 'number') {
         networkSpecifier = BigInt(options?.network)
       } else {
         networkSpecifier = options?.network
       }
-    } else if(options?.providerName?.match(/^did:ethr:.+$/)) {
+    } else if (options?.providerName?.match(/^did:ethr:.+$/)) {
       networkSpecifier = options?.providerName?.substring(9)
     } else {
       networkSpecifier = undefined
@@ -206,9 +206,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     }
     if (typeof networkSpecifier === 'bigint' || typeof networkSpecifier === 'number') {
       networkSpecifier =
-        network.name && network.name.length > 0
-          ? network.name
-          : BigInt(options?.network || 1).toString(16)
+        network.name && network.name.length > 0 ? network.name : BigInt(options?.network || 1).toString(16)
     }
     const networkString = networkSpecifier && networkSpecifier !== 'mainnet' ? `${networkSpecifier}:` : ''
     const identifier: Omit<IIdentifier, 'provider'> = {
@@ -236,20 +234,20 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     return true
   }
 
-  private getNetworkFor(networkSpecifier: string | number | bigint | undefined): EthrNetworkConfiguration | undefined {
+  private getNetworkFor(
+    networkSpecifier: string | number | bigint | undefined,
+  ): EthrNetworkConfiguration | undefined {
     let networkNameOrId: string | number | bigint = networkSpecifier || 'mainnet'
-    let network = this.networks.find(
-      (n) => {
-        if(n.chainId) {
-          if(typeof networkSpecifier === 'bigint') {
-            if(BigInt(n.chainId) === networkNameOrId) return n
-          } else {
-            if(n.chainId === networkNameOrId) return n
-          }
+    let network = this.networks.find((n) => {
+      if (n.chainId) {
+        if (typeof networkSpecifier === 'bigint') {
+          if (BigInt(n.chainId) === networkNameOrId) return n
+        } else {
+          if (n.chainId === networkNameOrId) return n
         }
-        if(n.name === networkNameOrId || n.description === networkNameOrId) return n
-      },
-    )
+      }
+      if (n.name === networkNameOrId || n.description === networkNameOrId) return n
+    })
     if (!network && !networkSpecifier && this.networks.length === 1) {
       network = this.networks[0]
     }
@@ -278,7 +276,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       throw new Error(`invalid_argument: cannot find network for ${identifier.did}`)
     }
 
-    if(!network.provider) {
+    if (!network.provider) {
       throw new Error(`Provider was not found for network ${identifier.did}`)
     }
 

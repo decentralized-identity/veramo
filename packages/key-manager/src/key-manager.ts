@@ -1,5 +1,5 @@
-import { AbstractKeyStore } from './abstract-key-store.js'
-import { AbstractKeyManagementSystem } from './abstract-key-management-system.js'
+import { AbstractKeyStore } from './abstract-key-store'
+import { AbstractKeyManagementSystem } from './abstract-key-management-system'
 import {
   IAgentPlugin,
   IKey,
@@ -22,7 +22,7 @@ import * as u8a from 'uint8arrays'
 import { createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, type ECDH, type JWE } from 'did-jwt'
 import { convertEd25519PublicKeyToX25519 } from '@veramo/utils'
 import Debug from 'debug'
-import {getBytes, hexlify, toUtf8Bytes, toUtf8String, computeAddress, Transaction} from "ethers";
+import { getBytes, hexlify, toUtf8Bytes, toUtf8String, computeAddress, Transaction } from 'ethers'
 
 const debug = Debug('veramo:key-manager')
 

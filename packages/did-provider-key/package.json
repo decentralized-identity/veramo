@@ -6,7 +6,7 @@
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "node ../../scripts/esbuild.js",
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {

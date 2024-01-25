@@ -1,7 +1,7 @@
 import { ICredentialStatusVerifier, VerifiableCredential } from '../../../core-types/src'
 import { createAgent } from '../../../core/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { CredentialStatusPlugin } from '../credential-status.js'
+import { CredentialStatusPlugin } from '../credential-status'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'
 import { StatusMethod } from 'credential-status'
 import { jest } from '@jest/globals'

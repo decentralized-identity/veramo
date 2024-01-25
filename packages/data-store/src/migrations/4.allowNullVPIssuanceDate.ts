@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-import { Presentation } from '../index.js'
+import { Presentation } from '../index'
 import Debug from 'debug'
-import { migrationGetExistingTableByName } from './migration-functions.js'
+import { migrationGetExistingTableByName } from './migration-functions'
 
 const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
 
@@ -11,7 +11,6 @@ const debug = Debug('veramo:data-store:migrate-presentation-issuance-date')
  * @public
  */
 export class AllowNullIssuanceDateForPresentations1637237492913 implements MigrationInterface {
-
   name = 'AllowNullIssuanceDateForPresentations1637237492913' // Used in case this class gets minified, which would change the classname
 
   async up(queryRunner: QueryRunner): Promise<void> {

@@ -1,11 +1,11 @@
 import KeyvSqlite from '@keyv/sqlite'
 
 import timekeeper from 'timekeeper'
-import { Keyv } from '../keyv/keyv.js'
+import { Keyv } from '../keyv/keyv'
 import { DataSource } from 'typeorm'
-import { KeyValueStoreEntity } from '../store-adapters/typeorm/entities/keyValueStoreEntity.js'
-import { KeyValueTieredStoreAdapter, KeyValueTypeORMStoreAdapter } from '../store-adapters/index.js'
-import { KeyvOptions } from '../keyv/keyv-types.js'
+import { KeyValueStoreEntity } from '../store-adapters/typeorm/entities/keyValueStoreEntity'
+import { KeyValueTieredStoreAdapter, KeyValueTypeORMStoreAdapter } from '../store-adapters/index'
+import { KeyvOptions } from '../keyv/keyv-types'
 import { kvStoreMigrations } from '../store-adapters/typeorm/migrations'
 
 let dbConnection: DataSource

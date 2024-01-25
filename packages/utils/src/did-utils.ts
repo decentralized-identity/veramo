@@ -6,10 +6,10 @@ import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
   _NormalizedVerificationMethod,
-} from './types/utility-types.js'
-import { isDefined } from './type-utils.js'
+} from './types/utility-types'
+import { isDefined } from './type-utils'
 import Debug from 'debug'
-import { bytesToHex, hexToBytes } from './encodings.js'
+import { bytesToHex, hexToBytes } from './encodings'
 import { ed25519 } from '@noble/curves/ed25519'
 
 const debug = Debug('veramo:utils')

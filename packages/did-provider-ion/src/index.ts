@@ -4,5 +4,5 @@
  *
  * @packageDocumentation
  */
-export { IonDIDProvider } from './ion-did-provider.js'
-export { getDidIonResolver } from './ion-did-resolver.js'
+export { IonDIDProvider } from './ion-did-provider'
+export { getDidIonResolver } from './ion-did-resolver'

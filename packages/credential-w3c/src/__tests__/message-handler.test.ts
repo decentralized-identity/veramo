@@ -1,6 +1,6 @@
 import { DIDResolutionResult, IAgentContext, ICredentialVerifier, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
-import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
+import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler'
 import { jest } from '@jest/globals'
 import { computeEntryHash } from '../../../utils/src'
 

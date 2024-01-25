@@ -3,8 +3,8 @@
  *
  * @packageDocumentation
  */
-export { Agent, createAgent } from './agent.js'
-export { ValidationError } from './validator.js'
+export { Agent, createAgent } from './agent'
+export { ValidationError } from './validator'
 
 // re-export types for convenience
 export * from '@veramo/core-types'

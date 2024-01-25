@@ -16,11 +16,11 @@ import {
   Where,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
-import { createMessage, Message } from './entities/message.js'
-import { Claim } from './entities/claim.js'
-import { Credential } from './entities/credential.js'
-import { Presentation } from './entities/presentation.js'
-import { Identifier } from './entities/identifier.js'
+import { createMessage, Message } from './entities/message'
+import { Claim } from './entities/claim'
+import { Credential } from './entities/credential'
+import { Presentation } from './entities/presentation'
+import { Identifier } from './entities/identifier'
 import {
   Any,
   Between,
@@ -37,7 +37,7 @@ import {
   Not,
   SelectQueryBuilder,
 } from 'typeorm'
-import { getConnectedDb } from './utils.js'
+import { getConnectedDb } from './utils'
 import { OrPromise } from '@veramo/utils'
 
 /**

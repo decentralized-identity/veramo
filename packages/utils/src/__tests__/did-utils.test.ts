@@ -1,5 +1,5 @@
-import { extractPublicKeyHex, getChainIdForDidEthr, getEthereumAddress } from '../did-utils.js'
-import { bytesToMultibase, hexToBytes } from '../encodings.js'
+import { extractPublicKeyHex, getChainIdForDidEthr, getEthereumAddress } from '../did-utils'
+import { bytesToMultibase, hexToBytes } from '../encodings'
 
 describe('@veramo/utils did utils', () => {
   it(`should return correct chainId for did:ethr`, () => {

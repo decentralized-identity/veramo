@@ -1,4 +1,4 @@
-import { JsonCanonicalizer } from '../src/json-canonicalizer.js'
+import { JsonCanonicalizer } from '../src/json-canonicalizer'
 
 describe('canonicalizer result should be', () => {
   it('throwing an error on null input', () => {

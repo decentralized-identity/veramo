@@ -8,10 +8,10 @@ import {
   xc20pDirEncrypter,
 } from 'did-jwt'
 import { base64ToBytes } from '@veramo/utils'
-import { createFullEncrypter } from './createEncrypter.js'
-import { a256KeyUnwrapper, a256KeyWrapper } from './a256kw.js'
-import { a256gcmDirDecrypter, a256gcmDirEncrypter } from './a256gcm-dir.js'
-import { a256cbcHs512DirDecrypter, a256cbcHs512DirEncrypter } from './a256cbc-hs512-dir.js'
+import { createFullEncrypter } from './createEncrypter'
+import { a256KeyUnwrapper, a256KeyWrapper } from './a256kw'
+import { a256gcmDirDecrypter, a256gcmDirEncrypter } from './a256gcm-dir'
+import { a256cbcHs512DirDecrypter, a256cbcHs512DirEncrypter } from './a256cbc-hs512-dir'
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // A256CBC-HS512

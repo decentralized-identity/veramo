@@ -1,4 +1,4 @@
-import { VeramoLdSignature } from './ld-suites.js'
+import { VeramoLdSignature } from './ld-suites'
 import { TKeyType } from '@veramo/core-types'
 
 /**

@@ -49,7 +49,7 @@ import { KeyManagementSystem } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-import { PeerDIDProvider, getResolver as getDidPeerResolver } from "../packages/did-provider-peer/src";
+import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src'
 
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -57,22 +57,22 @@ import { contexts as credential_contexts } from '@transmute/credentials-context'
 import { jest } from '@jest/globals'
 
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT.js'
-import verifiableDataLD from './shared/verifiableDataLD.js'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
-import handleSdrMessage from './shared/handleSdrMessage.js'
-import resolveDid from './shared/resolveDid.js'
-import webDidFlow from './shared/webDidFlow.js'
-import saveClaims from './shared/saveClaims.js'
-import documentationExamples from './shared/documentationExamples.js'
-import keyManager from './shared/keyManager.js'
-import didManager from './shared/didManager.js'
-import didCommPacking from './shared/didCommPacking.js'
-import messageHandler from './shared/messageHandler.js'
-import utils from './shared/utils.js'
-import credentialStatus from './shared/credentialStatus.js'
-import credentialInterop from './shared/credentialInterop.js'
-import credentialPluginTests from "./shared/credentialPluginTests.js";
+import verifiableDataJWT from './shared/verifiableDataJWT'
+import verifiableDataLD from './shared/verifiableDataLD'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712'
+import handleSdrMessage from './shared/handleSdrMessage'
+import resolveDid from './shared/resolveDid'
+import webDidFlow from './shared/webDidFlow'
+import saveClaims from './shared/saveClaims'
+import documentationExamples from './shared/documentationExamples'
+import keyManager from './shared/keyManager'
+import didManager from './shared/didManager'
+import didCommPacking from './shared/didCommPacking'
+import messageHandler from './shared/messageHandler'
+import utils from './shared/utils'
+import credentialStatus from './shared/credentialStatus'
+import credentialInterop from './shared/credentialInterop'
+import credentialPluginTests from './shared/credentialPluginTests'
 
 jest.setTimeout(120000)
 
@@ -167,7 +167,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
           }),
           'did:peer': new PeerDIDProvider({
-            defaultKms: 'local'
+            defaultKms: 'local',
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',

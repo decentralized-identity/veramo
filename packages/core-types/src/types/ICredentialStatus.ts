@@ -1,5 +1,5 @@
-import { ICredentialStatusVerifier } from './ICredentialStatusVerifier.js'
-import { ICredentialStatusManager } from './ICredentialStatusManager.js'
+import { ICredentialStatusVerifier } from './ICredentialStatusVerifier'
+import { ICredentialStatusManager } from './ICredentialStatusManager'
 
 /**
  * Veramo plugin interface for plugins implementing both the {@link ICredentialStatusManager | manager} and the

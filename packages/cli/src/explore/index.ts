@@ -1,6 +1,6 @@
-import { getAgent } from '../setup.js'
+import { getAgent } from '../setup'
 import { Command } from 'commander'
-import { renderMainScreen } from './main.js'
+import { renderMainScreen } from './main'
 
 const explore = new Command('explore')
   .description('launch Verifiable Data explorer')

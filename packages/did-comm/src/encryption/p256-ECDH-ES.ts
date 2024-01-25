@@ -1,16 +1,11 @@
 // // TODO: Implement this
 // // kept the X25519 code for reference
 
-
-
-
-
-
 // import type { ECDH, EphemeralKeyPair, Recipient } from 'did-jwt'
 // import { concatKDF } from 'did-jwt'
 // import { x25519 } from '@noble/curves/ed25519'
 // import { base64ToBytes, bytesToBase64url } from "@veramo/utils";
-// import { generateX25519KeyPair, generateX25519KeyPairFromSeed } from "../utils.js";
+// import { generateX25519KeyPair, generateX25519KeyPairFromSeed } from "../utils";
 //
 // export async function computeX25519EcdhEsKek(recipient: Recipient, receiverSecret: Uint8Array | ECDH, alg: string) {
 //   const crv = 'X25519'

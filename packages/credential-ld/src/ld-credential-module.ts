@@ -13,9 +13,9 @@ import jsonldSignatures from '@digitalcredentials/jsonld-signatures'
 
 const { extendContextLoader } = jsonldSignatures
 import * as vc from '@digitalcredentials/vc'
-import { LdContextLoader } from './ld-context-loader.js'
-import { LdSuiteLoader } from './ld-suite-loader.js'
-import { RequiredAgentMethods } from './ld-suites.js'
+import { LdContextLoader } from './ld-context-loader'
+import { LdSuiteLoader } from './ld-suite-loader'
+import { RequiredAgentMethods } from './ld-suites'
 
 const debug = Debug('veramo:w3c:ld-credential-module')
 
@@ -36,10 +36,7 @@ export class LdCredentialModule {
     this.ldSuiteLoader = options.ldSuiteLoader
   }
 
-  getDocumentLoader(
-    context: IAgentContext<IResolver>,
-    attemptToFetchContexts: boolean = false,
-  ) {
+  getDocumentLoader(context: IAgentContext<IResolver>, attemptToFetchContexts: boolean = false) {
     return extendContextLoader(async (url: string) => {
       // console.log(`resolving context for: ${url}`)
 
@@ -56,7 +53,7 @@ export class LdCredentialModule {
         // the document Loader. This allows us to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
         for (const x of this.ldSuiteLoader.getAllSignatureSuites()) {
-          result = (await x.preDidResolutionModification(url, result, context)) || result;
+          result = (await x.preDidResolutionModification(url, result, context)) || result
         }
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)

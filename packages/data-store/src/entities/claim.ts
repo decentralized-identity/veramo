@@ -1,6 +1,6 @@
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
-import { Identifier } from './identifier.js'
-import { Credential } from './credential.js'
+import { Identifier } from './identifier'
+import { Credential } from './credential'
 
 /**
  * Represents the properties of a claim extracted from a Verifiable Credential `credentialSubject`, and stored in a

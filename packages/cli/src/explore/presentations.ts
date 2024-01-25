@@ -1,8 +1,8 @@
 import blessed, { Widgets } from 'blessed'
 import { UniqueVerifiablePresentation } from '@veramo/core-types'
-import { shortDate, shortDid, copyToClipboard } from './utils.js'
-import { ConfiguredAgent } from '../setup.js'
-import { styles } from './styles.js'
+import { shortDate, shortDid, copyToClipboard } from './utils'
+import { ConfiguredAgent } from '../setup'
+import { styles } from './styles'
 import { asArray } from '@veramo/utils'
 
 export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widgets.Screen) => {
@@ -74,7 +74,7 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
         border: 'line',
         shadow: true,
         style: {
-          fg: 'green'
+          fg: 'green',
         },
       })
       const success = copyToClipboard(JSON.stringify(presentation, null, 2))

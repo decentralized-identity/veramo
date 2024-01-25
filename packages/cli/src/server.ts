@@ -1,7 +1,7 @@
 import express from 'express'
 import { Command } from 'commander'
-import { getConfig } from './setup.js'
-import { createObjects } from './lib/objectCreator.js'
+import { getConfig } from './setup'
+import { createObjects } from './lib/objectCreator'
 
 const server = new Command('server')
   .description('Launch OpenAPI server')

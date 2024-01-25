@@ -1,5 +1,5 @@
 import { bytesToBase64, concat, encodeJoseBlob, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
-import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed25519-signature-2018'
 

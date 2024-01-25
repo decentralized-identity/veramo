@@ -22,7 +22,7 @@ import {
   TAgent,
   VerifiableCredential,
 } from '../../../core-types/src'
-import { CredentialPlugin } from '../action-handler.js'
+import { CredentialPlugin } from '../action-handler'
 
 const mockIdentifiers: IIdentifier[] = [
   {
@@ -118,17 +118,18 @@ let agent = {
 } as any as TAgent<IResolver & IDIDManager & IKeyManager & ICredentialPlugin & IDataStore>
 
 describe('@veramo/credential-w3c', () => {
-  const keyManagerSign = agent.keyManagerSign as
-    | jest.Mock<(args: { algorithm: string; keyRef: string}) => Promise<string>>
+  const keyManagerSign = agent.keyManagerSign as jest.Mock<
+    (args: { algorithm: string; keyRef: string }) => Promise<string>
+  >
 
   beforeEach(() => {
     keyManagerSign.mockClear()
-  });
+  })
 
   test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
     expect.assertions(6)
 
-    const issuerId = mockIdentifier.did;
+    const issuerId = mockIdentifier.did
     mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
 
     const keyRef = mockIdentifier.keys[1]?.kid // Second key or undefined
@@ -170,13 +171,15 @@ describe('@veramo/credential-w3c', () => {
 
     expect(keyManagerSign).toBeCalled()
     expect(keyManagerSign.mock.calls[0][0].keyRef).toEqual(expectedKey.kid)
-    expect(keyManagerSign.mock.calls[0][0].algorithm).toEqual(expectedKey.type === 'Ed25519' ? 'EdDSA' : 'ES256K')
+    expect(keyManagerSign.mock.calls[0][0].algorithm).toEqual(
+      expectedKey.type === 'Ed25519' ? 'EdDSA' : 'ES256K',
+    )
   })
 
   test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
     expect.assertions(4)
 
-    const issuerId = mockIdentifier.did;
+    const issuerId = mockIdentifier.did
     mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
 
     agent.didManagerGet = jest.fn(async (args): Promise<IIdentifier> => mockIdentifier)

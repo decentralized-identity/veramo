@@ -1,15 +1,10 @@
 // // TODO: Implement this
 // // kept the X25519 code for reference
 
-
-
-
-
-
 // import type { ECDH, EphemeralKeyPair, Recipient } from 'did-jwt'
 // import { concatKDF } from 'did-jwt'
 // import { x25519 } from '@noble/curves/ed25519'
-// import { generateX25519KeyPair, generateX25519KeyPairFromSeed } from '../utils.js'
+// import { generateX25519KeyPair, generateX25519KeyPairFromSeed } from '../utils'
 // import { base64ToBytes, bytesToBase64url } from '@veramo/utils'
 //
 // export async function computeX25519Ecdh1PUv3Kek(

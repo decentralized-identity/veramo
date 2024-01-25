@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import JSONB from 'json-buffer'
-import { KeyvDeserializedData, KeyvOptions, KeyvStore, KeyvStoredData } from './keyv-types.js'
+import { KeyvDeserializedData, KeyvOptions, KeyvStore, KeyvStoredData } from './keyv-types'
 
 /**
  * Please note that this is code adapted from @link https://github.com/jaredwray/keyv to support Typescript and ESM in Veramo

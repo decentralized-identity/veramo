@@ -4,8 +4,8 @@ import { MediationResponse, IMediationManager, RequesterDid, RecipientDid } from
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
-import { IDIDComm } from '../types/IDIDComm.js'
-import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types.js'
+import { IDIDComm } from '../types/IDIDComm'
+import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types'
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 

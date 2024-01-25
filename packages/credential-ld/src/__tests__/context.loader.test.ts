@@ -1,6 +1,6 @@
-import { ContextDoc } from '../types.js'
-import { LdContextLoader } from '../ld-context-loader.js'
-import { LdDefaultContexts } from '../ld-default-contexts.js'
+import { ContextDoc } from '../types'
+import { LdContextLoader } from '../ld-context-loader'
+import { LdDefaultContexts } from '../ld-default-contexts'
 
 describe('credential-ld context loader', () => {
   const customContext: Record<string, ContextDoc> = {

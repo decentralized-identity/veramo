@@ -1,11 +1,11 @@
-import { IError } from "./IError.js"
+import { IError } from './IError'
 /**
  * Encapsulates the response object to verifyPresentation method after verifying a
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
  *
  * @beta
  */
- export interface IVerifyResult {
+export interface IVerifyResult {
   /**
    * This value is used to transmit the result of verification.
    */

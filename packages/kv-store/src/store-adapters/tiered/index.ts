@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events'
-import type { Options, Options_ } from './types.js'
-import { KeyvStore, KeyvStoredData } from '../../keyv/keyv-types.js'
-import { Keyv } from '../../keyv/keyv.js'
-import { IKeyValueStoreAdapter } from '../../key-value-types.js'
+import type { Options, Options_ } from './types'
+import { KeyvStore, KeyvStoredData } from '../../keyv/keyv-types'
+import { Keyv } from '../../keyv/keyv'
+import { IKeyValueStoreAdapter } from '../../key-value-types'
 
 type KeyvTieredIndex = 'local' | 'remote'
 

@@ -1,4 +1,4 @@
-import { MinimalImportableKey } from './IKeyManager.js'
+import { MinimalImportableKey } from './IKeyManager'
 
 /**
  * Identifier interface

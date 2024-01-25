@@ -10,12 +10,12 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm'
-import { Key } from './key.js'
-import { Service } from './service.js'
-import { Message } from './message.js'
-import { Presentation } from './presentation.js'
-import { Credential } from './credential.js'
-import { Claim } from './claim.js'
+import { Key } from './key'
+import { Service } from './service'
+import { Message } from './message'
+import { Presentation } from './presentation'
+import { Credential } from './credential'
+import { Claim } from './claim'
 
 /**
  * Represents some properties and relationships of an {@link @veramo/core-types#IIdentifier} that are stored in a TypeORM

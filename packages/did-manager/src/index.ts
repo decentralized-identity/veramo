@@ -4,8 +4,8 @@
  *
  * @packageDocumentation
  */
-export { DIDManager } from './id-manager.js'
-export { AbstractIdentifierProvider } from './abstract-identifier-provider.js'
-export { AbstractDIDStore } from './abstract-identifier-store.js'
-export { MemoryDIDStore } from './memory-did-store.js'
-export { AliasDiscoveryProvider } from './did-discovery-provider.js'
+export { DIDManager } from './id-manager'
+export { AbstractIdentifierProvider } from './abstract-identifier-provider'
+export { AbstractDIDStore } from './abstract-identifier-store'
+export { MemoryDIDStore } from './memory-did-store'
+export { AliasDiscoveryProvider } from './did-discovery-provider'

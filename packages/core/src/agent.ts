@@ -1,7 +1,7 @@
 import type { IAgent, IAgentOptions, IAgentPluginSchema, IPluginMethodMap, TAgent } from '@veramo/core-types'
 import { CoreEvents } from '@veramo/core-types'
-import { validateArguments, validateReturnType } from './validator.js'
-import ValidationErrorSchema from './schemas/ValidationError.js'
+import { validateArguments, validateReturnType } from './validator'
+import ValidationErrorSchema from './schemas/ValidationError'
 import Debug from 'debug'
 import { EventEmitter } from 'events'
 

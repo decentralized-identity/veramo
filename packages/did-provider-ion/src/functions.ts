@@ -4,7 +4,7 @@ import {
   ISecp256k1PublicKeyJwk,
   KeyIdentifierRelation,
   KeyType,
-} from './types/ion-provider-types.js'
+} from './types/ion-provider-types'
 import {
   IonDid,
   IonDocumentModel,
@@ -17,7 +17,7 @@ import keyto from '@trust/keyto'
 import { randomBytes, SigningKey } from 'ethers'
 import { ed25519 } from '@noble/curves/ed25519'
 import Debug from 'debug'
-import { JsonCanonicalizer } from './json-canonicalizer.js'
+import { JsonCanonicalizer } from './json-canonicalizer'
 import { MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
 import { sha256 } from '@noble/hashes/sha256'

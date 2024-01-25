@@ -1,4 +1,4 @@
-import { asArray, isDefined } from './type-utils.js'
+import { asArray, isDefined } from './type-utils'
 import {
   CredentialPayload,
   IMessage,
@@ -102,7 +102,7 @@ export function computeEntryHash(
 
   const unixfs = new UnixFS({
     type: 'file',
-    data: new TextEncoder().encode(hashable)
+    data: new TextEncoder().encode(hashable),
   })
 
   const bytes = encode(prepare({ Data: unixfs.marshal() }))
@@ -127,7 +127,7 @@ export function extractIssuer(
     | CredentialPayload
     | PresentationPayload
     | null,
-  options: { removeParameters?: boolean } = {}
+  options: { removeParameters?: boolean } = {},
 ): string {
   if (!isDefined(input)) {
     return ''

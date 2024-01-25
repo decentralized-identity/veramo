@@ -1,15 +1,15 @@
 import { IIdentifier, IKey } from '@veramo/core-types'
 import { AbstractDIDStore } from '@veramo/did-manager'
-import { Identifier } from '../entities/identifier.js'
-import { Credential } from '../entities/credential.js'
-import { Key } from '../entities/key.js'
-import { Service } from '../entities/service.js'
+import { Identifier } from '../entities/identifier'
+import { Credential } from '../entities/credential'
+import { Key } from '../entities/key'
+import { Service } from '../entities/service'
 import { DataSource, IsNull, Not } from 'typeorm'
 
 import Debug from 'debug'
-import { Presentation } from '../entities/presentation.js'
-import { OrPromise } from "@veramo/utils";
-import { getConnectedDb } from "../utils.js";
+import { Presentation } from '../entities/presentation'
+import { OrPromise } from '@veramo/utils'
+import { getConnectedDb } from '../utils'
 
 const debug = Debug('veramo:typeorm:identifier-store')
 
@@ -78,7 +78,7 @@ export class DIDStore extends AbstractDIDStore {
             kms: k.kms,
             publicKeyHex: k.publicKeyHex,
             meta: k.meta,
-          } as IKey),
+          }) as IKey,
       ),
     }
     if (identifier.alias) {
@@ -105,11 +105,15 @@ export class DIDStore extends AbstractDIDStore {
     await (await getConnectedDb(this.dbConnection)).getRepository(Key).save(existingKeys)
 
     if (identifier.issuedCredentials || typeof identifier.issuedCredentials !== 'undefined') {
-      await (await getConnectedDb(this.dbConnection)).getRepository(Credential).remove(identifier.issuedCredentials)
+      await (await getConnectedDb(this.dbConnection))
+        .getRepository(Credential)
+        .remove(identifier.issuedCredentials)
     }
 
     if (identifier.issuedPresentations || typeof identifier.issuedPresentations !== 'undefined') {
-      await (await getConnectedDb(this.dbConnection)).getRepository(Presentation).remove(identifier.issuedPresentations)
+      await (await getConnectedDb(this.dbConnection))
+        .getRepository(Presentation)
+        .remove(identifier.issuedPresentations)
     }
 
     //delete existing services that are no longer tied to this identifier
@@ -149,7 +153,10 @@ export class DIDStore extends AbstractDIDStore {
       const service = new Service()
       service.id = argsService.id
       service.type = argsService.type
-      service.serviceEndpoint = (typeof argsService.serviceEndpoint === 'string') ? argsService.serviceEndpoint : JSON.stringify(argsService.serviceEndpoint)
+      service.serviceEndpoint =
+        typeof argsService.serviceEndpoint === 'string'
+          ? argsService.serviceEndpoint
+          : JSON.stringify(argsService.serviceEndpoint)
       service.description = argsService.description
       identifier.services.push(service)
     }

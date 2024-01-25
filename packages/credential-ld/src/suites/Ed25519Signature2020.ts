@@ -1,4 +1,4 @@
-import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
+import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites'
 import {
   CredentialPayload,
   DIDDocComponent,

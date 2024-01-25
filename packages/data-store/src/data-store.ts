@@ -14,12 +14,12 @@ import {
   VerifiablePresentation,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
-import { createMessage, createMessageEntity, Message } from './entities/message.js'
-import { createCredentialEntity, Credential } from './entities/credential.js'
-import { Claim } from './entities/claim.js'
-import { createPresentationEntity, Presentation } from './entities/presentation.js'
+import { createMessage, createMessageEntity, Message } from './entities/message'
+import { createCredentialEntity, Credential } from './entities/credential'
+import { Claim } from './entities/claim'
+import { createPresentationEntity, Presentation } from './entities/presentation'
 import { DataSource } from 'typeorm'
-import { getConnectedDb } from './utils.js'
+import { getConnectedDb } from './utils'
 import { OrPromise } from '@veramo/utils'
 
 /**

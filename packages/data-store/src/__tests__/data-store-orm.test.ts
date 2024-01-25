@@ -14,9 +14,9 @@ import {
 } from '../../../core-types/src'
 import { Agent } from '../../../core/src'
 import { DataSource } from 'typeorm'
-import { DataStoreORM } from '../data-store-orm.js'
-import { DataStore } from '../data-store.js'
-import { Entities } from '../index.js'
+import { DataStoreORM } from '../data-store-orm'
+import { DataStore } from '../data-store'
+import { Entities } from '../index'
 import * as fs from 'fs'
 
 const did1 = 'did:test:111'

@@ -1,4 +1,4 @@
-import { DIDComm } from '../didcomm.js'
+import { DIDComm } from '../didcomm'
 import { KeyValueStore } from '../../../kv-store/src'
 import {
   createAgent,
@@ -21,8 +21,8 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports.js'
-import { IDIDComm } from '../types/IDIDComm.js'
+import { DIDCommHttpTransport } from '../transports/transports'
+import { IDIDComm } from '../types/IDIDComm'
 import { MessageHandler } from '../../../message-handler/src'
 import {
   CoordinateMediationV3MediatorMessageHandler,
@@ -32,19 +32,19 @@ import {
   createV3RecipientUpdateMessage,
   Update,
   UpdateAction,
-} from '../protocols/coordinate-mediation-v3-message-handler.js'
-import { DIDCommMessageMediaType } from '../types/message-types.js'
+} from '../protocols/coordinate-mediation-v3-message-handler'
+import { DIDCommMessageMediaType } from '../types/message-types'
 import {
   RoutingMessageHandler,
   FORWARD_MESSAGE_TYPE,
   QUEUE_MESSAGE_TYPE,
-} from '../protocols/routing-message-handler.js'
+} from '../protocols/routing-message-handler'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
 import { Entities, IDataStore, migrations } from '../../../data-store/src'
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from '../message-handler.js'
+import { DIDCommMessageHandler } from '../message-handler'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'

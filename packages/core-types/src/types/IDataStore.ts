@@ -1,6 +1,6 @@
-import { IPluginMethodMap } from './IAgent.js'
-import { IMessage } from './IMessage.js'
-import { VerifiableCredential, VerifiablePresentation } from './vc-data-model.js'
+import { IPluginMethodMap } from './IAgent'
+import { IMessage } from './IMessage'
+import { VerifiableCredential, VerifiablePresentation } from './vc-data-model'
 
 /**
  * Input arguments for {@link IDataStore.dataStoreSaveMessage | dataStoreSaveMessage}

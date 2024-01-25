@@ -2,7 +2,7 @@ import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 import { AbstractKeyStore } from '@veramo/key-manager'
 
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types.js'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
 import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:key-store')

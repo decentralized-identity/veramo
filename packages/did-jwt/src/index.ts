@@ -4,4 +4,4 @@
  *
  * @packageDocumentation
  */
-export { JwtMessageHandler } from './message-handler.js'
+export { JwtMessageHandler } from './message-handler'

@@ -10,12 +10,12 @@ import {
   Recipient,
   xc20pDirEncrypter,
 } from 'did-jwt'
-import { createFullEncrypter } from './createEncrypter.js'
+import { createFullEncrypter } from './createEncrypter'
 import { base64ToBytes } from '@veramo/utils'
-import { xc20pDecrypter, xc20pKeyUnwrapper, xc20pKeyWrapper } from './xc20pkw.js'
-import { a256cbcHs512DirDecrypter, a256cbcHs512DirEncrypter } from './a256cbc-hs512-dir.js'
-import { a256gcmDirDecrypter, a256gcmDirEncrypter } from './a256gcm-dir.js'
-import { a256KeyWrapper } from './a256kw.js'
+import { xc20pDecrypter, xc20pKeyUnwrapper, xc20pKeyWrapper } from './xc20pkw'
+import { a256cbcHs512DirDecrypter, a256cbcHs512DirEncrypter } from './a256cbc-hs512-dir'
+import { a256gcmDirDecrypter, a256gcmDirEncrypter } from './a256gcm-dir'
+import { a256KeyWrapper } from './a256kw'
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // A256CBC-HS512

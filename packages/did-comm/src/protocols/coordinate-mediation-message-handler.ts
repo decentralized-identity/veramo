@@ -2,8 +2,8 @@ import { IAgentContext, IDIDManager, IKeyManager, IDataStore } from '@veramo/cor
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
-import { IDIDComm } from '../types/IDIDComm.js'
-import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types.js'
+import { IDIDComm } from '../types/IDIDComm'
+import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types'
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
@@ -47,7 +47,7 @@ export function createMediateRequestMessage(
     to: mediatorDidUrl,
     id: v4(),
     return_route: 'all',
-    created_time: (new Date()).toISOString(),
+    created_time: new Date().toISOString(),
     body: {},
   }
 }
@@ -66,7 +66,7 @@ export function createMediateGrantMessage(
     to: recipientDidUrl,
     id: v4(),
     thid: thid,
-    created_time: (new Date()).toISOString(),
+    created_time: new Date().toISOString(),
     body: {
       routing_did: [mediatorDidUrl],
     },
@@ -76,10 +76,7 @@ export function createMediateGrantMessage(
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function createStatusRequestMessage(
-  recipientDidUrl: string,
-  mediatorDidUrl: string,
-): IDIDCommMessage {
+export function createStatusRequestMessage(recipientDidUrl: string, mediatorDidUrl: string): IDIDCommMessage {
   return {
     id: v4(),
     type: STATUS_REQUEST_MESSAGE_TYPE,
@@ -155,7 +152,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
               id: response.id,
               threadId: response.thid,
               data: response.body,
-              createdAt: response.created_time
+              createdAt: response.created_time,
             },
           })
         }

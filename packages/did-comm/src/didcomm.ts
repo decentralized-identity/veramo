@@ -37,7 +37,7 @@ import {
   xc20pAnonEncrypterX25519WithA256KW,
   xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
   xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
-} from './encryption/a256kw-encrypters.js'
+} from './encryption/a256kw-encrypters'
 
 import {
   a256cbcHs512AnonDecrypterX25519WithXC20PKW,
@@ -52,7 +52,7 @@ import {
   xc20pAnonEncrypterX25519WithXC20PKW,
   xc20pAuthDecrypterEcdh1PuV3x25519WithXC20PKW,
   xc20pAuthEncrypterEcdh1PuV3x25519WithXC20PKW,
-} from './encryption/xc20pkw-encrypters.js'
+} from './encryption/xc20pkw-encrypters'
 
 import schema from './plugin.schema.json' assert { type: 'json' }
 
@@ -63,7 +63,7 @@ import {
   extractManagedRecipients,
   extractSenderEncryptionKey,
   mapRecipientsToLocalKeys,
-} from './utils.js'
+} from './utils'
 
 import {
   _ExtendedIKey,
@@ -87,21 +87,21 @@ import {
   ISendDIDCommMessageArgs,
   ISendDIDCommMessageResponse,
   IUnpackDIDCommMessageArgs,
-} from './types/IDIDComm.js'
-import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports.js'
+} from './types/IDIDComm'
+import { DIDCommHttpTransport, IDIDCommTransport } from './transports/transports'
 import {
   DIDCommMessageMediaType,
   IDIDCommMessage,
   IPackedDIDCommMessage,
   IUnpackedDIDCommMessage,
-} from './types/message-types.js'
+} from './types/message-types'
 import {
   _DIDCommEncryptedMessage,
   _DIDCommPlainMessage,
   _DIDCommSignedMessage,
   _FlattenedJWS,
   _GenericJWS,
-} from './types/utility-types.js'
+} from './types/utility-types'
 
 const debug = Debug('veramo:did-comm:action-handler')
 

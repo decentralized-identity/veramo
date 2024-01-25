@@ -4,4 +4,4 @@
  *
  * @packageDocumentation
  */
-export { UrlMessageHandler } from './message-handler.js'
+export { UrlMessageHandler } from './message-handler'

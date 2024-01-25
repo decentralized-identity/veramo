@@ -4,9 +4,9 @@ import {
   IKeyValueStoreOptions,
   IValueData,
   ValueStoreType,
-} from './key-value-types.js'
-import { Keyv } from './keyv/keyv.js'
-import { KeyvDeserializedData, KeyvOptions, KeyvStoredData } from './keyv/keyv-types.js'
+} from './key-value-types'
+import { Keyv } from './keyv/keyv'
+import { KeyvDeserializedData, KeyvOptions, KeyvStoredData } from './keyv/keyv-types'
 
 /**
  * Class that implements the {@link @veramo/kv-store#IKeyValueStore} interface

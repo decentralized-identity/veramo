@@ -4,5 +4,5 @@
  *
  * @packageDocumentation
  */
-export { AgentRestClient } from './client.js'
-export { getOpenApiSchema } from './openApi.js'
+export { AgentRestClient } from './client'
+export { getOpenApiSchema } from './openApi'

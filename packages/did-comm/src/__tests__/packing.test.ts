@@ -1,4 +1,4 @@
-import { DIDComm } from '../didcomm.js'
+import { DIDComm } from '../didcomm'
 import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../../core-types/src'
 import { createAgent } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
@@ -7,7 +7,7 @@ import { KeyManagementSystem } from '../../../kms-local/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { type DIDDocument, Resolver } from 'did-resolver'
-import { type IDIDComm } from '../types/IDIDComm.js'
+import { type IDIDComm } from '../types/IDIDComm'
 import { base64ToBytes, bytesToUtf8String } from '@veramo/utils'
 
 const multiBaseDoc = {

@@ -1,6 +1,6 @@
 import { KeyMetadata, TKeyType } from '@veramo/core-types'
 import { Entity, Column, PrimaryColumn, BaseEntity, ManyToOne, Relation } from 'typeorm'
-import { Identifier } from './identifier.js'
+import { Identifier } from './identifier'
 
 /**
  * Mirrors {@link @veramo/core-types#TKeyType | TKeyType}

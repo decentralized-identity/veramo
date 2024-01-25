@@ -1,6 +1,6 @@
 import { DIDResolutionResult, IAgentContext, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
-import { JwtMessageHandler, IContext } from '../message-handler.js'
+import { JwtMessageHandler, IContext } from '../message-handler'
 import { jest } from '@jest/globals'
 
 describe('@veramo/did-jwt', () => {

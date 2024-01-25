@@ -1,10 +1,10 @@
-import { getAgent } from './setup.js'
+import { getAgent } from './setup'
 import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
 import * as json5 from 'json5'
-import { readStdin } from './util.js'
+import { readStdin } from './util'
 import { CredentialPayload } from '@veramo/core-types'
 
 import fuzzy from 'fuzzy'

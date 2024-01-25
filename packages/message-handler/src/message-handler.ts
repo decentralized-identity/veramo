@@ -8,8 +8,8 @@ import {
   IMessage,
 } from '@veramo/core-types'
 import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
-import { Message } from './message.js'
-import { AbstractMessageHandler } from './abstract-message-handler.js'
+import { Message } from './message'
+import { AbstractMessageHandler } from './abstract-message-handler'
 
 import Debug from 'debug'
 

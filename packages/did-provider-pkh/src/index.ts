@@ -4,5 +4,5 @@
  *
  * @packageDocumentation
  */
-export { PkhDIDProvider } from './pkh-did-provider.js'
-export { getResolver as getDidPkhResolver } from './resolver.js'
+export { PkhDIDProvider } from './pkh-did-provider'
+export { getResolver as getDidPkhResolver } from './resolver'

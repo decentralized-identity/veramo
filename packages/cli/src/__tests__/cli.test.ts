@@ -1,4 +1,4 @@
-import { veramo } from '../createCommand.js'
+import { veramo } from '../createCommand'
 import { jest } from '@jest/globals'
 import { createObjects } from '../lib/objectCreator'
 import { getConfig } from '../setup'

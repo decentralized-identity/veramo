@@ -1,9 +1,9 @@
 import { IAgentContext, IMessageHandler } from '../../../core-types/src'
 import { createAgent } from '../../../core/src'
-import { MessageHandler } from '../message-handler.js'
+import { MessageHandler } from '../message-handler'
 import { jest } from '@jest/globals'
-import { AbstractMessageHandler } from "../abstract-message-handler.js";
-import { Message } from "../message.js";
+import { AbstractMessageHandler } from '../abstract-message-handler'
+import { Message } from '../message'
 
 jest.setTimeout(60000)
 

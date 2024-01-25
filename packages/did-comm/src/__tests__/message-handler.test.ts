@@ -1,4 +1,4 @@
-import { DIDComm } from '../didcomm.js'
+import { DIDComm } from '../didcomm'
 import {
   IDIDManager,
   IEventListener,
@@ -8,16 +8,14 @@ import {
   IResolver,
   TAgent,
 } from '../../../core-types/src'
-import {
-  createAgent
-} from '../../../core/src'
+import { createAgent } from '../../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { DIDCommHttpTransport } from '../transports/transports.js'
-import { IDIDComm } from '../types/IDIDComm.js'
+import { DIDCommHttpTransport } from '../transports/transports'
+import { IDIDComm } from '../types/IDIDComm'
 import { MessageHandler } from '../../../message-handler/src'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
 import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
@@ -25,7 +23,7 @@ import { Entities, IDataStore, migrations } from '../../../data-store/src'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { DIDCommMessageHandler } from '../message-handler.js'
+import { DIDCommMessageHandler } from '../message-handler'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
@@ -77,7 +75,7 @@ describe('did-comm-message-handler', () => {
             ...new FakeDidResolver(() => agent).getDidFakeResolver(),
           }),
         }),
-        new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+        new DIDComm({ transports: [new DIDCommHttpTransport()] }),
         new MessageHandler({
           messageHandlers: [
             // @ts-ignore
@@ -203,7 +201,12 @@ describe('did-comm-message-handler', () => {
   }
 
   const getRegularMessage = () => {
-    return { id: v4(), type: 'fake', to: recipient.did, from: sender.did, body: { hello: 'world' } ,
+    return {
+      id: v4(),
+      type: 'fake',
+      to: recipient.did,
+      from: sender.did,
+      body: { hello: 'world' },
       attachments: [{ data: { hash: 'some-hash', json: { some: 'attachment' } } }],
     }
   }

@@ -1,4 +1,4 @@
-import { Agent, createAgent } from '../agent.js'
+import { Agent, createAgent } from '../agent'
 import { IAgentPlugin, IResolver } from '../../../core-types/src'
 import { jest } from '@jest/globals'
 

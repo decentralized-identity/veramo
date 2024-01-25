@@ -1,9 +1,9 @@
 import { ICredentialRequestInput } from '@veramo/selective-disclosure'
-import { getAgent } from './setup.js'
+import { getAgent } from './setup'
 import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
-import { shortDate, shortDid } from './explore/utils.js'
+import { shortDate, shortDid } from './explore/utils'
 import { VerifiableCredential } from '@veramo/core-types'
 import { asArray, extractIssuer } from '@veramo/utils'
 

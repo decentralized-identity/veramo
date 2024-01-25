@@ -1,6 +1,6 @@
 import { createJWE, createX25519ECDH, Decrypter, decryptJWE, ECDH, Encrypter, JWE } from 'did-jwt'
 import { randomBytes } from '@noble/hashes/utils'
-import { generateX25519KeyPairFromSeed } from '../utils.js'
+import { generateX25519KeyPairFromSeed } from '../utils'
 import {
   a256cbcHs512AnonDecrypterX25519WithA256KW,
   a256cbcHs512AnonEncrypterX25519WithA256KW,
@@ -14,7 +14,7 @@ import {
   xc20pAnonEncrypterX25519WithA256KW,
   xc20pAuthDecrypterEcdh1PuV3x25519WithA256KW,
   xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW,
-} from '../encryption/a256kw-encrypters.js'
+} from '../encryption/a256kw-encrypters'
 import { decodeBase64url, encodeBase64url } from '../../../utils/src'
 
 import * as u8a from 'uint8arrays'

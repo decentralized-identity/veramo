@@ -2,7 +2,7 @@ import { AbstractSecretBox, AbstractPrivateKeyStore } from '@veramo/key-manager'
 import { ImportablePrivateKey, ManagedPrivateKey } from '@veramo/key-manager'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
-import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types.js'
+import { DiffCallback, VeramoJsonCache, VeramoJsonStore } from '../types'
 import { serialize, deserialize } from '@ungap/structured-clone'
 
 const debug = Debug('veramo:data-store-json:private-key-store')
@@ -31,7 +31,10 @@ export class PrivateKeyStoreJson extends AbstractPrivateKeyStore {
    *   {@link VeramoJsonStore}, but it can be.
    * @param secretBox - If this is used, then key material is encrypted, even in memory.
    */
-  constructor(jsonStore: VeramoJsonStore, private secretBox?: AbstractSecretBox) {
+  constructor(
+    jsonStore: VeramoJsonStore,
+    private secretBox?: AbstractSecretBox,
+  ) {
     super()
     this.cacheTree = jsonStore as Required<Pick<VeramoJsonCache, 'privateKeys'>>
     this.notifyUpdate = jsonStore.notifyUpdate

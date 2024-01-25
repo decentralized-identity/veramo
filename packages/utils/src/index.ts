@@ -4,9 +4,9 @@
  * @packageDocumentation
  */
 
-export * from './types/utility-types.js'
-export * from './credential-utils.js'
-export * from './did-utils.js'
-export * from './encodings.js'
-export * from './type-utils.js'
-export * from './jwk-did-utils.js'
+export * from './types/utility-types'
+export * from './credential-utils'
+export * from './did-utils'
+export * from './encodings'
+export * from './type-utils'
+export * from './jwk-did-utils'

@@ -1,15 +1,15 @@
-import { IAgentContext, IPluginMethodMap } from './IAgent.js'
+import { IAgentContext, IPluginMethodMap } from './IAgent'
 import {
   CredentialPayload,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-} from './vc-data-model.js'
-import { IResolver } from './IResolver.js'
-import { IDIDManager } from './IDIDManager.js'
-import { IDataStore } from './IDataStore.js'
-import { IKeyManager } from './IKeyManager.js'
-import { IIdentifier, IKey } from "./IIdentifier.js";
+} from './vc-data-model'
+import { IResolver } from './IResolver'
+import { IDIDManager } from './IDIDManager'
+import { IDataStore } from './IDataStore'
+import { IKeyManager } from './IKeyManager'
+import { IIdentifier, IKey } from './IIdentifier.js'
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
@@ -231,7 +231,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
  */
 export type IssuerAgentContext = IAgentContext<
   IResolver &
-  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >

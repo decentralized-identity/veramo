@@ -1,5 +1,5 @@
 import { IIdentifier } from '@veramo/core-types'
-import { AbstractDIDStore } from './abstract-identifier-store.js'
+import { AbstractDIDStore } from './abstract-identifier-store'
 
 /**
  * An implementation of {@link AbstractDIDStore} that stores everything in memory.

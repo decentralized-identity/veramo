@@ -1,17 +1,20 @@
 import { fetch } from 'cross-fetch'
 import { IIdentifier } from '@veramo/core-types'
 import { DIDResolutionOptions, DIDResolutionResult, DIDResolver } from 'did-resolver'
-import { IonDidForm } from './types/ion-provider-types.js'
+import { IonDidForm } from './types/ion-provider-types'
 
 export const resolveDidIonFromIdentifier = async (
   identifier: IIdentifier,
   ionDidForm: IonDidForm = IonDidForm.LONG,
-  options?: DIDResolutionOptions
+  options?: DIDResolutionOptions,
 ): Promise<DIDResolutionResult> => {
   return await resolve(ionDidForm == IonDidForm.LONG ? identifier.did : identifier.alias!, options)
 }
 
-export const resolveDidIon: DIDResolver = async (didUrl: string, options?: DIDResolutionOptions): Promise<DIDResolutionResult> => {
+export const resolveDidIon: DIDResolver = async (
+  didUrl: string,
+  options?: DIDResolutionOptions,
+): Promise<DIDResolutionResult> => {
   return resolve(didUrl, options)
 }
 

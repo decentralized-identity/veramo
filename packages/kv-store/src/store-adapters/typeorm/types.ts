@@ -1,6 +1,6 @@
 import { OrPromise } from '@veramo/utils'
 import { DataSource } from 'typeorm'
-import { KeyvDeserializedData } from '../../keyv/keyv-types.js'
+import { KeyvDeserializedData } from '../../keyv/keyv-types'
 
 /**
  * @public

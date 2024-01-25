@@ -90,8 +90,8 @@ import utils from './shared/utils'
 import web3 from './shared/web3'
 import credentialStatus from './shared/credentialStatus'
 import ethrDidFlowSigned from './shared/ethrDidFlowSigned'
-import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
-import credentialPluginTests from './shared/credentialPluginTests.js'
+import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow'
+import credentialPluginTests from './shared/credentialPluginTests'
 
 jest.setTimeout(120000)
 
@@ -245,7 +245,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+      new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({

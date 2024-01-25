@@ -6,6 +6,6 @@
  * @packageDocumentation
  */
 
-export * from './fake-did.js'
-export * from './example-did.js'
-export * from './broken-did-discovery.js'
+export * from './fake-did'
+export * from './example-did'
+export * from './broken-did-discovery'

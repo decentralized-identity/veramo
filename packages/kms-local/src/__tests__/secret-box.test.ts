@@ -1,4 +1,4 @@
-import { SecretBox } from '../secret-box.js'
+import { SecretBox } from '../secret-box'
 
 describe('@veramo/kms-local', () => {
   it('should encrypt and decrypt', async () => {

@@ -7,11 +7,11 @@ import {
   CredentialTableEntry,
   PresentationTableEntry,
   VeramoJsonStore,
-} from './types.js'
+} from './types'
 
 /**
  * Implementation of {@link VeramoJsonStore} that uses browser localStorage to store data.
- * 
+ *
  * @example
  * ```
  * const dataStore = BrowserLocalStorageStore.fromLocalStorage('veramo-state')
@@ -31,10 +31,7 @@ export class BrowserLocalStorageStore implements VeramoJsonStore {
   messages: Record<string, IMessage>
 
   private constructor(private localStorageKey: string) {
-    this.notifyUpdate = async (
-      oldState: VeramoJsonCache,
-      newState: VeramoJsonCache,
-    ) => {
+    this.notifyUpdate = async (oldState: VeramoJsonCache, newState: VeramoJsonCache) => {
       this.save(newState)
     }
     this.dids = {}
@@ -60,7 +57,7 @@ export class BrowserLocalStorageStore implements VeramoJsonStore {
       } catch (e: any) {
         cache = {}
       }
-      ({
+      ;({
         dids: this.dids,
         keys: this.keys,
         credentials: this.credentials,
@@ -87,5 +84,4 @@ export class BrowserLocalStorageStore implements VeramoJsonStore {
       window.localStorage.setItem(this.localStorageKey, JSON.stringify(newState))
     }
   }
-
 }

@@ -1,6 +1,6 @@
 import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-resolver'
 import { resolve } from '@aviarytech/did-peer'
-import { IDIDDocumentServiceDescriptor } from '@aviarytech/did-peer/interfaces.js'
+import { IDIDDocumentServiceDescriptor } from '@aviarytech/did-peer/interfaces'
 
 /**
  * Creates a DID Resolver that can resolve Peer DIDs (for the 0 and 2 num_algo values)

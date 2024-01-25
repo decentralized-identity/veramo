@@ -1,4 +1,4 @@
-import { IAgentPlugin, IPluginMethodMap } from "./types/IAgent.js"
+import { IAgentPlugin, IPluginMethodMap } from './types/IAgent'
 
 /**
  * Agent configuration options.
@@ -13,39 +13,38 @@ import { IAgentPlugin, IPluginMethodMap } from "./types/IAgent.js"
  * @public
  */
 export interface IAgentOptions {
-    /**
-     * The array of agent plugins
-     */
-    plugins?: IAgentPlugin[]
-  
-    /**
-     * The map of plugin methods. Can be used to override methods provided by plugins,
-     * or to add additional methods without writing a plugin
-     */
-    overrides?: IPluginMethodMap
-  
-    /**
-     * The array of method names that will be exposed by the agent
-     */
-    authorizedMethods?: string[]
-  
-    /**
-     * The context object that will be available to the plugin methods
-     *
-     * @example
-     * ```typescript
-     * {
-     *   authorizedDid: 'did:example:123'
-     * }
-     * ```
-     */
-    context?: Record<string, any>
-  
-    /**
-     * Flag that enables schema validation for plugin methods.
-     *
-     * Defaults to `false`.
-     */
-    schemaValidation?: boolean
-  }
-  
+  /**
+   * The array of agent plugins
+   */
+  plugins?: IAgentPlugin[]
+
+  /**
+   * The map of plugin methods. Can be used to override methods provided by plugins,
+   * or to add additional methods without writing a plugin
+   */
+  overrides?: IPluginMethodMap
+
+  /**
+   * The array of method names that will be exposed by the agent
+   */
+  authorizedMethods?: string[]
+
+  /**
+   * The context object that will be available to the plugin methods
+   *
+   * @example
+   * ```typescript
+   * {
+   *   authorizedDid: 'did:example:123'
+   * }
+   * ```
+   */
+  context?: Record<string, any>
+
+  /**
+   * Flag that enables schema validation for plugin methods.
+   *
+   * Defaults to `false`.
+   */
+  schemaValidation?: boolean
+}

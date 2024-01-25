@@ -1,4 +1,4 @@
-import { IKeyValueStoreAdapter } from '../../key-value-types.js'
+import { IKeyValueStoreAdapter } from '../../key-value-types'
 
 export type Options<ValueType> = {
   local: IKeyValueStoreAdapter<ValueType> | Map<string, ValueType>

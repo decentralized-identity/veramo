@@ -8,9 +8,9 @@ import {
   Transaction,
   AbstractSigner,
 } from 'ethers'
-import { IRequiredContext } from './ethr-did-provider.js'
+import { IRequiredContext } from './ethr-did-provider'
 import { IKey } from '@veramo/core-types'
-import {Addressable} from "ethers";
+import { Addressable } from 'ethers'
 
 /**
  * Creates an `ethers` - `signer` implementation by wrapping
@@ -56,20 +56,20 @@ export class KmsEthereumSigner extends AbstractSigner {
   }
 
   async signTypedData(
-      domain: TypedDataDomain,
-      types: Record<string, Array<TypedDataField>>,
-      value: Record<string, any>,
+    domain: TypedDataDomain,
+    types: Record<string, Array<TypedDataField>>,
+    value: Record<string, any>,
   ): Promise<string> {
     const data = JSON.stringify({
       domain: domain,
       types: types,
       message: value,
-    });
+    })
     return this.context.agent.keyManagerSign({
       keyRef: this.controllerKey.kid,
       algorithm: 'eth_signTypedData',
       data: data,
-    });
+    })
   }
 
   signMessage(message: string | Uint8Array): Promise<string> {
@@ -77,7 +77,7 @@ export class KmsEthereumSigner extends AbstractSigner {
   }
 
   connect(provider: Provider | null) {
-    if(!provider) {
+    if (!provider) {
       throw new Error('provider must not be null')
     }
     return new KmsEthereumSigner(this.controllerKey, this.context, provider) as unknown as Signer
@@ -85,5 +85,5 @@ export class KmsEthereumSigner extends AbstractSigner {
 }
 
 function isAddressable(address: any): address is Addressable {
-  return (address as Addressable).getAddress !== undefined;
+  return (address as Addressable).getAddress !== undefined
 }

@@ -5,11 +5,11 @@ import {
   ManagedPrivateKey,
 } from '@veramo/key-manager'
 import { DataSource } from 'typeorm'
-import { PrivateKey } from '../entities/private-key.js'
+import { PrivateKey } from '../entities/private-key'
 import { v4 as uuid4 } from 'uuid'
 import Debug from 'debug'
 import { OrPromise } from '@veramo/utils'
-import { getConnectedDb } from '../utils.js'
+import { getConnectedDb } from '../utils'
 
 const debug = Debug('veramo:typeorm:key-store')
 
@@ -23,7 +23,10 @@ const debug = Debug('veramo:typeorm:key-store')
  * @public
  */
 export class PrivateKeyStore extends AbstractPrivateKeyStore {
-  constructor(private dbConnection: OrPromise<DataSource>, private secretBox?: AbstractSecretBox) {
+  constructor(
+    private dbConnection: OrPromise<DataSource>,
+    private secretBox?: AbstractSecretBox,
+  ) {
     super()
     if (!secretBox) {
       console.warn('Please provide SecretBox to the KeyStore')
@@ -74,7 +77,7 @@ export class PrivateKeyStore extends AbstractPrivateKeyStore {
     let keys = await (await getConnectedDb(this.dbConnection)).getRepository(PrivateKey).find()
     if (this.secretBox) {
       for (const key of keys) {
-        key.privateKeyHex = await this.secretBox?.decrypt(key.privateKeyHex) as string
+        key.privateKeyHex = (await this.secretBox?.decrypt(key.privateKeyHex)) as string
       }
     }
     return keys

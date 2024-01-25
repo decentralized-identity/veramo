@@ -1,4 +1,4 @@
-import { KeyType } from './key.js'
+import { KeyType } from './key'
 import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm'
 
 /**
@@ -14,14 +14,14 @@ import { Entity, Column, PrimaryColumn, BaseEntity } from 'typeorm'
 @Entity('private-key')
 export class PrivateKey extends BaseEntity {
   @PrimaryColumn()
-    // @ts-ignore
+  // @ts-ignore
   alias: string
 
   @Column()
-    // @ts-ignore
+  // @ts-ignore
   type: KeyType
 
   @Column()
-    // @ts-ignore
+  // @ts-ignore
   privateKeyHex: string
 }

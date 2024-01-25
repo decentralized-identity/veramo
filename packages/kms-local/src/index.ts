@@ -5,5 +5,5 @@
  *
  * @packageDocumentation
  */
-export { KeyManagementSystem } from './key-management-system.js'
-export { SecretBox } from './secret-box.js'
+export { KeyManagementSystem } from './key-management-system'
+export { SecretBox } from './secret-box'

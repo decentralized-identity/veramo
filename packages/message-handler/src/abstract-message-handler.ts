@@ -1,5 +1,5 @@
 import { IAgentContext } from '@veramo/core-types'
-import { Message } from './message.js'
+import { Message } from './message'
 import Debug from 'debug'
 
 const debug = Debug('veramo:message-handler')
