@@ -21,7 +21,7 @@ import {
   IKey,
   IService,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
+import { schema } from '@veramo/core-types'
 import { AbstractDIDStore } from './abstract-identifier-store.js'
 
 /**

@@ -19,7 +19,7 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import schema from '../plugin.schema'
+import { schema } from '../plugin.schema.js'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {

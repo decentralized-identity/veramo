@@ -186,7 +186,7 @@ dev
       interfaces[pluginInterfaceName] = api
     }
 
-    writeFileSync(resolve(outPutPath), `export default ${JSON.stringify(interfaces, null, 2)}`)
+    writeFileSync(resolve(outPutPath), `export const schema = ${JSON.stringify(interfaces, null, 2)}`)
   })
 
 dev
