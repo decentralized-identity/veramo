@@ -2,12 +2,19 @@
   "name": "@veramo/message-handler",
   "description": "Message Handler plugin for Veramo",
   "version": "5.6.0",
-  "main": "build/index.js",
-  "exports": "./build/index.js",
+  "main": "build/index.cjs.js",  
+  "module": "build/index.js",
   "types": "build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js",
+      "require": "./build/index.cjs.js"
+    }
+  },
   "scripts": {
     "build": "node ../../scripts/esbuild.js",
-    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+    "extract-api": "node --experimental-specifier-resolution=node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@veramo/core-types": "workspace:^",

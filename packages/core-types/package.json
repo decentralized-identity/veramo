@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "node ../../scripts/esbuild.js",
-    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
+    "generate-plugin-schema": "node --experimental-specifier-resolution=node ../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {
     "pluginInterfaces": {

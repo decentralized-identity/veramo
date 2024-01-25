@@ -4,9 +4,9 @@ import { exec } from 'child_process';
 
 // Building for CommonJS
 build({
-    entryPoints: ['src/index.ts'], // Your entry file
+    entryPoints: ['src/cli.ts'], // Your entry file
     bundle: false,
-    outfile: 'build/index.cjs.js', // Output file for CommonJS
+    outfile: 'build/cli.cjs.js', // Output file for CommonJS
     format: 'cjs', // Specify CommonJS format
     platform: 'node', // Platform target
     sourcemap: true, // Enable source maps (optional)
@@ -22,6 +22,7 @@ build({
     format: 'esm', // Specify ESM format
     sourcemap: true, // Enable source maps (optional)
     target: ['es2020'], // Target ECMAScript version
+
     // additional options...
 }).catch(() => process.exit(1));
 

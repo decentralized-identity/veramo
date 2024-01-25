@@ -9,7 +9,7 @@
     "build": "node ../../scripts/esbuild.js",
     "test": "jest --config=../../jest.config.mjs",
     "test:ci": "jest --config=../../jest.config.mjs",
-    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+    "extract-api": "node --experimental-specifier-resolution=node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@veramo/core-types": "workspace:^",
