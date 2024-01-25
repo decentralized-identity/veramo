@@ -7,7 +7,7 @@ import {
   CoreEvents,
   IMessage,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
+import { schema } from '@veramo/core-types'
 import { Message } from './message.js'
 import { AbstractMessageHandler } from './abstract-message-handler.js'
 

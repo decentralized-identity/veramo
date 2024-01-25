@@ -54,7 +54,7 @@ import {
   xc20pAuthEncrypterEcdh1PuV3x25519WithXC20PKW,
 } from './encryption/xc20pkw-encrypters.js'
 
-import schema from './plugin.schema.js'
+import { schema } from './plugin.schema.js'
 
 import { v4 as uuidv4 } from 'uuid'
 

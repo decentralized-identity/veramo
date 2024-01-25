@@ -1,5 +1,5 @@
 import { DIDDocumentSection, IAgentPlugin, IResolver } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
+import { schema } from '@veramo/core-types'
 import { isDefined } from '@veramo/utils'
 import {
   DIDDocument,
