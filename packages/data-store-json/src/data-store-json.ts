@@ -24,8 +24,8 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
+  schema,
 } from '@veramo/core-types'
-import { schema } from '@veramo/core-types'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 import { deserialize, serialize } from '@ungap/structured-clone'
 import {

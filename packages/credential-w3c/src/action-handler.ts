@@ -18,9 +18,8 @@ import {
   VerifierAgentContext,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
+  schema,
 } from '@veramo/core-types'
-
-import { schema } from '@veramo/core-types'
 
 import {
   createVerifiableCredentialJwt,
