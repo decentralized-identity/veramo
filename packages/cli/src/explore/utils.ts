@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
+import { spawn } from 'child_process'
 import os from 'os'
 
 export function shortDid(did?: string): string {
@@ -23,12 +24,12 @@ export function copyToClipboard(text: string): boolean {
    * - clipboardy wouldn't run due to error "Must use import to load ES Module" (even though we used import)
    */
   if (os.platform() === 'darwin') {
-    const proc = require('child_process').spawn('pbcopy')
+    const proc = spawn('pbcopy')
     proc.stdin.write(text)
     proc.stdin.end()
     return true
   } else if (os.platform() === 'win32') {
-    require('child_process').spawn('clip').stdin.end(text)
+    spawn('clip').stdin.end(text)
     return true
   }
   return false
