@@ -10,3 +10,4 @@
 export { SdrMessageHandler, MessageTypes } from './message-handler.js'
 export { SelectiveDisclosure } from './action-handler.js'
 export * from './types.js'
+export { schema } from './plugin.schema.js'
