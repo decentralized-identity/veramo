@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "build": "node esbuild.js && tsc --emitDeclarationOnly",    
+    "build": "node ../../scripts/esbuild.js",
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {

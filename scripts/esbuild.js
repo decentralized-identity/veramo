@@ -1,4 +1,6 @@
 import { build } from 'esbuild';
+import { rmSync, existsSync } from 'fs';
+import { exec } from 'child_process';
 
 // Building for CommonJS
 build({
@@ -22,3 +24,19 @@ build({
     target: ['es2020'], // Target ECMAScript version
     // additional options...
 }).catch(() => process.exit(1));
+
+//delete the tsconfig.tsbuildinfo file to generate the types.
+if(existsSync('tsconfig.tsbuildinfo')) {
+    rmSync('tsconfig.tsbuildinfo');
+}
+//run the process as a child process
+exec('tsc --emitDeclarationOnly', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`Error: ${error}`);
+        return;
+    }
+    if (stderr) {
+        console.error(`Stderr: ${stderr}`);
+        return;
+    }    
+});
