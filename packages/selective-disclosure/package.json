@@ -33,7 +33,6 @@
   "files": [
     "build/**/*",
     "src/**/*",
-    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

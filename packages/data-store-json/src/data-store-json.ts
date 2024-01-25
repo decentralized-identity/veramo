@@ -25,7 +25,7 @@ import {
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
+import schema from '@veramo/core-types/build/plugin.schema'
 import { asArray, computeEntryHash, extractIssuer } from '@veramo/utils'
 import { deserialize, serialize } from '@ungap/structured-clone'
 import {

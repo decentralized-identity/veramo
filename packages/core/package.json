@@ -29,8 +29,7 @@
   },
   "files": [
     "build/**/*",
-    "src/**/*",
-    "plugin.schema.json",
+    "src/**/*",    
     "README.md",
     "LICENSE"
   ],

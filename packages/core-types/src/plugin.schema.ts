@@ -1,4 +1,4 @@
-{
+export default {
   "IResolver": {
     "components": {
       "schemas": {

@@ -19,7 +19,7 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import schema from '../plugin.schema.json' assert { type: 'json' }
+import schema from '../plugin.schema'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
@@ -356,6 +356,8 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
    * @internal
    */
   async matchKeyForEIP712(k: IKey): Promise<boolean> {
-    return intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
+    return (
+      intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
+    )
   }
 }

@@ -38,9 +38,10 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    { kms, options }: { kms?: string; options?: any },
+    { kms, options = { num_algo: 0 } }: { kms?: string; options?: { num_algo: number; service?: any } },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
+    options.num_algo = options?.num_algo ?? 0
     if (options.num_algo == 0) {
       const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
       const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')

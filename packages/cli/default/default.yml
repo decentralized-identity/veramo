@@ -168,6 +168,8 @@ didResolver:
         $ref: /did-key-resolver
       peer:
         $require: '@veramo/did-provider-peer?t=function&p=/peer#getResolver'
+      jwk:
+        $require: '@veramo/did-provider-jwk?t=function&p=/jwk#getDidJwkResolver'
       pkh:
         $require: '@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver'
       elem:
@@ -246,6 +248,14 @@ didManager:
             - defaultKms: local
         did:key:
           $require: '@veramo/did-provider-key#KeyDIDProvider'
+          $args:
+            - defaultKms: local
+        did:jwk:
+          $require: '@veramo/did-provider-jwk#JwkDIDProvider'
+          $args:
+            - defaultKms: local
+        did:peer:
+          $require: '@veramo/did-provider-peer#PeerDIDProvider'
           $args:
             - defaultKms: local
         did:pkh:

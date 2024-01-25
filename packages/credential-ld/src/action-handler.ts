@@ -10,7 +10,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index'
-import schema from './plugin.schema.json' assert { type: 'json' }
+import schema from './plugin.schema'
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader'
 import {
