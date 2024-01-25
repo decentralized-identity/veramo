@@ -5,6 +5,7 @@
  *
  * @packageDocumentation
  */
+
 export { CoreEvents } from './coreEvents'
 export * from './agent'
 export * from './types/IAgent'
@@ -25,3 +26,4 @@ export * from './types/IResolver'
 export * from './types/IError'
 export * from './types/IVerifyResult'
 export * from './types/vc-data-model'
+export { schema } from './plugin.schema'

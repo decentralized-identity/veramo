@@ -6,8 +6,8 @@ import {
   IHandleMessageArgs,
   CoreEvents,
   IMessage,
+  schema,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
 import { Message } from './message'
 import { AbstractMessageHandler } from './abstract-message-handler'
 

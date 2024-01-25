@@ -20,8 +20,8 @@ import {
   MinimalImportableIdentifier,
   IKey,
   IService,
+  schema,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
 import { AbstractDIDStore } from './abstract-identifier-store'
 
 /**

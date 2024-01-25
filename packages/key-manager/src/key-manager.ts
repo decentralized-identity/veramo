@@ -17,7 +17,7 @@ import {
   MinimalImportableKey,
   TKeyType,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
+import { schema } from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, type ECDH, type JWE } from 'did-jwt'
 import { convertEd25519PublicKeyToX25519 } from '@veramo/utils'

@@ -12,8 +12,8 @@ import {
   IMessage,
   VerifiableCredential,
   VerifiablePresentation,
+  schema,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema'
 import { createMessage, createMessageEntity, Message } from './entities/message'
 import { createCredentialEntity, Credential } from './entities/credential'
 import { Claim } from './entities/claim'

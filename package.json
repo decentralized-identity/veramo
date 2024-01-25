@@ -31,7 +31,7 @@
     "@jest/globals": "29.7.0",
     "@metamask/eth-sig-util": "7.0.0",
     "@microsoft/api-documenter": "7.23.0",
-    "@microsoft/api-extractor": "7.38.0",
+    "@microsoft/api-extractor": "7.39.4",
     "@microsoft/api-extractor-model": "7.28.0",
     "@microsoft/tsdoc": "0.14.2",
     "@noble/hashes": "1.3.1",
