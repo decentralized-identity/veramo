@@ -2,17 +2,18 @@
   "name": "@veramo/core-types",
   "description": "Veramo Core Logic & Interfaces.",
   "version": "5.6.0",
-  "main": "build/index.js",
+  "main": "build/index.cjs.js",  
+  "module": "build/index.js",
+  "types": "build/index.d.ts",
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
-      "require": "./build/index.js",
-      "import": "./build/index.js"
+      "import": "./build/index.js",
+      "require": "./build/index.cjs.js"
     }
   },
-  "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "node ../../scripts/esbuild.js",
     "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {

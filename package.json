@@ -1,6 +1,7 @@
 {
   "name": "veramo",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" pnpm build:js && pnpm build:api && pnpm build:schema",
     "build:js": "pnpm -r --stream build",
@@ -88,5 +89,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "esbuild": "^0.19.12"
+  }
 }

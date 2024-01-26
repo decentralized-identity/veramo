@@ -8,7 +8,7 @@
   },
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "node ../../scripts/esbuild.js",
     "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
   },
   "veramo": {
@@ -23,8 +23,6 @@
     "@stablelib/gcm": "^1.0.2",
     "@stablelib/xchacha20poly1305": "^1.0.1",
     "@veramo/core-types": "workspace:^",
-    "@veramo/kv-store": "workspace:^",
-    "@veramo/mediation-manager": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
     "@veramo/kv-store": "workspace:^",
