@@ -23,7 +23,7 @@ export abstract class VeramoLdSignature {
   // Add type definition as soon as https://github.com/digitalbazaar/jsonld-signatures
   // supports those.
 
-  abstract getSupportedVerificationType(): string
+  abstract getSupportedVerificationType(): string | string[]
 
   abstract getSupportedVeramoKeyType(): TKeyType
 
