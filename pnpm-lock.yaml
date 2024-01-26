@@ -899,15 +899,6 @@ importers:
 
   packages/did-provider-key:
     dependencies:
-      '@transmute/did-key-ed25519':
-        specifier: ^0.3.0-unstable.10
-        version: 0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0)
-      '@transmute/did-key-secp256k1':
-        specifier: ^0.3.0-unstable.10
-        version: 0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0)
-      '@transmute/did-key-x25519':
-        specifier: ^0.3.0-unstable.10
-        version: 0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0)
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -7247,27 +7238,6 @@ packages:
       uri-js: 4.4.1
     dev: false
 
-  /@did-core/data-model@0.1.1-unstable.15:
-    resolution: {integrity: sha512-l7gxLxegcXW7389G+j6o+S24lS8uasmJx5txWpW3QadNvOawKwvWn8bV59SdHSK806xNzIZaCLKmXKxebs8yAQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      factory.ts: 0.5.2
-    dev: false
-
-  /@did-core/did-ld-json@0.1.1-unstable.15(expo@49.0.21)(react-native@0.73.0):
-    resolution: {integrity: sha512-p2jKRxSU+eJJqd+ewCklYp/XZ6ysISk8VU2/kANCoB/WwUy/kVgw2rUNScRDXw2utr9Qj36P8EZTYi4aj7vRCQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      '@transmute/did-context': 0.6.1-unstable.37
-      jsonld-checker: 0.1.8(expo@49.0.21)(react-native@0.73.0)
-    transitivePeerDependencies:
-      - domexception
-      - encoding
-      - expo
-      - react-native
-      - web-streams-polyfill
-    dev: false
-
   /@digitalbazaar/bitstring@3.1.0:
     resolution: {integrity: sha512-Cii+Sl++qaexOvv3vchhgZFfSmtHPNIPzGegaq4ffPnflVXFu+V2qrJ17aL2+gfLxrlC/zazZFuAltyKTPq7eg==}
     engines: {node: '>=16'}
@@ -10599,78 +10569,6 @@ packages:
     resolution: {integrity: sha512-2cB6UcMKeEK6kqvl5Uhpoe5iUUAcVURlRHl9nVa/Xx2JymNHyBvyXi+CGjIwf/eEk7hsgMIwDfGqq5Mcnbk5cw==}
     dev: true
 
-  /@transmute/did-context@0.6.1-unstable.37:
-    resolution: {integrity: sha512-p/QnG3QKS4218hjIDgdvJOFATCXsAnZKgy4egqRrJLlo3Y6OaDBg7cA73dixOwUPoEKob0K6rLIGcsCI/L1acw==}
-    dev: false
-
-  /@transmute/did-key-common@0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0):
-    resolution: {integrity: sha512-Iryh/HcGIvmTtWFTRaG/JEgbUsqI5OqKqkR2676yQWK4ajLMsyNattz5n0ZfFQk/4U7Ee6pJvvKRduFDAqqV0Q==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@did-core/data-model': 0.1.1-unstable.15
-      '@did-core/did-ld-json': 0.1.1-unstable.15(expo@49.0.21)(react-native@0.73.0)
-      '@transmute/did-context': 0.6.1-unstable.37
-      '@transmute/ld-key-pair': 0.6.1-unstable.37
-      '@transmute/security-context': 0.6.1-unstable.37
-    transitivePeerDependencies:
-      - domexception
-      - encoding
-      - expo
-      - react-native
-      - web-streams-polyfill
-    dev: false
-
-  /@transmute/did-key-ed25519@0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0):
-    resolution: {integrity: sha512-9QdXl58DjwqBuOJBx6DtvaNW2bZLmVBxMSq2En4RAQcGIz1GGulyEQ1NB7PLIAgnam3LIFxiK6RiQGQTfJmmJg==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@transmute/did-key-common': 0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0)
-      '@transmute/ed25519-key-pair': 0.6.1-unstable.37
-    transitivePeerDependencies:
-      - domexception
-      - encoding
-      - expo
-      - react-native
-      - web-streams-polyfill
-    dev: false
-
-  /@transmute/did-key-secp256k1@0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0):
-    resolution: {integrity: sha512-C/Gyu2U3NQZ9Gxu4WVwUk8h0ERbY9Z4Kjk0P49p3IQFrWK19XmVXjA+b1RiqffhYzWJ6fH5TPYIt2LW5MRQmUA==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@transmute/did-key-common': 0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0)
-      '@transmute/secp256k1-key-pair': 0.7.0-unstable.79
-    transitivePeerDependencies:
-      - domexception
-      - encoding
-      - expo
-      - react-native
-      - web-streams-polyfill
-    dev: false
-
-  /@transmute/did-key-x25519@0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0):
-    resolution: {integrity: sha512-Jm5UxwI9EhlfVQ9D0Clj9RlMvhOi8nqAgQG30KMzjFMVGfWqIPwQNZFvmL+XsQ7g3dfTo5iQwXBY0de/f+RoMA==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@transmute/did-key-common': 0.3.0-unstable.10(expo@49.0.21)(react-native@0.73.0)
-      '@transmute/x25519-key-pair': 0.7.0-unstable.79
-    transitivePeerDependencies:
-      - domexception
-      - encoding
-      - expo
-      - react-native
-      - web-streams-polyfill
-    dev: false
-
-  /@transmute/ed25519-key-pair@0.6.1-unstable.37:
-    resolution: {integrity: sha512-l34yzE/QnQwmdk5xY9g2kD55e4XPp/jTZQzPu7I6J4Ar+bMaL/0RLL/pgvwyI7qUpsddxRf4WPZCCcZveqPcdA==}
-    engines: {node: '>=10'}
-    dependencies:
-      '@stablelib/ed25519': 1.0.3
-      '@transmute/ld-key-pair': 0.6.1-unstable.37
-      '@transmute/x25519-key-pair': 0.6.1-unstable.37
-    dev: false
-
   /@transmute/ed25519-key-pair@0.7.0-unstable.2:
     resolution: {integrity: sha512-B0jg348Z8F0+lGWQic28xVxBZiXOJYbisWp6EfP4fQdMV3G4sES9YubpdiuoZHjesDZrf6xZ7cEB81mjGJMUkA==}
     engines: {node: '>=10'}
@@ -10747,10 +10645,6 @@ packages:
       - web-streams-polyfill
     dev: false
 
-  /@transmute/ld-key-pair@0.6.1-unstable.37:
-    resolution: {integrity: sha512-DcTpEruAQBfOd2laZkg3uCQ+67Y7dw2hsvo42NAQ5tItCIx5AClP7zccri7T2JUcfDUFaE32z/BLTMEKYt3XZQ==}
-    dev: false
-
   /@transmute/ld-key-pair@0.7.0-unstable.79:
     resolution: {integrity: sha512-QWpzTQStsoD1Bpif1rMWDGlYq0zzsHExw3As8piy3U+MtJpOYIOUJ60L6NSyFBB8Zq+XNeFJq0/puwzMV2lKog==}
     engines: {node: '>=16'}
@@ -10761,15 +10655,6 @@ packages:
     engines: {node: '>=16'}
     dev: false
 
-  /@transmute/secp256k1-key-pair@0.7.0-unstable.79:
-    resolution: {integrity: sha512-Sg9SYya/WMYYT9BDgAS1/wJITJpS1UluUBMk/n3it4YFFqGRrDSDEK9dcEWDHXakv1GfQePpqtuvS2Uv24YgKA==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@bitauth/libauth': 1.19.1
-      '@transmute/ld-key-pair': 0.7.0-unstable.79
-      secp256k1: 4.0.3
-    dev: false
-
   /@transmute/secp256k1-key-pair@0.7.0-unstable.81:
     resolution: {integrity: sha512-kofomMOOLkdTOAV2bQAEZAC0REuiI/RDqxYJJg/qpXnguyGTtv5DVHD8UXmUDKJLJkAql1lbksfs/roYYVBN7g==}
     engines: {node: '>=16'}
@@ -10777,10 +10662,6 @@ packages:
       '@bitauth/libauth': 1.19.1
       '@transmute/ld-key-pair': 0.7.0-unstable.81
       secp256k1: 4.0.3
-    dev: false
-
-  /@transmute/security-context@0.6.1-unstable.37:
-    resolution: {integrity: sha512-GtLmG65qlORrz/2S4I74DT+vA4+qXsFxrMr0cNOXjUqZBd/AW1PTrFnryLF9907BfoiD58HC9qb1WVGWjSlBYw==}
     dev: false
 
   /@transmute/security-context@0.7.0-unstable.81:
@@ -10794,14 +10675,6 @@ packages:
       '@peculiar/webcrypto': 1.4.1
       '@transmute/ld-key-pair': 0.7.0-unstable.81
       big-integer: 1.6.51
-    dev: false
-
-  /@transmute/x25519-key-pair@0.6.1-unstable.37:
-    resolution: {integrity: sha512-j6zR9IoJmgVhUCVH8YVGpsgQf99SxPKZ00LGnUheBAQzgj2lULGBQ44G+GqBCdzfT0qweptTfp1RjqqHEpizeA==}
-    engines: {node: '>=10'}
-    dependencies:
-      '@stablelib/x25519': 1.0.3
-      '@transmute/ld-key-pair': 0.6.1-unstable.37
     dev: false
 
   /@transmute/x25519-key-pair@0.7.0-unstable.79:
@@ -16365,14 +16238,6 @@ packages:
       - supports-color
     dev: true
 
-  /factory.ts@0.5.2:
-    resolution: {integrity: sha512-I4YDKuyMW+s2PocnWh/Ekv9wSStt/MNN1ZRb1qhy0Kv056ndlzbLHDsW9KEmTAqMpLI3BtjSqEdZ7ZfdnaXn9w==}
-    engines: {node: '>= 14'}
-    dependencies:
-      clone-deep: 4.0.1
-      source-map-support: 0.5.21
-    dev: false
-
   /fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
@@ -20021,20 +19886,6 @@ packages:
       universalify: 2.0.0
     optionalDependencies:
       graceful-fs: 4.2.11
-
-  /jsonld-checker@0.1.8(expo@49.0.21)(react-native@0.73.0):
-    resolution: {integrity: sha512-jclmnPRrm5SEpaIV6IiSTJxplRAqIWHduQLsUfrYpZM41Ng48m1RN2/aUyHze/ynfO0D2UhlJBt8SdObsH5GBw==}
-    engines: {node: '>=10'}
-    dependencies:
-      jsonld: /@digitalcredentials/jsonld@6.0.0(expo@49.0.21)(react-native@0.73.0)
-      node-fetch: 2.6.12
-    transitivePeerDependencies:
-      - domexception
-      - encoding
-      - expo
-      - react-native
-      - web-streams-polyfill
-    dev: false
 
   /jsonld-signatures@11.2.1(expo@49.0.21)(react-native@0.73.0):
     resolution: {integrity: sha512-RNaHTEeRrX0jWeidPCwxMq/E/Ze94zFyEZz/v267ObbCHQlXhPO7GtkY6N5PSHQfQhZPXa8NlMBg5LiDF4dNbA==}
