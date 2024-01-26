@@ -510,8 +510,8 @@ importers:
         specifier: workspace:^
         version: link:../utils
       credential-status:
-        specifier: ^2.0.5
-        version: 2.0.5
+        specifier: ^3.0.0
+        version: 3.0.0
       did-jwt:
         specifier: ^8.0.0
         version: 8.0.0
@@ -14342,6 +14342,13 @@ packages:
       did-jwt: 6.11.6
       did-resolver: 4.1.0
     dev: true
+
+  /credential-status@3.0.0:
+    resolution: {integrity: sha512-kCHyxp+dtFVV1wy0auNZXwWWLIUmQTuw6uFLfdm5aRaN5JUWyR2Bv6aHLszB8sxEwRYgL6bqfQAUVCXTWo61jw==}
+    dependencies:
+      did-jwt: 8.0.0
+      did-resolver: 4.1.0
+    dev: false
 
   /credentials-context@2.0.0:
     resolution: {integrity: sha512-/mFKax6FK26KjgV2KW2D4YqKgoJ5DVJpNt87X2Jc9IxT2HBMy7nEIlc+n7pEi+YFFe721XqrvZPd+jbyyBjsvQ==}

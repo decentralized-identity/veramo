@@ -5,7 +5,7 @@ import {
   IDIDDiscoveryDiscoverDidArgs,
   IDIDDiscoveryProviderResult,
   IDIDDiscoveryDiscoverDidResult,
-} from './types'
+} from './types.js'
 import { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider.js'
 import { schema } from './plugin.schema.js'
 import Debug from 'debug'

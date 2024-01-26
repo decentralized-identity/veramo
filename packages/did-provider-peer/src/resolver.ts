@@ -1,6 +1,5 @@
-import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-resolver'
+import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID, Service } from 'did-resolver'
 import { resolve } from '@aviarytech/did-peer'
-import { IDIDDocumentServiceDescriptor } from '@aviarytech/did-peer/interfaces.js'
 
 /**
  * Creates a DID Resolver that can resolve Peer DIDs (for the 0 and 2 num_algo values)
@@ -24,7 +23,7 @@ export function getResolver(): Record<string, DIDResolver> {
           assertionMethod: doc.assertionMethod,
           capabilityInvocation: doc.capabilityInvocation,
           capabilityDelegation: doc.capabilityDelegation,
-          service: doc.service as IDIDDocumentServiceDescriptor[],
+          service: doc.service as Service[],
         }
         if (doc.alsoKnownAs) {
           didDocument.alsoKnownAs = [doc.alsoKnownAs]

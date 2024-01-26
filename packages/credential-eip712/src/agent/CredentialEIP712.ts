@@ -29,7 +29,7 @@ import {
   IRequiredContext,
   IVerifyCredentialEIP712Args,
   IVerifyPresentationEIP712Args,
-} from '../types/ICredentialEIP712'
+} from '../types/ICredentialEIP712.js'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
