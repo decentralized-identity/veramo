@@ -36,10 +36,7 @@ export class LdCredentialModule {
     this.ldSuiteLoader = options.ldSuiteLoader
   }
 
-  getDocumentLoader(
-    context: IAgentContext<IResolver>,
-    attemptToFetchContexts: boolean = false,
-  ) {
+  getDocumentLoader(context: IAgentContext<IResolver>, attemptToFetchContexts: boolean = false) {
     return extendContextLoader(async (url: string) => {
       // console.log(`resolving context for: ${url}`)
 
@@ -55,8 +52,11 @@ export class LdCredentialModule {
         // currently, Veramo LD suites can modify the resolution response for DIDs from
         // the document Loader. This allows us to fix incompatibilities between DID Documents
         // and LD suites to be fixed specifically within the Veramo LD Suites definition
+        // TODO: every suite takes turns modifying the result, potentially leading to overwrites and incompatibilities
+        // between concurrent suites. Ideally, this should be performed by each suite only before it interacts with the
+        // document loader, to allow each suite to massage the verification methods into formats it knows about.
         for (const x of this.ldSuiteLoader.getAllSignatureSuites()) {
-          result = (await x.preDidResolutionModification(url, result, context)) || result;
+          result = (await x.preDidResolutionModification(url, result, context)) || result
         }
 
         // console.log(`Returning from Documentloader: ${JSON.stringify(returnDocument)}`)
@@ -110,10 +110,11 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
+    // TODO: try multiple matching suites until one works or list is exhausted
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(
       key.type,
       key.meta?.verificationMethod?.type ?? '',
-    )
+    )[0]
     const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     // some suites can modify the incoming credential (e.g. add required contexts)
@@ -138,10 +139,11 @@ export class LdCredentialModule {
     options: any,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
+    // TODO: try multiple matching suites until one works or list is exhausted
     const suite = this.ldSuiteLoader.getSignatureSuiteForKeyType(
       key.type,
       key.meta?.verificationMethod?.type ?? '',
-    )
+    )[0]
     const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
 
     suite.preSigningPresModification(presentation)

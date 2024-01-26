@@ -230,7 +230,8 @@ export default (testContext: {
 
       // Check credential:
       expect(verifiableCredential).toHaveProperty('proof')
-      expect(verifiableCredential).toHaveProperty('proof.jws')
+      const proofValue = verifiableCredential.proof.jws ?? verifiableCredential.proof.proofValue
+      expect(proofValue).toBeDefined()
       expect(verifiableCredential.proof.verificationMethod).toEqual(
         `${didKeyIdentifier.did}#${didKeyIdentifier.did.substring(
           didKeyIdentifier.did.lastIndexOf(':') + 1,

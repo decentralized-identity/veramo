@@ -30,8 +30,9 @@ const debug = Debug('veramo:credential-ld:Ed25519Signature2020')
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
 export class VeramoEd25519Signature2020 extends VeramoLdSignature {
-  getSupportedVerificationType(): string {
-    return 'Ed25519VerificationKey2020'
+  getSupportedVerificationType(): string[] {
+    return ['Ed25519VerificationKey2020', 'Ed25519VerificationKey2018']
+    // TODO: add support for ['JsonWebKey2020', 'Multikey']
   }
 
   getSupportedVeramoKeyType(): TKeyType {
@@ -72,7 +73,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     })
     // overwrite the signer since we're not passing the private key
     verificationKey.signer = () => signer as any
-    verificationKey.type = this.getSupportedVerificationType()
+    verificationKey.type = 'Ed25519VerificationKey2020'
     return new Ed25519Signature2020({
       key: verificationKey,
       signer: signer,
