@@ -6,7 +6,7 @@ import { exec } from 'child_process';
 build({
     entryPoints: ['src/cli.ts'], // Your entry file
     bundle: false,
-    outfile: 'build/index.cjs.js', // Output file for CommonJS
+    outfile: 'build/cli.cjs.js', // Output file for CommonJS
     format: 'cjs', // Specify CommonJS format
     platform: 'node', // Platform target
     sourcemap: true, // Enable source maps (optional)
