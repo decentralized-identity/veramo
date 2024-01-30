@@ -161,7 +161,7 @@ export function getEthereumAddress(verificationMethod: VerificationMethod): stri
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export function getChainIdForDidEthr(verificationMethod: _NormalizedVerificationMethod): number {
+export function getChainId(verificationMethod: _NormalizedVerificationMethod): number {
   if (verificationMethod.blockchainAccountId?.includes('@eip155')) {
     return parseInt(verificationMethod.blockchainAccountId!.split(':').slice(-1)[0])
   } else if (verificationMethod.blockchainAccountId?.startsWith('eip155')) {
