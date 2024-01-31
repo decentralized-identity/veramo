@@ -9,7 +9,7 @@ import {
 } from '@veramo/core-types'
 import {
   extractIssuer,
-  getChainIdForDidEthr,
+  getChainId,
   getEthereumAddress,
   intersect,
   isDefined,
@@ -89,10 +89,12 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
 
-    let chainId = 1
-    if (identifier.did.split(':')[1] === 'ethr')
-      chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
-
+    let chainId
+    try {
+      chainId = getChainId(extendedKey.meta.verificationMethod)
+    } catch (e) {
+      chainId = 1
+    }
     const credential: CredentialPayload = {
       ...args?.credential,
       '@context': credentialContext,
@@ -145,7 +147,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     const verificationMessage = {
       ...signingInput,
       proof: verifyInputProof,
-    }
+   }
 
     const compat = {
       ...eip712Domain,
@@ -253,9 +255,14 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     const extendedKey = extendedKeys.find((key) => key.kid === keyRef)
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
-    let chainId = 1
-    if (identifier.did.split(':')[1] === 'ethr')
-      chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
+    
+    let chainId
+    try {
+      chainId = getChainId(extendedKey.meta.verificationMethod)
+    } catch (e) {
+      chainId = 1
+    }
+
     presentation['proof'] = {
       verificationMethod: extendedKey.meta.verificationMethod.id,
       created: issuanceDate,
