@@ -48,6 +48,19 @@ describe('@veramo/utils did utils', () => {
     ).toEqual(59144)
   })
 
+  
+  it('should throw on invalid chainId', () => {
+    expect( () => {
+      getChainId({
+        "id": "did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b#blockchainAccountId",
+        "type": "EcdsaSecp256k1RecoveryMethod2020",
+        "controller": "did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b",
+        "blockchainAccountId": "eip155:linea:0x19711CD19e609FEBdBF607960220898268B7E24b"
+      })
+    }).toThrowError("chainId is not a number")
+  })
+
+  
   it('should return blockchainAccountId for did:ethr', () => {
     const verificationMethod = {
       id: 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
