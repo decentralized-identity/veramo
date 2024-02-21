@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { fetch } from 'cross-fetch'
+import { decodeBase64url } from '@veramo/utils'
 
 /**
  * Result interface for sending DIDComm messages through
@@ -136,9 +137,13 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
     }
 
     try {
+      const contentType = this.inferContentType(message)
       const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,
         body: message,
+        headers: {
+          'content-type': contentType,
+        },
       })
 
       let result
@@ -163,6 +168,19 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
       return {
         error: 'failed to send message: ' + e,
       }
+    }
+  }
+
+  private inferContentType(message: string) {
+    try {
+      const parsedMessage = JSON.parse(message)
+      const contentType =
+        parsedMessage?.typ ??
+        JSON.parse(decodeBase64url(parsedMessage.protected ?? '{}'))?.typ ??
+        'application/json'
+      return contentType
+    } catch (e) {
+      return 'application/json'
     }
   }
 }

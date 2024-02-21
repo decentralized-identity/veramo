@@ -91,7 +91,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -136,7 +136,7 @@ export default (testContext: {
           id: v4(),
           type: 'w3c.vc',
           from: sender.did,
-          to: receiver.did,
+          to: [receiver.did],
           body: vc,
         },
       })

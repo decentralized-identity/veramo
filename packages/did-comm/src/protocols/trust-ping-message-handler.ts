@@ -16,7 +16,7 @@ export function createTrustPingMessage(senderDidUrl: string, recipientDidUrl: st
   return {
     type: TRUST_PING_MESSAGE_TYPE,
     from: senderDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: v4(),
     body: {
       responseRequested: true,
@@ -32,7 +32,7 @@ export function createTrustPingResponse(
   return {
     type: TRUST_PING_RESPONSE_MESSAGE_TYPE,
     from: senderDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: `${pingId}-response`,
     thid: pingId,
     body: {},

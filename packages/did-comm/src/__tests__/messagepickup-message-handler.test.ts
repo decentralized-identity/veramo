@@ -100,7 +100,7 @@ describe('messagepickup-message-handler', () => {
               ...new FakeDidResolver(() => agent).getDidFakeResolver(),
             }),
           }),
-          new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+          new DIDComm({ transports: [new DIDCommHttpTransport()] }),
           new MessageHandler({
             messageHandlers: [
               // @ts-ignore
@@ -190,7 +190,7 @@ describe('messagepickup-message-handler', () => {
         packing: 'authcrypt',
         message: {
           type: 'test',
-          to: recipient.did,
+          to: [recipient.did],
           from: mediator.did,
           id: 'test',
           body: { hello: 'world' },
@@ -250,7 +250,7 @@ describe('messagepickup-message-handler', () => {
       const statusRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: STATUS_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: {},
@@ -273,7 +273,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: statusRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: STATUS_MESSAGE_TYPE,
             },
@@ -292,7 +292,7 @@ describe('messagepickup-message-handler', () => {
       const statusRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: STATUS_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: {
@@ -321,7 +321,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: statusRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: STATUS_MESSAGE_TYPE,
             },
@@ -334,12 +334,11 @@ describe('messagepickup-message-handler', () => {
     })
 
     it('should contain returnMessage', async () => {
-
       // Send StatusRequest
       const statusRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: STATUS_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: {
@@ -365,7 +364,7 @@ describe('messagepickup-message-handler', () => {
       const statusRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: STATUS_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         body: {},
       }
@@ -387,7 +386,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: statusRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: STATUS_MESSAGE_TYPE,
             },
@@ -406,7 +405,7 @@ describe('messagepickup-message-handler', () => {
       const deliveryRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: DELIVERY_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: { limit: 2 },
@@ -429,7 +428,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: deliveryRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: DELIVERY_MESSAGE_TYPE,
               attachments: [
@@ -464,7 +463,7 @@ describe('messagepickup-message-handler', () => {
       const deliveryRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: DELIVERY_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: { limit: 2, recipient_key: `${recipient.did}#${recipient.keys[0].kid}` },
@@ -487,7 +486,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: deliveryRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: DELIVERY_MESSAGE_TYPE,
               attachments: [
@@ -513,7 +512,7 @@ describe('messagepickup-message-handler', () => {
       const deliveryRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: DELIVERY_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         body: { limit: 2 },
       }
@@ -536,7 +535,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: deliveryRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: DELIVERY_MESSAGE_TYPE,
             },
@@ -553,7 +552,7 @@ describe('messagepickup-message-handler', () => {
       const deliveryRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: DELIVERY_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: {},
@@ -577,7 +576,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: deliveryRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: DELIVERY_MESSAGE_TYPE,
             },
@@ -594,7 +593,7 @@ describe('messagepickup-message-handler', () => {
       const deliveryRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: DELIVERY_REQUEST_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: { limit: 'not a number' },
@@ -618,7 +617,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: deliveryRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: DELIVERY_MESSAGE_TYPE,
             },
@@ -645,7 +644,7 @@ describe('messagepickup-message-handler', () => {
       const messagesRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: MESSAGES_RECEIVED_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: { message_id_list: [messageToQueue2.id] },
@@ -675,7 +674,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: messagesRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: STATUS_MESSAGE_TYPE,
             },
@@ -709,7 +708,7 @@ describe('messagepickup-message-handler', () => {
       const messagesRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: MESSAGES_RECEIVED_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient.did,
         return_route: 'all',
         body: { message_id_list: [messageToQueue2.id, messageToQueue3.id] },
@@ -746,7 +745,7 @@ describe('messagepickup-message-handler', () => {
               id: expect.anything(),
               created_time: expect.anything(),
               thid: messagesRequestMessage.id,
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               type: STATUS_MESSAGE_TYPE,
             },
@@ -771,7 +770,7 @@ describe('messagepickup-message-handler', () => {
       const messagesRequestMessage: IDIDCommMessage = {
         id: v4(),
         type: MESSAGES_RECEIVED_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         from: recipient2.did,
         return_route: 'all',
         body: { message_id_list: [messageToQueue2.id] },
@@ -846,7 +845,7 @@ describe('messagepickup-message-handler', () => {
               ...new FakeDidResolver(() => agent).getDidFakeResolver(),
             }),
           }),
-          new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+          new DIDComm({ transports: [new DIDCommHttpTransport()] }),
           new MessageHandler({
             messageHandlers: [
               // @ts-ignore
@@ -936,7 +935,7 @@ describe('messagepickup-message-handler', () => {
         packing: 'authcrypt',
         message: {
           type: 'test',
-          to: recipient.did,
+          to: [recipient.did],
           from: mediator.did,
           id: 'test',
           body: { hello: 'world' },
@@ -998,7 +997,7 @@ describe('messagepickup-message-handler', () => {
         body: {},
         id: v4(),
         created_time: new Date().toISOString(),
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         type: DELIVERY_MESSAGE_TYPE,
         attachments: [
@@ -1036,7 +1035,7 @@ describe('messagepickup-message-handler', () => {
           data: {
             message: {
               type: 'test',
-              to: recipient.did,
+              to: [recipient.did],
               from: mediator.did,
               id: 'test',
               body: { hello: 'world' },
@@ -1054,7 +1053,7 @@ describe('messagepickup-message-handler', () => {
             message: {
               id: expect.anything(),
               type: MESSAGES_RECEIVED_MESSAGE_TYPE,
-              to: mediator.did,
+              to: [mediator.did],
               from: recipient.did,
               created_time: expect.anything(),
               thid: messageDeliveryMessage.id,

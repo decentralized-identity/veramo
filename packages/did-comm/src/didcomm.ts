@@ -68,6 +68,7 @@ import {
 import {
   _ExtendedIKey,
   _NormalizedVerificationMethod,
+  asArray,
   bytesToUtf8String,
   decodeJoseBlob,
   dereferenceDidKeys,
@@ -343,11 +344,8 @@ export class DIDComm implements IAgentPlugin {
       return tempRecipients
     }
 
-    // add primary recipient
-    recipients.push(...(await computeRecipients(args.message.to)))
-
-    // add bcc recipients (optional)
-    for (const to of args.options?.bcc || []) {
+    const recipientDIDs = asArray(args.message.to).concat(asArray(args.options?.bcc))
+    for (const to of recipientDIDs) {
       recipients.push(...(await computeRecipients(to)))
     }
 
@@ -666,19 +664,20 @@ export class DIDComm implements IAgentPlugin {
     const splitKey = routingKey.split('#')
     const shouldUseSpecificKid = splitKey.length > 1
     const mediatorDidUrl = splitKey[0]
+    const msgJson = JSON.parse(packedMessageToForward.message)
     // 1. Create forward message
     const forwardMessage: IDIDCommMessage = {
       id: uuidv4(),
       type: 'https://didcomm.org/routing/2.0/forward',
-      to: mediatorDidUrl,
+      to: [mediatorDidUrl],
       body: {
         next: recipientDidUrl,
       },
       attachments: [
         {
-          media_type: DIDCommMessageMediaType.ENCRYPTED,
+          media_type: msgJson?.typ ?? DIDCommMessageMediaType.ENCRYPTED,
           data: {
-            json: JSON.parse(packedMessageToForward.message),
+            json: msgJson,
           },
         },
       ],
@@ -737,6 +736,7 @@ export class DIDComm implements IAgentPlugin {
     const services = (didDoc.service || [])
       ?.map((service: any) => {
         if (Array.isArray(service)) {
+          // This is a workaround for some malformed DID documents that bundle multiple service entries into an array
           return service.map((s) => {
             if (typeof s === 'object') {
               return processServiceObject(s)
@@ -756,6 +756,7 @@ export class DIDComm implements IAgentPlugin {
     }
 
     // spray all endpoints and transports that match and gather results
+    // TODO: investigate if we should queue the requests and stop when the first transport succeeds
     const results: (ISendDIDCommMessageResponse | Error)[] = []
 
     for (const service of services) {
