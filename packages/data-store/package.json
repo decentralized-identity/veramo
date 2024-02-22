@@ -23,7 +23,7 @@
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
     "sqlite3": "5.1.6",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",

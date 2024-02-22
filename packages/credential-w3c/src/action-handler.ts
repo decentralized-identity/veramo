@@ -497,8 +497,8 @@ export class CredentialPlugin implements IAgentPlugin {
 
   /**
    * Checks if a key is suitable for signing JWT payloads.
-   * @param key - the key to check for support
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   * @param key - the key to check
+   * @param context - the Veramo agent context, unused here
    *
    * @beta
    */

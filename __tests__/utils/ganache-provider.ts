@@ -95,7 +95,7 @@ export async function createGanacheProvider(): Promise<{ provider: JsonRpcApiPro
         balance: `0x1000000000000000000000`,
       },
     ],
-  })
+  } as any) // type error here due to mismatched constructor types in ethers and ganache
   await provider.ready
   const factory = ContractFactory.fromSolidity(EthereumDIDRegistry).connect(await provider.getSigner(0))
 

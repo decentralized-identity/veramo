@@ -7,7 +7,7 @@ export const schema = {
           "properties": {
             "didDocument": {
               "$ref": "#/components/schemas/DIDDocument",
-              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by\n {@link  IResolver.resolveDid }"
+              "description": "the DID document from which to extract the fragment. This MUST be the document resolved by  {@link  IResolver.resolveDid }"
             },
             "didUrl": {
               "type": "string",
@@ -333,7 +333,7 @@ export const schema = {
             "type",
             "serviceEndpoint"
           ],
-          "description": "Represents a Service entry in a  {@link  https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
+          "description": "Represents a Service entry in a  {@link https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
         },
         "ServiceEndpoint": {
           "anyOf": [
@@ -364,7 +364,7 @@ export const schema = {
               "const": "service"
             }
           ],
-          "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link  https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
+          "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
         },
         "KeyCapabilitySection": {
           "type": "string",
@@ -386,7 +386,7 @@ export const schema = {
               "$ref": "#/components/schemas/ServiceEndpoint"
             }
           ],
-          "description": "Return type of  {@link IResolver.getDIDComponentById | getDIDComponentById } \nrepresents a `VerificationMethod` or a `ServiceEndpoint` entry from a  {@link did-resolver#DIDDocument | DIDDocument }"
+          "description": "Return type of  {@link IResolver.getDIDComponentById | getDIDComponentById }  represents a `VerificationMethod` or a `ServiceEndpoint` entry from a  {@link did-resolver#DIDDocument | DIDDocument }"
         },
         "ResolveDidArgs": {
           "type": "object",
@@ -1920,7 +1920,7 @@ export const schema = {
             "type",
             "serviceEndpoint"
           ],
-          "description": "Represents a Service entry in a  {@link  https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
+          "description": "Represents a Service entry in a  {@link https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
         },
         "ServiceEndpoint": {
           "anyOf": [
@@ -2280,7 +2280,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -2308,7 +2308,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -2317,7 +2317,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -2357,7 +2357,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -2411,7 +2411,7 @@ export const schema = {
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -2422,7 +2422,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -3151,7 +3151,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -3179,7 +3179,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -3188,7 +3188,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -3228,7 +3228,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -3282,7 +3282,7 @@ export const schema = {
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -3293,7 +3293,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -3432,7 +3432,7 @@ export const schema = {
             "issuanceDate",
             "hash"
           ],
-          "description": "The columns that can be searched for a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsCount }"
+          "description": "The columns that can be searched for a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials }  See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsCount }"
         },
         "Order-TCredentialColumns": {
           "type": "object",
@@ -3468,7 +3468,7 @@ export const schema = {
             "hash",
             "verifiableCredential"
           ],
-          "description": "Represents the result of a Query for  {@link  VerifiableCredential } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
+          "description": "Represents the result of a Query for  {@link  VerifiableCredential } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials }  See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
         },
         "FindClaimsArgs": {
           "$ref": "#/components/schemas/FindArgs-TClaimsColumns",
@@ -3552,7 +3552,7 @@ export const schema = {
             "expirationDate",
             "issuanceDate"
           ],
-          "description": "The columns that can be searched for the claims of a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaimsCount }"
+          "description": "The columns that can be searched for the claims of a  {@link  VerifiableCredential } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }  See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaimsCount }"
         },
         "Order-TClaimsColumns": {
           "type": "object",
@@ -3653,7 +3653,7 @@ export const schema = {
             "expirationDate",
             "issuanceDate"
           ],
-          "description": "The columns that can be searched for a  {@link  VerifiablePresentation } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations } \nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentationsCount }"
+          "description": "The columns that can be searched for a  {@link  VerifiablePresentation } \n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentations }  See  {@link  IDataStoreORM.dataStoreORMGetVerifiablePresentationsCount }"
         },
         "Order-TPresentationColumns": {
           "type": "object",
@@ -3820,7 +3820,7 @@ export const schema = {
             },
             "save": {
               "type": "boolean",
-              "description": "Optional. If set to `true`, the message will be saved using\n {@link  @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage } \n<p/><p/>",
+              "description": "Optional. If set to `true`, the message will be saved using  {@link  @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage }  <p/><p/>",
               "deprecated": "Please call {@link @veramo/core-types#IDataStore.dataStoreSaveMessage | dataStoreSaveMessage()} after\nhandling the message and determining that it must be saved."
             }
           },
@@ -3997,7 +3997,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -4025,7 +4025,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -4034,7 +4034,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -4074,7 +4074,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -4128,7 +4128,7 @@ export const schema = {
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -4139,7 +4139,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -4232,11 +4232,11 @@ export const schema = {
             },
             "credential": {
               "$ref": "#/components/schemas/CredentialPayload",
-              "description": "The JSON payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
+              "description": "The JSON payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved.",
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the  {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved.",
               "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
             },
             "proofFormat": {
@@ -4263,7 +4263,7 @@ export const schema = {
           "additionalProperties": {
             "description": "Any other options that can be forwarded to the lower level libraries"
           },
-          "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+          "description": "Encapsulates the parameters required to create a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "CredentialPayload": {
           "type": "object",
@@ -4318,7 +4318,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -4327,7 +4327,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -4371,7 +4371,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "ProofFormat": {
           "type": "string",
@@ -4430,7 +4430,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -4458,11 +4458,11 @@ export const schema = {
             },
             "presentation": {
               "$ref": "#/components/schemas/PresentationPayload",
-              "description": "The JSON payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
+              "description": "The JSON payload of the Presentation according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
             },
             "save": {
               "type": "boolean",
-              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the\n {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved. <p/><p/>",
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the  {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved. <p/><p/>",
               "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation |}   *   dataStoreSaveVerifiablePresentation()} to save the credential after creating it."
             },
             "challenge": {
@@ -4497,7 +4497,7 @@ export const schema = {
           "additionalProperties": {
             "description": "Any other options that can be forwarded to the lower level libraries"
           },
-          "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+          "description": "Encapsulates the parameters required to create a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "PresentationPayload": {
           "type": "object",
@@ -4550,7 +4550,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -4608,7 +4608,7 @@ export const schema = {
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "IIdentifier": {
           "type": "object",
@@ -4826,7 +4826,7 @@ export const schema = {
             },
             "credential": {
               "$ref": "#/components/schemas/W3CVerifiableCredential",
-              "description": "The Verifiable Credential object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
+              "description": "The Verifiable Credential object according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
             },
             "fetchRemoteContexts": {
               "type": "boolean",
@@ -4843,7 +4843,7 @@ export const schema = {
           "additionalProperties": {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
-          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+          "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -4854,7 +4854,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -4904,7 +4904,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -4932,7 +4932,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -4941,7 +4941,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -4981,7 +4981,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "CompactJWT": {
           "type": "string",
@@ -5034,7 +5034,7 @@ export const schema = {
           "additionalProperties": {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
           },
-          "description": "Encapsulates the response object to verifyPresentation method after verifying a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+          "description": "Encapsulates the response object to verifyPresentation method after verifying a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "IError": {
           "type": "object",
@@ -5067,7 +5067,7 @@ export const schema = {
             },
             "presentation": {
               "$ref": "#/components/schemas/W3CVerifiablePresentation",
-              "description": "The Verifiable Presentation object according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
+              "description": "The Verifiable Presentation object according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
             },
             "challenge": {
               "type": "string",
@@ -5092,7 +5092,7 @@ export const schema = {
           "additionalProperties": {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
-          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+          "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         },
         "W3CVerifiablePresentation": {
           "anyOf": [
@@ -5103,7 +5103,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -5157,7 +5157,7 @@ export const schema = {
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         }
       },
       "methods": {
@@ -5224,7 +5224,7 @@ export const schema = {
           "required": [
             "credential"
           ],
-          "description": "Arguments for calling  {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus } .\n\nThe credential whose status should be checked and the DID document of the credential issuer.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Arguments for calling  {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus } .\n\nThe credential whose status should be checked and the DID document of the credential issuer.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -5274,7 +5274,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -5302,7 +5302,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -5311,7 +5311,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -5351,7 +5351,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "DIDDocument": {
           "type": "object",
@@ -5662,7 +5662,7 @@ export const schema = {
             "type",
             "serviceEndpoint"
           ],
-          "description": "Represents a Service entry in a  {@link  https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
+          "description": "Represents a Service entry in a  {@link https://www.w3.org/TR/did-core/#did-document-properties | DID document } ."
         },
         "ServiceEndpoint": {
           "anyOf": [
@@ -5734,7 +5734,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "CredentialStatusUpdateArgs": {
           "type": "object",
@@ -5801,7 +5801,7 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -5829,7 +5829,7 @@ export const schema = {
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -5838,7 +5838,7 @@ export const schema = {
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
