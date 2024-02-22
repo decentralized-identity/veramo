@@ -1,6 +1,6 @@
-import { SigningKey, computeAddress } from 'ethers'
+import { computeAddress, SigningKey } from 'ethers'
 import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
-import { DIDDocument, VerificationMethod } from 'did-resolver'
+import { DIDDocument, DIDResolutionOptions, VerificationMethod } from 'did-resolver'
 import { extractPublicKeyBytes } from 'did-jwt'
 import {
   _ExtendedIKey,
@@ -171,7 +171,7 @@ export function getChainId(verificationMethod: _NormalizedVerificationMethod): n
   if (!Number.isInteger(result)) {
     throw new Error('chainId is not a number')
   }
-  if (result)  {
+  if (result) {
     return result
   }
   throw new Error('blockchainAccountId does not include eip155 designation')
@@ -187,6 +187,7 @@ export function getChainId(verificationMethod: _NormalizedVerificationMethod): n
  *   `verificationMethod` to map all the keys.
  * @param context - the veramo agent context, which must contain a {@link @veramo/core-types#IResolver | IResolver}
  *   implementation that can resolve the DID document of the identifier.
+ * @param resolutionOptions - optional parameters to be passed to the DID resolver
  *
  * @returns an array of mapped keys. The corresponding verification method is added to the `meta.verificationMethod`
  *   property of the key.
@@ -197,8 +198,9 @@ export async function mapIdentifierKeysToDoc(
   identifier: IIdentifier,
   section: DIDDocumentSection = 'keyAgreement',
   context: IAgentContext<IResolver>,
+  resolutionOptions?: DIDResolutionOptions,
 ): Promise<_ExtendedIKey[]> {
-  const didDocument = await resolveDidOrThrow(identifier.did, context)
+  const didDocument = await resolveDidOrThrow(identifier.did, context, resolutionOptions)
   // dereference all key agreement keys from DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
@@ -238,6 +240,7 @@ export async function mapIdentifierKeysToDoc(
  * @param didUrl - the DID to be resolved
  * @param context - the veramo agent context, which must contain a {@link @veramo/core-types#IResolver | IResolver}
  *   implementation that can resolve the DID document of the `didUrl`.
+ * @param resolutionOptions - optional parameters to be passed to the DID resolver
  *
  * @returns a {@link did-resolver#DIDDocument | DIDDocument} if resolution is successful
  * @throws if the resolution fails
@@ -247,9 +250,10 @@ export async function mapIdentifierKeysToDoc(
 export async function resolveDidOrThrow(
   didUrl: string,
   context: IAgentContext<IResolver>,
+  resolutionOptions?: DIDResolutionOptions,
 ): Promise<DIDDocument> {
   // TODO: add caching
-  const docResult = await context.agent.resolveDid({ didUrl: didUrl })
+  const docResult = await context.agent.resolveDid({ didUrl: didUrl, options: resolutionOptions })
   const err = docResult?.didResolutionMetadata?.error
   const msg = docResult?.didResolutionMetadata?.message
   const didDocument = docResult.didDocument

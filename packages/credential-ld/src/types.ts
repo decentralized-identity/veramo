@@ -7,6 +7,7 @@ import {
   IPluginMethodMap,
   IResolver,
   PresentationPayload,
+  UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
@@ -104,7 +105,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICreateVerifiablePresentationLDArgs {
+export interface ICreateVerifiablePresentationLDArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Presentation according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
@@ -150,7 +151,7 @@ export interface ICreateVerifiablePresentationLDArgs {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICreateVerifiableCredentialLDArgs {
+export interface ICreateVerifiableCredentialLDArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -186,7 +187,7 @@ export interface ICreateVerifiableCredentialLDArgs {
  *
  * @beta This API may change without a BREAKING CHANGE notice
  */
-export interface IVerifyCredentialLDArgs {
+export interface IVerifyCredentialLDArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -216,7 +217,7 @@ export interface IVerifyCredentialLDArgs {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface IVerifyPresentationLDArgs {
+export interface IVerifyPresentationLDArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}

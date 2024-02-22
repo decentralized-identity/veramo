@@ -5,6 +5,18 @@ export const schema = {
         "ICreateVerifiableCredentialLDArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "credential": {
               "$ref": "#/components/schemas/CredentialPayload",
               "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
@@ -196,6 +208,18 @@ export const schema = {
         "ICreateVerifiablePresentationLDArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "presentation": {
               "$ref": "#/components/schemas/PresentationPayload",
               "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted."
@@ -339,6 +363,18 @@ export const schema = {
         "IVerifyCredentialLDArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "credential": {
               "$ref": "#/components/schemas/VerifiableCredential",
               "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
@@ -359,6 +395,18 @@ export const schema = {
         "IVerifyPresentationLDArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "presentation": {
               "$ref": "#/components/schemas/VerifiablePresentation",
               "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"

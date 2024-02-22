@@ -30,6 +30,8 @@ import {
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
+  VeramoEd25519Signature2020,
+  VeramoJsonWebSignature2020,
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -51,7 +53,7 @@ import {
   PrivateKeyStoreJson,
 } from '../packages/data-store-json/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
 
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
@@ -77,7 +79,7 @@ import utils from './shared/utils'
 import { JsonFileStore } from './utils/json-file-store'
 import credentialStatus from './shared/credentialStatus'
 import credentialPluginTests from './shared/credentialPluginTests'
-import dbInitOptions from "./shared/dbInitOptions";
+import dbInitOptions from './shared/dbInitOptions'
 
 jest.setTimeout(120000)
 
@@ -205,7 +207,12 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+        suites: [
+          new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          new VeramoEd25519Signature2018(),
+          new VeramoEd25519Signature2020(),
+          new VeramoJsonWebSignature2020(),
+        ],
       }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),

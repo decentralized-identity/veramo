@@ -27,6 +27,8 @@ import {
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
+  VeramoEd25519Signature2020,
+  VeramoJsonWebSignature2020,
 } from '@veramo/credential-ld'
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 import { getResolver as getDidPeerResolver, PeerDIDProvider } from '@veramo/did-provider-peer'
@@ -150,7 +152,12 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
       new CredentialPlugin(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts],
-        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+        suites: [
+          new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          new VeramoEd25519Signature2018(),
+          new VeramoEd25519Signature2020(),
+          new VeramoJsonWebSignature2020(),
+        ],
       }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
