@@ -256,8 +256,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       date-fns:
-        specifier: ^2.30.0
-        version: 2.30.0
+        specifier: ^3.0.0
+        version: 3.3.1
       debug:
         specifier: ^4.3.4
         version: 4.3.4
@@ -1330,109 +1330,6 @@ importers:
       typescript:
         specifier: 5.2.2
         version: 5.2.2
-
-  packages/test-node-app:
-    dependencies:
-      '@veramo/core':
-        specifier: workspace:*
-        version: link:../core
-      '@veramo/core-types':
-        specifier: workspace:*
-        version: link:../core-types
-      '@veramo/credential-ld':
-        specifier: workspace:*
-        version: link:../credential-ld
-      '@veramo/credential-w3c':
-        specifier: workspace:*
-        version: link:../credential-w3c
-      '@veramo/data-store':
-        specifier: workspace:*
-        version: link:../data-store
-      '@veramo/data-store-json':
-        specifier: workspace:*
-        version: link:../data-store-json
-      '@veramo/did-comm':
-        specifier: workspace:*
-        version: link:../did-comm
-      '@veramo/did-jwt':
-        specifier: workspace:*
-        version: link:../did-jwt
-      '@veramo/did-manager':
-        specifier: workspace:*
-        version: link:../did-manager
-      '@veramo/did-provider-ethr':
-        specifier: workspace:*
-        version: link:../did-provider-ethr
-      '@veramo/did-provider-jwk':
-        specifier: workspace:*
-        version: link:../did-provider-jwk
-      '@veramo/did-provider-key':
-        specifier: workspace:*
-        version: link:../did-provider-key
-      '@veramo/did-provider-peer':
-        specifier: workspace:^
-        version: link:../did-provider-peer
-      '@veramo/did-provider-pkh':
-        specifier: workspace:*
-        version: link:../did-provider-pkh
-      '@veramo/did-provider-web':
-        specifier: workspace:*
-        version: link:../did-provider-web
-      '@veramo/did-resolver':
-        specifier: workspace:*
-        version: link:../did-resolver
-      '@veramo/key-manager':
-        specifier: workspace:*
-        version: link:../key-manager
-      '@veramo/kms-local':
-        specifier: workspace:*
-        version: link:../kms-local
-      '@veramo/kms-web3':
-        specifier: workspace:*
-        version: link:../kms-web3
-      '@veramo/message-handler':
-        specifier: workspace:*
-        version: link:../message-handler
-      '@veramo/remote-server':
-        specifier: workspace:*
-        version: link:../remote-server
-      '@veramo/selective-disclosure':
-        specifier: workspace:*
-        version: link:../selective-disclosure
-      '@veramo/test-utils':
-        specifier: workspace:*
-        version: link:../test-utils
-      '@veramo/url-handler':
-        specifier: workspace:*
-        version: link:../url-handler
-      '@veramo/utils':
-        specifier: workspace:*
-        version: link:../utils
-      cors:
-        specifier: ^2.8.5
-        version: 2.8.5
-      did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
-      ethr-did-resolver:
-        specifier: ^10.1.0
-        version: 10.1.3
-      typeorm:
-        specifier: ^0.3.17
-        version: 0.3.17(ts-node@10.9.2)
-      web-did-resolver:
-        specifier: ^2.0.27
-        version: 2.0.27
-    devDependencies:
-      '@types/cors':
-        specifier: 2.8.17
-        version: 2.8.17
-      ts-node:
-        specifier: 10.9.2
-        version: 10.9.2(@types/node@20.8.2)(typescript@5.3.3)
-      typescript:
-        specifier: 5.3.3
-        version: 5.3.3
 
   packages/test-react-app:
     dependencies:
@@ -10923,12 +10820,6 @@ packages:
       '@types/node': 20.8.2
     dev: true
 
-  /@types/cors@2.8.17:
-    resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
-    dependencies:
-      '@types/node': 20.8.2
-    dev: true
-
   /@types/debug@4.1.8:
     resolution: {integrity: sha512-/vPO1EPOs306Cvhwv7KfVfYvOJqA/S/AXjaHQiJboCZzcNDb+TIJFN9/2C9DZ//ijSKWioNyUxD792QmDJ+HKQ==}
     dependencies:
@@ -14706,6 +14597,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.3
 
+  /date-fns@3.3.1:
+    resolution: {integrity: sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==}
+    dev: false
+
   /dateformat@3.0.3:
     resolution: {integrity: sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==}
     dev: true
@@ -15896,7 +15791,6 @@ packages:
     dependencies:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
-    bundledDependencies: false
 
   /ethr-did-resolver@10.1.0:
     resolution: {integrity: sha512-PH3R8UQGpJGWXaVVSWPppPiEzb7eHrzG6yTCGtk23Fw8Et2totj+7V1id+zxCQvToM9cW+CHA/+k64F8xpk/Mw==}
@@ -15916,6 +15810,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: true
 
   /ethr-did@3.0.5:
     resolution: {integrity: sha512-qvA2nBqsxQF2YFPoQ7v0rgSVlj+9CCBnbAu6VtD/veJTq9dhytsEtjz6VDCIqJ6mqEMw7nb8sTLDSwHRgbwyiA==}
@@ -26441,36 +26336,6 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /ts-node@10.9.2(@types/node@20.8.2)(typescript@5.3.3):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 20.8.2
-      acorn: 8.11.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.3.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
     dependencies:
@@ -26703,84 +26568,6 @@ packages:
       yargs: 17.7.2
     transitivePeerDependencies:
       - supports-color
-
-  /typeorm@0.3.17(ts-node@10.9.2):
-    resolution: {integrity: sha512-UDjUEwIQalO9tWw9O2A4GU+sT3oyoUXheHJy4ft+RFdnRdQctdQ34L9SqE2p7LdwzafHx1maxT+bqXON+Qnmig==}
-    engines: {node: '>= 12.9.0'}
-    hasBin: true
-    peerDependencies:
-      '@google-cloud/spanner': ^5.18.0
-      '@sap/hana-client': ^2.12.25
-      better-sqlite3: ^7.1.2 || ^8.0.0
-      hdb-pool: ^0.1.6
-      ioredis: ^5.0.4
-      mongodb: ^5.2.0
-      mssql: ^9.1.1
-      mysql2: ^2.2.5 || ^3.0.1
-      oracledb: ^5.1.0
-      pg: ^8.5.1
-      pg-native: ^3.0.0
-      pg-query-stream: ^4.0.0
-      redis: ^3.1.1 || ^4.0.0
-      sql.js: ^1.4.0
-      sqlite3: ^5.0.3
-      ts-node: ^10.7.0
-      typeorm-aurora-data-api-driver: ^2.0.0
-    peerDependenciesMeta:
-      '@google-cloud/spanner':
-        optional: true
-      '@sap/hana-client':
-        optional: true
-      better-sqlite3:
-        optional: true
-      hdb-pool:
-        optional: true
-      ioredis:
-        optional: true
-      mongodb:
-        optional: true
-      mssql:
-        optional: true
-      mysql2:
-        optional: true
-      oracledb:
-        optional: true
-      pg:
-        optional: true
-      pg-native:
-        optional: true
-      pg-query-stream:
-        optional: true
-      redis:
-        optional: true
-      sql.js:
-        optional: true
-      sqlite3:
-        optional: true
-      ts-node:
-        optional: true
-      typeorm-aurora-data-api-driver:
-        optional: true
-    dependencies:
-      '@sqltools/formatter': 1.2.5
-      app-root-path: 3.1.0
-      buffer: 6.0.3
-      chalk: 4.1.2
-      cli-highlight: 2.1.11
-      date-fns: 2.30.0
-      debug: 4.3.4
-      dotenv: 16.3.1
-      glob: 8.1.0
-      mkdirp: 2.1.6
-      reflect-metadata: 0.1.13
-      sha.js: 2.4.11
-      ts-node: 10.9.2(@types/node@20.8.2)(typescript@5.3.3)
-      tslib: 2.6.2
-      uuid: 9.0.0
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /typescript@4.9.5:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
