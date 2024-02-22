@@ -48,6 +48,9 @@ export const schema = {
         "IDIDCommMessage": {
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string"
+            },
             "type": {
               "type": "string"
             },
@@ -55,15 +58,15 @@ export const schema = {
               "type": "string"
             },
             "to": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "thid": {
               "type": "string"
             },
             "pthid": {
-              "type": "string"
-            },
-            "id": {
               "type": "string"
             },
             "expires_time": {
@@ -90,10 +93,8 @@ export const schema = {
             }
           },
           "required": [
-            "type",
-            "to",
             "id",
-            "body"
+            "type"
           ],
           "description": "The DIDComm message structure. See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure"
         },

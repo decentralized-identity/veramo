@@ -2,6 +2,7 @@ import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core-types'
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { IDIDComm } from './types/IDIDComm.js'
+import { asArray } from '@veramo/utils'
 const debug = Debug('veramo:did-comm:message-handler')
 
 type IContext = IAgentContext<IDIDManager & IKeyManager & IDIDComm>
@@ -112,7 +113,7 @@ export class DIDCommMessageHandler extends AbstractMessageHandler {
           } = unpackedMessage.message
 
           message.type = type
-          message.to = to
+          message.to = asArray(to)[0]
           message.from = from
           message.id = id
           message.threadId = threadId

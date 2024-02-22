@@ -30,6 +30,7 @@ import { DataSource } from 'typeorm'
 
 import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
+import { asArray } from '../../../utils/src'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
@@ -192,7 +193,7 @@ describe('trust-ping-message-handler', () => {
             from: recipient.did,
             id: `${tpid}-response`,
             thid: tpid,
-            to: sender.did,
+            to: [sender.did],
             type: 'https://didcomm.org/trust-ping/2.0/ping-response',
           },
           metaData: { packing: 'authcrypt' },
@@ -223,7 +224,7 @@ describe('trust-ping-message-handler', () => {
             },
             from: sender.did,
             id: `${tpid}`,
-            to: recipient.did,
+            to: [recipient.did],
             type: 'https://didcomm.org/trust-ping/2.0/ping',
           },
           metaData: { packing },
@@ -237,11 +238,13 @@ describe('trust-ping-message-handler', () => {
   // this test should cover message handler directly without any DIDCommMessageHandler 'pre-processing'
   it('should handle trust ping message directly', async () => {
     const trustPingMessage = createTrustPingMessage(sender.did, recipient.did)
+    const {to, ...messageContent} = trustPingMessage
     const tpid = trustPingMessage.id
     let metaData: MetaData[] = []
     await new TrustPingMessageHandler().handle(
       {
-        ...trustPingMessage,
+        ...messageContent,
+        to: asArray(to)[0],
         isValid: () => true,
         addMetaData: (meta) => {
           metaData.push(meta)
@@ -308,7 +311,7 @@ describe('trust-ping-message-handler', () => {
             },
             from: sender.did,
             id: `${tpid}`,
-            to: recipient.did,
+            to: [recipient.did],
             type: 'https://didcomm.org/trust-ping/2.0/ping',
             typ: 'application/didcomm-plain+json',
           },

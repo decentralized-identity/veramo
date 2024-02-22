@@ -237,7 +237,7 @@ describe('didComm', () => {
     return {
       type: 'test',
       from: senderDID.did,
-      to: receiverDID,
+      to: [receiverDID],
       id: 'test',
       body: { hello: 'world' },
     }

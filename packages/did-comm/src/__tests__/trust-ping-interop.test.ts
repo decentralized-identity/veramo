@@ -192,7 +192,7 @@ const bobDoc = {
 const trustPingMessage = {
   type: 'https://didcomm.org/trust-ping/2.0/ping',
   from: 'did:example:alice',
-  to: 'did:example:bob',
+  to: ['did:example:bob'],
   id: 'trust-ping-test',
   body: {
     responseRequested: true,

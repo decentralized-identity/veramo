@@ -205,7 +205,7 @@ describe('routing-message-handler', () => {
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
@@ -216,7 +216,7 @@ describe('routing-message-handler', () => {
       packing: 'anoncrypt',
       message: {
         type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         id: msgId,
         body: {
           next: recipient.did,
@@ -238,7 +238,7 @@ describe('routing-message-handler', () => {
           message: {
             body: { next: recipient.did },
             id: msgId,
-            to: mediator.did,
+            to: [mediator.did],
             type: FORWARD_MESSAGE_TYPE,
             attachments: [
               {
@@ -309,7 +309,7 @@ describe('routing-message-handler', () => {
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
@@ -320,7 +320,7 @@ describe('routing-message-handler', () => {
       packing: 'anoncrypt',
       message: {
         type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         id: msgId,
         body: {
           next: recipient.did,
@@ -384,7 +384,7 @@ describe('routing-message-handler', () => {
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
@@ -395,7 +395,7 @@ describe('routing-message-handler', () => {
       packing: 'anoncrypt',
       message: {
         type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         id: msgId,
         body: {
           next: recipient.did,

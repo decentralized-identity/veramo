@@ -287,7 +287,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-jws-success',
         body: { hello: 'world' },
@@ -315,7 +315,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: bob.did,
               id: 'test-jws-success',
-              to: alice.did,
+              to: [alice.did],
               type: 'test',
             },
             metaData: { packing: 'jws' },
@@ -364,7 +364,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-jws-success',
         body: { hello: 'world' },
@@ -392,7 +392,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: bob.did,
               id: 'test-jws-success',
-              to: alice.did,
+              to: [alice.did],
               type: 'test',
             },
             metaData: { packing: 'jws' },
@@ -441,7 +441,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-jws-success',
         body: { hello: 'world' },
@@ -469,7 +469,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: bob.did,
               id: 'test-jws-success',
-              to: alice.did,
+              to: [alice.did],
               type: 'test',
             },
             metaData: { packing: 'jws' },
@@ -518,7 +518,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-jws-success',
         body: { hello: 'world' },
@@ -546,7 +546,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: bob.did,
               id: 'test-jws-success',
-              to: alice.did,
+              to: [alice.did],
               type: 'test',
             },
             metaData: { packing: 'jws' },
@@ -562,7 +562,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-anoncrypt-fail',
         body: { hello: 'world' },
@@ -600,7 +600,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-anoncrypt-success',
         body: { hello: 'world' },
@@ -628,7 +628,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: 'did:ethr:ganache:0x02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5',
               id: 'test-anoncrypt-success',
-              to: 'did:ethr:ganache:0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798',
+              to: ['did:ethr:ganache:0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798'],
               type: 'test',
             },
             metaData: { packing: 'anoncrypt' },
@@ -644,7 +644,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: bob.did,
+        to: [bob.did],
         from: alice.did,
         id: 'test-endpoint-fail',
         body: { hello: 'world' },
@@ -667,7 +667,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-authcrypt-fail',
         body: { hello: 'world' },
@@ -705,7 +705,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: alice.did,
+        to: [alice.did],
         from: bob.did,
         id: 'test-authcrypt-success',
         body: { hello: 'world' },
@@ -733,7 +733,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: bob.did,
               id: 'test-authcrypt-success',
-              to: alice.did,
+              to: [alice.did],
               type: 'test',
             },
             metaData: { packing: 'authcrypt' },
