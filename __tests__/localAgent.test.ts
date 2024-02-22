@@ -159,7 +159,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            ethers: ethersProvider,
+            ethers: ethersProvider as any, // different versions of ethers complain about a type mismatch here
           }),
         },
       }),
@@ -195,7 +195,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
               {
                 chainId: 1337,
                 name: 'ganache',
-                provider,
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
                 registry,
               },
             ],

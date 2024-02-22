@@ -13,7 +13,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "debug": "^4.3.3",
-    "ethers": "^6.9.0",
+    "ethers": "^6.11.1",
     "ethr-did": "^3.0.5"
   },
   "devDependencies": {
