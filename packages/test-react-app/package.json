@@ -67,15 +67,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-syntax-import-assertions": "7.22.5",
+    "@babel/plugin-syntax-import-assertions": "7.23.3",
     "@babel/preset-typescript": "7.23.0",
     "@craco/craco": "7.1.0",
-    "@types/eslint": "8.44.2",
+    "@types/eslint": "8.56.2",
     "@types/eslint-scope": "3.7.4",
     "@types/expect-puppeteer": "5.0.3",
     "@types/jest": "29.5.3",
     "@types/jest-environment-puppeteer": "5.0.3",
-    "@types/node": "20.8.2",
+    "@types/node": "20.11.19",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "babel-jest": "29.7.0",
@@ -87,10 +87,10 @@
     "jest-environment-puppeteer-jsdom": "6.0.0",
     "jest-jasmine2": "29.7.0",
     "jest-puppeteer": "9.0.0",
-    "puppeteer": "21.3.4",
+    "puppeteer": "21.11.0",
     "react-scripts": "5.0.1",
     "ts-jest": "29.1.1",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "type": "module"
 }
