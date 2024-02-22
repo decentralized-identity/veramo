@@ -84,7 +84,12 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       keyRef = key.kid
     }
 
-    const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
+    const extendedKeys = await mapIdentifierKeysToDoc(
+      identifier,
+      'verificationMethod',
+      context,
+      args.resolutionOptions,
+    )
     const extendedKey = extendedKeys.find((key) => key.kid === keyRef)
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
@@ -147,7 +152,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     const verificationMessage = {
       ...signingInput,
       proof: verifyInputProof,
-   }
+    }
 
     const compat = {
       ...eip712Domain,
@@ -177,7 +182,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       throw new Error('invalid_argument: credential.issuer must not be empty')
     }
 
-    const didDocument = await resolveDidOrThrow(issuer, context)
+    const didDocument = await resolveDidOrThrow(issuer, context, args.resolutionOptions)
 
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
@@ -251,11 +256,16 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       keyRef = key.kid
     }
 
-    const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
+    const extendedKeys = await mapIdentifierKeysToDoc(
+      identifier,
+      'verificationMethod',
+      context,
+      args.resolutionOptions,
+    )
     const extendedKey = extendedKeys.find((key) => key.kid === keyRef)
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
-    
+
     let chainId
     try {
       chainId = getChainId(extendedKey.meta.verificationMethod)
@@ -339,7 +349,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       throw new Error('invalid_argument: args.presentation.issuer must not be empty')
     }
 
-    const didDocument = await resolveDidOrThrow(issuer, context)
+    const didDocument = await resolveDidOrThrow(issuer, context, args.resolutionOptions)
 
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {

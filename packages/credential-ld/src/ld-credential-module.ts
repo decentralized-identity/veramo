@@ -4,6 +4,7 @@ import {
   IKey,
   IResolver,
   PresentationPayload,
+  UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
@@ -18,6 +19,11 @@ import { LdSuiteLoader } from './ld-suite-loader.js'
 import { RequiredAgentMethods } from './ld-suites.js'
 
 const debug = Debug('veramo:w3c:ld-credential-module')
+
+type ForwardedOptions = UsingResolutionOptions & {
+  fetchRemoteContexts?: boolean // defaults to false
+  now?: number // defaults to Date.now()
+}
 
 export class LdCredentialModule {
   /**
@@ -36,13 +42,14 @@ export class LdCredentialModule {
     this.ldSuiteLoader = options.ldSuiteLoader
   }
 
-  getDocumentLoader(context: IAgentContext<IResolver>, attemptToFetchContexts: boolean = false) {
+  getDocumentLoader(context: IAgentContext<IResolver>, options?: ForwardedOptions) {
     return extendContextLoader(async (url: string) => {
-      // console.log(`resolving context for: ${url}`)
+      const resolutionOptions = { accept: 'application/did+ld+json', ...options?.resolutionOptions }
+      const attemptToFetchContexts = options?.fetchRemoteContexts ?? false
 
       // did resolution
       if (url.toLowerCase().startsWith('did:')) {
-        const resolutionResult = await context.agent.resolveDid({ didUrl: url })
+        const resolutionResult = await context.agent.resolveDid({ didUrl: url, options: resolutionOptions })
         const didDoc = resolutionResult.didDocument
 
         if (!didDoc) return
@@ -107,7 +114,7 @@ export class LdCredentialModule {
     issuerDid: string,
     key: IKey,
     verificationMethodId: string,
-    options: any,
+    options: ForwardedOptions,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiableCredential> {
     // TODO: try multiple matching suites until one works or list is exhausted
@@ -115,7 +122,7 @@ export class LdCredentialModule {
       key.type,
       key.meta?.verificationMethod?.type ?? '',
     )[0]
-    const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
+    const documentLoader = this.getDocumentLoader(context, options)
 
     // some suites can modify the incoming credential (e.g. add required contexts)
     suite.preSigningCredModification(credential)
@@ -136,7 +143,7 @@ export class LdCredentialModule {
     verificationMethodId: string,
     challenge: string | undefined,
     domain: string | undefined,
-    options: any,
+    options: ForwardedOptions,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<VerifiablePresentation> {
     // TODO: try multiple matching suites until one works or list is exhausted
@@ -144,7 +151,7 @@ export class LdCredentialModule {
       key.type,
       key.meta?.verificationMethod?.type ?? '',
     )[0]
-    const documentLoader = this.getDocumentLoader(context, options.fetchRemoteContexts)
+    const documentLoader = this.getDocumentLoader(context, options)
 
     suite.preSigningPresModification(presentation)
 
@@ -161,15 +168,15 @@ export class LdCredentialModule {
 
   async verifyCredential(
     credential: VerifiableCredential,
-    fetchRemoteContexts: boolean = false,
-    options: any,
+    options: ForwardedOptions,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
+    const fetchRemoteContexts = options.fetchRemoteContexts ?? false
     const result = await vc.verifyCredential({
       ...options,
       credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
-      documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
+      documentLoader: this.getDocumentLoader(context, { ...options, fetchRemoteContexts }),
       compactProof: false,
       checkStatus: async () => Promise.resolve({ verified: true }), // Fake method
     })
@@ -186,15 +193,15 @@ export class LdCredentialModule {
     presentation: VerifiablePresentation,
     challenge: string | undefined,
     domain: string | undefined,
-    fetchRemoteContexts: boolean = false,
-    options: any,
+    options: ForwardedOptions,
     context: IAgentContext<IResolver>,
   ): Promise<boolean> {
+    const fetchRemoteContexts = options.fetchRemoteContexts ?? false
     const result = await vc.verify({
       ...options,
       presentation,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
-      documentLoader: this.getDocumentLoader(context, fetchRemoteContexts),
+      documentLoader: this.getDocumentLoader(context, { ...options, fetchRemoteContexts }),
       challenge,
       domain,
       compactProof: false,

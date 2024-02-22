@@ -10,6 +10,7 @@ import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
 import { IIdentifier, IKey } from "./IIdentifier.js";
+import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
@@ -26,7 +27,7 @@ export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021'
  *
  * @public
  */
-export interface ICreateVerifiablePresentationArgs {
+export interface ICreateVerifiablePresentationArgs extends UsingResolutionOptions {
   /**
    * The JSON payload of the Presentation according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
@@ -97,7 +98,7 @@ export interface ICreateVerifiablePresentationArgs {
  *
  * @public
  */
-export interface ICreateVerifiableCredentialArgs {
+export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions {
   /**
    * The JSON payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}

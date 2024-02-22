@@ -19,6 +19,7 @@ import {
 } from 'did-jwt'
 import {
   type DIDDocument,
+  type DIDResolutionOptions,
   parse as parseDidUrl,
   type Service,
   type ServiceEndpoint,
@@ -207,7 +208,12 @@ export class DIDComm implements IAgentPlugin {
     }
 
     // obtain sender signing key(s) from authentication section
-    const senderKeys = await mapIdentifierKeysToDoc(managedSender, 'authentication', context)
+    const senderKeys = await mapIdentifierKeysToDoc(
+      managedSender,
+      'authentication',
+      context,
+      args.resolutionOptions,
+    )
     // try to find a managed signing key that matches keyRef
     let signingKey = null
     if (isDefined(keyRef)) {
@@ -276,7 +282,12 @@ export class DIDComm implements IAgentPlugin {
       //    1.1 check that args.message.from is a managed DID
       const sender: IIdentifier = await context.agent.didManagerGet({ did: args?.message?.from })
       //    1.2 match key agreement keys from DID to managed keys
-      const senderKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(sender, 'keyAgreement', context)
+      const senderKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(
+        sender,
+        'keyAgreement',
+        context,
+        args.resolutionOptions,
+      )
       // try to find a sender key by keyRef, otherwise pick the first one
       let senderKey
       if (isDefined(keyRef)) {
@@ -308,9 +319,12 @@ export class DIDComm implements IAgentPlugin {
 
     let recipients: IRecipient[] = []
 
-    async function computeRecipients(to: string): Promise<IRecipient[]> {
+    async function computeRecipients(
+      to: string,
+      resolutionOptions?: DIDResolutionOptions,
+    ): Promise<IRecipient[]> {
       // 2.1 resolve DID for "to"
-      const didDocument: DIDDocument = await resolveDidOrThrow(to, context)
+      const didDocument: DIDDocument = await resolveDidOrThrow(to, context, resolutionOptions)
 
       // 2.2 extract all recipient key agreement keys and normalize them
       const keyAgreementKeys: _NormalizedVerificationMethod[] = (
@@ -463,11 +477,11 @@ export class DIDComm implements IAgentPlugin {
   ): Promise<IUnpackedDIDCommMessage> {
     const { msgObj, mediaType } = this.decodeMessageAndMediaType(args.message)
     if (mediaType === DIDCommMessageMediaType.SIGNED) {
-      return this.unpackDIDCommMessageJWS(msgObj as _DIDCommSignedMessage, context)
+      return this.unpackDIDCommMessageJWS(msgObj as _DIDCommSignedMessage, context, args.resolutionOptions)
     } else if (mediaType === DIDCommMessageMediaType.PLAIN) {
       return { message: <IDIDCommMessage>msgObj, metaData: { packing: 'none' } }
     } else if (mediaType === DIDCommMessageMediaType.ENCRYPTED) {
-      return this.unpackDIDCommMessageJWE({ jwe: msgObj as JWE }, context)
+      return this.unpackDIDCommMessageJWE({ jwe: msgObj as JWE }, context, args.resolutionOptions)
     } else {
       throw Error('not_supported: ' + mediaType)
     }
@@ -476,6 +490,7 @@ export class DIDComm implements IAgentPlugin {
   private async unpackDIDCommMessageJWS(
     jws: _DIDCommSignedMessage,
     context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
+    resolutionOptions?: DIDResolutionOptions,
   ): Promise<IUnpackedDIDCommMessage> {
     // TODO: currently only supporting one signature
     const signatureEncoded: string = isDefined((<_FlattenedJWS>jws).signature)
@@ -493,7 +508,7 @@ export class DIDComm implements IAgentPlugin {
     if (!isDefined(sender) || sender !== message.from) {
       throw new Error('invalid_jws: sender is not a DID or does not match the `kid`')
     }
-    const senderDoc = await resolveDidOrThrow(sender, context)
+    const senderDoc = await resolveDidOrThrow(sender, context, resolutionOptions)
     const senderKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
       didUrl: header.kid,
@@ -510,10 +525,11 @@ export class DIDComm implements IAgentPlugin {
   private async unpackDIDCommMessageJWE(
     { jwe }: { jwe: JWE },
     context: IAgentContext<IDIDManager & IKeyManager & IResolver>,
+    resolutionOptions?: DIDResolutionOptions,
   ): Promise<IUnpackedDIDCommMessage> {
     // 0 resolve skid to DID doc
     //   - find skid in DID doc and convert to 'X25519' byte array (if type matches)
-    let senderKeyBytes: Uint8Array | null = await extractSenderEncryptionKey(jwe, context)
+    let senderKeyBytes: Uint8Array | null = await extractSenderEncryptionKey(jwe, context, resolutionOptions)
 
     // 1. check whether kid is one of my DID URIs
     //   - get recipient DID URIs
@@ -533,7 +549,7 @@ export class DIDComm implements IAgentPlugin {
     //   - filter to the keyAgreementKeys that match the recipient.kid
     //   - match identifier.keys.publicKeyHex to (verificationMethod.publicKey*)
     //   - return a list of `IKey`
-    const localKeys = await mapRecipientsToLocalKeys(managedRecipients, context)
+    const localKeys = await mapRecipientsToLocalKeys(managedRecipients, context, resolutionOptions)
 
     // 3. for each recipient
     //  if isAuthcrypted? (if senderKey != null)
@@ -715,7 +731,7 @@ export class DIDComm implements IAgentPlugin {
       throw new Error(`not_supported: return routes not supported yet`)
     }
 
-    const didDoc = await resolveDidOrThrow(recipientDidUrl, context)
+    const didDoc = await resolveDidOrThrow(recipientDidUrl, context, args.resolutionOptions)
 
     const services = didDoc.service?.filter(
       (service: any) => service.type === 'DIDCommMessaging',

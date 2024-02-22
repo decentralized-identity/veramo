@@ -26,6 +26,18 @@ export const schema = {
         "IPackDIDCommMessageArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "message": {
               "$ref": "#/components/schemas/IDIDCommMessage"
             },
@@ -204,6 +216,18 @@ export const schema = {
         "ISendDIDCommMessageArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "packedMessage": {
               "$ref": "#/components/schemas/IPackedDIDCommMessage"
             },
@@ -663,7 +687,27 @@ export const schema = {
           "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
         },
         "IUnpackDIDCommMessageArgs": {
-          "$ref": "#/components/schemas/IPackedDIDCommMessage",
+          "type": "object",
+          "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ],
           "description": "The input to the  {@link  IDIDComm.unpackDIDCommMessage }  method."
         },
         "IUnpackedDIDCommMessage": {

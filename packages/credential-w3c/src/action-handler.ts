@@ -283,7 +283,13 @@ export class CredentialPlugin implements IAgentPlugin {
     if (type == DocumentFormat.JWT) {
       let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
 
-      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
+      const resolver = {
+        resolve: (didUrl: string) =>
+          context.agent.resolveDid({
+            didUrl,
+            options: otherOptions?.resolutionOptions,
+          }),
+      } as Resolvable
       try {
         // needs broader credential as well to check equivalence with jwt
         verificationResult = await verifyCredentialJWT(jwt, resolver, {
@@ -398,7 +404,13 @@ export class CredentialPlugin implements IAgentPlugin {
       } else {
         jwt = presentation.proof.jwt
       }
-      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
+      const resolver = {
+        resolve: (didUrl: string) =>
+          context.agent.resolveDid({
+            didUrl,
+            options: otherOptions?.resolutionOptions,
+          }),
+      } as Resolvable
 
       let audience = domain
       if (!audience) {
