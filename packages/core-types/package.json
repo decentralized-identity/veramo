@@ -32,7 +32,7 @@
     }
   },
   "dependencies": {
-    "credential-status": "^2.0.5",
+    "credential-status": "^3.0.0",
     "debug": "^4.3.3",
     "did-jwt-vc": "^4.0.0",
     "did-resolver": "^4.1.0"
