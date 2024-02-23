@@ -13,7 +13,7 @@
     "@ipld/dag-pb": "^4.0.5",
     "@noble/curves": "^1.1.0",
     "@veramo/core-types": "workspace:^",
-    "credential-status": "^2.0.5",
+    "credential-status": "^3.0.0",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
     "did-jwt": "^8.0.0",
