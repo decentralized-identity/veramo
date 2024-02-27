@@ -15,6 +15,7 @@ Please help us improve the contents or format of this list by creating a pull re
   * [BBS+ issuer](https://github.com/pcibraro/veramo-bls-issuer/tree/main)
   * [RN app with credential signing](https://github.com/symfoni/identity-wallet)
   * [ID Pocket digital identity wallet](https://rktechworks.com/idpocket)
+  * [Spherity Aries RFCs Veramo Plugin](https://github.com/spherity/aries-rfcs-veramo-plugin)
   * add your own project here!
 
 ## Disclaimer
