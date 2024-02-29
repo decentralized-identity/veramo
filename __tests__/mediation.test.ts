@@ -7,7 +7,6 @@ import {
   IDataStore,
   IDataStoreORM,
   IDIDManager,
-  IEventListener,
   IKeyManager,
   IMessageHandler,
   IResolver,
@@ -21,12 +20,10 @@ import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
 import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
-import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
 import {
   CoordinateMediation,
   CoordinateMediationV3MediatorMessageHandler,
-  CoordinateMediationV3RecipientMessageHandler,
   createV3DeliveryRequestMessage,
   createV3MediateRequestMessage,
   createV3RecipientQueryMessage,
@@ -37,7 +34,6 @@ import {
   PickupMediatorMessageHandler,
   PickupRecipientMessageHandler,
   RoutingMessageHandler,
-  TrustPingMessageHandler,
   UpdateAction,
 } from '../packages/did-comm/src'
 import {
@@ -47,26 +43,14 @@ import {
   PreMediationRequestPolicy,
   RequesterDid,
 } from '../packages/mediation-manager/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import {
-  DataStoreJson,
-  DIDStoreJson,
-  KeyStoreJson,
-  PrivateKeyStoreJson,
-} from '../packages/data-store-json/src'
+import { KeyManagementSystem } from '../packages/kms-local/src'
+import { DataStoreJson } from '../packages/data-store-json/src'
 import { KeyValueStore } from '../packages/kv-store/src'
 import { Server } from 'http'
 import { DELIVERY_MESSAGE_TYPE } from '../packages/did-comm/src/protocols/messagepickup-message-handler'
 
 const MEDIATOR_PORT = 3333
-
-const DIDCommEventSniffer: IEventListener = {
-  eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
-}
-
-const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
-
+jest.fn(() => Promise.resolve())
 // minimum set of plugins for users
 type UserAgentPlugins = IResolver & IKeyManager & IDIDManager & IMessageHandler & IDIDComm
 
@@ -93,22 +77,22 @@ function createMediatorAgent(options?: IAgentOptions): TAgent<MediatorPlugins> {
     store: new Map<string, RequesterDid>(),
   })
 
-  const agent: TAgent<MediatorPlugins> = createAgent<MediatorPlugins>({
+  return createAgent<MediatorPlugins>({
     ...options,
     plugins: [
       new DIDResolverPlugin({
         ...getDidPeerResolver(),
       }),
       new KeyManager({
-        store: new KeyStoreJson(memoryJsonStore),
+        store: new MemoryKeyStore(),
         kms: {
           [defaultKms]: new KeyManagementSystem(
-            new PrivateKeyStoreJson(memoryJsonStore, new SecretBox(DB_SECRET_KEY)),
+            new MemoryPrivateKeyStore(),
           ),
         },
       }),
       new DIDManager({
-        store: new DIDStoreJson(memoryJsonStore),
+        store: new MemoryDIDStore(),
         defaultProvider: 'did:peer',
         providers: {
           'did:peer': new PeerDIDProvider({ defaultKms }),
@@ -130,13 +114,11 @@ function createMediatorAgent(options?: IAgentOptions): TAgent<MediatorPlugins> {
       ...(options?.plugins || []),
     ],
   })
-  return agent
 }
 
 function createUserAgent(options?: IAgentOptions): TAgent<UserAgentPlugins> {
-  let memoryJsonStore = { notifyUpdate: () => Promise.resolve() }
 
-  const agent: TAgent<UserAgentPlugins> = createAgent<UserAgentPlugins>({
+  return createAgent<UserAgentPlugins>({
     ...options,
     plugins: [
       new DIDResolverPlugin({
@@ -167,7 +149,6 @@ function createUserAgent(options?: IAgentOptions): TAgent<UserAgentPlugins> {
       new DIDComm(),
     ],
   })
-  return agent
 }
 
 /**
@@ -206,7 +187,7 @@ describe('did-comm mediation', () => {
       const requestWithAgent = RequestWithAgentRouter({ agent: mediator })
       // set up a server to receive HTTP messages and pipe them to the mediator as DIDComm messages
       const app = express()
-      // app.use(cors())
+      // app.use(cors()) // Use this for real servers
       app.use(
         messagingPath,
         requestWithAgent,
