@@ -1,21 +1,24 @@
-import { Jwt, SDJwt, SDJwtInstance } from '@sd-jwt/core'
-import { Signer, Verifier } from '@sd-jwt/types'
-import { IAgentPlugin, IIdentifier, IKey } from '@veramo/core-types'
-import { extractIssuer } from '@veramo/utils'
-import schema from '../plugin.schema.json' assert { type: 'json' }
-import { SdJWTImplementation } from '../types/ISDJwtPlugin'
+import { Jwt, SDJwt } from '@sd-jwt/core'
+import { SDJwtVcInstance } from '@sd-jwt/sd-jwt-vc'
+import { Signer, Verifier, KbVerifier, JwtPayload } from '@sd-jwt/types'
+import { IAgentPlugin } from '@veramo/core-types'
+import { schema } from './plugin.schema'
 import {
-  ICreateVerifiableCredentialSDJwtArgs,
-  ICreateVerifiableCredentialSDJwtResult,
-  ICreateVerifiablePresentationSDJwtArgs,
-  ICreateVerifiablePresentationSDJwtResult,
+  SdJWTImplementation,
+  ICreateSdJwtVcArgs,
+  ICreateSdJwtVcResult,
+  ICreateSdJwtVcPresentationArgs,
+  ICreateSdJwtVcPresentationResult,
   IRequiredContext,
   ISDJwtPlugin,
-  IVerifyVerifiableCredentialSDJwtArgs,
-  IVerifyVerifiableCredentialSDJwtResult,
-  IVerifyVerifiablePresentationSDJwtArgs,
-  IVerifyVerifiablePresentationSDJwtResult,
-} from '../types/ISDJwtPlugin.js'
+  IVerifySdJwtVcArgs,
+  IVerifySdJwtVcResult,
+  IVerifySdJwtVcPresentationArgs,
+  IVerifySdJwtVcPresentationResult,
+  Claims,
+} from './types.js'
+import { mapIdentifierKeysToDocWithJwkSupport } from '@sphereon/ssi-sdk-ext.did-utils'
+import { encodeJoseBlob } from '@veramo/utils'
 
 /**
  * SD-JWT plugin for Veramo
@@ -27,10 +30,10 @@ export class SDJwtPlugin implements IAgentPlugin {
 
   // map the methods your plugin is declaring to their implementation
   readonly methods: ISDJwtPlugin = {
-    createVerifiableCredentialSDJwt: this.createVerifiableCredentialSDJwt.bind(this),
-    createVerifiablePresentationSDJwt: this.createVerifiablePresentationSDJwt.bind(this),
-    verifyVerifiableCredentialSDJwt: this.verifyVerifiableCredentialSDJwt.bind(this),
-    verifyVerifiablePresentationSDJwt: this.verifyVerifiablePresentationSDJwt.bind(this),
+    createSdJwtVc: this.createSdJwtVc.bind(this),
+    createSdJwtVcPresentation: this.createSdJwtVcPresentation.bind(this),
+    verifySdJwtVc: this.verifySdJwtVc.bind(this),
+    verifySdJwtVcPresentation: this.verifySdJwtVcPresentation.bind(this),
   }
 
   /**
@@ -39,33 +42,23 @@ export class SDJwtPlugin implements IAgentPlugin {
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    * @returns A signed SD-JWT credential.
    */
-  async createVerifiableCredentialSDJwt(
-    args: ICreateVerifiableCredentialSDJwtArgs,
-    context: IRequiredContext,
-  ): Promise<ICreateVerifiableCredentialSDJwtResult> {
-    const issuer = extractIssuer(args.credentialPayload, {
-      removeParameters: true,
-    })
+  async createSdJwtVc(args: ICreateSdJwtVcArgs, context: IRequiredContext): Promise<ICreateSdJwtVcResult> {
+    const issuer = args.credentialPayload.iss
     if (!issuer) {
-      throw new Error('invalid_argument: credential.issuer must not be empty')
+      throw new Error('credential.issuer must not be empty')
     }
     if (issuer.split('#').length === 1) {
-      throw new Error(
-        'invalid_argument: credential.issuer must contain a did id with key reference like did:exmaple.com#key-1',
-      )
+      throw new Error('credential.issuer must reference a key')
     }
-    const identifier = await context.agent.didManagerGet({
-      did: issuer.split('#')[0],
-    })
-    //TODO: how to make sure it is getting the correct key? Right now it's looping over it, but without checking the key reference.
-    const { key, alg } = SDJwtPlugin.getSigningKey(identifier)
+    const { alg, key } = await this.getSignKey(issuer, context)
+
     //TODO: let the user also insert a method to sign the data
     const signer: Signer = async (data: string) => context.agent.keyManagerSign({ keyRef: key.kid, data })
 
-    const sdjwt = new SDJwtInstance({
+    const sdjwt = new SDJwtVcInstance({
       signer,
       hasher: this.algorithms.hasher,
-      saltGenerator: this.algorithms.salltGenerator,
+      saltGenerator: this.algorithms.saltGenerator,
       signAlg: alg,
       hashAlg: 'SHA-256',
     })
@@ -75,29 +68,72 @@ export class SDJwtPlugin implements IAgentPlugin {
   }
 
   /**
+   * Get the key to sign the SD-JWT
+   * @param issuer did url like did:exmaple.com#key-1
+   * @param context agent instance
+   * @returns the key to sign the SD-JWT
+   */
+  private async getSignKey(issuer: string, context: IRequiredContext) {
+    const identifier = await context.agent.didManagerGet({
+      did: issuer.split('#')[0],
+    })
+    const doc = await mapIdentifierKeysToDocWithJwkSupport(identifier, 'assertionMethod', context)
+    if (!doc || doc.length === 0) throw new Error('No key found for signing')
+    const key = doc.find((key) => key.meta.verificationMethod.id === issuer)
+    if (!key) throw new Error('No key found with the given id')
+    let alg: string
+    //transform the key type to the alg
+    switch (key.type) {
+      case 'Ed25519':
+        alg = 'EdDSA'
+        break
+      case 'Secp256k1':
+        alg = 'ES256K'
+        break
+      case 'Secp256r1':
+        alg = 'ES256'
+        break
+      default:
+        throw new Error(`unsupported key type ${key.type}`)
+    }
+    return { alg, key }
+  }
+
+  /**
    * Create a signed SD-JWT presentation.
    * @param args - Arguments necessary for the creation of a SD-JWT presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    * @returns A signed SD-JWT presentation.
    */
-  async createVerifiablePresentationSDJwt(
-    args: ICreateVerifiablePresentationSDJwtArgs,
+  async createSdJwtVcPresentation(
+    args: ICreateSdJwtVcPresentationArgs,
     context: IRequiredContext,
-  ): Promise<ICreateVerifiablePresentationSDJwtResult> {
+  ): Promise<ICreateSdJwtVcPresentationResult> {
     const cred = await SDJwt.fromEncode(args.presentation, this.algorithms.hasher)
-    //get the key based on the credential
-    const identifier = await context.agent.didManagerFind({ alias: 'holder' })
-    const { key, alg } = SDJwtPlugin.getSigningKey(identifier[0])
+    const claims = await cred.getClaims<Claims>(this.algorithms.hasher)
+    let holderDID: string
+    // we primarly look for a cnf field, if it's not there we look for a sub field. If this is also not given, we throw an error since we can not sign it.
+    if (claims.cnf?.jwk) {
+      const key = claims.cnf.jwk
+      holderDID = `did:jwk:${encodeJoseBlob(key)}#0`
+    } else if (claims.sub) {
+      holderDID = claims.sub as string
+    } else {
+      throw new Error('invalid_argument: credential does not include a holder reference')
+    }
+    const { alg, key } = await this.getSignKey(holderDID, context)
 
-    const signer: Signer = async (data: string) => context.agent.keyManagerSign({ keyRef: key.kid, data })
+    const signer: Signer = async (data: string) => {
+      return context.agent.keyManagerSign({ keyRef: key.kid, data })
+    }
 
-    const sdjwt = new SDJwtInstance({
+    const sdjwt = new SDJwtVcInstance({
       hasher: this.algorithms.hasher,
-      saltGenerator: this.algorithms.salltGenerator,
-      signAlg: alg,
-      signer,
+      saltGenerator: this.algorithms.saltGenerator,
+      kbSigner: signer,
+      kbSignAlg: alg,
     })
-    const credential = await sdjwt.present(args.presentation, args.presentationKeys)
+    const credential = await sdjwt.present(args.presentation, args.presentationKeys, { kb: args.kb })
     return { presentation: credential }
   }
 
@@ -107,19 +143,39 @@ export class SDJwtPlugin implements IAgentPlugin {
    * @param context
    * @returns
    */
-  async verifyVerifiableCredentialSDJwt(
-    args: IVerifyVerifiableCredentialSDJwtArgs,
-    context: IRequiredContext,
-  ): Promise<IVerifyVerifiableCredentialSDJwtResult> {
+  async verifySdJwtVc(args: IVerifySdJwtVcArgs, context: IRequiredContext): Promise<IVerifySdJwtVcResult> {
     // biome-ignore lint/style/useConst: <explanation>
-    let sdjwt: SDJwtInstance
+    let sdjwt: SDJwtVcInstance
     const verifier: Verifier = async (data: string, signature: string) =>
       this.verify(sdjwt, context, data, signature)
 
-    sdjwt = new SDJwtInstance({ verifier, hasher: this.algorithms.hasher })
+    sdjwt = new SDJwtVcInstance({ verifier, hasher: this.algorithms.hasher })
     const verifiedPayloads = await sdjwt.verify(args.credential)
 
     return { verifiedPayloads }
+  }
+
+  /**
+   * Verify the key binding of a SD-JWT by validating the signature of the key bound to the SD-JWT
+   * @param sdjwt
+   * @param context
+   * @param data
+   * @param signature
+   * @param payload
+   * @returns
+   */
+  private verifyKb(
+    sdjwt: SDJwtVcInstance,
+    context: IRequiredContext,
+    data: string,
+    signature: string,
+    payload: JwtPayload,
+  ): Promise<boolean> {
+    if (!payload.cnf) {
+      throw Error('other method than cnf is not supported yet')
+    }
+    const key = payload.cnf.jwk as JsonWebKey
+    return this.algorithms.verifySignature(data, signature, key)
   }
 
   /**
@@ -130,10 +186,9 @@ export class SDJwtPlugin implements IAgentPlugin {
    * @param signature
    * @returns
    */
-  async verify(sdjwt: SDJwtInstance, context: IRequiredContext, data: string, signature: string) {
+  async verify(sdjwt: SDJwtVcInstance, context: IRequiredContext, data: string, signature: string) {
     const decodedVC = await sdjwt.decode(`${data}.${signature}`)
-    const issuer: string = ((decodedVC.jwt as Jwt).payload as Record<string, unknown>).issuer as string
-    //check if the issuer is a did
+    const issuer: string = ((decodedVC.jwt as Jwt).payload as Record<string, unknown>).iss as string
     if (!issuer.startsWith('did:')) {
       throw new Error('invalid_issuer: issuer must be a did')
     }
@@ -156,41 +211,23 @@ export class SDJwtPlugin implements IAgentPlugin {
    * @param context
    * @returns
    */
-  async verifyVerifiablePresentationSDJwt(
-    args: IVerifyVerifiablePresentationSDJwtArgs,
+  async verifySdJwtVcPresentation(
+    args: IVerifySdJwtVcPresentationArgs,
     context: IRequiredContext,
-  ): Promise<IVerifyVerifiablePresentationSDJwtResult> {
+  ): Promise<IVerifySdJwtVcPresentationResult> {
     // biome-ignore lint/style/useConst: <explanation>
-    let sdjwt: SDJwtInstance
+    let sdjwt: SDJwtVcInstance
     const verifier: Verifier = async (data: string, signature: string) =>
       this.verify(sdjwt, context, data, signature)
-    sdjwt = new SDJwtInstance({ verifier, hasher: this.algorithms.hasher })
-    const verifiedPayloads = await sdjwt.verify(args.presentation)
+    const verifierKb: KbVerifier = async (data: string, signature: string, payload: JwtPayload) =>
+      this.verifyKb(sdjwt, context, data, signature, payload)
+    sdjwt = new SDJwtVcInstance({
+      verifier,
+      hasher: this.algorithms.hasher,
+      kbVerifier: verifierKb,
+    })
+    const verifiedPayloads = await sdjwt.verify(args.presentation, args.requiredClaimKeys, args.kb)
 
     return { verifiedPayloads }
-  }
-
-  /**
-   * Get the signing key for a given identifier
-   * @param identifier
-   * @returns
-   */
-  private static getSigningKey(identifier: IIdentifier): {
-    key: IKey
-    alg: string
-  } {
-    for (const key of identifier.keys) {
-      if (key.type === 'Ed25519') {
-        return { key, alg: 'EdDSA' }
-      }
-      if (key.type === 'Secp256k1') {
-        return { key, alg: 'ES256K' }
-      }
-      if (key.type === 'Secp256r1') {
-        return { key, alg: 'ES256' }
-      }
-    }
-
-    throw Error(`key_not_found: No signing key for ${identifier.did}`)
   }
 }

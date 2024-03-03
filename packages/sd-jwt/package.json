@@ -13,14 +13,16 @@
   },
   "veramo": {
     "pluginInterfaces": {
-      "ISelectiveDisclosure": "./src/types.ts"
+      "ISDJwtPlugin": "./src/types.ts"
     }
   },
   "dependencies": {
-    "@sd-jwt/core": "next",
-    "@sd-jwt/crypto-nodejs": "0.3.2-next.63",
-    "@sd-jwt/types": "0.3.2-next.63",
-    "@sd-jwt/utils": "next",
+    "@sphereon/ssi-sdk-ext.did-utils": "^0.16.0",
+    "@sd-jwt/core": "0.3.2-next.102",
+    "@sd-jwt/crypto-nodejs": "0.3.2-next.102",
+    "@sd-jwt/types": "0.3.2-next.102",
+    "@sd-jwt/utils": "0.3.2-next.102",
+    "@sd-jwt/sd-jwt-vc": "0.3.2-next.102",
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",

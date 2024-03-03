@@ -1,239 +1,183 @@
-import {
-  IAgentContext,
-  ICredentialIssuer,
-  IDataStoreORM,
-  IDIDManager,
-  IKeyManager,
-  IPluginMethodMap,
-  UniqueVerifiableCredential,
-  VerifiablePresentation,
-} from '@veramo/core-types'
+import { Hasher, KBOptions, SaltGenerator } from '@sd-jwt/types'
+import { SdJwtVcPayload } from '@sd-jwt/sd-jwt-vc'
+import { IAgentContext, IDIDManager, IKeyManager, IPluginMethodMap, IResolver } from '@veramo/core-types'
 
 /**
- * Used for requesting Credentials using Selective Disclosure.
- * Represents an accepted issuer of a credential.
+ * My Agent Plugin description.
  *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * This is the interface that describes what your plugin can do.
+ * The methods listed here, will be directly available to the veramo agent where your plugin is going to be used.
+ * Depending on the agent configuration, other agent plugins, as well as the application where the agent is used
+ * will be able to call these methods.
+ *
+ * To build a schema for your plugin using standard tools, you must link to this file in your package.json.
+ * Example:
+ * ```
+ * "veramo": {
+ *    "pluginInterfaces": {
+ *      "IMyAgentPlugin": "./src/types/IMyAgentPlugin.ts"
+ *    }
+ *  },
+ * ```
+ *
+ * @beta
  */
-export interface Issuer {
+export interface ISDJwtPlugin extends IPluginMethodMap {
   /**
-   * The DID of the issuer of a requested credential.
+   * Your plugin method description
+   *
+   * @param args - Input parameters for this method
+   * @param context - The required context where this method can run.
+   *   Declaring a context type here lets other developers know which other plugins
+   *   need to also be installed for this method to work.
    */
-  did: string
+  /**
+   * Create a signed SD-JWT credential.
+   * @param args - Arguments necessary for the creation of a SD-JWT credential.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   */
+  createSdJwtVc(args: ICreateSdJwtVcArgs, context: IRequiredContext): Promise<ICreateSdJwtVcResult>
 
   /**
-   * A URL where a credential of that type can be obtained.
+   * Create a signed SD-JWT presentation.
+   * @param args - Arguments necessary for the creation of a SD-JWT presentation.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    */
-  url: string
+  createSdJwtVcPresentation(
+    args: ICreateSdJwtVcPresentationArgs,
+    context: IRequiredContext,
+  ): Promise<ICreateSdJwtVcPresentationResult>
+
+  /**
+   * Verify a signed SD-JWT credential.
+   * @param args - Arguments necessary for the verification of a SD-JWT credential.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   */
+  verifySdJwtVc(args: IVerifySdJwtVcArgs, context: IRequiredContext): Promise<IVerifySdJwtVcResult>
+
+  /**
+   * Verify a signed SD-JWT presentation.
+   * @param args - Arguments necessary for the verification of a SD-JWT presentation.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   */
+  verifySdJwtVcPresentation(
+    args: IVerifySdJwtVcPresentationArgs,
+    context: IRequiredContext,
+  ): Promise<IVerifySdJwtVcPresentationResult>
 }
 
 /**
- * Represents the Selective Disclosure request parameters.
+ * ICreateSdJwtVcArgs
  *
- * @remarks See
- *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- *
- * @beta This API may change without a BREAKING CHANGE notice. */
-export interface ISelectiveDisclosureRequest {
-  /**
-   * The issuer of the request
-   */
-  issuer: string
-  /**
-   * The target of the request
-   */
-  subject?: string
-  /**
-   * The URL where the response should be sent back
-   */
-  replyUrl?: string
-
-  tag?: string
-
-  /**
-   * A list of claims that are being requested
-   */
-  claims: ICredentialRequestInput[]
-
-  /**
-   * A list of issuer credentials that the target will use to establish trust
-   */
-  credentials?: string[]
-}
-
-/**
- * Describes a particular credential that is being requested
- *
- * @remarks See
- *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- *
- * @beta This API may change without a BREAKING CHANGE notice. */
-export interface ICredentialRequestInput {
-  /**
-   * Motive for requiring this credential.
-   */
-  reason?: string
-
-  /**
-   * If it is essential. A response that does not include this credential is not sufficient.
-   */
-  essential?: boolean
-
-  /**
-   * The credential type. See {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types}
-   */
-  credentialType?: string
-
-  /**
-   * The credential context. See {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context}
-   */
-  credentialContext?: string
-
-  /**
-   * The name of the claim property that the credential should express.
-   */
-  claimType: string
-
-  /**
-   * The value of the claim that the credential should express.
-   */
-  claimValue?: string
-
-  /**
-   * A list of accepted Issuers for this credential.
-   */
-  issuers?: Issuer[]
-}
-
-/**
- * The credentials that make up a response of a Selective Disclosure
- *
- * @remarks See
- *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * @beta
  */
-export interface ICredentialsForSdr extends ICredentialRequestInput {
-  credentials: UniqueVerifiableCredential[]
+export interface ICreateSdJwtVcArgs {
+  credentialPayload: SdJwtVcPayload
+
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  disclosureFrame?: any
 }
 
 /**
- * The result of a selective disclosure response validation.
+ * ICreateSdJwtVcResult
  *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * @beta
  */
-export interface IPresentationValidationResult {
-  valid: boolean
-  claims: ICredentialsForSdr[]
+export interface ICreateSdJwtVcResult {
+  /**
+   * the encoded sd-jwt credential
+   */
+  credential: string
 }
 
 /**
- * Contains the parameters of a Selective Disclosure Request.
  *
- * @remarks See
- *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- *   specs
- *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * @beta
  */
-export interface ICreateSelectiveDisclosureRequestArgs {
-  data: ISelectiveDisclosureRequest
+export interface ICreateSdJwtVcPresentationArgs {
+  /**
+   * Encoded SD-JWT credential
+   */
+  presentation: string
+
+  /*
+   * The keys to use for selective disclosure for presentation
+   * if not provided, all keys will be disclosed
+   * if empty array, no keys will be disclosed
+   */
+  presentationKeys?: string[]
+
+  /**
+   * Information to include to add key binding.
+   */
+  kb?: KBOptions
 }
 
 /**
- * Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request.
- *
- * @remarks See
- *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- *   specs
- *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * Created presentation
+ * @beta
  */
-export interface IGetVerifiableCredentialsForSdrArgs {
+export interface ICreateSdJwtVcPresentationResult {
   /**
-   * The Selective Disclosure Request (issuer is omitted)
+   * Encoded presentation.
    */
-  sdr: Omit<ISelectiveDisclosureRequest, 'issuer'>
-
-  /**
-   * The DID of the subject
-   */
-  did?: string
+  presentation: string
 }
 
 /**
- * A tuple used to verify a Selective Disclosure Response.
- * Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * @beta
  */
-export interface IValidatePresentationAgainstSdrArgs {
-  presentation: VerifiablePresentation
-  sdr: ISelectiveDisclosureRequest
+export interface IVerifySdJwtVcArgs {
+  credential: string
 }
 
 /**
- * Profile data
- *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * @beta
  */
-export interface ICreateProfileCredentialsArgs {
-  /**
-   * Holder DID
-   */
-  holder: string
-  /**
-   * Optional. Verifier DID
-   */
-  verifier?: string
-  /**
-   * Optional. Name
-   */
-  name?: string
-  /**
-   * Optional. Picture URL
-   */
-  picture?: string
-  /**
-   * Optional. URL
-   */
-  url?: string
-  /**
-   * Save presentation
-   */
-  save: boolean
-  /**
-   * Send presentation
-   */
-  send: boolean
+export type IVerifySdJwtVcResult = {
+  verifiedPayloads: unknown
 }
 
 /**
- * Describes the interface of a Selective Disclosure plugin.
- *
- * @remarks See
- *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
+ * @beta
  */
-export interface ISelectiveDisclosure extends IPluginMethodMap {
-  createSelectiveDisclosureRequest(
-    args: ICreateSelectiveDisclosureRequestArgs,
-    context: IAgentContext<IDIDManager & IKeyManager>,
-  ): Promise<string>
+export interface IVerifySdJwtVcPresentationArgs {
+  presentation: string
 
-  getVerifiableCredentialsForSdr(
-    args: IGetVerifiableCredentialsForSdrArgs,
-    context: IAgentContext<IDataStoreORM>,
-  ): Promise<Array<ICredentialsForSdr>>
+  requiredClaimKeys?: string[]
 
-  validatePresentationAgainstSdr(
-    args: IValidatePresentationAgainstSdrArgs,
-    context: IAgentContext<{}>,
-  ): Promise<IPresentationValidationResult>
+  kb?: boolean
+}
 
-  createProfilePresentation(
-    args: ICreateProfileCredentialsArgs,
-    context: IAgentContext<ICredentialIssuer & IDIDManager>,
-  ): Promise<VerifiablePresentation>
+/**
+ * @beta
+ */
+export type IVerifySdJwtVcPresentationResult = {
+  verifiedPayloads: Record<string, unknown>
+}
+
+/**
+ * This context describes the requirements of this plugin.
+ * For this plugin to function properly, the agent needs to also have other plugins installed that implement the
+ * interfaces declared here.
+ * You can also define requirements on a more granular level, for each plugin method or event handler of your plugin.
+ *
+ * @beta
+ */
+export type IRequiredContext = IAgentContext<IDIDManager & IResolver & IKeyManager>
+export interface SdJWTImplementation {
+  saltGenerator: SaltGenerator
+  hasher: Hasher
+  verifySignature: (data: string, signature: string, publicKey: JsonWebKey) => Promise<boolean>
+}
+
+export interface Claims {
+  /**
+   * Subject of the SD-JWT
+   */
+  sub?: string
+  cnf?: {
+    jwk: JsonWebKey
+  }
+  [key: string]: unknown
 }
