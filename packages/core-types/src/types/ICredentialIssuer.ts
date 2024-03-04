@@ -111,7 +111,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   credential: CredentialPayload
 
   /**
-   * If this parameter is true, the resulting VerifiablePresentation is sent to the
+   * If this parameter is true, the resulting VerifiableCredential is sent to the
    * {@link @veramo/core-types#IDataStore | storage plugin} to be saved.
    *
    * @deprecated Please call
@@ -121,7 +121,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   save?: boolean
 
   /**
-   * The desired format for the VerifiablePresentation to be created.
+   * The desired format for the VerifiableCredential to be created.
    */
   proofFormat: ProofFormat
 
