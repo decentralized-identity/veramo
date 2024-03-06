@@ -1303,20 +1303,23 @@ importers:
   packages/sd-jwt:
     dependencies:
       '@sd-jwt/core':
-        specifier: 0.3.2-next.102
-        version: 0.3.2-next.102
+        specifier: 0.3.2-next.107
+        version: 0.3.2-next.107
       '@sd-jwt/crypto-nodejs':
-        specifier: 0.3.2-next.102
-        version: 0.3.2-next.102
+        specifier: 0.3.2-next.107
+        version: 0.3.2-next.107
+      '@sd-jwt/decode':
+        specifier: 0.3.2-next.107
+        version: 0.3.2-next.107
       '@sd-jwt/sd-jwt-vc':
-        specifier: 0.3.2-next.102
-        version: 0.3.2-next.102
+        specifier: 0.3.2-next.107
+        version: 0.3.2-next.107
       '@sd-jwt/types':
-        specifier: 0.3.2-next.102
-        version: 0.3.2-next.102
+        specifier: 0.3.2-next.107
+        version: 0.3.2-next.107
       '@sd-jwt/utils':
-        specifier: 0.3.2-next.102
-        version: 0.3.2-next.102
+        specifier: 0.3.2-next.107
+        version: 0.3.2-next.107
       '@sphereon/ssi-sdk-ext.did-utils':
         specifier: ^0.16.0
         version: 0.16.0(expo-crypto@12.8.1)(expo@49.0.21)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)
@@ -1345,6 +1348,30 @@ importers:
       '@types/uuid':
         specifier: 9.0.2
         version: 9.0.2
+      '@veramo/core':
+        specifier: workspace:^
+        version: link:../core
+      '@veramo/data-store':
+        specifier: workspace:^
+        version: link:../data-store
+      '@veramo/did-manager':
+        specifier: workspace:^
+        version: link:../did-manager
+      '@veramo/did-provider-jwk':
+        specifier: workspace:^
+        version: link:../did-provider-jwk
+      '@veramo/did-resolver':
+        specifier: workspace:^
+        version: link:../did-resolver
+      '@veramo/key-manager':
+        specifier: workspace:^
+        version: link:../key-manager
+      '@veramo/kms-local':
+        specifier: workspace:^
+        version: link:../kms-local
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.20(ts-node@10.9.2)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -9491,45 +9518,45 @@ packages:
       '@noble/hashes': 1.3.3
       '@scure/base': 1.1.3
 
-  /@sd-jwt/core@0.3.2-next.102:
-    resolution: {integrity: sha512-dAe83nxOEK5Ogf0r/DZ/cjD+YzLOp/1Pu8zWbWHastKMzUsjr+Qp/0SNBBJwXCplYEiHN++0M4pKLSI4J36bIQ==}
+  /@sd-jwt/core@0.3.2-next.107:
+    resolution: {integrity: sha512-B77/4i/01R8lnXSfPDITZdN+1MOcviSsgsqlxICOQjSL8eWoKjtMwQvI+e3zHLqVgw2O0p7zbNBDhymqxFR3IA==}
     engines: {node: '>=16'}
     dependencies:
-      '@sd-jwt/decode': 0.3.2-next.102
-      '@sd-jwt/types': 0.3.2-next.102
-      '@sd-jwt/utils': 0.3.2-next.102
+      '@sd-jwt/decode': 0.3.2-next.107
+      '@sd-jwt/types': 0.3.2-next.107
+      '@sd-jwt/utils': 0.3.2-next.107
     dev: false
 
-  /@sd-jwt/crypto-nodejs@0.3.2-next.102:
-    resolution: {integrity: sha512-wMJHAZ1/SPNkrU+0L7TiZq3y1DNXhRWep8mGtFynuAQuKwOq+VQD8Ck6vfBsHJjb79whBoGg5Egh6n2sx7FUbQ==}
+  /@sd-jwt/crypto-nodejs@0.3.2-next.107:
+    resolution: {integrity: sha512-thHe0ZGJrja/PY4iAyDblV3axBfPSX9jNMSp4fwuy6nVgMspEZBDpvSMyY+yDVRZe2ol4CNj6uY/1M7imOIOsA==}
     engines: {node: '>=16'}
     dev: false
 
-  /@sd-jwt/decode@0.3.2-next.102:
-    resolution: {integrity: sha512-9Zdekfqmh3aSvtAzJ1Pjn59rOY9wph77tfUjjyVs+IXxwUCQVXSmsa2egGIMjBaiW0eme6qt+Umy2T6QHPK8SQ==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@sd-jwt/types': 0.3.2-next.102
-      '@sd-jwt/utils': 0.3.2-next.102
-    dev: false
-
-  /@sd-jwt/sd-jwt-vc@0.3.2-next.102:
-    resolution: {integrity: sha512-UHgolIi2rjbQFMLEnyaFzUXmkRqRSDRVcxKeCb7fevcVQaR/95+R1n5nXk/0Rr0X2pJnDstlHXYNEhL2FObMmw==}
+  /@sd-jwt/decode@0.3.2-next.107:
+    resolution: {integrity: sha512-GZBzslcyAYgMzs63BnkOY2+AJVmg2Vh5aAAR1y8TlHzaAe1UxNIiCwLOcJpQt+nkCmBDxO4P9rOLMMBHQ5WFEQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@sd-jwt/core': 0.3.2-next.102
+      '@sd-jwt/types': 0.3.2-next.107
+      '@sd-jwt/utils': 0.3.2-next.107
     dev: false
 
-  /@sd-jwt/types@0.3.2-next.102:
-    resolution: {integrity: sha512-kLgkCzteXWtmZLjatsRjYdIZzlOGH8YCCl59G7CkAXR63hsRmqjV7ixjJuciCs4QzWNqYsfD1kRUtuC1TnOZOA==}
-    engines: {node: '>=16'}
-    dev: false
-
-  /@sd-jwt/utils@0.3.2-next.102:
-    resolution: {integrity: sha512-x/9h4pb+7GLqzdyuVcwCXIBTWDPnsZWI6gX8ZBQ5EQrUg+CZtaGZom9XTxeBW619UM/KuwZDwXv21M5+yAg+uA==}
+  /@sd-jwt/sd-jwt-vc@0.3.2-next.107:
+    resolution: {integrity: sha512-uIxRpkjrVwSl+Qdc1IEny+3L4s+aeyoWR5Cjy1uvm7e8xkMJMWGbFdXfLGT8fGjFYgEJppAg8bY0kKqZSm0g4Q==}
     engines: {node: '>=16'}
     dependencies:
-      '@sd-jwt/types': 0.3.2-next.102
+      '@sd-jwt/core': 0.3.2-next.107
+    dev: false
+
+  /@sd-jwt/types@0.3.2-next.107:
+    resolution: {integrity: sha512-mft02chJEYvucDhD0FM/czILG5SA8DHYHuhl3yWZZx+KUTmtSe3IVfJ4BzZIWPtyr2B2FhEjX9Cz4XjxzDQZ3Q==}
+    engines: {node: '>=16'}
+    dev: false
+
+  /@sd-jwt/utils@0.3.2-next.107:
+    resolution: {integrity: sha512-VdeZLUu2Lj3ZWCqyyETOBM6X1JJufpBzOUJnJK/u0oBuY88DO5u4Ha76u43R+UNgMYgoUad/W5rQl87Bt7w7Ng==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@sd-jwt/types': 0.3.2-next.107
       js-base64: 3.7.7
     dev: false
 
@@ -14244,7 +14271,6 @@ packages:
 
   /dayjs@1.11.10:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
-    dev: false
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -14751,7 +14777,6 @@ packages:
   /dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
-    dev: false
 
   /duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
@@ -23979,6 +24004,10 @@ packages:
   /reflect-metadata@0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
 
+  /reflect-metadata@0.2.1:
+    resolution: {integrity: sha512-i5lLI6iw9AU3Uu4szRNPPEkomnkjRTaVt9hy/bn5g/oSzekBSMeLZblcjP74AW0vBabqERLLIrz+gR8QYR54Tw==}
+    dev: true
+
   /regenerate-unicode-properties@10.1.0:
     resolution: {integrity: sha512-d1VudCLoIGitcU/hEg2QqvyGZQmdC0Lf8BqdOMXGFSvJP4bNV1+XqbPQeHHLD51Jh4QJJ225dlIFvY4Ly6MXmQ==}
     engines: {node: '>=4'}
@@ -26246,6 +26275,84 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
+
+  /typeorm@0.3.20(ts-node@10.9.2):
+    resolution: {integrity: sha512-sJ0T08dV5eoZroaq9uPKBoNcGslHBR4E4y+EBHs//SiGbblGe7IeduP/IH4ddCcj0qp3PHwDwGnuvqEAnKlq/Q==}
+    engines: {node: '>=16.13.0'}
+    hasBin: true
+    peerDependencies:
+      '@google-cloud/spanner': ^5.18.0
+      '@sap/hana-client': ^2.12.25
+      better-sqlite3: ^7.1.2 || ^8.0.0 || ^9.0.0
+      hdb-pool: ^0.1.6
+      ioredis: ^5.0.4
+      mongodb: ^5.8.0
+      mssql: ^9.1.1 || ^10.0.1
+      mysql2: ^2.2.5 || ^3.0.1
+      oracledb: ^6.3.0
+      pg: ^8.5.1
+      pg-native: ^3.0.0
+      pg-query-stream: ^4.0.0
+      redis: ^3.1.1 || ^4.0.0
+      sql.js: ^1.4.0
+      sqlite3: ^5.0.3
+      ts-node: ^10.7.0
+      typeorm-aurora-data-api-driver: ^2.0.0
+    peerDependenciesMeta:
+      '@google-cloud/spanner':
+        optional: true
+      '@sap/hana-client':
+        optional: true
+      better-sqlite3:
+        optional: true
+      hdb-pool:
+        optional: true
+      ioredis:
+        optional: true
+      mongodb:
+        optional: true
+      mssql:
+        optional: true
+      mysql2:
+        optional: true
+      oracledb:
+        optional: true
+      pg:
+        optional: true
+      pg-native:
+        optional: true
+      pg-query-stream:
+        optional: true
+      redis:
+        optional: true
+      sql.js:
+        optional: true
+      sqlite3:
+        optional: true
+      ts-node:
+        optional: true
+      typeorm-aurora-data-api-driver:
+        optional: true
+    dependencies:
+      '@sqltools/formatter': 1.2.5
+      app-root-path: 3.1.0
+      buffer: 6.0.3
+      chalk: 4.1.2
+      cli-highlight: 2.1.11
+      dayjs: 1.11.10
+      debug: 4.3.4
+      dotenv: 16.4.5
+      glob: 10.3.10
+      mkdirp: 2.1.6
+      reflect-metadata: 0.2.1
+      sha.js: 2.4.11
+      ts-node: 10.9.2(@types/node@20.11.19)(typescript@5.3.3)
+      tslib: 2.6.2
+      uuid: 9.0.1
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /typescript@5.3.3:
     resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
