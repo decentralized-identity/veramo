@@ -306,11 +306,18 @@ describe('Agent plugin', () => {
   })
 
   it('verify a presentation with sub set', async () => {
+    const holderDId = await agent.resolveDid({ didUrl: holder })
+    const jwk: JsonWebKey = (
+      (holderDId.didDocument as DIDDocument).verificationMethod as VerificationMethod[]
+    )[0].publicKeyJwk as JsonWebKey
     const credentialPayload: SdJwtVcPayload = {
       ...claims,
       iss: issuer,
       iat: new Date().getTime() / 1000,
       vct: '',
+      cnf: {
+        jwk,
+      },
     }
     const credential = await agent.createSdJwtVc({
       credentialPayload,
