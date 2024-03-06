@@ -13,7 +13,7 @@ import { DIDDocument, Resolver, VerificationMethod } from 'did-resolver'
 import { SdJwtVcPayload } from '@sd-jwt/sd-jwt-vc'
 import { decodeSdJwt } from '@sd-jwt/decode'
 import { KBJwt } from '@sd-jwt/core'
-import { ISDJwtPlugin, SDJwtPlugin } from '../src/index'
+import { ISDJwtPlugin, SDJwtPlugin } from '../index'
 
 async function verifySignature<T>(data: string, signature: string, key: JsonWebKey) {
   let { alg, crv } = key

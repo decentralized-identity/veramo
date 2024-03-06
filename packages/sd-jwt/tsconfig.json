@@ -17,6 +17,5 @@
       "path": "../utils"
     }
   ],
-  "include": ["./**/*.ts"],
-  "exclude": ["__tests__/*"]
+  "include": ["./**/*.ts"]
 }
