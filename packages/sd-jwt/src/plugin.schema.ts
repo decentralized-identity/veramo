@@ -2,229 +2,209 @@ export const schema = {
   "ISDJwtPlugin": {
     "components": {
       "schemas": {
-        "IcreateSDJwtVcArgs": {
-          "type": 'object',
+        "ICreateSdJwtVcArgs": {
+          "type": "object",
           "properties": {
             "credentialPayload": {
-              "$ref": '#/components/schemas/CredentialPayload',
-            },
-            "disclosureFrame": {},
-          },
-          "required": ['credentialPayload'],
-          "description": 'IcreateSDJwtVcArgs',
-        },
-        "CredentialPayload": {
-          "type": 'object',
-          "properties": {
-            "issuer": {
-              "$ref": '#/components/schemas/IssuerType',
-            },
-            "credentialSubject": {
-              "$ref": '#/components/schemas/CredentialSubject',
-            },
-            "type": {
-              "type": 'array',
-              "items": {
-                "type": 'string',
-              },
-            },
-            '@context': {
-              "$ref": '#/components/schemas/ContextType',
-            },
-            "issuanceDate": {
-              "$ref": '#/components/schemas/DateType',
-            },
-            "expirationDate": {
-              "$ref": '#/components/schemas/DateType',
-            },
-            "credentialStatus": {
-              "$ref": '#/components/schemas/CredentialStatusReference',
-            },
-            "id": {
-              "type": 'string',
-            },
-          },
-          "required": ['issuer'],
-          "description": 'Used as input when creating Verifiable Credentials',
-        },
-        "IssuerType": {
-          "anyOf": [
-            {
-              "type": 'object',
+              "type": "object",
               "properties": {
-                "id": {
-                  "type": 'string',
+                "iss": {
+                  "type": "string"
                 },
+                "iat": {
+                  "type": "number"
+                },
+                "nbf": {
+                  "type": "number"
+                },
+                "exp": {
+                  "type": "number"
+                },
+                "cnf": {},
+                "vct": {
+                  "type": "string"
+                },
+                "status": {},
+                "sub": {
+                  "type": "string"
+                }
               },
-              "required": ['id'],
+              "required": [
+                "iss",
+                "iat",
+                "vct"
+              ]
             },
-            {
-              'type': 'string',
-            },
-          ],
-          "description":
-            'The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }',
-        },
-        "CredentialSubject": {
-          "type": 'object',
-          "properties": {
-            "id": {
-              "type": 'string',
-            },
+            "disclosureFrame": {}
           },
-          "description":
-            'The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }',
-        },
-        "ContextType": {
-          "anyOf": [
-            {
-              "type": 'string',
-            },
-            {
-              "type": 'object',
-            },
-            {
-              "type": 'array',
-              "items": {
-                "anyOf": [
-                  {
-                    "type": 'string',
-                  },
-                  {
-                    "type": 'object',
-                  },
-                ],
-              },
-            },
+          "required": [
+            "credentialPayload"
           ],
-          "description": 'The data type for `@context` properties of credentials, presentations, etc.',
+          "description": "ICreateSdJwtVcArgs"
         },
-        "DateType": {
-          "type": 'string',
-          "description":
-            'Represents an issuance or expiration date for Credentials / Presentations. This is used as input when creating them.',
-        },
-        "CredentialStatusReference": {
-          "type": 'object',
-          "properties": {
-            "id": {
-              "type": 'string',
-            },
-            "type": {
-              "type": 'string',
-            },
-          },
-          "required": ['id', 'type'],
-          "description":
-            'Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }',
-        },
-        "IcreateSDJwtVcResult": {
-          "type": 'object',
+        "ICreateSdJwtVcResult": {
+          "type": "object",
           "properties": {
             "credential": {
-              "type": 'string',
-            },
+              "type": "string",
+              "description": "the encoded sd-jwt credential"
+            }
           },
-          "required": ['credential'],
-          "description": 'IcreateSDJwtVcResult',
+          "required": [
+            "credential"
+          ],
+          "description": "ICreateSdJwtVcResult"
         },
         "ICreateSdJwtVcPresentationArgs": {
-          "type": 'object',
+          "type": "object",
           "properties": {
             "presentation": {
-              "type": 'string',
+              "type": "string",
+              "description": "Encoded SD-JWT credential"
             },
             "presentationKeys": {
-              "type": 'array',
+              "type": "array",
               "items": {
-                "type": 'string',
-              },
+                "type": "string"
+              }
             },
+            "kb": {
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "type": "object",
+                  "properties": {
+                    "iat": {
+                      "type": "number"
+                    },
+                    "aud": {
+                      "type": "string"
+                    },
+                    "nonce": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "iat",
+                    "aud",
+                    "nonce"
+                  ]
+                }
+              },
+              "required": [
+                "payload"
+              ],
+              "description": "Information to include to add key binding."
+            }
           },
-          "required": ['presentation'],
+          "required": [
+            "presentation"
+          ]
         },
         "ICreateSdJwtVcPresentationResult": {
-          "type": 'object',
+          "type": "object",
           "properties": {
             "presentation": {
-              "type": 'string',
-            },
+              "type": "string",
+              "description": "Encoded presentation."
+            }
           },
-          "required": ['presentation'],
+          "required": [
+            "presentation"
+          ],
+          "description": "Created presentation"
         },
         "IVerifySdJwtVcArgs": {
-          "type": 'object',
+          "type": "object",
           "properties": {
             "credential": {
-              "type": 'string',
-            },
+              "type": "string"
+            }
           },
-          "required": ['credential'],
+          "required": [
+            "credential"
+          ]
         },
         "IVerifySdJwtVcResult": {
-          "type": 'object',
+          "type": "object",
+          "properties": {
+            "verifiedPayloads": {}
+          },
+          "required": [
+            "verifiedPayloads"
+          ]
         },
         "IVerifySdJwtVcPresentationArgs": {
-          "type": 'object',
+          "type": "object",
           "properties": {
             "presentation": {
-              "type": 'string',
+              "type": "string"
             },
             "requiredClaimKeys": {
-              "type": 'array',
+              "type": "array",
               "items": {
-                "type": 'string',
-              },
+                "type": "string"
+              }
             },
+            "kb": {
+              "type": "boolean"
+            }
           },
-          "required": ['presentation'],
+          "required": [
+            "presentation"
+          ]
         },
         "IVerifySdJwtVcPresentationResult": {
-          "type": 'object',
+          "type": "object",
           "properties": {
-            "verifiedPayloads": {},
+            "verifiedPayloads": {
+              "type": "object",
+              "additionalProperties": {}
+            }
           },
-          "required": ['verifiedPayloads'],
-        },
+          "required": [
+            "verifiedPayloads"
+          ]
+        }
       },
       "methods": {
-        "createSDJwtVc": {
-          "description": 'Create a signed SD-JWT credential.',
+        "createSdJwtVc": {
+          "description": "Create a signed SD-JWT credential.",
           "arguments": {
-            "$ref": '#/components/schemas/IcreateSDJwtVcArgs',
+            "$ref": "#/components/schemas/ICreateSdJwtVcArgs"
           },
           "returnType": {
-            "$ref": '#/components/schemas/IcreateSDJwtVcResult',
-          },
+            "$ref": "#/components/schemas/ICreateSdJwtVcResult"
+          }
         },
         "createSdJwtVcPresentation": {
-          "description": 'Create a signed SD-JWT presentation.',
+          "description": "Create a signed SD-JWT presentation.",
           "arguments": {
-            "$ref": '#/components/schemas/ICreateSdJwtVcPresentationArgs',
+            "$ref": "#/components/schemas/ICreateSdJwtVcPresentationArgs"
           },
           "returnType": {
-            "$ref": '#/components/schemas/ICreateSdJwtVcPresentationResult',
-          },
+            "$ref": "#/components/schemas/ICreateSdJwtVcPresentationResult"
+          }
         },
         "verifySdJwtVc": {
-          "description": 'Verify a signed SD-JWT credential.',
+          "description": "Verify a signed SD-JWT credential.",
           "arguments": {
-            "$ref": '#/components/schemas/IVerifySdJwtVcArgs',
+            "$ref": "#/components/schemas/IVerifySdJwtVcArgs"
           },
           "returnType": {
-            "$ref": '#/components/schemas/IVerifySdJwtVcResult',
-          },
+            "$ref": "#/components/schemas/IVerifySdJwtVcResult"
+          }
         },
         "verifySdJwtVcPresentation": {
-          "description": 'Verify a signed SD-JWT presentation.',
+          "description": "Verify a signed SD-JWT presentation.",
           "arguments": {
-            "$ref": '#/components/schemas/IVerifySdJwtVcPresentationArgs',
+            "$ref": "#/components/schemas/IVerifySdJwtVcPresentationArgs"
           },
           "returnType": {
-            "$ref": '#/components/schemas/IVerifySdJwtVcPresentationResult',
-          },
-        },
-      },
-    },
-  },
+            "$ref": "#/components/schemas/IVerifySdJwtVcPresentationResult"
+          }
+        }
+      }
+    }
+  }
 }
