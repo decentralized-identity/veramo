@@ -3,18 +3,19 @@ import { Command } from 'commander'
 import inquirer from 'inquirer'
 import qrcode from 'qrcode-terminal'
 import * as fs from 'fs'
-import * as json5 from 'json5'
+import json5 from 'json5'
 import { readStdin } from './util.js'
 import { CredentialPayload } from '@veramo/core-types'
+import Debug from 'debug'
 
 import fuzzy from 'fuzzy'
 
+const debug = Debug('veramo:cli:credential')
 const credential = new Command('credential').description('W3C Verifiable Credential')
 
 credential
-  .command('create', { isDefault: true })
-  .description('Create W3C Verifiable Credential')
-  .option('-s, --send', 'Send')
+  .command('create')
+  .description('Create W3C Verifiable Credential (for demo purposes)')
   .option('-j, --json', 'Output in JSON')
   .option('-q, --qrcode', 'Show qrcode')
   .action(async (opts: { send: boolean; qrcode: boolean; json: boolean }, cmd: Command) => {
@@ -74,15 +75,6 @@ credential
         message: 'Claim Value',
         default: 'Alice',
       },
-      {
-        type: 'list',
-        name: 'addStatus',
-        message: 'Is the credential revocable?',
-        choices: [
-          { name: 'Yes', value: true },
-          { name: 'No', value: false },
-        ],
-      },
     ])
 
     const credentialSubject: any = {}
@@ -98,66 +90,22 @@ credential
       credentialSubject,
     }
 
-    if (answers.addStatus) {
-      const statusAnswers = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'type',
-          message: 'Credential status type',
-          default: 'EthrStatusRegistry2019',
-        },
-        {
-          type: 'input',
-          name: 'id',
-          message: 'Credential status ID',
-          // TODO(nickreynolds): deploy
-          default: 'goerli:0x97fd27892cdcD035dAe1fe71235c636044B59348',
-        },
-      ])
-
-      credential['credentialStatus'] = {
-        type: statusAnswers.type,
-        id: statusAnswers.id,
-      }
-    }
-
     const verifiableCredential = await agent.createVerifiableCredential({
-      save: true,
       credential,
       proofFormat: answers.proofFormat,
     })
 
-    if (opts.send) {
-      let body
-      let type
-      if (answers.proofFormat == 'jwt') {
-        body = verifiableCredential.proof.jwt
-        type = 'jwt'
-      } else {
-        body = verifiableCredential
-        type = 'w3c.vc'
-      }
-      try {
-        const message = await agent.sendMessageDIDCommAlpha1({
-          save: true,
-          data: {
-            from: answers.iss,
-            to: answers.sub,
-            type,
-            body,
-          },
-        })
-        console.dir(message, { depth: 10 })
-      } catch (e) {
-        console.error(e)
-      }
+    try {
+      const saved = await agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
+    } catch (e: any) {
+      debug('could not save credential', e)
     }
 
     if (opts.qrcode) {
       qrcode.generate(verifiableCredential.proof.jwt)
     } else {
       if (opts.json) {
-        console.log(JSON.stringify(verifiableCredential, null, 2))
+        console.log(JSON.stringify(verifiableCredential))
       } else {
         console.dir(verifiableCredential, { depth: 10 })
       }
@@ -177,12 +125,14 @@ credential
     } else if (options.filename) {
       raw = await fs.promises.readFile(options.filename, 'utf-8')
     } else {
+      console.log('Please provide the credential as a JWT or JSON string. Press Ctrl+D to finish.');
       raw = await readStdin()
     }
     let parsedCredential: any
     try {
       parsedCredential = json5.parse(raw)
     } catch (e: any) {
+      debug('Could not parse credential as JSON5', e.message)
       parsedCredential = raw
     }
     try {

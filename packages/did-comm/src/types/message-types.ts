@@ -5,17 +5,17 @@
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export interface IDIDCommMessage {
+  id: string
   type: string
   from?: string
-  to: string
+  to?: string[]
   thid?: string
   pthid?: string
-  id: string
   expires_time?: string
   created_time?: string
   next?: string
   from_prior?: string
-  body: any
+  body?: any
   attachments?: IDIDCommMessageAttachment[]
   return_route?: string
 }

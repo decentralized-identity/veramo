@@ -19,10 +19,7 @@ import {
   IResolver,
   TAgent,
 } from '../packages/core-types/src'
-import {
-  Agent,
-  createAgent
-} from '../packages/core/src'
+import { Agent, createAgent } from '../packages/core/src'
 import { MessageHandler } from '../packages/message-handler/src'
 import { KeyManager } from '../packages/key-manager/src'
 import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
@@ -41,13 +38,15 @@ import {
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
+  VeramoEd25519Signature2020,
+  VeramoJsonWebSignature2020,
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
 import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
-import { getResolver as getDidPeerResolver, PeerDIDProvider } from "../packages/did-provider-peer/src";
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
 import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
 import {
   ISelectiveDisclosure,
@@ -99,7 +98,7 @@ import messageHandler from './shared/messageHandler'
 import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
-import credentialPluginTests from "./shared/credentialPluginTests";
+import credentialPluginTests from './shared/credentialPluginTests'
 
 jest.setTimeout(120000)
 
@@ -197,7 +196,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
           }),
           'did:peer': new PeerDIDProvider({
-            defaultKms: 'local'
+            defaultKms: 'local',
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
@@ -230,13 +229,18 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+      new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       // intentionally use the deprecated name to test compatibility
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+        suites: [
+          new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          new VeramoEd25519Signature2018(),
+          new VeramoJsonWebSignature2020(),
+          new VeramoEd25519Signature2020(),
+        ],
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({

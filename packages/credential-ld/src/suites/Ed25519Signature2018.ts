@@ -9,8 +9,9 @@ import { Ed25519Signature2018, Ed25519VerificationKey2018 } from '@transmute/ed2
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
 export class VeramoEd25519Signature2018 extends VeramoLdSignature {
-  getSupportedVerificationType(): string {
-    return 'Ed25519VerificationKey2018'
+  getSupportedVerificationType(): string[] {
+    return ['Ed25519VerificationKey2018', 'JsonWebKey2020']
+    // TODO: add support for ['Ed25519VerificationKey2020', 'Multikey']
   }
 
   getSupportedVeramoKeyType(): TKeyType {
@@ -54,7 +55,7 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
       controller,
       publicKey: hexToBytes(key.publicKeyHex),
       signer: () => signer,
-      type: this.getSupportedVerificationType(),
+      type: 'Ed25519VerificationKey2018',
     })
     // overwrite the signer since we're not passing the private key and transmute doesn't support that behavior
     verificationKey.signer = () => signer as any

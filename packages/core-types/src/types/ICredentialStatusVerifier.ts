@@ -2,6 +2,7 @@ import { DIDDocument } from 'did-resolver'
 import { IAgentContext, IPluginMethodMap } from './IAgent.js'
 import { VerifiableCredential, CredentialStatus } from './vc-data-model.js'
 import { IResolver } from './IResolver.js'
+import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
 /**
  * Arguments for calling {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus}.
@@ -12,7 +13,7 @@ import { IResolver } from './IResolver.js'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICheckCredentialStatusArgs {
+export interface ICheckCredentialStatusArgs extends UsingResolutionOptions {
   /**
    * The credential whose status needs to be checked
    */

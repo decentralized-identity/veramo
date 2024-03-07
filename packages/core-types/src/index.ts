@@ -5,6 +5,7 @@
  *
  * @packageDocumentation
  */
+
 export { CoreEvents } from './coreEvents.js'
 export * from './agent.js'
 export * from './types/IAgent.js'
@@ -25,3 +26,4 @@ export * from './types/IResolver.js'
 export * from './types/IError.js'
 export * from './types/IVerifyResult.js'
 export * from './types/vc-data-model.js'
+export { schema } from './plugin.schema.js'

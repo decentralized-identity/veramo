@@ -4,8 +4,7 @@
   "version": "5.6.0",
   "main": "build/index.js",
   "exports": {
-    ".": "./build/index.js",
-    "./build/plugin.schema.json": "./build/plugin.schema.json"
+    ".": "./build/index.js"
   },
   "types": "build/index.d.ts",
   "scripts": {
@@ -18,8 +17,8 @@
     "@veramo/utils": "workspace:^",
     "canonicalize": "^2.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^7.4.1",
-    "did-jwt-vc": "^3.2.10",
+    "did-jwt": "^8.0.0",
+    "did-jwt-vc": "^4.0.0",
     "did-resolver": "^4.1.0",
     "uuid": "^9.0.0"
   },
@@ -29,12 +28,11 @@
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",
     "src/**/*",
-    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

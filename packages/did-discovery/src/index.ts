@@ -6,3 +6,4 @@
 export { DIDDiscovery } from './action-handler.js'
 export { AbstractDidDiscoveryProvider } from './abstract-did-discovery-provider.js'
 export * from './types.js'
+export { schema } from './plugin.schema.js'

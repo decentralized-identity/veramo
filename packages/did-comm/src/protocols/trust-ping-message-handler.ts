@@ -3,7 +3,7 @@ import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { IDIDCommMessage } from '../types/message-types.js'
+import { DIDCommMessageMediaType, IDIDCommMessage } from '../types/message-types.js'
 
 const debug = Debug('veramo:did-comm:trust-ping-message-handler')
 
@@ -16,7 +16,7 @@ export function createTrustPingMessage(senderDidUrl: string, recipientDidUrl: st
   return {
     type: TRUST_PING_MESSAGE_TYPE,
     from: senderDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: v4(),
     body: {
       responseRequested: true,
@@ -32,7 +32,7 @@ export function createTrustPingResponse(
   return {
     type: TRUST_PING_RESPONSE_MESSAGE_TYPE,
     from: senderDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: `${pingId}-response`,
     thid: pingId,
     body: {},
@@ -68,12 +68,24 @@ export class TrustPingMessageHandler extends AbstractMessageHandler {
           message: response,
           packing: 'authcrypt',
         })
-        const sent = await context.agent.sendDIDCommMessage({
-          messageId: response.id,
-          packedMessage: packedResponse,
-          recipientDidUrl: from!,
-        })
-        message.addMetaData({ type: 'TrustPingResponseSent', value: JSON.stringify(sent) })
+        try {
+          const sent = await context.agent.sendDIDCommMessage({
+            messageId: response.id,
+            packedMessage: packedResponse,
+            recipientDidUrl: from!,
+          })
+          message.addMetaData({ type: 'TrustPingResponseSent', value: JSON.stringify(sent) })
+        } catch (e: any) {
+          debug(e)
+        }
+        if (message.returnRoute === 'all') {
+          const returnResponse = {
+            id: response.id,
+            message: packedResponse.message,
+            contentType: DIDCommMessageMediaType.ENCRYPTED,
+          }
+          message.addMetaData({ type: 'ReturnRouteResponse', value: JSON.stringify(returnResponse) })
+        }
       } catch (ex) {
         debug(ex)
       }

@@ -17,12 +17,12 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt": "^7.4.1",
-    "ethers": "^6.9.0"
+    "did-jwt": "^8.0.0",
+    "ethers": "^6.11.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",

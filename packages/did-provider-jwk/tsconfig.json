@@ -17,6 +17,9 @@
       "path": "../did-manager"
     },
     {
+      "path": "../did-resolver"
+    },
+    {
       "path": "../key-manager"
     },
     {

@@ -15,7 +15,7 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt-vc": "^3.2.10",
+    "did-jwt-vc": "^4.0.0",
     "typeorm": "^0.3.17",
     "uuid": "^9.0.0"
   },
@@ -23,7 +23,7 @@
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
     "sqlite3": "5.1.6",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",

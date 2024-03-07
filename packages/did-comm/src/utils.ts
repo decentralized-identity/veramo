@@ -1,6 +1,6 @@
 import { IAgentContext, IDIDManager, IIdentifier, IKeyManager, IResolver, TKeyType } from '@veramo/core-types'
 import { ECDH, JWE } from 'did-jwt'
-import { parse as parseDidUrl } from 'did-resolver'
+import { DIDResolutionOptions, parse as parseDidUrl } from 'did-resolver'
 
 import Debug from 'debug'
 import {
@@ -31,28 +31,21 @@ export function createEcdhWrapper(secretKeyRef: string, context: IAgentContext<I
 export async function extractSenderEncryptionKey(
   jwe: JWE,
   context: IAgentContext<IResolver>,
+  resolutionOptions?: DIDResolutionOptions,
 ): Promise<Uint8Array | null> {
   let senderKey: Uint8Array | null = null
   const protectedHeader = decodeJoseBlob(jwe.protected)
   if (typeof protectedHeader.skid === 'string') {
-    const senderDoc = await resolveDidOrThrow(protectedHeader.skid, context)
+    const senderDoc = await resolveDidOrThrow(protectedHeader.skid, context, resolutionOptions)
     const sKey = (await context.agent.getDIDComponentById({
       didDocument: senderDoc,
       didUrl: protectedHeader.skid,
       section: 'keyAgreement',
     })) as _ExtendedVerificationMethod
-    if (
-      ![
-        'Ed25519VerificationKey2018',
-        'X25519KeyAgreementKey2019',
-        'JsonWebKey2020',
-        'Ed25519VerificationKey2020',
-        'X25519KeyAgreementKey2020',
-      ].includes(sKey.type)
-    ) {
+    let { publicKeyHex, keyType } = extractPublicKeyHex(sKey, true)
+    if (keyType !== 'X25519') {
       throw new Error(`not_supported: sender key of type ${sKey.type} is not supported`)
     }
-    let publicKeyHex = extractPublicKeyHex(sKey, true)
     senderKey = hexToBytes(publicKeyHex)
   }
   return senderKey
@@ -93,11 +86,17 @@ export async function extractManagedRecipients(
 export async function mapRecipientsToLocalKeys(
   managedKeys: { recipient: any; kid: string; identifier: IIdentifier }[],
   context: IAgentContext<IResolver>,
+  resolutionOptions?: DIDResolutionOptions,
 ): Promise<{ localKeyRef: string; recipient: any }[]> {
   const potentialKeys = await Promise.all(
     managedKeys.map(async ({ recipient, kid, identifier }) => {
       // TODO: use caching, since all recipients are supposed to belong to the same identifier
-      const identifierKeys = await mapIdentifierKeysToDoc(identifier, 'keyAgreement', context)
+      const identifierKeys = await mapIdentifierKeysToDoc(
+        identifier,
+        'keyAgreement',
+        context,
+        resolutionOptions,
+      )
       const localKey = identifierKeys.find((key) => key.meta.verificationMethod.id === kid)
       if (localKey) {
         return { localKeyRef: localKey.kid, recipient }

@@ -58,7 +58,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },

@@ -6,6 +6,7 @@ import {
   IMessageHandler,
   IPluginMethodMap,
   IResolver,
+  UsingResolutionOptions,
 } from '@veramo/core-types'
 import { ISendMessageDIDCommAlpha1Args } from '../didcomm.js'
 import {
@@ -22,7 +23,7 @@ import {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage
+export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage & UsingResolutionOptions
 
 /**
  * The input to the {@link IDIDComm.packDIDCommMessage} method.
@@ -30,7 +31,7 @@ export type IUnpackDIDCommMessageArgs = IPackedDIDCommMessage
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface IPackDIDCommMessageArgs {
+export interface IPackDIDCommMessageArgs extends UsingResolutionOptions {
   message: IDIDCommMessage
   packing: DIDCommMessagePacking
   keyRef?: string
@@ -44,7 +45,7 @@ export interface IPackDIDCommMessageArgs {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ISendDIDCommMessageArgs {
+export interface ISendDIDCommMessageArgs extends UsingResolutionOptions {
   packedMessage: IPackedDIDCommMessage
   messageId: string
   returnTransportId?: string

@@ -13,6 +13,8 @@ const { EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020 } 
 export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature {
   getSupportedVerificationType(): string {
     return 'EcdsaSecp256k1RecoveryMethod2020'
+    // TODO: add support for ['EcdsaSecp256k1VerificationKey2020', 'EcdsaSecp256k1VerificationKey2019',
+    // 'JsonWebKey2020', 'Multikey']
   }
 
   getSupportedVeramoKeyType(): TKeyType {
@@ -52,7 +54,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
       key: new EcdsaSecp256k1RecoveryMethod2020({
         publicKeyHex: key.publicKeyHex,
         signer: () => signer,
-        type: this.getSupportedVerificationType(),
+        type: 'EcdsaSecp256k1RecoveryMethod2020',
         controller,
         id: verifiableMethodId,
       }),

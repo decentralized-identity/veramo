@@ -24,7 +24,7 @@ import {
   ISelectiveDisclosureRequest,
   IValidatePresentationAgainstSdrArgs,
 } from './types.js'
-import schema from './plugin.schema.json' assert { type: 'json' }
+import { schema } from './plugin.schema.js'
 import { createJWT } from 'did-jwt'
 import Debug from 'debug'
 import {
@@ -38,7 +38,7 @@ import {
 
 /**
  * This class adds support for creating
- * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
+ * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | uPort Selective Disclosure}
  * requests and interpret the responses received.
  *
  * This implementation of the uPort protocol uses
@@ -46,6 +46,9 @@ import {
  * as the response encoding instead of a `shareReq`.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * @deprecated This plugin is deprecated as it implements a non-standard protocol created for the uPort project. It
+ *   will be removed in a future release.
  */
 export class SelectiveDisclosure implements IAgentPlugin {
   readonly methods: ISelectiveDisclosure
@@ -64,7 +67,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
    * Creates a Selective disclosure request, encoded as a JWT.
    *
    * @remarks See
-   *   {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure}
+   *   {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | uPort Selective Disclosure}
    *
    * @param args - The param object with the properties necessary to create the request. See
    *   {@link ISelectiveDisclosureRequest}
@@ -187,7 +190,7 @@ export class SelectiveDisclosure implements IAgentPlugin {
 
   /**
    * Validates a
-   * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | Selective Disclosure response} encoded as a `Presentation`
+   * {@link https://github.com/uport-project/specs/blob/develop/flows/selectivedisclosure.md | uPort Selective Disclosure response} encoded as a `Presentation`
    *
    * @param args - Contains the request and the response `Presentation` that needs to be checked.
    * @param context - *RESERVED* This is filled by the framework when the method is called.

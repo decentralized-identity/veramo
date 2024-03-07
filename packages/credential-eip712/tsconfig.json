@@ -11,5 +11,5 @@
     { "path": "../core-types" },
     { "path": "../utils" }
   ],
-  "include": ["./**/*.ts", "./src/plugin.schema.json"]
+  "include": ["./**/*.ts"]
 }

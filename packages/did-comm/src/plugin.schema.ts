@@ -1,4 +1,4 @@
-{
+export const schema = {
   "IDIDComm": {
     "components": {
       "schemas": {
@@ -26,6 +26,18 @@
         "IPackDIDCommMessageArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "message": {
               "$ref": "#/components/schemas/IDIDCommMessage"
             },
@@ -48,6 +60,9 @@
         "IDIDCommMessage": {
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string"
+            },
             "type": {
               "type": "string"
             },
@@ -55,15 +70,15 @@
               "type": "string"
             },
             "to": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "thid": {
               "type": "string"
             },
             "pthid": {
-              "type": "string"
-            },
-            "id": {
               "type": "string"
             },
             "expires_time": {
@@ -90,10 +105,8 @@
             }
           },
           "required": [
-            "type",
-            "to",
             "id",
-            "body"
+            "type"
           ],
           "description": "The DIDComm message structure. See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure"
         },
@@ -204,6 +217,18 @@
         "ISendDIDCommMessageArgs": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "packedMessage": {
               "$ref": "#/components/schemas/IPackedDIDCommMessage"
             },
@@ -407,7 +432,7 @@
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -435,7 +460,7 @@
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -444,7 +469,7 @@
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -484,7 +509,7 @@
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -538,7 +563,7 @@
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -549,7 +574,7 @@
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -663,7 +688,27 @@
           "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
         },
         "IUnpackDIDCommMessageArgs": {
-          "$ref": "#/components/schemas/IPackedDIDCommMessage",
+          "type": "object",
+          "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ],
           "description": "The input to the  {@link  IDIDComm.unpackDIDCommMessage }  method."
         },
         "IUnpackedDIDCommMessage": {

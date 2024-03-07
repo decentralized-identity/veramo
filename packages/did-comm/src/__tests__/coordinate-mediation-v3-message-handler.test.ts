@@ -49,6 +49,7 @@ import {
   migrations as dataStoreMigrations,
 } from '../../../data-store/src'
 
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
@@ -261,7 +262,7 @@ describe('coordinate-mediation-message-handler', () => {
                 body: {},
                 from,
                 id,
-                to: mediator.did,
+                to: [mediator.did],
                 created_time: expect.anything(),
                 type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-request',
               },
@@ -280,7 +281,7 @@ describe('coordinate-mediation-message-handler', () => {
               message: {
                 body: { routing_did: [mediator.did] },
                 from: mediator.did,
-                to: recipient.did,
+                to: [recipient.did],
                 id: expect.anything(),
                 thid: msgid,
                 created_time: expect.anything(),
@@ -302,7 +303,7 @@ describe('coordinate-mediation-message-handler', () => {
                 from: mediator.did,
                 id: expect.anything(),
                 thid: msgid,
-                to,
+                to: [to],
                 created_time: expect.anything(),
                 type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
                 body: null,
@@ -481,7 +482,7 @@ describe('coordinate-mediation-message-handler', () => {
               return_route: 'all',
               from: recipient.did,
               id: msgid,
-              to: mediator.did,
+              to: [mediator.did],
               created_time: expect.anything(),
               type: 'https://didcomm.org/coordinate-mediation/3.0/recipient-update',
             },
@@ -500,7 +501,7 @@ describe('coordinate-mediation-message-handler', () => {
             message: {
               body: { updates },
               from: mediator.did,
-              to: recipient.did,
+              to: [recipient.did],
               id: expect.anything(),
               thid: msgid,
               created_time: expect.anything(),
@@ -638,7 +639,7 @@ describe('coordinate-mediation-message-handler', () => {
               body: {},
               from: recipient.did,
               id: msgid,
-              to: mediator.did,
+              to: [mediator.did],
               created_time: expect.anything(),
               type: CoordinateMediation.RECIPIENT_QUERY,
             },
@@ -657,7 +658,7 @@ describe('coordinate-mediation-message-handler', () => {
             message: {
               body: { dids },
               from: mediator.did,
-              to: recipient.did,
+              to: [recipient.did],
               id: expect.anything(),
               thid: msgid,
               created_time: expect.anything(),
@@ -804,7 +805,7 @@ describe('coordinate-mediation-message-handler', () => {
           message: {
             type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-deny',
             from: mediator.did,
-            to: recipient.did,
+            to: [recipient.did],
             id: msgid,
             thid: '',
             body: {},
@@ -845,7 +846,7 @@ describe('coordinate-mediation-message-handler', () => {
           message: {
             type: 'https://didcomm.org/coordinate-mediation/3.0/mediate-grant',
             from: mediator.did,
-            to: recipient.did,
+            to: [recipient.did],
             id: msgid,
             thid: '',
             body: {},

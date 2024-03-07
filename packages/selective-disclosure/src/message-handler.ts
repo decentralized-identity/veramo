@@ -4,12 +4,14 @@ import { v4 as uuidv4 } from 'uuid'
 
 import Debug from 'debug'
 import { asArray, computeEntryHash } from '@veramo/utils'
+
 const debug = Debug('veramo:selective-disclosure:message-handler')
 
 /**
  * Identifies a {@link @veramo/core-types#IMessage} that represents a Selective Disclosure Request
  *
- * @remarks See {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | Selective Disclosure Request}
+ * @remarks See
+ *   {@link https://github.com/uport-project/specs/blob/develop/messages/sharereq.md | uPort Selective Disclosure Request}
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export const MessageTypes = {
@@ -21,6 +23,9 @@ export const MessageTypes = {
  * into the internal Message representation.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
+ *
+ * @deprecated This plugin is deprecated as it implements a non-standard protocol created for the uPort project. It
+ *   will be removed in a future release.
  */
 export class SdrMessageHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<IMessageHandler>): Promise<Message> {

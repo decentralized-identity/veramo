@@ -167,7 +167,7 @@ export default (testContext: {
           packedMessage = await agent.packDIDCommMessage({
             packing: 'authcrypt',
             message: {
-              to: identifier.did,
+              to: [identifier.did],
               from: identifier.did,
               id: 'test-message-123',
               type: 'w3c.vc',

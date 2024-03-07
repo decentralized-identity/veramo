@@ -17,8 +17,9 @@ import {
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
 export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
-  getSupportedVerificationType(): 'JsonWebKey2020' {
+  getSupportedVerificationType(): string {
     return 'JsonWebKey2020'
+      // TODO: add support for ['Ed25519VerificationKey2018', 'Ed25519VerificationKey2020', 'Multikey'] and others
   }
 
   getSupportedVeramoKeyType(): TKeyType {
@@ -59,7 +60,7 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
 
     const verificationKey = await JsonWebKey.from({
       id: id,
-      type: this.getSupportedVerificationType(),
+      type: 'JsonWebKey2020',
       controller: controller,
       publicKeyJwk: {
         kty: 'OKP',

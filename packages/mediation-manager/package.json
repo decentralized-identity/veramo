@@ -18,10 +18,10 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "eslint": "8.50.0",
+    "eslint": "8.56.0",
     "eslint-plugin-promise": "6.1.1",
     "timekeeper": "2.3.1",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",

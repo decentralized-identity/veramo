@@ -17,5 +17,5 @@
       "path": "../utils"
     }
   ],
-  "include": ["./**/*.ts", "./src/plugin.schema.json"]
+  "include": ["./**/*.ts"]
 }

@@ -1,7 +1,7 @@
 // noinspection ES6PreferShortImport
 
 import { IAgentOptions, IDIDManager, IResolver, MinimalImportableKey, TAgent } from '../../packages/core-types/src'
-import { getChainIdForDidEthr, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src'
+import { getChainId, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
 
@@ -24,7 +24,7 @@ export default (testContext: {
       const didUrl = 'did:ethr:mainnet:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didDoc = await resolveDidOrThrow(didUrl, { agent })
       if (didDoc.verificationMethod) {
-        const chainId = getChainIdForDidEthr(didDoc.verificationMethod[0])
+        const chainId = getChainId(didDoc.verificationMethod[0])
         expect(chainId).toEqual(1)
       }
     })

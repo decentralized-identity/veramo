@@ -13,4 +13,4 @@ export * from './types/IDIDComm.js'
 export { DIDCommMessageHandler } from './message-handler.js'
 export * from './protocols/index.js'
 export * from './transports/transports.js'
-
+export { schema } from './plugin.schema.js'

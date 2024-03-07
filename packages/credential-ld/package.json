@@ -4,8 +4,7 @@
   "version": "5.6.0",
   "main": "build/index.js",
   "exports": {
-    ".": "./build/index.js",
-    "./build/plugin.schema.json": "./build/plugin.schema.json"
+    ".": "./build/index.js"
   },
   "types": "build/index.d.ts",
   "scripts": {
@@ -18,11 +17,11 @@
     }
   },
   "dependencies": {
-    "@digitalcredentials/ed25519-signature-2020": "^3.0.2",
+    "@digitalcredentials/ed25519-signature-2020": "^4.0.0",
     "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/jsonld": "^6.0.0",
-    "@digitalcredentials/jsonld-signatures": "^9.3.2",
-    "@digitalcredentials/vc": "^6.0.0",
+    "@digitalcredentials/jsonld-signatures": "^10.0.0",
+    "@digitalcredentials/vc": "^7.0.0",
     "@transmute/credentials-context": "^0.7.0-unstable.81",
     "@transmute/ed25519-signature-2018": "^0.7.0-unstable.81",
     "@transmute/json-web-signature": "^0.7.0-unstable.81",
@@ -40,13 +39,12 @@
   "devDependencies": {
     "@types/debug": "4.1.8",
     "borc": "3.0.0",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",
     "src/**/*",
     "contexts/**/*.json",
-    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

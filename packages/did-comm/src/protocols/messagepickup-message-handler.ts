@@ -108,7 +108,7 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
           const replyMessage: IDIDCommMessage = {
             type: DELIVERY_MESSAGE_TYPE,
             from: to,
-            to: from,
+            to: [from],
             id: v4(),
             thid: message.threadId ?? message.id,
             created_time: new Date().toISOString(),
@@ -186,7 +186,7 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
       const replyMessage: IDIDCommMessage = {
         type: STATUS_MESSAGE_TYPE,
         from: to,
-        to: from,
+        to: [from],
         id: v4(),
         thid: message.threadId ?? message.id,
         created_time: new Date().toISOString(),
@@ -257,7 +257,7 @@ export class PickupRecipientMessageHandler extends AbstractMessageHandler {
         const replyMessage: IDIDCommMessage = {
           type: MESSAGES_RECEIVED_MESSAGE_TYPE,
           from: to,
-          to: from,
+          to: [from],
           id: v4(),
           thid: message.threadId ?? message.id,
           created_time: new Date().toISOString(),

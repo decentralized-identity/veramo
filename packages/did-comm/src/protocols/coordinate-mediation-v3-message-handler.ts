@@ -1,11 +1,12 @@
 import { IAgentContext, IDIDManager, IKeyManager } from '@veramo/core-types'
-import { MediationResponse, IMediationManager, RequesterDid, RecipientDid } from '@veramo/mediation-manager'
+import { IMediationManager, MediationResponse, RecipientDid, RequesterDid } from '@veramo/mediation-manager'
 
 import { AbstractMessageHandler, Message } from '@veramo/message-handler'
 import Debug from 'debug'
 import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types.js'
+import { DIDCommMessageMediaType, IDIDCommMessage } from '../types/message-types.js'
+import { asArray } from '@veramo/utils'
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
@@ -43,7 +44,8 @@ export enum RecipientUpdateResult {
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  *
- * Parameter options for the CoordinateMediationV3MediatorMessageHandler {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
+ * Parameter options for the CoordinateMediationV3MediatorMessageHandler
+ *   {@link @veramo/did-comm#CoordinateMediationV3MediatorMessageHandler}
  */
 export interface CoordinateMediationV3MediatorMessageHandlerOptions {
   isMediateDefaultGrantAll: boolean
@@ -131,13 +133,14 @@ export function createV3MediateGrantMessage(
   return {
     type: CoordinateMediation.MEDIATE_GRANT,
     from: mediatorDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: v4(),
     thid: thid,
     body: { routing_did: [mediatorDidUrl] },
     created_time: new Date().toISOString(),
   }
 }
+
 /**
  * @beta This API may change without a BREAKING CHANGE notice.
  */
@@ -149,7 +152,7 @@ export const createV3MediateDenyMessage = (
   return {
     type: CoordinateMediation.MEDIATE_DENY,
     from: mediatorDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: v4(),
     thid: thid,
     created_time: new Date().toISOString(),
@@ -170,7 +173,7 @@ export function createV3RecipientUpdateResponseMessage(
   return {
     type: CoordinateMediation.RECIPIENT_UPDATE_RESPONSE,
     from: mediatorDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: v4(),
     thid: thid,
     body: { updates },
@@ -191,7 +194,7 @@ export const createV3RecipientQueryResponseMessage = (
   return {
     type: CoordinateMediation.RECIPIENT_QUERY_RESPONSE,
     from: mediatorDidUrl,
-    to: recipientDidUrl,
+    to: [recipientDidUrl],
     id: v4(),
     thid: thid,
     body: { dids },
@@ -212,7 +215,7 @@ export function createV3MediateRequestMessage(
   return {
     type: CoordinateMediation.MEDIATE_REQUEST,
     from: recipientDidUrl,
-    to: mediatorDidUrl,
+    to: [mediatorDidUrl],
     id: v4(),
     created_time: new Date().toISOString(),
     body: {},
@@ -229,7 +232,7 @@ export const createV3StatusRequestMessage = (
   return {
     id: v4(),
     type: MessagePickup.STATUS_REQUEST_MESSAGE_TYPE,
-    to: mediatorDidUrl,
+    to: [mediatorDidUrl],
     from: recipientDidUrl,
     return_route: 'all',
     body: {},
@@ -250,7 +253,7 @@ export const createV3RecipientUpdateMessage = (
   return {
     type: CoordinateMediation.RECIPIENT_UPDATE,
     from: recipientDidUrl,
-    to: mediatorDidUrl,
+    to: [mediatorDidUrl],
     id: v4(),
     created_time: new Date().toISOString(),
     body: { updates },
@@ -271,7 +274,7 @@ export const createV3RecipientQueryMessage = (
   return {
     type: CoordinateMediation.RECIPIENT_QUERY,
     from: recipientDidUrl,
-    to: mediatorDidUrl,
+    to: [mediatorDidUrl],
     id: v4(),
     created_time: new Date().toISOString(),
     body: {},
@@ -288,7 +291,7 @@ export const createV3DeliveryRequestMessage = (
   return {
     id: v4(),
     type: MessagePickup.DELIVERY_REQUEST_MESSAGE_TYPE,
-    to: mediatorDidUrl,
+    to: [mediatorDidUrl],
     from: recipientDidUrl,
     return_route: 'all',
     body: { limit: 2 },
@@ -302,7 +305,7 @@ export const createV3DeliveryRequestMessage = (
 const isMediateRequest = (message: Message): message is MediateRequestMessage => {
   if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
   if (!message.from) throw new Error('invalid_argument: MediateRequest received without `from` set')
-  if (!message.from) throw new Error('invalid_argument: MediateRequest received without `to` set')
+  if (!message.to) throw new Error('invalid_argument: MediateRequest received without `to` set')
   return true
 }
 
@@ -325,7 +328,8 @@ const isRecipientQuery = (message: Message): message is RecipientQueryMessage =>
 }
 
 /**
- * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the mediator role.
+ * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the
+ * mediator role.
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessageHandler {
@@ -370,7 +374,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
         message: {
           type: response.type,
           from: response.from,
-          to: response.to,
+          to: asArray(response.to)[0],
           id: response.id,
           threadId: response.thid,
           data: response.body,
@@ -426,7 +430,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
         message: {
           type: response.type,
           from: response.from,
-          to: response.to,
+          to: asArray(response.to)[0],
           id: response.id,
           threadId: response.thid,
           data: response.body,
@@ -466,7 +470,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
         message: {
           type: response.type,
           from: response.from,
-          to: response.to,
+          to: asArray(response.to)[0],
           id: response.id,
           threadId: response.thid,
           data: response.body,
@@ -492,7 +496,8 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
 }
 
 /**
- * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the recipient role.
+ * A plugin for the {@link @veramo/message-handler#MessageHandler} that handles Mediator Coordinator messages for the
+ * recipient role.
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class CoordinateMediationV3RecipientMessageHandler extends AbstractMessageHandler {

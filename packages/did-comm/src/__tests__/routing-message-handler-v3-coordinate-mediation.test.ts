@@ -230,7 +230,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
@@ -241,7 +241,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
       packing: 'anoncrypt',
       message: {
         type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         id: msgId,
         body: {
           next: recipient.did,
@@ -263,7 +263,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
           message: {
             body: { next: recipient.did },
             id: msgId,
-            to: mediator.did,
+            to: [mediator.did],
             type: FORWARD_MESSAGE_TYPE,
             attachments: [
               {
@@ -327,7 +327,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
@@ -338,7 +338,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
       packing: 'anoncrypt',
       message: {
         type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         id: msgId,
         body: {
           next: recipient.did,
@@ -414,7 +414,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
       packing: 'authcrypt',
       message: {
         type: 'test',
-        to: recipient.did,
+        to: [recipient.did],
         from: mediator.did,
         id: 'test',
         body: { hello: 'world' },
@@ -425,7 +425,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
       packing: 'anoncrypt',
       message: {
         type: FORWARD_MESSAGE_TYPE,
-        to: mediator.did,
+        to: [mediator.did],
         id: msgId,
         body: {
           next: recipient.did,

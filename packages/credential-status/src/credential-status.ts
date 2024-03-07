@@ -42,7 +42,7 @@ export class CredentialStatusPlugin implements IAgentPlugin {
     let didDoc = args.didDocumentOverride
     if (!didDoc) {
       const issuerDid = extractIssuer(args.credential)
-      didDoc = await resolveDidOrThrow(issuerDid, context)
+      didDoc = await resolveDidOrThrow(issuerDid, context, args.resolutionOptions)
     }
     const statusCheck: CredentialStatus = (await this.status.checkStatus(
       args.credential,

@@ -79,9 +79,11 @@ export interface IKeyValueStore<ValueType extends ValueStoreType> {
   /**
    * @remarks in order to consume the iterator, you need to use the for await syntax as follows:
    *
+   * ```
    * for await (const result of store.getIterator()) {
    *   console.log(result)
    * }
+   * ```
    *
    * @returns An async iterator for all the keys in the store
    */

@@ -17,12 +17,12 @@ import {
   MinimalImportableKey,
   TKeyType,
 } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
+import { schema } from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, type ECDH, type JWE } from 'did-jwt'
 import { convertEd25519PublicKeyToX25519 } from '@veramo/utils'
 import Debug from 'debug'
-import {getBytes, hexlify, toUtf8Bytes, toUtf8String, computeAddress, Transaction} from "ethers";
+import { getBytes, hexlify, toUtf8Bytes, toUtf8String, computeAddress, Transaction } from 'ethers'
 
 const debug = Debug('veramo:key-manager')
 

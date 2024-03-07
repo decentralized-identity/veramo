@@ -7,6 +7,7 @@ import {
   IPluginMethodMap,
   IResolver,
   PresentationPayload,
+  UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
@@ -103,7 +104,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICreateVerifiableCredentialEIP712Args {
+export interface ICreateVerifiableCredentialEIP712Args extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -129,7 +130,7 @@ export interface ICreateVerifiableCredentialEIP712Args {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICreateVerifiablePresentationEIP712Args {
+export interface ICreateVerifiablePresentationEIP712Args extends UsingResolutionOptions {
   /**
    * The json payload of the Presentation according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
@@ -154,7 +155,7 @@ export interface ICreateVerifiablePresentationEIP712Args {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface IVerifyCredentialEIP712Args {
+export interface IVerifyCredentialEIP712Args extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -172,7 +173,7 @@ export interface IVerifyCredentialEIP712Args {
  *
  * @public
  */
-export interface IVerifyPresentationEIP712Args {
+export interface IVerifyPresentationEIP712Args extends UsingResolutionOptions {
   /**
    * The Verifiable Presentation object according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.

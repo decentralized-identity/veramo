@@ -6,5 +6,5 @@
     "declarationDir": "build",
   },
   "references": [{ "path": "../core-types" }],
-  "include": ["./**/*.ts", "./src/plugin.schema.json"]
+  "include": ["./**/*.ts"]
 }

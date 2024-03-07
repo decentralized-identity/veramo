@@ -12,18 +12,17 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "credential-status": "^2.0.5",
-    "did-jwt": "^7.4.1",
+    "credential-status": "^3.0.0",
+    "did-jwt": "^8.0.0",
     "did-resolver": "^4.1.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",
     "src/**/*",
-    "plugin.schema.json",
     "README.md",
     "LICENSE"
   ],

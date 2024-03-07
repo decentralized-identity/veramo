@@ -1,5 +1,5 @@
-import { IAgent, IMessageHandler, TAgent } from '@veramo/core-types'
-import { text, Request, Router } from 'express'
+import { IMessageHandler, TAgent } from '@veramo/core-types'
+import { Request, Router, text } from 'express'
 
 interface RequestWithMessageHandler extends Request {
   agent?: TAgent<IMessageHandler>
@@ -53,8 +53,8 @@ export const MessagingRouter = (options: MessagingRouterOptions): Router => {
         res.json({ id: message.id })
       }
     } catch (e: any) {
-      console.log(e)
-      res.send(e.message)
+      console.error(e)
+      res.status(400).send(e.message)
     }
   })
 
