@@ -305,7 +305,7 @@ export const createV3DeliveryRequestMessage = (
 const isMediateRequest = (message: Message): message is MediateRequestMessage => {
   if (message.type !== CoordinateMediation.MEDIATE_REQUEST) return false
   if (!message.from) throw new Error('invalid_argument: MediateRequest received without `from` set')
-  if (!message.from) throw new Error('invalid_argument: MediateRequest received without `to` set')
+  if (!message.to) throw new Error('invalid_argument: MediateRequest received without `to` set')
   return true
 }
 
