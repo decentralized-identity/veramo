@@ -1046,8 +1046,8 @@ importers:
         specifier: ^6.11.1
         version: 6.11.1
       uint8arrays:
-        specifier: ^4.0.6
-        version: 4.0.6
+        specifier: ^5.0.0
+        version: 5.0.2
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -1142,8 +1142,8 @@ importers:
         specifier: ^0.3.17
         version: 0.3.17(sqlite3@5.1.6)(ts-node@10.9.2)
       uint8arrays:
-        specifier: ^4.0.6
-        version: 4.0.6
+        specifier: ^5.0.0
+        version: 5.0.2
     devDependencies:
       '@keyv/compress-brotli':
         specifier: 1.1.4
@@ -1610,8 +1610,8 @@ importers:
         specifier: ^13.0.0
         version: 13.1.0
       uint8arrays:
-        specifier: ^4.0.6
-        version: 4.0.6
+        specifier: ^5.0.0
+        version: 5.0.2
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -25973,7 +25973,6 @@ packages:
     resolution: {integrity: sha512-S0GaeR+orZt7LaqzTRs4ZP8QqzAauJ+0d4xvP2lJTA99jIkKsE2FgDs4tGF/K/z5O9I/2W5Yvrh7IuqNeYH+0Q==}
     dependencies:
       multiformats: 13.1.0
-    dev: true
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
