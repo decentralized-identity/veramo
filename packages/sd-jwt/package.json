@@ -1,0 +1,78 @@
+{
+  "name": "@veramo/sd-jwt",
+  "description": "Veramo plugin to enable SD-JWT",
+  "version": "5.6.0",
+  "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js"
+  },
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "ISDJwtPlugin": "./src/types.ts"
+    }
+  },
+  "dependencies": {
+    "@sphereon/ssi-sdk-ext.did-utils": "^0.16.0",
+    "@sd-jwt/core": "0.3.2-next.107",
+    "@sd-jwt/crypto-nodejs": "0.3.2-next.107",
+    "@sd-jwt/types": "0.3.2-next.107",
+    "@sd-jwt/utils": "0.3.2-next.107",
+    "@sd-jwt/decode": "0.3.2-next.107",
+    "@sd-jwt/sd-jwt-vc": "0.3.2-next.107",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/message-handler": "workspace:^",
+    "@veramo/utils": "workspace:^",
+    "debug": "^4.3.3",
+    "did-jwt": "^8.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@veramo/core": "workspace:^",
+    "@veramo/data-store": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "@veramo/did-provider-jwk": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/kms-local": "workspace:^",
+    "@veramo/did-resolver": "workspace:^",
+    "@types/debug": "4.1.8",
+    "@types/uuid": "9.0.2",
+    "typescript": "5.3.3",
+    "typeorm": "^0.3.20"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/selective-disclosure"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "contributors": [
+    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "veramo-plugin"
+  ],
+  "license": "Apache-2.0",
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}
