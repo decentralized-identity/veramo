@@ -74,7 +74,7 @@ jobs:
           POSTGRES_PORT: 5432
         run: pnpm test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
       - run: mv coverage/coverage-final.json coverage/${{matrix.shard}}.json
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: coverage-artifacts
           path: coverage/
@@ -87,7 +87,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: coverage-artifacts
           path: coverage
