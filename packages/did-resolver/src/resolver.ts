@@ -100,7 +100,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
       }
     })
     if (typeof result === 'string') {
-      result = mainSections.find((item) => item.id === didUrl || `${did}${item.id}` === didUrl)
+      result = mainSections.find((item) => item.id === didUrl || `${did}${item.id}` === didUrl || item.id === `${did}${didUrl}`);
     }
 
     if (!result) {
