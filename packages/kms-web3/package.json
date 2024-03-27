@@ -16,7 +16,7 @@
     "ethers": "^6.11.1"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.12",
     "typescript": "5.3.3"
   },
   "files": [

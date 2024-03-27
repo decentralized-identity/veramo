@@ -18,7 +18,7 @@
     "did-resolver": "^4.1.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.12",
     "@veramo/core": "workspace:*",
     "@veramo/key-manager": "workspace:*",
     "@veramo/kms-local": "workspace:*",
