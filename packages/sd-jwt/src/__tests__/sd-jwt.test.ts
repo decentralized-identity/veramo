@@ -191,7 +191,7 @@ describe('Agent plugin', () => {
     })
     const presentation = await agent.createSdJwtVcPresentation({
       presentation: credential.credential,
-      presentationKeys: ['given_name'],
+      presentationFrame: { given_name: true },
       kb: {
         payload: {
           aud: '1',
@@ -224,7 +224,7 @@ describe('Agent plugin', () => {
     })
     const presentation = await agent.createSdJwtVcPresentation({
       presentation: credential.credential,
-      presentationKeys: ['given_name'],
+      presentationFrame: { given_name: true },
       kb: {
         payload: {
           aud: '1',
@@ -254,7 +254,7 @@ describe('Agent plugin', () => {
     })
     const presentation = agent.createSdJwtVcPresentation({
       presentation: credential.credential,
-      presentationKeys: ['given_name'],
+      presentationFrame: { given_name: true },
       kb: {
         payload: {
           aud: '1',
@@ -286,7 +286,7 @@ describe('Agent plugin', () => {
     })
     const presentation = await agent.createSdJwtVcPresentation({
       presentation: credential.credential,
-      presentationKeys: ['given_name'],
+      presentationFrame: { given_name: true },
       kb: {
         payload: {
           aud: '1',
@@ -325,7 +325,7 @@ describe('Agent plugin', () => {
     })
     const presentation = await agent.createSdJwtVcPresentation({
       presentation: credential.credential,
-      presentationKeys: ['given_name'],
+      presentationFrame: { given_name: true },
       kb: {
         payload: {
           aud: '1',

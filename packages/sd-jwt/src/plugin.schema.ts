@@ -11,9 +11,6 @@ export const schema = {
                 "iss": {
                   "type": "string"
                 },
-                "iat": {
-                  "type": "number"
-                },
                 "nbf": {
                   "type": "number"
                 },
@@ -27,20 +24,57 @@ export const schema = {
                 "status": {},
                 "sub": {
                   "type": "string"
+                },
+                "iat": {
+                  "type": "number"
                 }
               },
               "required": [
                 "iss",
-                "iat",
                 "vct"
               ]
             },
-            "disclosureFrame": {}
+            "disclosureFrame": {
+              "$ref": "#/components/schemas/IDisclosureFrame"
+            }
           },
           "required": [
             "credentialPayload"
           ],
           "description": "ICreateSdJwtVcArgs"
+        },
+        "IDisclosureFrame": {
+          "type": "object",
+          "properties": {
+            "_sd": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "_sd_decoy": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/components/schemas/IDisclosureFrame"
+              },
+              {
+                "not": {}
+              }
+            ]
+          }
         },
         "ICreateSdJwtVcResult": {
           "type": "object",
@@ -62,11 +96,8 @@ export const schema = {
               "type": "string",
               "description": "Encoded SD-JWT credential"
             },
-            "presentationKeys": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+            "presentationFrame": {
+              "$ref": "#/components/schemas/IPresentationFrame"
             },
             "kb": {
               "type": "object",
@@ -100,6 +131,19 @@ export const schema = {
           "required": [
             "presentation"
           ]
+        },
+        "IPresentationFrame": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "$ref": "#/components/schemas/IPresentationFrame"
+              }
+            ]
+          }
         },
         "ICreateSdJwtVcPresentationResult": {
           "type": "object",

@@ -75,7 +75,16 @@ export interface ICreateSdJwtVcArgs {
   credentialPayload: SdJwtVcPayload
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  disclosureFrame?: any
+  disclosureFrame?: IDisclosureFrame
+}
+
+/**
+ * @beta
+ */
+export interface IDisclosureFrame {
+  _sd?: string[]
+  _sd_decoy?: number
+  [x: string]: string[] | number | IDisclosureFrame | undefined
 }
 
 /**
@@ -103,14 +112,21 @@ export interface ICreateSdJwtVcPresentationArgs {
   /*
    * The keys to use for selective disclosure for presentation
    * if not provided, all keys will be disclosed
-   * if empty array, no keys will be disclosed
+   * if empty object, no keys will be disclosed
    */
-  presentationKeys?: string[]
+  presentationFrame?: IPresentationFrame
 
   /**
    * Information to include to add key binding.
    */
   kb?: KBOptions
+}
+
+/**
+ * @beta
+ */
+export interface IPresentationFrame {
+  [x: string]: boolean | IPresentationFrame
 }
 
 /**

@@ -1303,23 +1303,23 @@ importers:
   packages/sd-jwt:
     dependencies:
       '@sd-jwt/core':
-        specifier: 0.3.2-next.107
-        version: 0.3.2-next.107
+        specifier: 0.6.1
+        version: 0.6.1
       '@sd-jwt/crypto-nodejs':
-        specifier: 0.3.2-next.107
-        version: 0.3.2-next.107
+        specifier: 0.6.1
+        version: 0.6.1
       '@sd-jwt/decode':
-        specifier: 0.3.2-next.107
-        version: 0.3.2-next.107
+        specifier: 0.6.1
+        version: 0.6.1
       '@sd-jwt/sd-jwt-vc':
-        specifier: 0.3.2-next.107
-        version: 0.3.2-next.107
+        specifier: 0.6.1
+        version: 0.6.1
       '@sd-jwt/types':
-        specifier: 0.3.2-next.107
-        version: 0.3.2-next.107
+        specifier: 0.6.1
+        version: 0.6.1
       '@sd-jwt/utils':
-        specifier: 0.3.2-next.107
-        version: 0.3.2-next.107
+        specifier: 0.6.1
+        version: 0.6.1
       '@sphereon/ssi-sdk-ext.did-utils':
         specifier: ^0.16.0
         version: 0.16.0(expo-crypto@12.8.1)(expo@49.0.21)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)
@@ -9518,45 +9518,55 @@ packages:
       '@noble/hashes': 1.3.3
       '@scure/base': 1.1.3
 
-  /@sd-jwt/core@0.3.2-next.107:
-    resolution: {integrity: sha512-B77/4i/01R8lnXSfPDITZdN+1MOcviSsgsqlxICOQjSL8eWoKjtMwQvI+e3zHLqVgw2O0p7zbNBDhymqxFR3IA==}
+  /@sd-jwt/core@0.6.1:
+    resolution: {integrity: sha512-egFTb23o6BGWF93vnjopN02rSiC1HOOnkk9BI8Kao3jz9ipZAHdO6wF7gwfZm5Nlol/Kd1/KSLhbOUPYt++FjA==}
     engines: {node: '>=16'}
     dependencies:
-      '@sd-jwt/decode': 0.3.2-next.107
-      '@sd-jwt/types': 0.3.2-next.107
-      '@sd-jwt/utils': 0.3.2-next.107
+      '@sd-jwt/decode': 0.6.1
+      '@sd-jwt/present': 0.6.1
+      '@sd-jwt/types': 0.6.1
+      '@sd-jwt/utils': 0.6.1
     dev: false
 
-  /@sd-jwt/crypto-nodejs@0.3.2-next.107:
-    resolution: {integrity: sha512-thHe0ZGJrja/PY4iAyDblV3axBfPSX9jNMSp4fwuy6nVgMspEZBDpvSMyY+yDVRZe2ol4CNj6uY/1M7imOIOsA==}
+  /@sd-jwt/crypto-nodejs@0.6.1:
+    resolution: {integrity: sha512-dkzZYNPlswCCnn4PfR/+GFeo/tI7QEZv4vqzpAp8/7v62Cpi/VjdyMmW5+SlHg3sTw82eL/B9aFTcFlnbQuvPA==}
     engines: {node: '>=16'}
     dev: false
 
-  /@sd-jwt/decode@0.3.2-next.107:
-    resolution: {integrity: sha512-GZBzslcyAYgMzs63BnkOY2+AJVmg2Vh5aAAR1y8TlHzaAe1UxNIiCwLOcJpQt+nkCmBDxO4P9rOLMMBHQ5WFEQ==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@sd-jwt/types': 0.3.2-next.107
-      '@sd-jwt/utils': 0.3.2-next.107
-    dev: false
-
-  /@sd-jwt/sd-jwt-vc@0.3.2-next.107:
-    resolution: {integrity: sha512-uIxRpkjrVwSl+Qdc1IEny+3L4s+aeyoWR5Cjy1uvm7e8xkMJMWGbFdXfLGT8fGjFYgEJppAg8bY0kKqZSm0g4Q==}
+  /@sd-jwt/decode@0.6.1:
+    resolution: {integrity: sha512-QgTIoYd5zyKKLgXB4xEYJTrvumVwtsj5Dog0v0L9UH9ZvHekDaeexS247X7A4iSdzTvmZzUpGskgABOa4D8NmQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@sd-jwt/core': 0.3.2-next.107
+      '@sd-jwt/types': 0.6.1
+      '@sd-jwt/utils': 0.6.1
     dev: false
 
-  /@sd-jwt/types@0.3.2-next.107:
-    resolution: {integrity: sha512-mft02chJEYvucDhD0FM/czILG5SA8DHYHuhl3yWZZx+KUTmtSe3IVfJ4BzZIWPtyr2B2FhEjX9Cz4XjxzDQZ3Q==}
-    engines: {node: '>=16'}
-    dev: false
-
-  /@sd-jwt/utils@0.3.2-next.107:
-    resolution: {integrity: sha512-VdeZLUu2Lj3ZWCqyyETOBM6X1JJufpBzOUJnJK/u0oBuY88DO5u4Ha76u43R+UNgMYgoUad/W5rQl87Bt7w7Ng==}
+  /@sd-jwt/present@0.6.1:
+    resolution: {integrity: sha512-QRD3TUDLj4PqQNZ70bBxh8FLLrOE9mY8V9qiZrJSsaDOLFs2p1CtZG+v9ig62fxFYJZMf4bWKwYjz+qqGAtxCg==}
     engines: {node: '>=16'}
     dependencies:
-      '@sd-jwt/types': 0.3.2-next.107
+      '@sd-jwt/decode': 0.6.1
+      '@sd-jwt/types': 0.6.1
+      '@sd-jwt/utils': 0.6.1
+    dev: false
+
+  /@sd-jwt/sd-jwt-vc@0.6.1:
+    resolution: {integrity: sha512-eF7NAFvedBCx+vrw4TVY3evUz5rAG8/FtB/CUudYEigKcpanLgfuNGhk93D45k+lLDG0b24w+qorqbpLZzHA2g==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@sd-jwt/core': 0.6.1
+    dev: false
+
+  /@sd-jwt/types@0.6.1:
+    resolution: {integrity: sha512-LKpABZJGT77jNhOLvAHIkNNmGqXzyfwBT+6r+DN9zNzMx1CzuNR0qXk1GMUbast9iCfPkGbnEpUv/jHTBvlIvg==}
+    engines: {node: '>=16'}
+    dev: false
+
+  /@sd-jwt/utils@0.6.1:
+    resolution: {integrity: sha512-1NHZ//+GecGQJb+gSdDicnrHG0DvACUk9jTnXA5yLZhlRjgkjyfJLNsCZesYeCyVp/SiyvIC9B+JwoY4kI0TwQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@sd-jwt/types': 0.6.1
       js-base64: 3.7.7
     dev: false
 
@@ -25068,9 +25078,6 @@ packages:
   /sqlite3@5.1.6:
     resolution: {integrity: sha512-olYkWoKFVNSSSQNvxVUfjiVbz3YtBwTJj+mfV5zpHmqW3sELx2Cf4QCdirMelhM5Zh+KDVaKgQHqCxrqiWHybw==}
     requiresBuild: true
-    peerDependenciesMeta:
-      node-gyp:
-        optional: true
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.10
       node-addon-api: 4.3.0
@@ -25085,9 +25092,6 @@ packages:
   /sqlite3@5.1.7:
     resolution: {integrity: sha512-GGIyOiFaG+TUra3JIfkI/zGP8yZYLPQ0pl1bH+ODjiX57sPhrLU5sQJn1y9bDKZUFYkX1crlrPfSYt0BKKdkog==}
     requiresBuild: true
-    peerDependenciesMeta:
-      node-gyp:
-        optional: true
     dependencies:
       bindings: 1.5.0
       node-addon-api: 7.1.0

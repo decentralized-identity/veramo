@@ -18,12 +18,12 @@
   },
   "dependencies": {
     "@sphereon/ssi-sdk-ext.did-utils": "^0.16.0",
-    "@sd-jwt/core": "0.3.2-next.107",
-    "@sd-jwt/crypto-nodejs": "0.3.2-next.107",
-    "@sd-jwt/types": "0.3.2-next.107",
-    "@sd-jwt/utils": "0.3.2-next.107",
-    "@sd-jwt/decode": "0.3.2-next.107",
-    "@sd-jwt/sd-jwt-vc": "0.3.2-next.107",
+    "@sd-jwt/core": "0.6.1",
+    "@sd-jwt/crypto-nodejs": "0.6.1",
+    "@sd-jwt/types": "0.6.1",
+    "@sd-jwt/utils": "0.6.1",
+    "@sd-jwt/decode": "0.6.1",
+    "@sd-jwt/sd-jwt-vc": "0.6.1",
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
@@ -58,10 +58,9 @@
     "url": "https://github.com/decentralized-identity/veramo.git",
     "directory": "packages/selective-disclosure"
   },
-  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "author": "Lukas.J.Han <lukas.j.han@gmail.com>",
   "contributors": [
-    "Simonas Karuzas <simonas.karuzas@mesh.xyz>",
-    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+    "Mirko Mollik <mirko.mollik@fit.fraunhofer.de>"
   ],
   "keywords": [
     "Veramo",

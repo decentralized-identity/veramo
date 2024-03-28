@@ -1,6 +1,6 @@
 import { Jwt, SDJwt } from '@sd-jwt/core'
-import { SDJwtVcInstance } from '@sd-jwt/sd-jwt-vc'
-import { Signer, Verifier, KbVerifier, JwtPayload } from '@sd-jwt/types'
+import { SDJwtVcInstance, SdJwtVcPayload } from '@sd-jwt/sd-jwt-vc'
+import { Signer, Verifier, KbVerifier, JwtPayload, DisclosureFrame, PresentationFrame } from '@sd-jwt/types'
 import { IAgentPlugin } from '@veramo/core-types'
 import { schema } from './plugin.schema'
 import {
@@ -21,6 +21,7 @@ import { mapIdentifierKeysToDocWithJwkSupport } from '@sphereon/ssi-sdk-ext.did-
 import { encodeJoseBlob } from '@veramo/utils'
 
 /**
+ * @beta
  * SD-JWT plugin for Veramo
  */
 export class SDJwtPlugin implements IAgentPlugin {
@@ -63,14 +64,17 @@ export class SDJwtPlugin implements IAgentPlugin {
       hashAlg: 'SHA-256',
     })
 
-    const credential = await sdjwt.issue(args.credentialPayload, args.disclosureFrame)
+    const credential = await sdjwt.issue(
+      args.credentialPayload,
+      args.disclosureFrame as DisclosureFrame<typeof args.credentialPayload>,
+    )
     return { credential }
   }
 
   /**
    * Get the key to sign the SD-JWT
-   * @param issuer did url like did:exmaple.com#key-1
-   * @param context agent instance
+   * @param issuer - did url like did:exmaple.com#key-1
+   * @param context - agent instance
    * @returns the key to sign the SD-JWT
    */
   private async getSignKey(issuer: string, context: IRequiredContext) {
@@ -133,14 +137,18 @@ export class SDJwtPlugin implements IAgentPlugin {
       kbSigner: signer,
       kbSignAlg: alg,
     })
-    const credential = await sdjwt.present(args.presentation, args.presentationKeys, { kb: args.kb })
+    const credential = await sdjwt.present(
+      args.presentation,
+      args.presentationFrame as PresentationFrame<SdJwtVcPayload>,
+      { kb: args.kb },
+    )
     return { presentation: credential }
   }
 
   /**
    * Verify a signed SD-JWT credential.
-   * @param args
-   * @param context
+   * @param args - Arguments necessary for the verify a SD-JWT credential.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    * @returns
    */
   async verifySdJwtVc(args: IVerifySdJwtVcArgs, context: IRequiredContext): Promise<IVerifySdJwtVcResult> {
@@ -157,11 +165,11 @@ export class SDJwtPlugin implements IAgentPlugin {
 
   /**
    * Verify the key binding of a SD-JWT by validating the signature of the key bound to the SD-JWT
-   * @param sdjwt
-   * @param context
-   * @param data
-   * @param signature
-   * @param payload
+   * @param sdjwt - SD-JWT instance
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   * @param data - signed data
+   * @param signature - The signature
+   * @param payload - The payload of the SD-JWT
    * @returns
    */
   private verifyKb(
@@ -180,10 +188,10 @@ export class SDJwtPlugin implements IAgentPlugin {
 
   /**
    * Validates the signature of a SD-JWT
-   * @param sdjwt
-   * @param context
-   * @param data
-   * @param signature
+   * @param sdjwt - SD-JWT instance
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   * @param data - signed data
+   * @param signature - The signature
    * @returns
    */
   async verify(sdjwt: SDJwtVcInstance, context: IRequiredContext, data: string, signature: string) {
@@ -207,8 +215,8 @@ export class SDJwtPlugin implements IAgentPlugin {
 
   /**
    * Verify a signed SD-JWT presentation.
-   * @param args
-   * @param context
+   * @param args - Arguments necessary for the verify a SD-JWT presentation.
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    * @returns
    */
   async verifySdJwtVcPresentation(
