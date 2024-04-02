@@ -10,7 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@aviarytech/did-peer": "^0.0.21",
+    "@aviarytech/did-peer": "^0.0.22",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "resolutions": {
     "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"

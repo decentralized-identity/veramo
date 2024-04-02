@@ -26,7 +26,7 @@
     "@types/passport": "1.0.12",
     "@types/passport-http-bearer": "1.0.37",
     "@types/url-parse": "1.4.8",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "peerDependencies": {
     "express": "^4.18.2"

@@ -20,7 +20,7 @@ import {
   W3CVerifiablePresentation,
 } from '@veramo/core-types'
 
-import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
+import { schema } from '@veramo/core-types'
 
 import {
   createVerifiableCredentialJwt,
@@ -283,7 +283,13 @@ export class CredentialPlugin implements IAgentPlugin {
     if (type == DocumentFormat.JWT) {
       let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
 
-      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
+      const resolver = {
+        resolve: (didUrl: string) =>
+          context.agent.resolveDid({
+            didUrl,
+            options: otherOptions?.resolutionOptions,
+          }),
+      } as Resolvable
       try {
         // needs broader credential as well to check equivalence with jwt
         verificationResult = await verifyCredentialJWT(jwt, resolver, {
@@ -398,7 +404,13 @@ export class CredentialPlugin implements IAgentPlugin {
       } else {
         jwt = presentation.proof.jwt
       }
-      const resolver = { resolve: (didUrl: string) => context.agent.resolveDid({ didUrl }) } as Resolvable
+      const resolver = {
+        resolve: (didUrl: string) =>
+          context.agent.resolveDid({
+            didUrl,
+            options: otherOptions?.resolutionOptions,
+          }),
+      } as Resolvable
 
       let audience = domain
       if (!audience) {
@@ -485,10 +497,10 @@ export class CredentialPlugin implements IAgentPlugin {
 
   /**
    * Checks if a key is suitable for signing JWT payloads.
-   * @param key
-   * @param context
+   * @param key - the key to check
+   * @param context - the Veramo agent context, unused here
    *
-   * @internal
+   * @beta
    */
   async matchKeyForJWT(key: IKey, context: IssuerAgentContext): Promise<boolean> {
     switch (key.type) {

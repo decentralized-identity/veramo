@@ -274,7 +274,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -302,7 +302,7 @@ export default (testContext: {
               body: { hello: 'world' },
               from: 'did:fake:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo',
               id: 'test',
-              to: 'did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3',
+              to: ['did:fake:z6MkrPhffVLBZpxH7xvKNyD4sRVZeZsNTWJkLdHdgWbfgNu3'],
               type: 'test',
             },
             metaData: { packing: 'authcrypt' },
@@ -318,7 +318,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiverWithMediation.did,
+        to: [receiverWithMediation.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -356,7 +356,7 @@ export default (testContext: {
             message: {
               body: { next: receiverWithMediation.did },
               id: expect.anything(),
-              to: mediator.did,
+              to: [mediator.did],
               type: 'https://didcomm.org/routing/2.0/forward',
               attachments: expect.anything(),
             },
@@ -373,7 +373,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiverWithMediation5.did,
+        to: [receiverWithMediation5.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -411,7 +411,7 @@ export default (testContext: {
             message: {
               body: { next: receiverWithMediation5.did },
               id: expect.anything(),
-              to: mediator.did,
+              to: [mediator.did],
               type: 'https://didcomm.org/routing/2.0/forward',
               attachments: expect.anything(),
             },
@@ -428,7 +428,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiverWithMediation2.did,
+        to: [receiverWithMediation2.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -477,7 +477,7 @@ export default (testContext: {
             message: {
               body: { next: mediator.did },
               id: expect.anything(),
-              to: mediator2.did,
+              to: [mediator2.did],
               type: 'https://didcomm.org/routing/2.0/forward',
               attachments: expect.anything(),
             },
@@ -494,7 +494,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiverWithMediation3.did,
+        to: [receiverWithMediation3.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -532,7 +532,7 @@ export default (testContext: {
             message: {
               body: { next: receiverWithMediation3.did },
               id: expect.anything(),
-              to: mediator.did,
+              to: [mediator.did],
               type: 'https://didcomm.org/routing/2.0/forward',
               attachments: expect.anything(),
             },
@@ -549,7 +549,7 @@ export default (testContext: {
 
       const message = {
         type: 'test',
-        to: receiverWithMediation4.did,
+        to: [receiverWithMediation4.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -598,7 +598,7 @@ export default (testContext: {
             message: {
               body: { next: mediator.did },
               id: expect.anything(),
-              to: mediator2.did,
+              to: [mediator2.did],
               type: 'https://didcomm.org/routing/2.0/forward',
               attachments: expect.anything(),
             },

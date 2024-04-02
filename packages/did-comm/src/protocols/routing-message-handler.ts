@@ -52,7 +52,7 @@ export class RoutingMessageHandler extends AbstractMessageHandler {
     /**
      * NOTE: the below check is used to determine if the agent is using the v3 mediation manager
      **/
-    if ('isMediateDefaultGrantAll' in context.agent) {
+    if (typeof context.agent.mediationManagerIsMediationGranted === 'function') {
       return await context.agent.mediationManagerIsMediationGranted({ recipientDid })
     }
     return false

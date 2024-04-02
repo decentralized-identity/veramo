@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
-
+import { fetch } from 'cross-fetch'
+import { decodeBase64url } from '@veramo/utils'
+import Debug from 'debug'
+const debug = Debug('veramo:did-comm:http-transport')
 /**
  * Result interface for sending DIDComm messages through
  * {@link IDIDCommTransport.send}.
@@ -102,21 +105,20 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
   isServiceSupported(service: any) {
     // serviceEndpoint can be a string, a ServiceEndpoint object, or an array of strings or ServiceEndpoint objects
     return (
-      (typeof service.serviceEndpoint === 'string'  && (
-        service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://')
-      ))
-      ||
-      (service.serviceEndpoint.uri &&  typeof service.serviceEndpoint.uri === 'string' && (
-        service.serviceEndpoint.uri.startsWith('http://') || service.serviceEndpoint.uri.startsWith('https://')
-      ))
-      ||
-      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0] === 'string' && (
-        service.serviceEndpoint[0].startsWith('http://') || service.serviceEndpoint[0].startsWith('https://')
-      ))
-      ||
-      (service.serviceEndpoint.length > 0 &&  typeof service.serviceEndpoint[0].uri === 'string' && (
-        service.serviceEndpoint[0].uri.startsWith('http://') || service.serviceEndpoint[0].uri.startsWith('https://')
-      ))
+      (typeof service.serviceEndpoint === 'string' &&
+        (service.serviceEndpoint.startsWith('http://') || service.serviceEndpoint.startsWith('https://'))) ||
+      (service.serviceEndpoint.uri &&
+        typeof service.serviceEndpoint.uri === 'string' &&
+        (service.serviceEndpoint.uri.startsWith('http://') ||
+          service.serviceEndpoint.uri.startsWith('https://'))) ||
+      (service.serviceEndpoint.length > 0 &&
+        typeof service.serviceEndpoint[0] === 'string' &&
+        (service.serviceEndpoint[0].startsWith('http://') ||
+          service.serviceEndpoint[0].startsWith('https://'))) ||
+      (service.serviceEndpoint.length > 0 &&
+        typeof service.serviceEndpoint[0].uri === 'string' &&
+        (service.serviceEndpoint[0].uri.startsWith('http://') ||
+          service.serviceEndpoint[0].uri.startsWith('https://')))
     )
   }
 
@@ -136,15 +138,23 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
     }
 
     try {
+      const contentType = this.inferContentType(message)
+      debug(`Sending message to ${serviceEndpointUrl}`)
       const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,
         body: message,
+        headers: {
+          'content-type': contentType,
+        },
       })
 
       let result
+
+      debug(`Response: ${JSON.stringify(response)}`)
+
       if (response.ok) {
         let returnMessage
-        
+
         // Check if response is a DIDComm message
         if (response.headers.get('Content-Type')?.startsWith('application/didcomm')) {
           returnMessage = await response.json()
@@ -163,6 +173,19 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
       return {
         error: 'failed to send message: ' + e,
       }
+    }
+  }
+
+  private inferContentType(message: string) {
+    try {
+      const parsedMessage = JSON.parse(message)
+      const contentType =
+        parsedMessage?.typ ??
+        JSON.parse(decodeBase64url(parsedMessage.protected ?? '{}'))?.typ ??
+        'application/json'
+      return contentType
+    } catch (e) {
+      return 'application/json'
     }
   }
 }

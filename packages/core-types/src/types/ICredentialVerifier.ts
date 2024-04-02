@@ -3,6 +3,21 @@ import { IVerifyResult } from './IVerifyResult.js'
 import { W3CVerifiableCredential, W3CVerifiablePresentation } from './vc-data-model.js'
 import { IResolver } from './IResolver.js'
 import { IDIDManager } from './IDIDManager.js'
+import { DIDResolutionOptions } from 'did-resolver'
+
+/**
+ * Options that are forwarded to the DID resolver.
+ * @public
+ */
+export interface UsingResolutionOptions {
+  /**
+   * Options to be passed to the DID resolver.
+   */
+  resolutionOptions?: DIDResolutionOptions & {
+    // Used by did:key to determine the format of the public key. Specified here for discoverability.
+    publicKeyFormat?: string
+  }
+}
 
 /**
  * Encapsulates the parameters required to verify a
@@ -10,7 +25,7 @@ import { IDIDManager } from './IDIDManager.js'
  *
  * @public
  */
-export interface IVerifyCredentialArgs {
+export interface IVerifyCredentialArgs extends UsingResolutionOptions {
   /**
    * The Verifiable Credential object according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or the JWT representation.
@@ -48,7 +63,7 @@ export interface IVerifyCredentialArgs {
  *
  * @public
  */
-export interface IVerifyPresentationArgs {
+export interface IVerifyPresentationArgs extends UsingResolutionOptions {
   /**
    * The Verifiable Presentation object according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.

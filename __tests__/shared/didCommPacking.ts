@@ -1,7 +1,7 @@
 // noinspection ES6PreferShortImport
 
 import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core-types/src'
-import { IDIDComm } from '../../packages/did-comm/src'
+import { IDIDComm, IDIDCommMessage } from '../../packages/did-comm/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
@@ -58,9 +58,9 @@ export default (testContext: {
 
     it('should pack and unpack a plaintext message', async () => {
       expect.assertions(2)
-      const message = {
+      const message: IDIDCommMessage = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         id: 'test',
         body: { hello: 'world' },
       }
@@ -80,9 +80,9 @@ export default (testContext: {
     })
 
     it('should pack and unpack a JWS message', async () => {
-      const message = {
+      const message: IDIDCommMessage = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -100,9 +100,9 @@ export default (testContext: {
 
     it('should pack and unpack an anoncrypted message', async () => {
       expect.assertions(2)
-      const message = {
+      const message :IDIDCommMessage = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         id: 'test',
         body: { hello: 'world' },
       }
@@ -117,9 +117,9 @@ export default (testContext: {
 
     it('should pack and unpack an authcrypted message', async () => {
       expect.assertions(2)
-      const message = {
+      const message: IDIDCommMessage = {
         type: 'test',
-        to: receiver.did,
+        to: [receiver.did],
         from: sender.did,
         id: 'test',
         body: { hello: 'world' },
@@ -146,10 +146,10 @@ export default (testContext: {
         provider: 'did:key',
       })
 
-      const message = {
+      const message: IDIDCommMessage = {
         type: 'test',
         from: originator.did,
-        to: originator.did,
+        to: [originator.did],
         id: 'test',
         body: { hello: 'world' },
       }
@@ -179,10 +179,10 @@ export default (testContext: {
         provider: 'did:key',
       })
 
-      const message = {
+      const message: IDIDCommMessage = {
         type: 'test',
         from: originator.did,
-        to: originator.did,
+        to: [originator.did],
         id: 'test',
         body: { hello: 'world' },
       }

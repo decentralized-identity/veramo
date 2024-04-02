@@ -1,5 +1,5 @@
 import { DIDDocumentSection, IAgentPlugin, IResolver } from '@veramo/core-types'
-import schema from '@veramo/core-types/build/plugin.schema.json' assert { type: 'json' }
+import { schema } from '@veramo/core-types'
 import { isDefined } from '@veramo/utils'
 import {
   DIDDocument,
@@ -100,7 +100,7 @@ export class DIDResolverPlugin implements IAgentPlugin {
       }
     })
     if (typeof result === 'string') {
-      result = mainSections.find((item) => item.id === didUrl || `${did}${item.id}` === didUrl)
+      result = mainSections.find((item) => item.id === didUrl || `${did}${item.id}` === didUrl || item.id === `${did}${didUrl}`);
     }
 
     if (!result) {

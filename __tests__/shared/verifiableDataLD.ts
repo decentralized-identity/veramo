@@ -230,7 +230,8 @@ export default (testContext: {
 
       // Check credential:
       expect(verifiableCredential).toHaveProperty('proof')
-      expect(verifiableCredential).toHaveProperty('proof.jws')
+      const proofValue = verifiableCredential.proof.jws ?? verifiableCredential.proof.proofValue
+      expect(proofValue).toBeDefined()
       expect(verifiableCredential.proof.verificationMethod).toEqual(
         `${didKeyIdentifier.did}#${didKeyIdentifier.did.substring(
           didKeyIdentifier.did.lastIndexOf(':') + 1,
@@ -322,6 +323,41 @@ export default (testContext: {
         fetchRemoteContexts: true,
       })
       expect(result.verified).toBe(true)
+    })
+
+    it('should create and verify verifiable credential in LD with did:key Ed25519VerificationKey2020', async () => {
+      const iss = await agent.didManagerCreate({ provider: 'did:key', options: { keyType: 'Ed25519' } })
+      const credential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: { id: iss.did },
+          '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
+          type: ['VerifiableCredential', 'Profile'],
+          issuanceDate: new Date().toISOString(),
+          credentialSubject: {
+            id: didKeyIdentifier.did,
+            name: 'of the game',
+          },
+        },
+        proofFormat: 'lds',
+        resolutionOptions: {
+          publicKeyFormat: 'Ed25519VerificationKey2020',
+        },
+      })
+
+      // Check credential:
+      expect(credential).toHaveProperty('proof')
+      const proofValue = credential.proof.jws ?? credential.proof.proofValue
+      expect(proofValue).toBeDefined()
+
+      expect(credential.proof.type).toEqual('Ed25519Signature2020')
+
+      const verification = await agent.verifyCredential({
+        credential: credential,
+        resolutionOptions: {
+          publicKeyFormat: 'Ed25519VerificationKey2020',
+        },
+      })
+      expect(verification.verified).toBe(true)
     })
 
     describe('credential verification policies', () => {

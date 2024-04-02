@@ -9,7 +9,7 @@ import {
 } from '@veramo/core-types'
 import {
   extractIssuer,
-  getChainIdForDidEthr,
+  getChainId,
   getEthereumAddress,
   intersect,
   isDefined,
@@ -19,7 +19,7 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import schema from '../plugin.schema.json' assert { type: 'json' }
+import { schema } from '../plugin.schema.js'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
@@ -29,7 +29,7 @@ import {
   IRequiredContext,
   IVerifyCredentialEIP712Args,
   IVerifyPresentationEIP712Args,
-} from '../types/ICredentialEIP712'
+} from '../types/ICredentialEIP712.js'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
@@ -84,15 +84,22 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       keyRef = key.kid
     }
 
-    const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
+    const extendedKeys = await mapIdentifierKeysToDoc(
+      identifier,
+      'verificationMethod',
+      context,
+      args.resolutionOptions,
+    )
     const extendedKey = extendedKeys.find((key) => key.kid === keyRef)
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
 
-    let chainId = 1
-    if (identifier.did.split(':')[1] === 'ethr')
-      chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
-
+    let chainId
+    try {
+      chainId = getChainId(extendedKey.meta.verificationMethod)
+    } catch (e) {
+      chainId = 1
+    }
     const credential: CredentialPayload = {
       ...args?.credential,
       '@context': credentialContext,
@@ -175,7 +182,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       throw new Error('invalid_argument: credential.issuer must not be empty')
     }
 
-    const didDocument = await resolveDidOrThrow(issuer, context)
+    const didDocument = await resolveDidOrThrow(issuer, context, args.resolutionOptions)
 
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
@@ -249,13 +256,23 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       keyRef = key.kid
     }
 
-    const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', context)
+    const extendedKeys = await mapIdentifierKeysToDoc(
+      identifier,
+      'verificationMethod',
+      context,
+      args.resolutionOptions,
+    )
     const extendedKey = extendedKeys.find((key) => key.kid === keyRef)
     if (!extendedKey)
       throw Error('key_not_found: The signing key is not available in the issuer DID document')
-    let chainId = 1
-    if (identifier.did.split(':')[1] === 'ethr')
-      chainId = getChainIdForDidEthr(extendedKey.meta.verificationMethod)
+
+    let chainId
+    try {
+      chainId = getChainId(extendedKey.meta.verificationMethod)
+    } catch (e) {
+      chainId = 1
+    }
+
     presentation['proof'] = {
       verificationMethod: extendedKey.meta.verificationMethod.id,
       created: issuanceDate,
@@ -332,7 +349,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       throw new Error('invalid_argument: args.presentation.issuer must not be empty')
     }
 
-    const didDocument = await resolveDidOrThrow(issuer, context)
+    const didDocument = await resolveDidOrThrow(issuer, context, args.resolutionOptions)
 
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
@@ -356,6 +373,8 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
    * @internal
    */
   async matchKeyForEIP712(k: IKey): Promise<boolean> {
-    return intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
+    return (
+      intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
+    )
   }
 }

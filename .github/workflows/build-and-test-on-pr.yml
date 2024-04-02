@@ -7,7 +7,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - run: pnpm add -g pnpm
@@ -20,7 +20,7 @@ jobs:
       - run: pnpm install
       - run: pnpm build
       - name: 'Save build output'
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: ${{ github.workspace }}
           key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
@@ -41,12 +41,12 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - run: pnpm add -g pnpm
       - name: 'Restore build output'
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}
           key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
@@ -84,7 +84,7 @@ jobs:
           path: coverage
       - name: Merge Code Coverage
         run: npx nyc merge coverage/ coverage/coverage-final.json
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos but sometimes fails without :|
           fail_ci_if_error: true
@@ -93,12 +93,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - run: pnpm add -g pnpm
       - name: 'Restore build output'
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}
           key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
@@ -118,12 +118,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - run: pnpm add -g pnpm
       - name: 'Restore build output'
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}
           key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}

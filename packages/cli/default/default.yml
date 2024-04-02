@@ -168,6 +168,8 @@ didResolver:
         $ref: /did-key-resolver
       peer:
         $require: '@veramo/did-provider-peer?t=function&p=/peer#getResolver'
+      jwk:
+        $require: '@veramo/did-provider-jwk?t=function&p=/jwk#getDidJwkResolver'
       pkh:
         $require: '@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver'
       elem:
@@ -248,6 +250,14 @@ didManager:
           $require: '@veramo/did-provider-key#KeyDIDProvider'
           $args:
             - defaultKms: local
+        did:jwk:
+          $require: '@veramo/did-provider-jwk#JwkDIDProvider'
+          $args:
+            - defaultKms: local
+        did:peer:
+          $require: '@veramo/did-provider-peer#PeerDIDProvider'
+          $args:
+            - defaultKms: local
         did:pkh:
           $require: '@veramo/did-provider-pkh#PkhDIDProvider'
           $args:
@@ -267,6 +277,8 @@ credentialIssuerLD:
   $args:
     - suites:
         - $require: '@veramo/credential-ld#VeramoEd25519Signature2018'
+        - $require: '@veramo/credential-ld#VeramoEd25519Signature2020'
+        - $require: '@veramo/credential-ld#VeramoJsonWebSignature2020'
         - $require: '@veramo/credential-ld#VeramoEcdsaSecp256k1RecoverySignature2020'
       contextMaps:
         # The LdDefaultContext is a "catch-all" for now.

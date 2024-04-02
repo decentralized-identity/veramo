@@ -10,7 +10,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
-import schema from './plugin.schema.json' assert { type: 'json' }
+import { schema } from './plugin.schema.js'
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader.js'
 import {
@@ -37,6 +37,7 @@ import {
   IVerifyCredentialLDArgs,
   IVerifyPresentationLDArgs,
 } from './types.js'
+import { DIDResolutionOptions } from 'did-resolver'
 
 const debug = Debug('veramo:credential-ld:action-handler')
 
@@ -114,6 +115,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
         context,
         identifier,
         args.keyRef,
+        args.resolutionOptions,
       )
 
       let { now } = args
@@ -169,6 +171,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
         context,
         identifier,
         args.keyRef,
+        args.resolutionOptions,
       )
 
       let { now } = args
@@ -202,12 +205,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
       now = new Date(now * 1000)
     }
 
-    return this.ldCredentialModule.verifyCredential(
-      credential,
-      args.fetchRemoteContexts || false,
-      { ...args, now },
-      context,
-    )
+    return this.ldCredentialModule.verifyCredential(credential, { ...args, now }, context)
   }
 
   /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */
@@ -224,7 +222,6 @@ export class CredentialIssuerLD implements IAgentPlugin {
       presentation,
       args.challenge,
       args.domain,
-      args.fetchRemoteContexts || false,
       { ...args, now },
       context,
     )
@@ -234,8 +231,14 @@ export class CredentialIssuerLD implements IAgentPlugin {
     context: IAgentContext<IResolver>,
     identifier: IIdentifier,
     keyRef?: string,
+    resolutionOptions?: DIDResolutionOptions,
   ): Promise<{ signingKey: _ExtendedIKey; verificationMethodId: string }> {
-    const extendedKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(identifier, 'assertionMethod', context)
+    const extendedKeys: _ExtendedIKey[] = await mapIdentifierKeysToDoc(
+      identifier,
+      'assertionMethod',
+      context,
+      resolutionOptions,
+    )
     let supportedTypes = this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuiteTypes()
     let signingKey: _ExtendedIKey | undefined
     let verificationMethodId: string
@@ -264,7 +267,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
 
   /**
    * Returns true if the key is supported by any of the installed LD Signature suites
-   * @param k - the key to verify
+   * @param k - the key to match
    *
    * @internal
    */

@@ -1,30 +1,35 @@
-{
-  "ICredentialIssuerLD": {
+export const schema = {
+  "ICredentialIssuerEIP712": {
     "components": {
       "schemas": {
-        "ICreateVerifiableCredentialLDArgs": {
+        "ICreateVerifiableCredentialEIP712Args": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "credential": {
               "$ref": "#/components/schemas/CredentialPayload",
-              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
+              "description": "The json payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, 'type' and 'issuanceDate' will be added automatically if omitted"
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  @veramo/core-types#IKey.kid | IKey.kid } ) from the internal database."
-            },
-            "fetchRemoteContexts": {
-              "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "Specific key to use for signing"
             }
           },
           "required": [
             "credential"
           ],
-          "additionalProperties": {
-            "description": "Any other options that can be forwarded to the lower level libraries"
-          },
-          "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+          "description": "Encapsulates the parameters required to create a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
         "CredentialPayload": {
           "type": "object",
@@ -79,7 +84,7 @@
               "type": "string"
             }
           ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
         },
         "CredentialSubject": {
           "type": "object",
@@ -88,7 +93,7 @@
               "type": "string"
             }
           },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
         },
         "ContextType": {
           "anyOf": [
@@ -132,7 +137,7 @@
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link  https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -182,7 +187,7 @@
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         },
         "ProofType": {
           "type": "object",
@@ -193,37 +198,34 @@
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
         },
-        "ICreateVerifiablePresentationLDArgs": {
+        "ICreateVerifiablePresentationEIP712Args": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "presentation": {
               "$ref": "#/components/schemas/PresentationPayload",
-              "description": "The json payload of the Presentation according to the\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted."
-            },
-            "challenge": {
-              "type": "string",
-              "description": "Optional (only JWT) string challenge parameter to add to the verifiable presentation."
-            },
-            "domain": {
-              "type": "string",
-              "description": "Optional string domain parameter to add to the verifiable presentation."
+              "description": "The json payload of the Presentation according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  @veramo/core-types#IKey.kid | IKey.kid } ) from the internal database."
-            },
-            "fetchRemoteContexts": {
-              "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "[Optional] The ID of the key that should sign this presentation. If this is not specified, the first matching key will be used."
             }
           },
           "required": [
             "presentation"
           ],
-          "additionalProperties": {
-            "description": "Any other options that can be forwarded to the lower level libraries"
-          },
-          "description": "Encapsulates the parameters required to create a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+          "description": "Encapsulates the parameters required to create a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }  using the  {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021 }  proof format."
         },
         "PresentationPayload": {
           "type": "object",
@@ -276,7 +278,7 @@
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link  https://www.w3.org/TR/vc-data-model/#credentials | VC data model } \nSee  {@link  https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -334,89 +336,91 @@
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link  https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
-        "IVerifyCredentialLDArgs": {
+        "IVerifyCredentialEIP712Args": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "credential": {
               "$ref": "#/components/schemas/VerifiableCredential",
-              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
-            },
-            "fetchRemoteContexts": {
-              "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "The json payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
             }
           },
           "required": [
             "credential"
           ],
-          "additionalProperties": {
-            "description": "Any other options that can be forwarded to the lower level libraries"
-          },
-          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+          "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
-        "IVerifyPresentationLDArgs": {
+        "IVerifyPresentationEIP712Args": {
           "type": "object",
           "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
             "presentation": {
               "$ref": "#/components/schemas/VerifiablePresentation",
-              "description": "The json payload of the Credential according to the\n {@link  https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
-            },
-            "challenge": {
-              "type": "string",
-              "description": "Optional (only for JWT) string challenge parameter to verify the verifiable presentation against"
-            },
-            "domain": {
-              "type": "string",
-              "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
-            },
-            "fetchRemoteContexts": {
-              "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "The Verifiable Presentation object according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
             }
           },
           "required": [
             "presentation"
           ],
-          "additionalProperties": {
-            "description": "Any other options that can be forwarded to the lower level libraries"
-          },
-          "description": "Encapsulates the parameters required to verify a\n {@link  https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+          "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         }
       },
       "methods": {
-        "createVerifiableCredentialLD": {
+        "createVerifiableCredentialEIP712": {
           "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
           "arguments": {
-            "$ref": "#/components/schemas/ICreateVerifiableCredentialLDArgs"
+            "$ref": "#/components/schemas/ICreateVerifiableCredentialEIP712Args"
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiableCredential"
           }
         },
-        "createVerifiablePresentationLD": {
-          "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
+        "createVerifiablePresentationEIP712": {
+          "description": "Creates a Verifiable Presentation. The payload and signer are chosen based on the ",
           "arguments": {
-            "$ref": "#/components/schemas/ICreateVerifiablePresentationLDArgs"
+            "$ref": "#/components/schemas/ICreateVerifiablePresentationEIP712Args"
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
           }
         },
-        "verifyCredentialLD": {
-          "description": "Verifies a Verifiable Credential JWT or LDS Format.",
+        "verifyCredentialEIP712": {
+          "description": "Verifies a Verifiable Credential in EIP712 Format.",
           "arguments": {
-            "$ref": "#/components/schemas/IVerifyCredentialLDArgs"
+            "$ref": "#/components/schemas/IVerifyCredentialEIP712Args"
           },
           "returnType": {
             "type": "boolean"
           }
         },
-        "verifyPresentationLD": {
-          "description": "Verifies a Verifiable Presentation JWT or LDS Format.",
+        "verifyPresentationEIP712": {
+          "description": "Verifies a Verifiable Presentation EIP712 Format.",
           "arguments": {
-            "$ref": "#/components/schemas/IVerifyPresentationLDArgs"
+            "$ref": "#/components/schemas/IVerifyPresentationEIP712Args"
           },
           "returnType": {
             "type": "boolean"

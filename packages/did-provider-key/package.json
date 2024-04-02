@@ -10,19 +10,16 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
-    "@transmute/did-key-secp256k1": "^0.3.0-unstable.10",
-    "@transmute/did-key-x25519": "^0.3.0-unstable.10",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "did-resolver": "^4.1.0",
-    "ethers": "^6.9.0"
+    "ethers": "^6.11.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "resolutions": {
     "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"

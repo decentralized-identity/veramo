@@ -12,7 +12,7 @@ import type {
   IMediationManagerAddRecipientDidArgs,
   RecipientDid,
   IMediationManagerListRecipientDidsArgs,
-} from './types/IMediationManager'
+} from './types/IMediationManager.js'
 import type { IAgentPlugin } from '@veramo/core-types'
 import type { KeyValueStore } from '@veramo/kv-store'
 

@@ -32,6 +32,8 @@ import {
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
+  VeramoEd25519Signature2020,
+  VeramoJsonWebSignature2020,
 } from '../packages/credential-ld/src'
 import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
@@ -157,7 +159,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         kms: {
           local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(secretKey))),
           web3: new Web3KeyManagementSystem({
-            ethers: ethersProvider,
+            ethers: ethersProvider as any, // different versions of ethers complain about a type mismatch here
           }),
         },
       }),
@@ -193,7 +195,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
               {
                 chainId: 1337,
                 name: 'ganache',
-                provider,
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
                 registry,
               },
             ],
@@ -245,12 +247,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
           new SdrMessageHandler(),
         ],
       }),
-      new DIDComm({ transports: [new DIDCommHttpTransport()]}),
+      new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020(), new VeramoEd25519Signature2018()],
+        suites: [
+          new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          new VeramoEd25519Signature2018(),
+          new VeramoJsonWebSignature2020(),
+          new VeramoEd25519Signature2020(),
+        ],
       }),
       new SelectiveDisclosure(),
       new DIDDiscovery({
