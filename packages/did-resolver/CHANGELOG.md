@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* address edge case when getting DIDDoc component ([#1365](https://github.com/decentralized-identity/veramo/issues/1365)) ([1694de1](https://github.com/decentralized-identity/veramo/commit/1694de11ba2f84a5d396f0a1256c4b18ab66b41a))
+* **deps:** bump ethr-did-resolver ([#1278](https://github.com/decentralized-identity/veramo/issues/1278)) ([b6c54cd](https://github.com/decentralized-identity/veramo/commit/b6c54cd988ce0cf2e1604e8dc5379db59013579a))
+* **deps:** Update dependency ethr-did-resolver to v10.1.5 ([07c982f](https://github.com/decentralized-identity/veramo/commit/07c982f6f63a1d6e1f51a1be358d7a86100790dc))
+* export const plugin schemas instead of defaults ([#1327](https://github.com/decentralized-identity/veramo/issues/1327)) ([7896cea](https://github.com/decentralized-identity/veramo/commit/7896ceaf2c79993eee44e46950814bea74bfe647)), closes [#1318](https://github.com/decentralized-identity/veramo/issues/1318) [#1317](https://github.com/decentralized-identity/veramo/issues/1317) [#1315](https://github.com/decentralized-identity/veramo/issues/1315)
+
+
+### Code Refactoring
+
+* generate plugin schemas as TS instead of JSON ([#1315](https://github.com/decentralized-identity/veramo/issues/1315)) ([65c2d4b](https://github.com/decentralized-identity/veramo/commit/65c2d4bc814daa9a3a89f4f7b8e8c6973b8ce2f0)), closes [#1254](https://github.com/decentralized-identity/veramo/issues/1254)
+
+
+### BREAKING CHANGES
+
+* The `plugin.schema.json` files are now generated as `plugin.schema.ts`.
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

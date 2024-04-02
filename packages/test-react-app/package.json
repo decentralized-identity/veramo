@@ -1,7 +1,7 @@
 {
   "name": "@veramo/test-react-app",
   "description": "This package is only meant for testing that veramo core dependencies function in a react environment.",
-  "version": "5.6.0",
+  "version": "6.0.0",
   "private": true,
   "dependencies": {
     "@veramo/core": "workspace:*",

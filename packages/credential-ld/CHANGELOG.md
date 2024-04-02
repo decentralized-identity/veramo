@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* **credential-ld:** let verifiers use all supported verification methods ([#1331](https://github.com/decentralized-identity/veramo/issues/1331)) ([aa95af0](https://github.com/decentralized-identity/veramo/commit/aa95af00ce755ae0022b4b17ae8c996e0b970842)), closes [#1329](https://github.com/decentralized-identity/veramo/issues/1329)
+* **credential-w3c:** forward DID resolution options to the resolver ([#1344](https://github.com/decentralized-identity/veramo/issues/1344)) ([0c22cc6](https://github.com/decentralized-identity/veramo/commit/0c22cc6a79e974214500e4440b0ea2977012377d)), closes [#1343](https://github.com/decentralized-identity/veramo/issues/1343)
+* **deps:** Update did-vc-libraries ([ba966d5](https://github.com/decentralized-identity/veramo/commit/ba966d5fe450145f51e9c9b46f8aa53f74b117d2))
+* export const plugin schemas instead of defaults ([#1327](https://github.com/decentralized-identity/veramo/issues/1327)) ([7896cea](https://github.com/decentralized-identity/veramo/commit/7896ceaf2c79993eee44e46950814bea74bfe647)), closes [#1318](https://github.com/decentralized-identity/veramo/issues/1318) [#1317](https://github.com/decentralized-identity/veramo/issues/1317) [#1315](https://github.com/decentralized-identity/veramo/issues/1315)
+
+
+### Code Refactoring
+
+* generate plugin schemas as TS instead of JSON ([#1315](https://github.com/decentralized-identity/veramo/issues/1315)) ([65c2d4b](https://github.com/decentralized-identity/veramo/commit/65c2d4bc814daa9a3a89f4f7b8e8c6973b8ce2f0)), closes [#1254](https://github.com/decentralized-identity/veramo/issues/1254)
+
+
+### Features
+
+* add Multikey support ([#1316](https://github.com/decentralized-identity/veramo/issues/1316)) ([165de35](https://github.com/decentralized-identity/veramo/commit/165de3549ccfd3d7c84514608ac3ea9e56a7b807))
+
+
+### BREAKING CHANGES
+
+* The `plugin.schema.json` files are now generated as `plugin.schema.ts`.
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* **did-provider-key:** align did:key resolver to spec ([#1332](https://github.com/decentralized-identity/veramo/issues/1332)) ([8e3b94c](https://github.com/decentralized-identity/veramo/commit/8e3b94cf997619d7adcb5cb8827e0f55ff88cdb5)), closes [#1330](https://github.com/decentralized-identity/veramo/issues/1330)
+
+
+### Features
+
+* add Multikey support ([#1316](https://github.com/decentralized-identity/veramo/issues/1316)) ([165de35](https://github.com/decentralized-identity/veramo/commit/165de3549ccfd3d7c84514608ac3ea9e56a7b807))
+* **cli:** add support for did:jwk and did:peer to CLI ([#1320](https://github.com/decentralized-identity/veramo/issues/1320)) ([3ac343e](https://github.com/decentralized-identity/veramo/commit/3ac343e52dbd744c137bbe610cba9f5409a6100c))
+* **did-comm:** Improve DIDComm Service compatibility ([#1340](https://github.com/decentralized-identity/veramo/issues/1340)) ([6df704c](https://github.com/decentralized-identity/veramo/commit/6df704c769d49fb399f515f102a41736a678070d))
+
+
+### BREAKING CHANGES
+
+* **did-comm:** the DIDComm Message structure has changed. The message can now specify multiple recipients in the `to` property.
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

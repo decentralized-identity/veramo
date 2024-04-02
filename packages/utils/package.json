@@ -1,7 +1,7 @@
 {
   "name": "@veramo/utils",
   "description": "Helper methods for Veramo plugins",
-  "version": "5.6.0",
+  "version": "6.0.0",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
