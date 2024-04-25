@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* **credential-w3c:** forward DID resolution options to the resolver ([#1344](https://github.com/decentralized-identity/veramo/issues/1344)) ([0c22cc6](https://github.com/decentralized-identity/veramo/commit/0c22cc6a79e974214500e4440b0ea2977012377d)), closes [#1343](https://github.com/decentralized-identity/veramo/issues/1343)
+* **did-provider-key:** align did:key resolver to spec ([#1332](https://github.com/decentralized-identity/veramo/issues/1332)) ([8e3b94c](https://github.com/decentralized-identity/veramo/commit/8e3b94cf997619d7adcb5cb8827e0f55ff88cdb5)), closes [#1330](https://github.com/decentralized-identity/veramo/issues/1330)
+* export const plugin schemas instead of defaults ([#1327](https://github.com/decentralized-identity/veramo/issues/1327)) ([7896cea](https://github.com/decentralized-identity/veramo/commit/7896ceaf2c79993eee44e46950814bea74bfe647)), closes [#1318](https://github.com/decentralized-identity/veramo/issues/1318) [#1317](https://github.com/decentralized-identity/veramo/issues/1317) [#1315](https://github.com/decentralized-identity/veramo/issues/1315)
+* **utils:** get chainId for any did method ([#1334](https://github.com/decentralized-identity/veramo/issues/1334)) ([d5375bd](https://github.com/decentralized-identity/veramo/commit/d5375bd03e814a2d3fcd96274607f880db77fbe3))
+
+
+### Code Refactoring
+
+* generate plugin schemas as TS instead of JSON ([#1315](https://github.com/decentralized-identity/veramo/issues/1315)) ([65c2d4b](https://github.com/decentralized-identity/veramo/commit/65c2d4bc814daa9a3a89f4f7b8e8c6973b8ce2f0)), closes [#1254](https://github.com/decentralized-identity/veramo/issues/1254)
+
+
+### BREAKING CHANGES
+
+* **utils:** The `getChainIdForDidEthr` method has been renamed to `getChainId`
+* The `plugin.schema.json` files are now generated as `plugin.schema.ts`.
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

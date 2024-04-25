@@ -49,6 +49,7 @@ import {
   migrations as dataStoreMigrations,
 } from '../../../data-store/src'
 
+// @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'

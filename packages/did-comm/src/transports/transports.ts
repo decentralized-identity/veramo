@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 import { fetch } from 'cross-fetch'
 import { decodeBase64url } from '@veramo/utils'
-
+import Debug from 'debug'
+const debug = Debug('veramo:did-comm:http-transport')
 /**
  * Result interface for sending DIDComm messages through
  * {@link IDIDCommTransport.send}.
@@ -138,6 +139,7 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
 
     try {
       const contentType = this.inferContentType(message)
+      debug(`Sending message to ${serviceEndpointUrl}`)
       const response = await fetch(serviceEndpointUrl, {
         method: this.httpMethod,
         body: message,
@@ -147,6 +149,9 @@ export class DIDCommHttpTransport extends AbstractDIDCommTransport {
       })
 
       let result
+
+      debug(`Response: ${JSON.stringify(response)}`)
+
       if (response.ok) {
         let returnMessage
 

@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* **credential-w3c:** forward DID resolution options to the resolver ([#1344](https://github.com/decentralized-identity/veramo/issues/1344)) ([0c22cc6](https://github.com/decentralized-identity/veramo/commit/0c22cc6a79e974214500e4440b0ea2977012377d)), closes [#1343](https://github.com/decentralized-identity/veramo/issues/1343)
+* **deps:** update dependency multiformats to v13 ([c384fb9](https://github.com/decentralized-identity/veramo/commit/c384fb92c628bf700b51f2549532e38aa39e1073))
+* **deps:** Update did-vc-libraries ([ba966d5](https://github.com/decentralized-identity/veramo/commit/ba966d5fe450145f51e9c9b46f8aa53f74b117d2))
+* **utils:** get chainId for any did method ([#1334](https://github.com/decentralized-identity/veramo/issues/1334)) ([d5375bd](https://github.com/decentralized-identity/veramo/commit/d5375bd03e814a2d3fcd96274607f880db77fbe3))
+
+
+### Features
+
+* add Multikey support ([#1316](https://github.com/decentralized-identity/veramo/issues/1316)) ([165de35](https://github.com/decentralized-identity/veramo/commit/165de3549ccfd3d7c84514608ac3ea9e56a7b807))
+* **utils:** export createJWK ([#1325](https://github.com/decentralized-identity/veramo/issues/1325)) ([610ee66](https://github.com/decentralized-identity/veramo/commit/610ee6603a3ee6c4d37a36eb0f700e803beca786)), closes [#1324](https://github.com/decentralized-identity/veramo/issues/1324)
+
+
+### BREAKING CHANGES
+
+* **utils:** The `getChainIdForDidEthr` method has been renamed to `getChainId`
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

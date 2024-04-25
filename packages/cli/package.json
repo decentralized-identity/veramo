@@ -1,7 +1,7 @@
 {
   "name": "@veramo/cli",
   "description": "Veramo command line application.",
-  "version": "5.6.0",
+  "version": "6.0.0",
   "exports": {
     ".": {
       "types": "./build/cli.d.ts",
@@ -49,8 +49,8 @@
     "@veramo/did-jwt": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/did-provider-ethr": "workspace:^",
-    "@veramo/did-provider-key": "workspace:^",
     "@veramo/did-provider-jwk": "workspace:^",
+    "@veramo/did-provider-key": "workspace:^",
     "@veramo/did-provider-peer": "workspace:^",
     "@veramo/did-provider-pkh": "workspace:^",
     "@veramo/did-provider-web": "workspace:^",

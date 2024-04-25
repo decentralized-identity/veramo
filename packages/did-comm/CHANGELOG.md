@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* **credential-w3c:** forward DID resolution options to the resolver ([#1344](https://github.com/decentralized-identity/veramo/issues/1344)) ([0c22cc6](https://github.com/decentralized-identity/veramo/commit/0c22cc6a79e974214500e4440b0ea2977012377d)), closes [#1343](https://github.com/decentralized-identity/veramo/issues/1343)
+* export const plugin schemas instead of defaults ([#1327](https://github.com/decentralized-identity/veramo/issues/1327)) ([7896cea](https://github.com/decentralized-identity/veramo/commit/7896ceaf2c79993eee44e46950814bea74bfe647)), closes [#1318](https://github.com/decentralized-identity/veramo/issues/1318) [#1317](https://github.com/decentralized-identity/veramo/issues/1317) [#1315](https://github.com/decentralized-identity/veramo/issues/1315)
+* **utils:** bump did-jwt to 7.4.1 and reuse key conversion code from it ([#1261](https://github.com/decentralized-identity/veramo/issues/1261)) ([fb192e7](https://github.com/decentralized-identity/veramo/commit/fb192e72a0bcd38d97b14e9d584c1770961d88df)), closes [#1248](https://github.com/decentralized-identity/veramo/issues/1248) [#1245](https://github.com/decentralized-identity/veramo/issues/1245)
+
+
+### chore
+
+* **deps:** bump ethers ([#1242](https://github.com/decentralized-identity/veramo/issues/1242)) ([fbf5c69](https://github.com/decentralized-identity/veramo/commit/fbf5c69b8f747f37e60e98329a0dd0a2ba0b262e))
+
+
+### Code Refactoring
+
+* generate plugin schemas as TS instead of JSON ([#1315](https://github.com/decentralized-identity/veramo/issues/1315)) ([65c2d4b](https://github.com/decentralized-identity/veramo/commit/65c2d4bc814daa9a3a89f4f7b8e8c6973b8ce2f0)), closes [#1254](https://github.com/decentralized-identity/veramo/issues/1254)
+
+
+### Features
+
+* add Multikey support ([#1316](https://github.com/decentralized-identity/veramo/issues/1316)) ([165de35](https://github.com/decentralized-identity/veramo/commit/165de3549ccfd3d7c84514608ac3ea9e56a7b807))
+* **coordinate-mediation:** implement did-comm coordinate-mediation v3.0 ([#1282](https://github.com/decentralized-identity/veramo/issues/1282)) ([462735d](https://github.com/decentralized-identity/veramo/commit/462735d138bc4984c0fcf3f72ca7d49e3187ceb7))
+* **did-comm:** Improve DIDComm Service compatibility ([#1340](https://github.com/decentralized-identity/veramo/issues/1340)) ([6df704c](https://github.com/decentralized-identity/veramo/commit/6df704c769d49fb399f515f102a41736a678070d))
+* **did-comm:** returnMessage from sendDIDCommMessage() when available ([#1283](https://github.com/decentralized-identity/veramo/issues/1283)) ([f7a3851](https://github.com/decentralized-identity/veramo/commit/f7a385157415e194820c181cf9091243a3f6b131))
+
+
+### BREAKING CHANGES
+
+* **did-comm:** the DIDComm Message structure has changed. The message can now specify multiple recipients in the `to` property.
+* The `plugin.schema.json` files are now generated as `plugin.schema.ts`.
+* **did-comm:** the return type of `IDIDComm.sendDIDCommMessage()` has changed from a string representing the transport ID to an object that may include a `returnMessage` property along with a `transportId` property.
+* **deps:** now using ethers v6 as a dependency which may need extra attention when merging. The output of `eth_signTransaction` algorithms may be slightly different as transactions are by default infered as type 1 (EIP1559)
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

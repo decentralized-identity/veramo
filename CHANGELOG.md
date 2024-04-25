@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* address edge case when getting DIDDoc component ([#1365](https://github.com/decentralized-identity/veramo/issues/1365)) ([1694de1](https://github.com/decentralized-identity/veramo/commit/1694de11ba2f84a5d396f0a1256c4b18ab66b41a))
+* **cli:** remove `revocable` and `send` options from credential create command ([#1345](https://github.com/decentralized-identity/veramo/issues/1345)) ([e1beeaf](https://github.com/decentralized-identity/veramo/commit/e1beeafb289946ee46ce4bacfbd44544b1a5d3d5)), closes [#1342](https://github.com/decentralized-identity/veramo/issues/1342)
+* **cli:** remove interactive prompting on CLI execute command ([#1347](https://github.com/decentralized-identity/veramo/issues/1347)) ([5accc6b](https://github.com/decentralized-identity/veramo/commit/5accc6b60f8a69155842eaeb5aed80fb65d154a1)), closes [#1281](https://github.com/decentralized-identity/veramo/issues/1281)
+* **credential-ld:** let verifiers use all supported verification methods ([#1331](https://github.com/decentralized-identity/veramo/issues/1331)) ([aa95af0](https://github.com/decentralized-identity/veramo/commit/aa95af00ce755ae0022b4b17ae8c996e0b970842)), closes [#1329](https://github.com/decentralized-identity/veramo/issues/1329)
+* **credential-w3c:** forward DID resolution options to the resolver ([#1344](https://github.com/decentralized-identity/veramo/issues/1344)) ([0c22cc6](https://github.com/decentralized-identity/veramo/commit/0c22cc6a79e974214500e4440b0ea2977012377d)), closes [#1343](https://github.com/decentralized-identity/veramo/issues/1343)
+* **data-store-json:** order credentials with weird issuanceDate ([#1273](https://github.com/decentralized-identity/veramo/issues/1273)) ([28c65f7](https://github.com/decentralized-identity/veramo/commit/28c65f71b4a4110d422bbc2a13fff32ee923d6ec))
+* **data-store:** return unique credentials for `dataStoreORMGetVerifiableCredentialsByClaims` ([#1299](https://github.com/decentralized-identity/veramo/issues/1299)) ([5aa97a2](https://github.com/decentralized-identity/veramo/commit/5aa97a2dcda2b64989ac178119f00cb0ab213773)), closes [#1285](https://github.com/decentralized-identity/veramo/issues/1285)
+* **deps:** add missing ethers dependency to each relevant modules ([#1304](https://github.com/decentralized-identity/veramo/issues/1304)) ([2157e70](https://github.com/decentralized-identity/veramo/commit/2157e702507d8961263723ff67eaeb88ea1e8621)), closes [#1295](https://github.com/decentralized-identity/veramo/issues/1295)
+* **deps:** bump ethr-did-resolver ([#1278](https://github.com/decentralized-identity/veramo/issues/1278)) ([b6c54cd](https://github.com/decentralized-identity/veramo/commit/b6c54cd988ce0cf2e1604e8dc5379db59013579a))
+* **deps:** update dependency @metamask/eth-sig-util to v7 ([#1258](https://github.com/decentralized-identity/veramo/issues/1258)) ([ba88d6b](https://github.com/decentralized-identity/veramo/commit/ba88d6b3ccfca28a1805906677f151951c3f0fbf))
+* **deps:** Update dependency did-jwt-vc to v3.2.9 ([80272ca](https://github.com/decentralized-identity/veramo/commit/80272ca6d27fbce782bb85a855439273aff491c6))
+* **deps:** update dependency ethr-did-resolver to v10 ([#1291](https://github.com/decentralized-identity/veramo/issues/1291)) ([99c53e5](https://github.com/decentralized-identity/veramo/commit/99c53e52d3e5f5f9c50d7fc20775e519c2e75589)), closes [#1295](https://github.com/decentralized-identity/veramo/issues/1295)
+* **deps:** Update dependency ethr-did-resolver to v10.1.5 ([07c982f](https://github.com/decentralized-identity/veramo/commit/07c982f6f63a1d6e1f51a1be358d7a86100790dc))
+* **deps:** Update dependency ethr-did-resolver to v9 ([533a9e6](https://github.com/decentralized-identity/veramo/commit/533a9e6870d5a3479a3c61d7d5b85386b706a2ef))
+* **deps:** update dependency multiformats to v13 ([c384fb9](https://github.com/decentralized-identity/veramo/commit/c384fb92c628bf700b51f2549532e38aa39e1073))
+* **deps:** Update devDeps ([e674c58](https://github.com/decentralized-identity/veramo/commit/e674c58ebf1b79779ee3da3597dc5dec222f97ac))
+* **deps:** Update did-vc-libraries ([ba966d5](https://github.com/decentralized-identity/veramo/commit/ba966d5fe450145f51e9c9b46f8aa53f74b117d2))
+* **deps:** Update did-vc-libraries ([01c01d5](https://github.com/decentralized-identity/veramo/commit/01c01d5a8fd1c0ce3e065943a37440744a378dc5))
+* **deps:** Update did-vc-libraries ([e2e794f](https://github.com/decentralized-identity/veramo/commit/e2e794f968697ac44744903ae5df73f97cf3bd64))
+* **deps:** upgrade ethers and did-provider-ethr for sepolia support ([#1306](https://github.com/decentralized-identity/veramo/issues/1306)) ([ac1b620](https://github.com/decentralized-identity/veramo/commit/ac1b62073c2f4688faa88f742483a615dc466596))
+* **did-provider-key:** align did:key resolver to spec ([#1332](https://github.com/decentralized-identity/veramo/issues/1332)) ([8e3b94c](https://github.com/decentralized-identity/veramo/commit/8e3b94cf997619d7adcb5cb8827e0f55ff88cdb5)), closes [#1330](https://github.com/decentralized-identity/veramo/issues/1330)
+* export const plugin schemas instead of defaults ([#1327](https://github.com/decentralized-identity/veramo/issues/1327)) ([7896cea](https://github.com/decentralized-identity/veramo/commit/7896ceaf2c79993eee44e46950814bea74bfe647)), closes [#1318](https://github.com/decentralized-identity/veramo/issues/1318) [#1317](https://github.com/decentralized-identity/veramo/issues/1317) [#1315](https://github.com/decentralized-identity/veramo/issues/1315)
+* regenerate schema ([#1260](https://github.com/decentralized-identity/veramo/issues/1260)) ([5b198ec](https://github.com/decentralized-identity/veramo/commit/5b198ec816babd7eee37ca11e83fb0e595bdc759))
+* **selective-disclosure:** deprecate the uPort SelectiveDisclosure plugin ([#1307](https://github.com/decentralized-identity/veramo/issues/1307)) ([71e313f](https://github.com/decentralized-identity/veramo/commit/71e313f894baaad08bf322f56b36d92d7c667ba9))
+* **utils:** bump did-jwt to 7.4.1 and reuse key conversion code from it ([#1261](https://github.com/decentralized-identity/veramo/issues/1261)) ([fb192e7](https://github.com/decentralized-identity/veramo/commit/fb192e72a0bcd38d97b14e9d584c1770961d88df)), closes [#1248](https://github.com/decentralized-identity/veramo/issues/1248) [#1245](https://github.com/decentralized-identity/veramo/issues/1245)
+* **utils:** get chainId for any did method ([#1334](https://github.com/decentralized-identity/veramo/issues/1334)) ([d5375bd](https://github.com/decentralized-identity/veramo/commit/d5375bd03e814a2d3fcd96274607f880db77fbe3))
+* **utils:** use synchronous version of sha256 digest for CID ([#1253](https://github.com/decentralized-identity/veramo/issues/1253)) ([2e3972c](https://github.com/decentralized-identity/veramo/commit/2e3972c757f5226ea92874da4598b75ebd7a269c)), closes [#1239](https://github.com/decentralized-identity/veramo/issues/1239)
+
+
+### chore
+
+* **deps:** bump ethers ([#1242](https://github.com/decentralized-identity/veramo/issues/1242)) ([fbf5c69](https://github.com/decentralized-identity/veramo/commit/fbf5c69b8f747f37e60e98329a0dd0a2ba0b262e))
+
+
+### Code Refactoring
+
+* generate plugin schemas as TS instead of JSON ([#1315](https://github.com/decentralized-identity/veramo/issues/1315)) ([65c2d4b](https://github.com/decentralized-identity/veramo/commit/65c2d4bc814daa9a3a89f4f7b8e8c6973b8ce2f0)), closes [#1254](https://github.com/decentralized-identity/veramo/issues/1254)
+
+
+### Features
+
+* add Multikey support ([#1316](https://github.com/decentralized-identity/veramo/issues/1316)) ([165de35](https://github.com/decentralized-identity/veramo/commit/165de3549ccfd3d7c84514608ac3ea9e56a7b807))
+* **cli:** add support for did:jwk and did:peer to CLI ([#1320](https://github.com/decentralized-identity/veramo/issues/1320)) ([3ac343e](https://github.com/decentralized-identity/veramo/commit/3ac343e52dbd744c137bbe610cba9f5409a6100c))
+* **coordinate-mediation:** implement did-comm coordinate-mediation v3.0 ([#1282](https://github.com/decentralized-identity/veramo/issues/1282)) ([462735d](https://github.com/decentralized-identity/veramo/commit/462735d138bc4984c0fcf3f72ca7d49e3187ceb7))
+* **core-types:** add hash to TCredentialColumns ([#1259](https://github.com/decentralized-identity/veramo/issues/1259)) ([306a398](https://github.com/decentralized-identity/veramo/commit/306a3987a5d5017a9aa78f7f3de71bfceb333401))
+* **credential-w3c:** list usable proof formats for an `IIdentifier` ([#1268](https://github.com/decentralized-identity/veramo/issues/1268)) ([e94aaf2](https://github.com/decentralized-identity/veramo/commit/e94aaf213e518035c72a2bd5eac0495b8659d241))
+* **data-store:** use IPFS CID instead of hex blake2 hashes for credential IDs ([#1239](https://github.com/decentralized-identity/veramo/issues/1239)) ([acc47e6](https://github.com/decentralized-identity/veramo/commit/acc47e615a8758925badeb464392cbbe5a20cbc4))
+* **did-comm:** Improve DIDComm Service compatibility ([#1340](https://github.com/decentralized-identity/veramo/issues/1340)) ([6df704c](https://github.com/decentralized-identity/veramo/commit/6df704c769d49fb399f515f102a41736a678070d))
+* **did-comm:** returnMessage from sendDIDCommMessage() when available ([#1283](https://github.com/decentralized-identity/veramo/issues/1283)) ([f7a3851](https://github.com/decentralized-identity/veramo/commit/f7a385157415e194820c181cf9091243a3f6b131))
+* **did-manager:** matching DIDs by alias should not depend on the provider ([#1218](https://github.com/decentralized-identity/veramo/issues/1218)) ([bfdfc4c](https://github.com/decentralized-identity/veramo/commit/bfdfc4c4aa58f4a182d2f3aad8ea6303efb10f42)), closes [#1215](https://github.com/decentralized-identity/veramo/issues/1215)
+* **utils:** export createJWK ([#1325](https://github.com/decentralized-identity/veramo/issues/1325)) ([610ee66](https://github.com/decentralized-identity/veramo/commit/610ee6603a3ee6c4d37a36eb0f700e803beca786)), closes [#1324](https://github.com/decentralized-identity/veramo/issues/1324)
+* **utils:** move JWK converter to utils package ([#1298](https://github.com/decentralized-identity/veramo/issues/1298)) ([fc94764](https://github.com/decentralized-identity/veramo/commit/fc9476490d06243b9ad77592f3e1406c5b6563ce))
+
+
+### BREAKING CHANGES
+
+* **did-comm:** the DIDComm Message structure has changed. The message can now specify multiple recipients in the `to` property.
+* **utils:** The `getChainIdForDidEthr` method has been renamed to `getChainId`
+* The `plugin.schema.json` files are now generated as `plugin.schema.ts`.
+* **did-comm:** the return type of `IDIDComm.sendDIDCommMessage()` has changed from a string representing the transport ID to an object that may include a `returnMessage` property along with a `transportId` property.
+* **did-manager:** The behavior of `DIDManager` has changed when working with `alias`. It is mostly ignoring `provider` unless it is used to create new identifiers. `AbstractDIDStore` APIs have been adapted and implementations have changed.
+* **deps:** now using ethers v6 as a dependency which may need extra attention when merging. The output of `eth_signTransaction` algorithms may be slightly different as transactions are by default infered as type 1 (EIP1559)
+* **data-store:** going forward credentials and presentations will have a new ID format in the database. If you are relying on the IDs assigned internally by `@veramo/data-store` to work with your credentials, you will have to recompute them using the `@veramo/utils#computeEntryHash` method.
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

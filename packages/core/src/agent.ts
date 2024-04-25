@@ -183,7 +183,7 @@ export class Agent implements IAgent {
     if (this.schemaValidation && this.schema.components.methods[method]) {
       validateReturnType(method, result, this.schema)
     }
-    Debug('veramo:agent:' + method)('%s %o', 'res', result)
+    Debug('veramo:agent:' + method)('%s %o', 'res', JSON.stringify(result))
     return result
   }
 
