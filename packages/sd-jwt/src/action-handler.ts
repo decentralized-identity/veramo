@@ -48,9 +48,7 @@ export class SDJwtPlugin implements IAgentPlugin {
     if (!issuer) {
       throw new Error('credential.issuer must not be empty')
     }
-    if (issuer.split('#').length === 1) {
-      throw new Error('credential.issuer must reference a key')
-    }
+
     const { alg, key } = await this.getSignKey(issuer, context)
 
     //TODO: let the user also insert a method to sign the data

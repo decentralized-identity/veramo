@@ -147,21 +147,6 @@ describe('Agent plugin', () => {
     ).rejects.toThrow('credential.issuer must not be empty')
   })
 
-  it('creat sd without the issuers key reference', async () => {
-    const credentialPayload: SdJwtVcPayload = {
-      ...claims,
-      iss: 'did:web:issuer',
-      iat: new Date().getTime() / 1000,
-      vct: '',
-    }
-    expect(
-      agent.createSdJwtVc({
-        credentialPayload,
-        disclosureFrame,
-      }),
-    ).rejects.toThrow('credential.issuer must reference a key')
-  })
-
   it('verify a sd-jwt', async () => {
     const credentialPayload: SdJwtVcPayload = {
       ...claims,
