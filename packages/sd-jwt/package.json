@@ -17,13 +17,13 @@
     }
   },
   "dependencies": {
-    "@sphereon/ssi-sdk-ext.did-utils": "^0.16.0",
     "@sd-jwt/core": "0.6.1",
     "@sd-jwt/crypto-nodejs": "0.6.1",
-    "@sd-jwt/types": "0.6.1",
-    "@sd-jwt/utils": "0.6.1",
     "@sd-jwt/decode": "0.6.1",
     "@sd-jwt/sd-jwt-vc": "0.6.1",
+    "@sd-jwt/types": "0.6.1",
+    "@sd-jwt/utils": "0.6.1",
+    "@sphereon/ssi-sdk-ext.did-utils": "^0.16.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
@@ -32,17 +32,17 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/debug": "4.1.8",
+    "@types/uuid": "9.0.2",
     "@veramo/core": "workspace:^",
     "@veramo/data-store": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/did-provider-jwk": "workspace:^",
+    "@veramo/did-resolver": "workspace:^",
     "@veramo/key-manager": "workspace:^",
     "@veramo/kms-local": "workspace:^",
-    "@veramo/did-resolver": "workspace:^",
-    "@types/debug": "4.1.8",
-    "@types/uuid": "9.0.2",
-    "typescript": "5.3.3",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "typescript": "5.3.3"
   },
   "files": [
     "build/**/*",
