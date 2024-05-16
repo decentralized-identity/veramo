@@ -51,6 +51,7 @@ const enum DocumentFormat {
   JWT,
   JSONLD,
   EIP712,
+  BBS
 }
 
 const debug = Debug('veramo:w3c:action-handler')
@@ -139,8 +140,15 @@ export class CredentialPlugin implements IAgentPlugin {
     const key = pickSigningKey(identifier, keyRef)
 
     let verifiablePresentation: VerifiablePresentation
-
-    if (proofFormat === 'lds') {
+    if (proofFormat === 'bbs') {
+        if (typeof context.agent.createVerifiablePresentationBbs === 'function') {
+            verifiablePresentation = await context. agent.createVerifiablePresentationBbs({ ...args, presentation })
+        }
+        else {
+            throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+        }
+    }
+    else if (proofFormat === 'lds') {
       if (typeof context.agent.createVerifiablePresentationLD === 'function') {
         verifiablePresentation = await context.agent.createVerifiablePresentationLD({ ...args, presentation })
       } else {
@@ -225,7 +233,15 @@ export class CredentialPlugin implements IAgentPlugin {
     }
     try {
       let verifiableCredential: VerifiableCredential
-      if (proofFormat === 'lds') {
+      if (proofFormat === 'bbs') {
+          if (typeof context.agent.createVerifiableCredentialBbs === 'function') {
+              verifiableCredential = await context.agent.createVerifiableCredentialBbs({ ...args, credential })
+          }
+          else {
+              throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+          }
+      }
+      else if (proofFormat === 'lds') {
         if (typeof context.agent.createVerifiableCredentialLD === 'function') {
           verifiableCredential = await context.agent.createVerifiableCredentialLD({ ...args, credential })
         } else {
@@ -372,7 +388,26 @@ export class CredentialPlugin implements IAgentPlugin {
 
       verificationResult = await context.agent.verifyCredentialLD({ ...args, now: policies?.now })
       verifiedCredential = <VerifiableCredential>credential
-    } else {
+      } else if (type == DocumentFormat.BBS) {
+          if (typeof context.agent.verifyCredentialBbs!== 'function') {
+              throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+          }
+          try {
+              verificationResult = await context.agent.verifyCredentialBbs({ ...args, now: policies?.now })
+              verifiedCredential = <VerifiableCredential>credential
+          }
+          catch (e) {
+              debug('encountered error while verifying BBS credential: %o', e)
+              const { message, errorCode } = e
+              return {
+                  verified: false,
+                  error: {
+                      message,
+                      errorCode: errorCode ? errorCode : e.message.split(':')[0],
+                  },
+              }
+          }
+        } else {
       throw new Error('invalid_argument: Unknown credential type.')
     }
 
@@ -478,11 +513,31 @@ export class CredentialPlugin implements IAgentPlugin {
           verified: false,
           error: {
             message,
-            errorCode: errorCode ? errorCode : e.message.split(':')[0],
-          },
-        }
+                        errorCode: errorCode ? errorCode : e.message.split(':')[0],
+                    },
+                };
+            }
       }
-    } else {
+      else if (type === DocumentFormat.BBS) {
+          //Bbs
+          if (typeof context.agent.verifyPresentationBbs !== 'function') {
+              throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+          }
+          try {
+              const result = await context.agent.verifyPresentationBbs(args)
+              return result;
+          }
+          catch (e) {
+              const { message, errorCode } = e;
+              return {
+                  verified: false,
+                  error: {
+                      message,
+                      errorCode: errorCode ? errorCode : e.message.split(':')[0],
+                  },
+              }
+          }
+      } else {
       // JSON-LD
       if (typeof context.agent.verifyPresentationLD === 'function') {
         const result = await context.agent.verifyPresentationLD({ ...args, now: policies?.now })
@@ -532,6 +587,11 @@ export class CredentialPlugin implements IAgentPlugin {
       if (context.agent.availableMethods().includes('matchKeyForEIP712')) {
         if (await context.agent.matchKeyForEIP712(key)) {
           signingOptions.push('EthereumEip712Signature2021')
+        }
+      }
+      if (context.agent.availableMethods().includes('matchKeyForBbs')) {
+        if (await context.agent.matchKeyForBbs(key)) {
+            signingOptions.push('bbs');
         }
       }
     }
