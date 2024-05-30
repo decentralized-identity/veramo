@@ -1,0 +1,40 @@
+{
+  "name": "@ownyourdata/did-provider-oyd",
+  "description": "OwnYourData plugin that can enable creation and control of did:oyd identifiers.",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "dependencies": {
+    "@veramo/core-types": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "cross-fetch": "^4.0.0",
+    "debug": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.8",
+    "typescript": "5.2.2"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "git@github.com:OwnYourData/veramo.git",
+  "author": "Christoph Fabianek <christoph@ownyourdata.eu>",
+  "keywords": [],
+  "license": "MIT",
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}
