@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* **cli:** remove `revocable` and `send` options from credential create command ([#1345](https://github.com/decentralized-identity/veramo/issues/1345)) ([e1beeaf](https://github.com/decentralized-identity/veramo/commit/e1beeafb289946ee46ce4bacfbd44544b1a5d3d5)), closes [#1342](https://github.com/decentralized-identity/veramo/issues/1342)
+* **cli:** remove interactive prompting on CLI execute command ([#1347](https://github.com/decentralized-identity/veramo/issues/1347)) ([5accc6b](https://github.com/decentralized-identity/veramo/commit/5accc6b60f8a69155842eaeb5aed80fb65d154a1)), closes [#1281](https://github.com/decentralized-identity/veramo/issues/1281)
+* **deps:** update dependency ethr-did-resolver to v10 ([#1291](https://github.com/decentralized-identity/veramo/issues/1291)) ([99c53e5](https://github.com/decentralized-identity/veramo/commit/99c53e52d3e5f5f9c50d7fc20775e519c2e75589)), closes [#1295](https://github.com/decentralized-identity/veramo/issues/1295)
+* **deps:** Update dependency ethr-did-resolver to v9 ([533a9e6](https://github.com/decentralized-identity/veramo/commit/533a9e6870d5a3479a3c61d7d5b85386b706a2ef))
+* export const plugin schemas instead of defaults ([#1327](https://github.com/decentralized-identity/veramo/issues/1327)) ([7896cea](https://github.com/decentralized-identity/veramo/commit/7896ceaf2c79993eee44e46950814bea74bfe647)), closes [#1318](https://github.com/decentralized-identity/veramo/issues/1318) [#1317](https://github.com/decentralized-identity/veramo/issues/1317) [#1315](https://github.com/decentralized-identity/veramo/issues/1315)
+
+
+### Code Refactoring
+
+* generate plugin schemas as TS instead of JSON ([#1315](https://github.com/decentralized-identity/veramo/issues/1315)) ([65c2d4b](https://github.com/decentralized-identity/veramo/commit/65c2d4bc814daa9a3a89f4f7b8e8c6973b8ce2f0)), closes [#1254](https://github.com/decentralized-identity/veramo/issues/1254)
+
+
+### Features
+
+* **cli:** add support for did:jwk and did:peer to CLI ([#1320](https://github.com/decentralized-identity/veramo/issues/1320)) ([3ac343e](https://github.com/decentralized-identity/veramo/commit/3ac343e52dbd744c137bbe610cba9f5409a6100c))
+* **coordinate-mediation:** implement did-comm coordinate-mediation v3.0 ([#1282](https://github.com/decentralized-identity/veramo/issues/1282)) ([462735d](https://github.com/decentralized-identity/veramo/commit/462735d138bc4984c0fcf3f72ca7d49e3187ceb7))
+
+
+### BREAKING CHANGES
+
+* The `plugin.schema.json` files are now generated as `plugin.schema.ts`.
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

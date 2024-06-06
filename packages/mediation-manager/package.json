@@ -1,7 +1,7 @@
 {
   "name": "@veramo/mediation-manager",
   "description": "Mediation Manager Plugin for Veramo",
-  "version": "5.6.0",
+  "version": "6.0.0",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
+
+
+### Features
+
+* **cli:** add support for did:jwk and did:peer to CLI ([#1320](https://github.com/decentralized-identity/veramo/issues/1320)) ([3ac343e](https://github.com/decentralized-identity/veramo/commit/3ac343e52dbd744c137bbe610cba9f5409a6100c))
+
+
+
+
+
 # [5.6.0](https://github.com/decentralized-identity/veramo/compare/v5.5.3...v5.6.0) (2024-01-16)
 
 

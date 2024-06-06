@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-ld",
   "description": "Veramo plugin for working with W3C JSON-LD Verifiable Credentials & Presentations.",
-  "version": "5.6.0",
+  "version": "6.0.0",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js"
