@@ -284,8 +284,8 @@ export default (testContext: {
 
     describe('using testvectors', () => {
       const importedDID = {
-        did: 'did:ethr:goerli:0x03155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c',
-        provider: 'did:ethr:goerli',
+        did: 'did:ethr:sepolia:0x03155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c',
+        provider: 'did:ethr:sepolia',
         controllerKeyId:
           '04155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c7037e2bd897812170c92a4c978d6a10481491a37299d74c4bd412a111a4ac875',
         keys: [
@@ -320,7 +320,7 @@ export default (testContext: {
         expect(comparableOutput).toEqual({
           credentialSubject: { name: 'Alice', id: 'did:example:subject' },
           issuer: {
-            id: 'did:ethr:goerli:0x03155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c',
+            id: 'did:ethr:sepolia:0x03155ee0cbefeecd80de63a62b4ed8f0f97ac22a58f76a265903b9acab79bf018c',
           },
           type: ['VerifiableCredential', 'Example'],
           '@context': ['https://www.w3.org/2018/credentials/v1'],

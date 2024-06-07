@@ -224,7 +224,7 @@ didManager:
         $require: '@veramo/data-store#DIDStore'
         $args:
           - $ref: /dbConnection
-      defaultProvider: did:ethr:goerli
+      defaultProvider: did:ethr:sepolia
       providers:
         did:ethr:
           $require: '@veramo/did-provider-ethr#EthrDIDProvider'
@@ -234,12 +234,12 @@ didManager:
               rpcUrl: https://mainnet.infura.io/v3/3586660d179141e3801c3895de1c2eba
               gas: 1000001
               ttl: 31104001
-        did:ethr:goerli:
+        did:ethr:sepolia:
           $require: '@veramo/did-provider-ethr#EthrDIDProvider'
           $args:
             - defaultKms: local
-              network: goerli
-              rpcUrl: https://goerli.infura.io/v3/3586660d179141e3801c3895de1c2eba
+              network: sepolia
+              rpcUrl: https://sepolia.infura.io/v3/3586660d179141e3801c3895de1c2eba
               gas: 1000001
               ttl: 31104001
         did:web:

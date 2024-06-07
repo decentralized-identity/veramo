@@ -110,10 +110,10 @@ describe('database initial migration tests', () => {
               defaultProvider: 'did:key',
               providers: {
                 // intentionally using deprecated config for backward compatibility checks
-                'did:ethr:goerli': new EthrDIDProvider({
+                'did:ethr:sepolia': new EthrDIDProvider({
                   defaultKms: 'local',
-                  network: 'goerli',
-                  rpcUrl: 'https://goerli.infura.io/v3/' + infuraProjectId,
+                  network: 'sepolia',
+                  rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
                 }),
                 'did:web': new WebDIDProvider({
                   defaultKms: 'local',
