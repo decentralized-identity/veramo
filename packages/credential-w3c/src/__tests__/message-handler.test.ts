@@ -262,7 +262,7 @@ describe('@veramo/credential-w3c', () => {
       credentialStatus: {
         type: 'EthrStatusRegistry2019',
         // TODO(nickreynolds): deploy
-        id: 'goerli:0x97fd27892cdcD035dAe1fe71235c636044B59348',
+        id: 'sepolia:0x97fd27892cdcD035dAe1fe71235c636044B59348',
       },
       iss: 'did:ethr:0x54d59e3ffd76917f62db702ac354b17f3842955e',
     }

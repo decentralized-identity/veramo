@@ -17,7 +17,7 @@ jobs:
           persist-credentials: false
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm add -g pnpm
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
@@ -30,8 +30,8 @@ jobs:
       - name: 'Save build output'
         uses: actions/cache/save@v4
         with:
-          path: ${{ github.workspace }}
-          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
+          path: '${{ github.workspace }}'
+          key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
 
   test-integration:
     needs: build
@@ -51,14 +51,14 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm add -g pnpm
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}
-          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          path: '${{ github.workspace }}'
+          key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
+          restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
@@ -104,14 +104,14 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm add -g pnpm
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}
-          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          path: '${{ github.workspace }}'
+          key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
+          restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
@@ -129,14 +129,14 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm add -g pnpm
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}
-          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          path: '${{ github.workspace }}'
+          key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
+          restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
@@ -167,7 +167,7 @@ jobs:
           token: ${{secrets.GH_TOKEN}}
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
       - run: pnpm add -g pnpm
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
@@ -178,9 +178,9 @@ jobs:
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}
-          key: ${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-build-${{ github.sha }}
+          path: '${{ github.workspace }}'
+          key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
+          restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
 
       - name: 'Setup git coordinates'

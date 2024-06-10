@@ -57,9 +57,9 @@ describe('credential-w3c full flow', () => {
         new DIDManager({
           providers: {
             'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
-            'did:ethr:goerli': new EthrDIDProvider({
+            'did:ethr': new EthrDIDProvider({
               defaultKms: 'local',
-              network: 'goerli',
+              network: 'sepolia',
             }),
           },
           store: new MemoryDIDStore(),
@@ -79,7 +79,7 @@ describe('credential-w3c full flow', () => {
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
-    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr:goerli' })
+    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr' })
     credential = {
       issuer: didKeyIdentifier.did,
       '@context': ['custom:example.context'],

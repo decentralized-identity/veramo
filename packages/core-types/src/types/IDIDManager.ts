@@ -258,8 +258,8 @@ export interface IDIDManager extends IPluginMethodMap {
    *   alias: 'alice'
    * })
    *
-   * const goerliIdentifiers = await agent.didManagerFind({
-   *   provider: 'did:ethr:goerli'
+   * const sepoliaIdentifiers = await agent.didManagerFind({
+   *   provider: 'did:ethr'
    * })
    * ```
    */
@@ -279,7 +279,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * ```typescript
    * const identifier = await agent.didManagerGetByAlias({
    *   alias: 'charlie',
-   *   provider: 'did:ethr:goerli'
+   *   provider: 'did:ethr'
    * })
    * ```
    */
@@ -297,7 +297,7 @@ export interface IDIDManager extends IPluginMethodMap {
    * ```typescript
    * const identifier = await agent.didManagerCreate({
    *   alias: 'charlie',
-   *   provider: 'did:ethr:goerli',
+   *   provider: 'did:ethr',
    *   kms: 'local'
    * })
    * ```

@@ -255,7 +255,7 @@ export default (testContext: {
       })
       expect(ethrIdentifiers.length).toBeGreaterThanOrEqual(1)
 
-      // Default provider 'did:ethr:goerli'
+      // Default provider 'did:ethr:sepolia'
       await agent.didManagerCreate({ provider: 'did:ethr' })
 
       const ethrIdentifiers2 = await agent.didManagerFind({
