@@ -79,7 +79,7 @@ describe('Browser integration tests', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Not a valid did:ethr: goerli:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
+          message: 'Not a valid did:ethr: sepolia:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
         },
         didDocument: null,
       }

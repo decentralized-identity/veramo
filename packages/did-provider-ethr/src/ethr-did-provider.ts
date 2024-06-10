@@ -36,7 +36,7 @@ export interface CreateDidEthrOptions {
   network?: string | number | bigint
 
   /**
-   * This is usually a did prefix, like `did:ethr` or `did:ethr:goerli` and can be used to determine the desired
+   * This is usually a did prefix, like `did:ethr` or `did:ethr:sepolia` and can be used to determine the desired
    * network, if no `network` option is specified.
    */
   providerName?: string
@@ -55,9 +55,9 @@ export interface TransactionOptions extends TransactionRequest {
  */
 export interface EthrNetworkConfiguration {
   /**
-   * The name of the network, for example 'mainnet', 'goerli', 'polygon'.
+   * The name of the network, for example 'mainnet', 'sepolia', 'polygon'.
    * If this is present, then DIDs anchored on this network will have a human-readable prefix, like
-   * `did:ethr:goerli:0x...`. See the
+   * `did:ethr:sepolia:0x...`. See the
    * {@link https://github.com/uport-project/ethr-did-registry#contract-deployments | official deployments} for a table
    * of reusable names.
    * If this parameter is not present, `chainId` MUST be specified.
