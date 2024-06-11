@@ -27,7 +27,7 @@ const CONTROLLER_KEY = Object.freeze({
   kms: KMS,
 }) satisfies MinimalImportableKey
 
-const INFURA_API_KEY = ''
+const INFURA_API_KEY = '3586660d179141e3801c3895de1c2eba'
 
 const ethrDidProvider = new EthrDIDProvider({
   defaultKms: KMS,
