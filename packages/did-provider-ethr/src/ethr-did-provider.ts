@@ -46,6 +46,7 @@ export interface TransactionOptions extends TransactionRequest {
   ttl?: number
   encoding?: string
   metaIdentifierKeyId?: string
+  signOnly?: boolean
 }
 
 /**
@@ -182,17 +183,17 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({kms: kms || this.defaultKms, type: 'Secp256k1'})
+    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
 
     let networkSpecifier
-    if(options?.network) {
-      if(typeof options.network === 'number') {
+    if (options?.network) {
+      if (typeof options.network === 'number') {
         networkSpecifier = BigInt(options?.network)
       } else {
         networkSpecifier = options?.network
       }
-    } else if(options?.providerName?.match(/^did:ethr:.+$/)) {
+    } else if (options?.providerName?.match(/^did:ethr:.+$/)) {
       networkSpecifier = options?.providerName?.substring(9)
     } else {
       networkSpecifier = undefined
@@ -206,9 +207,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     }
     if (typeof networkSpecifier === 'bigint' || typeof networkSpecifier === 'number') {
       networkSpecifier =
-        network.name && network.name.length > 0
-          ? network.name
-          : BigInt(options?.network || 1).toString(16)
+        network.name && network.name.length > 0 ? network.name : BigInt(options?.network || 1).toString(16)
     }
     const networkString = networkSpecifier && networkSpecifier !== 'mainnet' ? `${networkSpecifier}:` : ''
     const identifier: Omit<IIdentifier, 'provider'> = {
@@ -236,20 +235,20 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     return true
   }
 
-  private getNetworkFor(networkSpecifier: string | number | bigint | undefined): EthrNetworkConfiguration | undefined {
+  private getNetworkFor(
+    networkSpecifier: string | number | bigint | undefined,
+  ): EthrNetworkConfiguration | undefined {
     let networkNameOrId: string | number | bigint = networkSpecifier || 'mainnet'
-    let network = this.networks.find(
-      (n) => {
-        if(n.chainId) {
-          if(typeof networkSpecifier === 'bigint') {
-            if(BigInt(n.chainId) === networkNameOrId) return n
-          } else {
-            if(n.chainId === networkNameOrId) return n
-          }
+    let network = this.networks.find((n) => {
+      if (n.chainId) {
+        if (typeof networkSpecifier === 'bigint') {
+          if (BigInt(n.chainId) === networkNameOrId) return n
+        } else {
+          if (n.chainId === networkNameOrId) return n
         }
-        if(n.name === networkNameOrId || n.description === networkNameOrId) return n
-      },
-    )
+      }
+      if (n.name === networkNameOrId || n.description === networkNameOrId) return n
+    })
     if (!network && !networkSpecifier && this.networks.length === 1) {
       network = this.networks[0]
     }
@@ -278,7 +277,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       throw new Error(`invalid_argument: cannot find network for ${identifier.did}`)
     }
 
-    if(!network.provider) {
+    if (!network.provider) {
       throw new Error(`Provider was not found for network ${identifier.did}`)
     }
 
@@ -331,7 +330,14 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrValue = '0x' + key.publicKeyHex
     const ttl = options?.ttl || this.ttl || 86400
     const gasLimit = options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
-    if (options?.metaIdentifierKeyId) {
+    if (options?.signOnly) {
+      const metaHash = await ethrDid.createSetAttributeHash(attrName, attrValue, ttl)
+      const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, identifier, metaHash)
+      debug('ethrDid.addKeySigned %o', { attrName, attrValue, ttl, gasLimit })
+      delete options.metaIdentifierKeyId
+      const signature = { sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s }
+      return [attrName, attrValue, ttl, signature, { ...options, gasLimit }]
+    } else if (options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createSetAttributeHash(attrName, attrValue, ttl)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, identifier, metaHash)
 
@@ -381,7 +387,14 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
 
     debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
 
-    if (options?.metaIdentifierKeyId) {
+    if (options?.signOnly) {
+      const metaHash = await ethrDid.createSetAttributeHash(attrName, attrValue, ttl)
+      const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, identifier, metaHash)
+      debug('ethrDid.addKeySigned %o', { attrName, attrValue, ttl, gasLimit })
+      delete options.metaIdentifierKeyId
+      const signature = { sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s }
+      return [attrName, attrValue, ttl, signature, { ...options, gasLimit }]
+    } else if (options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createSetAttributeHash(attrName, attrValue, ttl)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, identifier, metaHash)
 
@@ -424,8 +437,15 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     const attrName = `did/pub/${key.type}/${usg}/${encoding}`
     const attrValue = '0x' + key.publicKeyHex
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
+    if (args.options?.signOnly) {
+      const metaHash = await ethrDid.createRevokeAttributeHash(attrName, attrValue)
+      const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, args.identifier, metaHash)
 
-    if (args.options?.metaIdentifierKeyId) {
+      debug('ethrDid.revokeAttributeSigned %o', { attrName, attrValue, gasLimit })
+      delete args.options.metaIdentifierKeyId
+      const signature = { sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s }
+      return [attrName, attrValue, signature, { ...args.options, gasLimit }]
+    } else if (args.options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createRevokeAttributeHash(attrName, attrValue)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, args.identifier, metaHash)
 
@@ -474,7 +494,22 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
         : JSON.stringify(service.serviceEndpoint)
     const gasLimit = args.options?.gasLimit || this.gas || DEFAULT_GAS_LIMIT
 
-    if (args.options?.metaIdentifierKeyId) {
+    if (args.options?.signOnly) {
+      const metaHash = await ethrDid.createRevokeAttributeHash(attrName, attrValue)
+      const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, args.identifier, metaHash)
+
+      debug('ethrDid.revokeAttributeSigned %o', { attrName, attrValue, gasLimit })
+      delete args.options.metaIdentifierKeyId
+      return [
+        attrName,
+        attrValue,
+        { sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
+        {
+          ...args.options,
+          gasLimit,
+        },
+      ]
+    } else if (args.options?.metaIdentifierKeyId) {
       const metaHash = await ethrDid.createRevokeAttributeHash(attrName, attrValue)
       const canonicalSignature = await EthrDIDProvider.createMetaSignature(context, args.identifier, metaHash)
 
