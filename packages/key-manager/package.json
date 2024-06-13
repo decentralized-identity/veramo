@@ -16,7 +16,7 @@
     "debug": "^4.3.4",
     "did-jwt": "^8.0.0",
     "ethers": "^6.11.1",
-    "uint8arrays": "^4.0.6",
+    "uint8arrays": "^5.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

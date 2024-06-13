@@ -22,7 +22,7 @@
     "ethers": "^6.11.1",
     "ipfs-unixfs": "^11.1.0",
     "multiformats": "^13.0.0",
-    "uint8arrays": "^4.0.6"
+    "uint8arrays": "^5.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
