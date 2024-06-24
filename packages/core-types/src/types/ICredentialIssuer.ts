@@ -159,6 +159,19 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
  * @public
  */
 
+export interface ICanIssueCredentialTypeArgs {
+  credentialType: string
+
+}
+
+export interface ISpecificCredentialIssuer {
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean
+  issueCredentialType(
+    args: ICreateVerifiableCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiableCredential>
+}
+
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
  *
@@ -212,14 +225,6 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    */
   listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<ProofFormat>>
 
-  /**
-   * Checks if a key is suitable for signing JWT payloads.
-   * @param key - the key to check for compatibility
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @internal
-   */
-  matchKeyForJWT(key: IKey, context: IAgentContext<any>): Promise<boolean>
 }
 
 /**

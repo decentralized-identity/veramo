@@ -25,6 +25,7 @@ import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialIssuerJWT, ICredentialIssuerJWT } from '../packages/credential-jwt/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
@@ -80,16 +81,17 @@ const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 let agent: TAgent<
   IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ISelectiveDisclosure
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialPlugin &
+  ICredentialIssuerLD &
+  ICredentialIssuerEIP712 &
+  ICredentialIssuerJWT &
+  ISelectiveDisclosure
 >
 let dbConnection: DataSource
 
@@ -108,16 +110,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   agent = createAgent<
     IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialPlugin &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
-      ISelectiveDisclosure
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
+    ICredentialIssuerJWT &
+    ISelectiveDisclosure
   >({
     ...options,
     context: {
@@ -196,6 +199,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm(),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
+      new CredentialIssuerJWT(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
         suites: [

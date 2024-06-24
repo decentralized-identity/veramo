@@ -82,7 +82,6 @@ export class CredentialPlugin implements IAgentPlugin {
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
       verifyCredential: this.verifyCredential.bind(this),
       verifyPresentation: this.verifyPresentation.bind(this),
-      matchKeyForJWT: this.matchKeyForJWT.bind(this),
       listUsableProofFormats: this.listUsableProofFormats.bind(this),
     }
   }
@@ -141,12 +140,12 @@ export class CredentialPlugin implements IAgentPlugin {
 
     let verifiablePresentation: VerifiablePresentation
     if (proofFormat === 'bbs') {
-        if (typeof context.agent.createVerifiablePresentationBbs === 'function') {
-            verifiablePresentation = await context. agent.createVerifiablePresentationBbs({ ...args, presentation })
-        }
-        else {
-            throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-        }
+      if (typeof context.agent.createVerifiablePresentationBbs === 'function') {
+        verifiablePresentation = await context.agent.createVerifiablePresentationBbs({ ...args, presentation })
+      }
+      else {
+        throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+      }
     }
     else if (proofFormat === 'lds') {
       if (typeof context.agent.createVerifiablePresentationLD === 'function') {
@@ -168,29 +167,13 @@ export class CredentialPlugin implements IAgentPlugin {
         )
       }
     } else {
-      // only add issuanceDate for JWT
-      now = typeof now === 'number' ? new Date(now * 1000) : now
-      if (!Object.getOwnPropertyNames(presentation).includes('issuanceDate')) {
-        presentation.issuanceDate = (now instanceof Date ? now : new Date()).toISOString()
+      if (typeof context.agent.createVerifiablePresentationJWT === 'function') {
+        verifiablePresentation = await context.agent.createVerifiablePresentationJWT({ ...args, presentation })
+      } else {
+        throw new Error(
+          'invalid_setup: your agent does not seem to have ICredentialIssuerJWT plugin installed',
+        )
       }
-
-      debug('Signing VP with', identifier.did)
-      let alg = 'ES256K'
-      if (key.type === 'Ed25519') {
-        alg = 'EdDSA'
-      } else if (key.type === 'Secp256r1') {
-        alg = 'ES256'
-      }
-
-      const signer = wrapSigner(context, key, alg)
-      const jwt = await createVerifiablePresentationJwt(
-        presentation as any,
-        { did: identifier.did, signer, alg },
-        { removeOriginalFields, challenge, domain, ...otherOptions },
-      )
-      //FIXME: flagging this as a potential privacy leak.
-      debug(jwt)
-      verifiablePresentation = normalizePresentation(jwt)
     }
     if (save) {
       await context.agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation })
@@ -234,12 +217,12 @@ export class CredentialPlugin implements IAgentPlugin {
     try {
       let verifiableCredential: VerifiableCredential
       if (proofFormat === 'bbs') {
-          if (typeof context.agent.createVerifiableCredentialBbs === 'function') {
-              verifiableCredential = await context.agent.createVerifiableCredentialBbs({ ...args, credential })
-          }
-          else {
-              throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-          }
+        if (typeof context.agent.createVerifiableCredentialBbs === 'function') {
+          verifiableCredential = await context.agent.createVerifiableCredentialBbs({ ...args, credential })
+        }
+        else {
+          throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+        }
       }
       else if (proofFormat === 'lds') {
         if (typeof context.agent.createVerifiableCredentialLD === 'function') {
@@ -258,25 +241,14 @@ export class CredentialPlugin implements IAgentPlugin {
           )
         }
       } else {
-        const key = pickSigningKey(identifier, keyRef)
-
-        debug('Signing VC with', identifier.did)
-        let alg = 'ES256K'
-        if (key.type === 'Ed25519') {
-          alg = 'EdDSA'
-        } else if (key.type === 'Secp256r1') {
-          alg = 'ES256'
+        if (typeof context.agent.createVerifiableCredentialJWT === 'function') {
+          verifiableCredential = await context.agent.createVerifiableCredentialJWT({ ...args, credential })
+          console.log("got cred: ", verifiableCredential)
+        } else {
+          throw new Error(
+            'invalid_setup: your agent does not seem to have ICredentialIssuerJWT plugin installed',
+          )
         }
-
-        const signer = wrapSigner(context, key, alg)
-        const jwt = await createVerifiableCredentialJwt(
-          credential as any,
-          { did: identifier.did, signer, alg },
-          { removeOriginalFields, ...otherOptions },
-        )
-        //FIXME: flagging this as a potential privacy leak.
-        debug(jwt)
-        verifiableCredential = normalizeCredential(jwt)
       }
       if (save) {
         await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
@@ -388,26 +360,26 @@ export class CredentialPlugin implements IAgentPlugin {
 
       verificationResult = await context.agent.verifyCredentialLD({ ...args, now: policies?.now })
       verifiedCredential = <VerifiableCredential>credential
-      } else if (type == DocumentFormat.BBS) {
-          if (typeof context.agent.verifyCredentialBbs!== 'function') {
-              throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-          }
-          try {
-              verificationResult = await context.agent.verifyCredentialBbs({ ...args, now: policies?.now })
-              verifiedCredential = <VerifiableCredential>credential
-          }
-          catch (e) {
-              debug('encountered error while verifying BBS credential: %o', e)
-              const { message, errorCode } = e
-              return {
-                  verified: false,
-                  error: {
-                      message,
-                      errorCode: errorCode ? errorCode : e.message.split(':')[0],
-                  },
-              }
-          }
-        } else {
+    } else if (type == DocumentFormat.BBS) {
+      if (typeof context.agent.verifyCredentialBbs !== 'function') {
+        throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+      }
+      try {
+        verificationResult = await context.agent.verifyCredentialBbs({ ...args, now: policies?.now })
+        verifiedCredential = <VerifiableCredential>credential
+      }
+      catch (e) {
+        debug('encountered error while verifying BBS credential: %o', e)
+        const { message, errorCode } = e
+        return {
+          verified: false,
+          error: {
+            message,
+            errorCode: errorCode ? errorCode : e.message.split(':')[0],
+          },
+        }
+      }
+    } else {
       throw new Error('invalid_argument: Unknown credential type.')
     }
 
@@ -513,31 +485,31 @@ export class CredentialPlugin implements IAgentPlugin {
           verified: false,
           error: {
             message,
-                        errorCode: errorCode ? errorCode : e.message.split(':')[0],
-                    },
-                };
-            }
+            errorCode: errorCode ? errorCode : e.message.split(':')[0],
+          },
+        };
       }
-      else if (type === DocumentFormat.BBS) {
-          //Bbs
-          if (typeof context.agent.verifyPresentationBbs !== 'function') {
-              throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-          }
-          try {
-              const result = await context.agent.verifyPresentationBbs(args)
-              return result;
-          }
-          catch (e) {
-              const { message, errorCode } = e;
-              return {
-                  verified: false,
-                  error: {
-                      message,
-                      errorCode: errorCode ? errorCode : e.message.split(':')[0],
-                  },
-              }
-          }
-      } else {
+    }
+    else if (type === DocumentFormat.BBS) {
+      //Bbs
+      if (typeof context.agent.verifyPresentationBbs !== 'function') {
+        throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+      }
+      try {
+        const result = await context.agent.verifyPresentationBbs(args)
+        return result;
+      }
+      catch (e) {
+        const { message, errorCode } = e;
+        return {
+          verified: false,
+          error: {
+            message,
+            errorCode: errorCode ? errorCode : e.message.split(':')[0],
+          },
+        }
+      }
+    } else {
       // JSON-LD
       if (typeof context.agent.verifyPresentationLD === 'function') {
         const result = await context.agent.verifyPresentationLD({ ...args, now: policies?.now })
@@ -548,26 +520,6 @@ export class CredentialPlugin implements IAgentPlugin {
         )
       }
     }
-  }
-
-  /**
-   * Checks if a key is suitable for signing JWT payloads.
-   * @param key - the key to check
-   * @param context - the Veramo agent context, unused here
-   *
-   * @beta
-   */
-  async matchKeyForJWT(key: IKey, context: IssuerAgentContext): Promise<boolean> {
-    switch (key.type) {
-      case 'Ed25519':
-      case 'Secp256r1':
-        return true
-      case 'Secp256k1':
-        return intersect(key.meta?.algorithms ?? [], ['ES256K', 'ES256K-R']).length > 0
-      default:
-        return false
-    }
-    return false
   }
 
   async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {
@@ -591,7 +543,7 @@ export class CredentialPlugin implements IAgentPlugin {
       }
       if (context.agent.availableMethods().includes('matchKeyForBbs')) {
         if (await context.agent.matchKeyForBbs(key)) {
-            signingOptions.push('bbs');
+          signingOptions.push('bbs');
         }
       }
     }
@@ -613,17 +565,6 @@ function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   }
 
   return key as IKey
-}
-
-function wrapSigner(
-  context: IAgentContext<Pick<IKeyManager, 'keyManagerSign'>>,
-  key: IKey,
-  algorithm?: string,
-) {
-  return async (data: string | Uint8Array): Promise<string> => {
-    const result = await context.agent.keyManagerSign({ keyRef: key.kid, data: <string>data, algorithm })
-    return result
-  }
 }
 
 function detectDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): DocumentFormat {

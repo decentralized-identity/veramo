@@ -26,6 +26,7 @@ import {
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
+import { CredentialIssuerJWT } from '../../../credential-jwt/src'
 
 jest.setTimeout(300000)
 
@@ -72,6 +73,7 @@ describe('credential-w3c full flow', () => {
           }),
         }),
         new CredentialIssuer(),
+        new CredentialIssuerJWT(),
         new CredentialIssuerLD({
           contextMaps: [LdDefaultContexts, customContext],
           suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
@@ -112,7 +114,7 @@ describe('credential-w3c full flow', () => {
       credential,
       proofFormat: 'lds',
     })
-    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' }}
+    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
     expect(verifyResult.verified).toBeFalsy()
   })
@@ -124,7 +126,7 @@ describe('credential-w3c full flow', () => {
       proofFormat: 'jwt',
     })
 
-    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' }}
+    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
 
     expect(verifyResult.verified).toBeFalsy()

@@ -1,11 +1,15 @@
 import {
   CredentialPayload,
   IAgentPlugin,
+  ICreateVerifiableCredentialArgs,
+  ICanIssueCredentialTypeArgs,
   IIdentifier,
   IKey,
+  IssuerAgentContext,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
+  ISpecificCredentialIssuer,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -38,7 +42,7 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerEIP712 implements IAgentPlugin {
+export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredentialIssuer {
   readonly methods: ICredentialIssuerEIP712
   readonly schema = schema.ICredentialIssuerEIP712
 
@@ -49,7 +53,19 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       verifyCredentialEIP712: this.verifyCredentialEIP712.bind(this),
       verifyPresentationEIP712: this.verifyPresentationEIP712.bind(this),
       matchKeyForEIP712: this.matchKeyForEIP712.bind(this),
+      // canIssueCredentialType: this.canIssueCredentialType.bind(this),
+      // issueCredentialType: this.issueCredentialType.bind(this),
     }
+  }
+
+  public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+    return false
+  }
+  public issueCredentialType(
+    args: ICreateVerifiableCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiableCredential> {
+    throw new Error("not implemented")
   }
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */
