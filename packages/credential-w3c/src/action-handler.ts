@@ -9,6 +9,8 @@ import {
   IKey,
   IKeyManager,
   ISpecificCredentialIssuer,
+  ISpecificCredentialVerifier,
+  ISpecificIssuerVerifier,
   IssuerAgentContext,
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
@@ -47,6 +49,7 @@ import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
 
 import canonicalize from 'canonicalize'
+import { get } from 'http'
 
 const enum DocumentFormat {
   JWT,
@@ -76,9 +79,9 @@ export class CredentialPlugin implements IAgentPlugin {
       },
     },
   }
-  private issuers: ISpecificCredentialIssuer[]
+  private issuers: ISpecificIssuerVerifier[]
 
-  constructor(issuers: ISpecificCredentialIssuer[]) {
+  constructor(issuers: ISpecificIssuerVerifier[]) {
     this.issuers = issuers
     this.methods = {
       createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
@@ -141,44 +144,22 @@ export class CredentialPlugin implements IAgentPlugin {
     }
     const key = pickSigningKey(identifier, keyRef)
 
-    let verifiablePresentation: VerifiablePresentation
+    let verifiablePresentation: VerifiablePresentation | undefined
 
-    if (proofFormat === 'bbs') {
-      if (typeof context.agent.createVerifiablePresentationBbs === 'function') {
-        verifiablePresentation = await context.agent.createVerifiablePresentationBbs({ ...args, presentation })
-      }
-      else {
-        throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-      }
-    }
-    else if (proofFormat === 'lds') {
-      if (typeof context.agent.createVerifiablePresentationLD === 'function') {
-        verifiablePresentation = await context.agent.createVerifiablePresentationLD({ ...args, presentation })
-      } else {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-        )
-      }
-    } else if (proofFormat === 'EthereumEip712Signature2021') {
-      if (typeof context.agent.createVerifiablePresentationEIP712 === 'function') {
-        verifiablePresentation = await context.agent.createVerifiablePresentationEIP712({
-          ...args,
-          presentation,
-        })
-      } else {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-        )
-      }
-    } else {
-      if (typeof context.agent.createVerifiablePresentationJWT === 'function') {
-        verifiablePresentation = await context.agent.createVerifiablePresentationJWT({ ...args, presentation })
-      } else {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerJWT plugin installed',
-        )
+    async function getPresentation(issuers: ISpecificCredentialIssuer[]) {
+      for (const issuer of issuers) {
+        if (issuer.canIssueCredentialType({ proofFormat }, context)) {
+          return await issuer.issuePresentationType(args, context)
+        }
       }
     }
+
+    verifiablePresentation = await getPresentation(this.issuers)
+
+    if (!verifiablePresentation) {
+      throw new Error('invalid_setup: No issuer found for the requested proof format')
+    }
+
     if (save) {
       await context.agent.dataStoreSaveVerifiablePresentation({ verifiablePresentation })
     }
@@ -220,12 +201,7 @@ export class CredentialPlugin implements IAgentPlugin {
     }
     try {
       let verifiableCredential: VerifiableCredential | undefined
-      // for (const issuer of this.issuers) {
-      //   if (issuer.canIssueCredentialType({ proofFormat }, context)) {
-      //     verifiableCredential = await issuer.issueCredentialType(args, context)
-      //     break
-      //   }
-      // }
+
       async function getCredential(issuers: ISpecificCredentialIssuer[]) {
         for (const issuer of issuers) {
           if (issuer.canIssueCredentialType({ proofFormat }, context)) {
@@ -234,48 +210,11 @@ export class CredentialPlugin implements IAgentPlugin {
         }
       }
       verifiableCredential = await getCredential(this.issuers)
-      // await this.issuers.forEach(async (issuer) => {
-      //   if (issuer.canIssueCredentialType({ proofFormat }, context)) {
-      //     verifiableCredential = await issuer.issueCredentialType(args, context)
-      //   }
-      // })
+
       if (!verifiableCredential) {
         throw new Error('invalid_setup: No issuer found for the requested proof format')
       }
-      // if (proofFormat === 'bbs') {
-      //   if (typeof context.agent.createVerifiableCredentialBbs === 'function') {
-      //     verifiableCredential = await context.agent.createVerifiableCredentialBbs({ ...args, credential })
-      //   }
-      //   else {
-      //     throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-      //   }
-      // }
-      // else if (proofFormat === 'lds') {
-      //   if (typeof context.agent.createVerifiableCredentialLD === 'function') {
-      //     verifiableCredential = await context.agent.createVerifiableCredentialLD({ ...args, credential })
-      //   } else {
-      //     throw new Error(
-      //       'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-      //     )
-      //   }
-      // } else if (proofFormat === 'EthereumEip712Signature2021') {
-      //   if (typeof context.agent.createVerifiableCredentialEIP712 === 'function') {
-      //     verifiableCredential = await context.agent.createVerifiableCredentialEIP712({ ...args, credential })
-      //   } else {
-      //     throw new Error(
-      //       'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-      //     )
-      //   }
-      // } else {
-      //   if (typeof context.agent.createVerifiableCredentialJWT === 'function') {
-      //     verifiableCredential = await context.agent.createVerifiableCredentialJWT({ ...args, credential })
-      //     console.log("got cred: ", verifiableCredential)
-      //   } else {
-      //     throw new Error(
-      //       'invalid_setup: your agent does not seem to have ICredentialIssuerJWT plugin installed',
-      //     )
-      //   }
-      // }
+
       if (save) {
         await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       }
@@ -291,123 +230,136 @@ export class CredentialPlugin implements IAgentPlugin {
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
     let verifiedCredential: VerifiableCredential
-    let verificationResult: IVerifyResult = { verified: false }
+    let verificationResult: IVerifyResult | undefined = { verified: false }
 
-    const type: DocumentFormat = detectDocumentType(credential)
-    if (type == DocumentFormat.JWT) {
-      let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
-
-      const resolver = {
-        resolve: (didUrl: string) =>
-          context.agent.resolveDid({
-            didUrl,
-            options: otherOptions?.resolutionOptions,
-          }),
-      } as Resolvable
-      try {
-        // needs broader credential as well to check equivalence with jwt
-        verificationResult = await verifyCredentialJWT(jwt, resolver, {
-          ...otherOptions,
-          policies: {
-            ...policies,
-            nbf: policies?.nbf ?? policies?.issuanceDate,
-            iat: policies?.iat ?? policies?.issuanceDate,
-            exp: policies?.exp ?? policies?.expirationDate,
-            aud: policies?.aud ?? policies?.audience,
-          },
-        })
-        verifiedCredential = verificationResult.verifiableCredential
-
-        // if credential was presented with other fields, make sure those fields match what's in the JWT
-        if (typeof credential !== 'string' && credential.proof.type === 'JwtProof2020') {
-          const credentialCopy = JSON.parse(JSON.stringify(credential))
-          delete credentialCopy.proof.jwt
-
-          const verifiedCopy = JSON.parse(JSON.stringify(verifiedCredential))
-          delete verifiedCopy.proof.jwt
-
-          if (canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
-            verificationResult.verified = false
-            verificationResult.error = new Error(
-              'invalid_credential: Credential JSON does not match JWT payload',
-            )
-          }
-        }
-      } catch (e: any) {
-        let { message, errorCode } = e
-        return {
-          verified: false,
-          error: {
-            message,
-            errorCode: errorCode ? errorCode : message.split(':')[0],
-          },
+    function getVerificationResult(issuers: ISpecificCredentialVerifier[]) {
+      for (const issuer of issuers) {
+        if (issuer.canVerifyDocumentType(credential)) {
+          return issuer.verifyCredentialType(args, context)
         }
       }
-    } else if (type == DocumentFormat.EIP712) {
-      if (typeof context.agent.verifyCredentialEIP712 !== 'function') {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-        )
-      }
-
-      try {
-        const result = await context.agent.verifyCredentialEIP712(args)
-        if (result) {
-          verificationResult = {
-            verified: true,
-          }
-        } else {
-          verificationResult = {
-            verified: false,
-            error: {
-              message: 'invalid_signature: The signature does not match any of the issuer signing keys',
-              errorCode: 'invalid_signature',
-            },
-          }
-        }
-        verifiedCredential = <VerifiableCredential>credential
-      } catch (e: any) {
-        debug('encountered error while verifying EIP712 credential: %o', e)
-        const { message, errorCode } = e
-        return {
-          verified: false,
-          error: {
-            message,
-            errorCode: errorCode ? errorCode : e.message.split(':')[0],
-          },
-        }
-      }
-    } else if (type == DocumentFormat.JSONLD) {
-      if (typeof context.agent.verifyCredentialLD !== 'function') {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-        )
-      }
-
-      verificationResult = await context.agent.verifyCredentialLD({ ...args, now: policies?.now })
-      verifiedCredential = <VerifiableCredential>credential
-    } else if (type == DocumentFormat.BBS) {
-      if (typeof context.agent.verifyCredentialBbs !== 'function') {
-        throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-      }
-      try {
-        verificationResult = await context.agent.verifyCredentialBbs({ ...args, now: policies?.now })
-        verifiedCredential = <VerifiableCredential>credential
-      }
-      catch (e) {
-        debug('encountered error while verifying BBS credential: %o', e)
-        const { message, errorCode } = e
-        return {
-          verified: false,
-          error: {
-            message,
-            errorCode: errorCode ? errorCode : e.message.split(':')[0],
-          },
-        }
-      }
-    } else {
-      throw new Error('invalid_argument: Unknown credential type.')
     }
+    verificationResult = await getVerificationResult(this.issuers)
+    if (!verificationResult) {
+      throw new Error('invalid_setup: No verifier found for the provided credential')
+    }
+    verifiedCredential = <VerifiableCredential>credential
+
+    // const type: DocumentFormat = detectDocumentType(credential)
+    // if (type == DocumentFormat.JWT) {
+    //   let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
+
+    //   const resolver = {
+    //     resolve: (didUrl: string) =>
+    //       context.agent.resolveDid({
+    //         didUrl,
+    //         options: otherOptions?.resolutionOptions,
+    //       }),
+    //   } as Resolvable
+    //   try {
+    //     // needs broader credential as well to check equivalence with jwt
+    //     verificationResult = await verifyCredentialJWT(jwt, resolver, {
+    //       ...otherOptions,
+    //       policies: {
+    //         ...policies,
+    //         nbf: policies?.nbf ?? policies?.issuanceDate,
+    //         iat: policies?.iat ?? policies?.issuanceDate,
+    //         exp: policies?.exp ?? policies?.expirationDate,
+    //         aud: policies?.aud ?? policies?.audience,
+    //       },
+    //     })
+    //     verifiedCredential = verificationResult.verifiableCredential
+
+    //     // if credential was presented with other fields, make sure those fields match what's in the JWT
+    //     if (typeof credential !== 'string' && credential.proof.type === 'JwtProof2020') {
+    //       const credentialCopy = JSON.parse(JSON.stringify(credential))
+    //       delete credentialCopy.proof.jwt
+
+    //       const verifiedCopy = JSON.parse(JSON.stringify(verifiedCredential))
+    //       delete verifiedCopy.proof.jwt
+
+    //       if (canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
+    //         verificationResult.verified = false
+    //         verificationResult.error = new Error(
+    //           'invalid_credential: Credential JSON does not match JWT payload',
+    //         )
+    //       }
+    //     }
+    //   } catch (e: any) {
+    //     let { message, errorCode } = e
+    //     return {
+    //       verified: false,
+    //       error: {
+    //         message,
+    //         errorCode: errorCode ? errorCode : message.split(':')[0],
+    //       },
+    //     }
+    //   }
+    // } else if (type == DocumentFormat.EIP712) {
+    //   if (typeof context.agent.verifyCredentialEIP712 !== 'function') {
+    //     throw new Error(
+    //       'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+    //     )
+    //   }
+
+    //   try {
+    //     const result = await context.agent.verifyCredentialEIP712(args)
+    //     if (result) {
+    //       verificationResult = {
+    //         verified: true,
+    //       }
+    //     } else {
+    //       verificationResult = {
+    //         verified: false,
+    //         error: {
+    //           message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+    //           errorCode: 'invalid_signature',
+    //         },
+    //       }
+    //     }
+    //     verifiedCredential = <VerifiableCredential>credential
+    //   } catch (e: any) {
+    //     debug('encountered error while verifying EIP712 credential: %o', e)
+    //     const { message, errorCode } = e
+    //     return {
+    //       verified: false,
+    //       error: {
+    //         message,
+    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
+    //       },
+    //     }
+    //   }
+    // } else if (type == DocumentFormat.JSONLD) {
+    //   if (typeof context.agent.verifyCredentialLD !== 'function') {
+    //     throw new Error(
+    //       'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
+    //     )
+    //   }
+
+    //   verificationResult = await context.agent.verifyCredentialLD({ ...args, now: policies?.now })
+    //   verifiedCredential = <VerifiableCredential>credential
+    // } else if (type == DocumentFormat.BBS) {
+    //   if (typeof context.agent.verifyCredentialBbs !== 'function') {
+    //     throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+    //   }
+    //   try {
+    //     verificationResult = await context.agent.verifyCredentialBbs({ ...args, now: policies?.now })
+    //     verifiedCredential = <VerifiableCredential>credential
+    //   }
+    //   catch (e) {
+    //     debug('encountered error while verifying BBS credential: %o', e)
+    //     const { message, errorCode } = e
+    //     return {
+    //       verified: false,
+    //       error: {
+    //         message,
+    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
+    //       },
+    //     }
+    //   }
+    // } else {
+    //   throw new Error('invalid_argument: Unknown credential type.')
+    // }
 
     if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context as any))) {
       verificationResult = {
@@ -428,124 +380,136 @@ export class CredentialPlugin implements IAgentPlugin {
     context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
-    const type: DocumentFormat = detectDocumentType(presentation)
-    if (type === DocumentFormat.JWT) {
-      // JWT
-      let jwt: string
-      if (typeof presentation === 'string') {
-        jwt = presentation
-      } else {
-        jwt = presentation.proof.jwt
-      }
-      const resolver = {
-        resolve: (didUrl: string) =>
-          context.agent.resolveDid({
-            didUrl,
-            options: otherOptions?.resolutionOptions,
-          }),
-      } as Resolvable
-
-      let audience = domain
-      if (!audience) {
-        const { payload } = await decodeJWT(jwt)
-        if (payload.aud) {
-          // automatically add a managed DID as audience if one is found
-          const intendedAudience = asArray(payload.aud)
-          const managedDids = await context.agent.didManagerFind()
-          const filtered = managedDids.filter((identifier) => intendedAudience.includes(identifier.did))
-          if (filtered.length > 0) {
-            audience = filtered[0].did
-          }
+    let result: IVerifyResult | undefined = { verified: false }
+    function getVerificationResult(issuers: ISpecificCredentialVerifier[]) {
+      for (const issuer of issuers) {
+        if (issuer.canVerifyDocumentType(presentation)) {
+          return issuer.verifyPresentationType(args, context)
         }
-      }
-
-      try {
-        return await verifyPresentationJWT(jwt, resolver, {
-          challenge,
-          domain,
-          audience,
-          policies: {
-            ...policies,
-            nbf: policies?.nbf ?? policies?.issuanceDate,
-            iat: policies?.iat ?? policies?.issuanceDate,
-            exp: policies?.exp ?? policies?.expirationDate,
-            aud: policies?.aud ?? policies?.audience,
-          },
-          ...otherOptions,
-        })
-      } catch (e: any) {
-        let { message, errorCode } = e
-        return {
-          verified: false,
-          error: {
-            message,
-            errorCode: errorCode ? errorCode : message.split(':')[0],
-          },
-        }
-      }
-    } else if (type === DocumentFormat.EIP712) {
-      // JSON-LD
-      if (typeof context.agent.verifyPresentationEIP712 !== 'function') {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-        )
-      }
-      try {
-        const result = await context.agent.verifyPresentationEIP712(args)
-        if (result) {
-          return {
-            verified: true,
-          }
-        } else {
-          return {
-            verified: false,
-            error: {
-              message: 'invalid_signature: The signature does not match any of the issuer signing keys',
-              errorCode: 'invalid_signature',
-            },
-          }
-        }
-      } catch (e: any) {
-        const { message, errorCode } = e
-        return {
-          verified: false,
-          error: {
-            message,
-            errorCode: errorCode ? errorCode : e.message.split(':')[0],
-          },
-        };
       }
     }
-    else if (type === DocumentFormat.BBS) {
-      //Bbs
-      if (typeof context.agent.verifyPresentationBbs !== 'function') {
-        throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-      }
-      try {
-        const result = await context.agent.verifyPresentationBbs(args)
-        return result;
-      }
-      catch (e) {
-        const { message, errorCode } = e;
-        return {
-          verified: false,
-          error: {
-            message,
-            errorCode: errorCode ? errorCode : e.message.split(':')[0],
-          },
-        }
-      }
-    } else {
-      // JSON-LD
-      if (typeof context.agent.verifyPresentationLD === 'function') {
-        const result = await context.agent.verifyPresentationLD({ ...args, now: policies?.now })
-        return result
-      } else {
-        throw new Error(
-          'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-        )
-      }
+    result = await getVerificationResult(this.issuers)
+    if (!result) {
+      throw new Error('invalid_setup: No verifier found for the provided presentation')
     }
+    return result
+    // if (type === DocumentFormat.JWT) {
+    //   // JWT
+    //   let jwt: string
+    //   if (typeof presentation === 'string') {
+    //     jwt = presentation
+    //   } else {
+    //     jwt = presentation.proof.jwt
+    //   }
+    //   const resolver = {
+    //     resolve: (didUrl: string) =>
+    //       context.agent.resolveDid({
+    //         didUrl,
+    //         options: otherOptions?.resolutionOptions,
+    //       }),
+    //   } as Resolvable
+
+    //   let audience = domain
+    //   if (!audience) {
+    //     const { payload } = await decodeJWT(jwt)
+    //     if (payload.aud) {
+    //       // automatically add a managed DID as audience if one is found
+    //       const intendedAudience = asArray(payload.aud)
+    //       const managedDids = await context.agent.didManagerFind()
+    //       const filtered = managedDids.filter((identifier) => intendedAudience.includes(identifier.did))
+    //       if (filtered.length > 0) {
+    //         audience = filtered[0].did
+    //       }
+    //     }
+    //   }
+
+    //   try {
+    //     return await verifyPresentationJWT(jwt, resolver, {
+    //       challenge,
+    //       domain,
+    //       audience,
+    //       policies: {
+    //         ...policies,
+    //         nbf: policies?.nbf ?? policies?.issuanceDate,
+    //         iat: policies?.iat ?? policies?.issuanceDate,
+    //         exp: policies?.exp ?? policies?.expirationDate,
+    //         aud: policies?.aud ?? policies?.audience,
+    //       },
+    //       ...otherOptions,
+    //     })
+    //   } catch (e: any) {
+    //     let { message, errorCode } = e
+    //     return {
+    //       verified: false,
+    //       error: {
+    //         message,
+    //         errorCode: errorCode ? errorCode : message.split(':')[0],
+    //       },
+    //     }
+    //   }
+    // } else if (type === DocumentFormat.EIP712) {
+    //   // JSON-LD
+    //   if (typeof context.agent.verifyPresentationEIP712 !== 'function') {
+    //     throw new Error(
+    //       'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+    //     )
+    //   }
+    //   try {
+    //     const result = await context.agent.verifyPresentationEIP712(args)
+    //     if (result) {
+    //       return {
+    //         verified: true,
+    //       }
+    //     } else {
+    //       return {
+    //         verified: false,
+    //         error: {
+    //           message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+    //           errorCode: 'invalid_signature',
+    //         },
+    //       }
+    //     }
+    //   } catch (e: any) {
+    //     const { message, errorCode } = e
+    //     return {
+    //       verified: false,
+    //       error: {
+    //         message,
+    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
+    //       },
+    //     };
+    //   }
+    // }
+    // else if (type === DocumentFormat.BBS) {
+    //   //Bbs
+    //   if (typeof context.agent.verifyPresentationBbs !== 'function') {
+    //     throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+    //   }
+    //   try {
+    //     const result = await context.agent.verifyPresentationBbs(args)
+    //     return result;
+    //   }
+    //   catch (e) {
+    //     const { message, errorCode } = e;
+    //     return {
+    //       verified: false,
+    //       error: {
+    //         message,
+    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
+    //       },
+    //     }
+    //   }
+    // } else {
+    //   // JSON-LD
+    //   if (typeof context.agent.verifyPresentationLD === 'function') {
+    //     const result = await context.agent.verifyPresentationLD({ ...args, now: policies?.now })
+    //     return result
+    //   } else {
+    //     throw new Error(
+    //       'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
+    //     )
+    //   }
+    // }
   }
 
   async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {

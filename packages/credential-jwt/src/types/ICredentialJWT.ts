@@ -11,7 +11,9 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   ISpecificCredentialIssuer,
-  ICreateVerifiableCredentialArgs
+  ICreateVerifiableCredentialArgs,
+  VerificationPolicies,
+  W3CVerifiableCredential
 } from '@veramo/core-types'
 
 // interface Something = IPluginMethodMap | ISpecificCredentialIssuer
@@ -206,7 +208,28 @@ export interface IVerifyCredentialJWTArgs extends UsingResolutionOptions {
    * of the `credential`
    *
    */
-  credential: VerifiableCredential
+  credential: W3CVerifiableCredential
+
+
+  /**
+   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
+   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   *
+   * Defaults to `false`
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
+   * Overrides specific aspects of credential verification, where possible.
+   */
+  policies?: VerificationPolicies
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules. that perform the checks
+   */
+  [x: string]: any
 }
 
 /**
@@ -225,6 +248,36 @@ export interface IVerifyPresentationJWTArgs extends UsingResolutionOptions {
    *
    */
   presentation: VerifiablePresentation
+
+  /**
+   * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
+   */
+  challenge?: string
+
+  /**
+   * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
+   */
+  domain?: string
+
+  /**
+   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
+   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   *
+   * Defaults to `false`
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
+   * Overrides specific aspects of credential verification, where possible.
+   */
+  policies?: VerificationPolicies
+
+  /**
+   * Other options can be specified for verification.
+   * They will be forwarded to the lower level modules. that perform the checks
+   */
+  [x: string]: any
 }
 
 /**

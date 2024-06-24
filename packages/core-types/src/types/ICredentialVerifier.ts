@@ -151,6 +151,12 @@ export interface VerificationPolicies {
  * @public
  */
 
+export interface ISpecificCredentialVerifier {
+  canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean
+  verifyCredentialType(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined>
+  verifyPresentationType(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined>
+}
+
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
  *

@@ -10,6 +10,12 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   ISpecificCredentialIssuer,
+  ICreateVerifiablePresentationArgs,
+  IVerifyCredentialArgs,
+  IVerifyResult,
+  ISpecificCredentialVerifier,
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -42,7 +48,7 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredentialIssuer {
+export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredentialIssuer, ISpecificCredentialVerifier {
   readonly methods: ICredentialIssuerEIP712
   readonly schema = schema.ICredentialIssuerEIP712
 
@@ -68,6 +74,26 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
   ): Promise<VerifiableCredential> {
     return context.agent.createVerifiableCredentialEIP712(args)
   }
+
+
+  public issuePresentationType(
+    args: ICreateVerifiablePresentationArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiablePresentation> {
+    return context.agent.createVerifiablePresentationEIP712(args)
+  }
+
+  public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
+    return ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
+  }
+
+  public verifyCredentialType(
+    args: IVerifyCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<IVerifyResult | undefined> {
+    return context.agent.verifyCredentialEIP712(args)
+  }
+
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */
   public async createVerifiableCredentialEIP712(

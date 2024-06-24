@@ -4,6 +4,7 @@ import {
   IAgentPlugin,
   ICanIssueCredentialTypeArgs,
   ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
   IIdentifier,
   IKey,
   IResolver,
@@ -12,6 +13,8 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
 import { schema } from './plugin.schema.js'
@@ -80,6 +83,17 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificCredentialIssu
     context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
     return context.agent.createVerifiableCredentialLD(args)
+  }
+
+  public issuePresentationType(
+    args: ICreateVerifiablePresentationArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiablePresentation> {
+    return context.agent.createVerifiablePresentationLD(args)
+  }
+
+  public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
+    return ((<VerifiableCredential>document)?.proof?.type === 'lds')
   }
 
   /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */

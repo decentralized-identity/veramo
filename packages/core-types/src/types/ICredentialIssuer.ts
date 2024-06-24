@@ -10,7 +10,9 @@ import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
 import { IIdentifier, IKey } from "./IIdentifier.js";
-import { UsingResolutionOptions } from './ICredentialVerifier.js'
+import { ISpecificCredentialVerifier, IVerifyCredentialArgs, UsingResolutionOptions } from './ICredentialVerifier.js'
+
+export type ISpecificIssuerVerifier = ISpecificCredentialIssuer & ISpecificCredentialVerifier
 
 /**
  * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
@@ -169,6 +171,10 @@ export interface ISpecificCredentialIssuer {
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
   ): Promise<VerifiableCredential>
+  issuePresentationType(
+    args: ICreateVerifiablePresentationArgs,
+    context: IssuerAgentContext
+  ): Promise<VerifiablePresentation>
 }
 
 /**
