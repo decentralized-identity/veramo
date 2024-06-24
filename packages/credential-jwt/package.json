@@ -1,0 +1,57 @@
+{
+  "name": "@veramo/credential-jwt",
+  "description": "Veramo plugin for working with JWT Verifiable Credentials & Presentations.",
+  "version": "6.0.0",
+  "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js"
+  },
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "ICredentialIssuerJWT": "./src/types/ICredentialJWT.ts"
+    }
+  },
+  "dependencies": {
+    "@veramo/core-types": "workspace:^",
+    "@veramo/utils": "workspace:^",
+    "debug": "^4.3.3",
+    "did-jwt-vc": "^4.0.4"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.8",
+    "typescript": "5.3.3"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/credential-jwt"
+  },
+  "author": "Nick Reynolds <nicholas.s.reynolds@gmail.com>",
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "JWT",
+    "veramo-plugin"
+  ],
+  "license": "Apache-2.0",
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}

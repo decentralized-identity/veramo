@@ -26,6 +26,7 @@ import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
 import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialIssuerJWT, ICredentialIssuerJWT } from '../packages/credential-jwt/src'
 import {
   CredentialIssuerLD,
   ICredentialIssuerLD,
@@ -102,17 +103,18 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 
 let agent: TAgent<
   IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ISelectiveDisclosure &
-    IDIDDiscovery
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialPlugin &
+  ICredentialIssuerLD &
+  ICredentialIssuerEIP712 &
+  ICredentialIssuerJWT &
+  ISelectiveDisclosure &
+  IDIDDiscovery
 >
 let dbConnection: Promise<DataSource>
 let databaseFile: string
@@ -137,17 +139,18 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   agent = createAgent<
     IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialPlugin &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
-      ISelectiveDisclosure &
-      IDIDDiscovery
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712 &
+    ICredentialIssuerJWT &
+    ISelectiveDisclosure &
+    IDIDDiscovery
   >({
     ...options,
     context: {
@@ -245,6 +248,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
+      new CredentialIssuerJWT(),
       new CredentialIssuerLD({
         contextMaps: [LdDefaultContexts, credential_contexts as any],
         suites: [

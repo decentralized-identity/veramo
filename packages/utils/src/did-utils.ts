@@ -353,3 +353,19 @@ export function extractPublicKeyHex(
   }
   return { publicKeyHex: bytesToHex(keyBytes), keyType }
 }
+
+export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
+  let key: IKey | undefined
+
+  if (!keyRef) {
+    key = identifier.keys.find(
+      (k) => k.type === 'Secp256k1' || k.type === 'Ed25519' || k.type === 'Secp256r1',
+    )
+    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did)
+  } else {
+    key = identifier.keys.find((k) => k.kid === keyRef)
+    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did + ' with kid ' + keyRef)
+  }
+
+  return key as IKey
+}

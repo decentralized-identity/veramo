@@ -10,22 +10,23 @@ import {
   UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
-  ISpecificCredentialIssuer
+  ISpecificCredentialIssuer,
+  ICreateVerifiableCredentialArgs
 } from '@veramo/core-types'
 
 // interface Something = IPluginMethodMap | ISpecificCredentialIssuer
 
 /**
  * The interface definition for a plugin that can issue and verify Verifiable Credentials and Presentations
- * that use EIP712 proof format.
+ * that use JWT proof format.
  *
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
  * @remarks Please see
- *   {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
+ *   {@link fix| FIX}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
+export interface ICredentialIssuerJWT extends IPluginMethodMap {
   /**
    * Creates a Verifiable Credential.
    * The payload, signer and format are chosen based on the `args` parameter.
@@ -40,13 +41,13 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  createVerifiableCredentialEIP712(
-    args: ICreateVerifiableCredentialEIP712Args,
+  createVerifiableCredentialJWT(
+    args: ICreateVerifiableCredentialArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential>
 
   /**
-   * Verifies a Verifiable Credential in EIP712 Format.
+   * Verifies a Verifiable Credential in JWT Format.
    *
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -57,7 +58,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialEIP712(args: IVerifyCredentialEIP712Args, context: IRequiredContext): Promise<boolean>
+  verifyCredentialJWT(args: IVerifyCredentialJWTArgs, context: IRequiredContext): Promise<boolean>
 
   /**
    * Creates a Verifiable Presentation.
@@ -72,13 +73,13 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
    *   }
    */
-  createVerifiablePresentationEIP712(
-    args: ICreateVerifiablePresentationEIP712Args,
+  createVerifiablePresentationJWT(
+    args: ICreateVerifiablePresentationJWTArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation>
 
   /**
-   * Verifies a Verifiable Presentation EIP712 Format.
+   * Verifies a Verifiable Presentation JWT Format.
    *
    * @param args - Arguments necessary to verify the Presentation
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -87,18 +88,18 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<boolean>
+  verifyPresentationJWT(args: IVerifyPresentationJWTArgs, context: IRequiredContext): Promise<boolean>
 
   /**
-   * Checks if a key is suitable for signing EIP712 payloads.
-   * This relies on the metadata set by the key management system to determine if this key can sign EIP712 payloads.
+   * Checks if a key is suitable for signing JWT payloads.
+   * This relies on the metadata set by the key management system to determine if this key can sign JWT payloads.
    *
    * @param key - the key to check
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
    * @internal
    */
-  matchKeyForEIP712(key: IKey, context: IRequiredContext): Promise<boolean>
+  matchKeyForJWT(key: IKey, context: IRequiredContext): Promise<boolean>
 
   // canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IRequiredContext): boolean
   // issueCredentialType(
@@ -113,7 +114,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICreateVerifiableCredentialEIP712Args extends UsingResolutionOptions {
+export interface ICreateVerifiableCredentialJWTArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -121,25 +122,36 @@ export interface ICreateVerifiableCredentialEIP712Args extends UsingResolutionOp
    * The signer of the Credential is chosen based on the `issuer.id` property
    * of the `credential`
    *
-   * `@context`, 'type' and 'issuanceDate' will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
    */
   credential: CredentialPayload
 
   /**
-   * Specific key to use for signing
+   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
    */
   keyRef?: string
-}
 
+  /**
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
+   *
+   * Defaults to `false`
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
+   * Any other options that can be forwarded to the lower level libraries
+   */
+  [x: string]: any
+}
 /**
  * Encapsulates the parameters required to create a
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- * using the {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
+ * using the {@link https://w3c-ccg.github.io/ethereum-JWT-signature-2021-spec/ | EthereumJWTSignature2021}
  * proof format.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface ICreateVerifiablePresentationEIP712Args extends UsingResolutionOptions {
+export interface ICreateVerifiablePresentationJWTArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Presentation according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
@@ -147,15 +159,36 @@ export interface ICreateVerifiablePresentationEIP712Args extends UsingResolution
    * The signer of the Presentation is chosen based on the `holder` property
    * of the `presentation`
    *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
+   * `@context`, `type` and `issuanceDate` will be added automatically if omitted.
    */
   presentation: PresentationPayload
 
   /**
-   * [Optional] The ID of the key that should sign this presentation.
-   * If this is not specified, the first matching key will be used.
+   * Optional (only JWT) string challenge parameter to add to the verifiable presentation.
+   */
+  challenge?: string
+
+  /**
+   * Optional string domain parameter to add to the verifiable presentation.
+   */
+  domain?: string
+
+  /**
+   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
    */
   keyRef?: string
+
+  /**
+   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
+   *
+   * Defaults to `false`
+   */
+  fetchRemoteContexts?: boolean
+
+  /**
+   * Any other options that can be forwarded to the lower level libraries
+   */
+  [x: string]: any
 }
 
 /**
@@ -164,7 +197,7 @@ export interface ICreateVerifiablePresentationEIP712Args extends UsingResolution
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export interface IVerifyCredentialEIP712Args extends UsingResolutionOptions {
+export interface IVerifyCredentialJWTArgs extends UsingResolutionOptions {
   /**
    * The json payload of the Credential according to the
    * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
@@ -182,7 +215,7 @@ export interface IVerifyCredentialEIP712Args extends UsingResolutionOptions {
  *
  * @public
  */
-export interface IVerifyPresentationEIP712Args extends UsingResolutionOptions {
+export interface IVerifyPresentationJWTArgs extends UsingResolutionOptions {
   /**
    * The Verifiable Presentation object according to the
    * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
