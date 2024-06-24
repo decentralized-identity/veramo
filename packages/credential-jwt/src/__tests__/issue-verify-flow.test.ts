@@ -31,6 +31,7 @@ describe('credential-LD full flow', () => {
     let didKeyIdentifier: IIdentifier
     let didEthrIdentifier: IIdentifier
     let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>
+    const jwt = new CredentialIssuerJWT()
 
     beforeAll(async () => {
         agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>({
@@ -58,8 +59,8 @@ describe('credential-LD full flow', () => {
                         ...ethrDidResolver({ infuraProjectId }),
                     }),
                 }),
-                new CredentialPlugin(),
-                new CredentialIssuerJWT()
+                new CredentialPlugin([jwt]),
+                jwt
             ],
         })
         didKeyIdentifier = await agent.didManagerCreate()

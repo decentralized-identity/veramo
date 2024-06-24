@@ -137,6 +137,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const { provider, registry } = await createGanacheProvider()
   const ethersProvider = createEthersProvider()
 
+  const eip712 = new CredentialIssuerEIP712()
+  const jwt = new CredentialIssuerJWT()
+  const lds = new CredentialIssuerLD({
+    contextMaps: [LdDefaultContexts, credential_contexts as any],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoJsonWebSignature2020(),
+      new VeramoEd25519Signature2020(),
+    ],
+  })
   agent = createAgent<
     IDIDManager &
     IKeyManager &
@@ -246,18 +257,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-      new CredentialPlugin(),
-      new CredentialIssuerEIP712(),
-      new CredentialIssuerJWT(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoJsonWebSignature2020(),
-          new VeramoEd25519Signature2020(),
-        ],
-      }),
+      new CredentialPlugin([eip712, jwt, lds]),
+      eip712,
+      jwt,
+      lds,
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [
