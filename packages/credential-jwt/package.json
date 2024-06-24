@@ -19,6 +19,7 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
+    "canonicalize": "^2.0.0",
     "debug": "^4.3.3",
     "did-jwt-vc": "^4.0.4"
   },

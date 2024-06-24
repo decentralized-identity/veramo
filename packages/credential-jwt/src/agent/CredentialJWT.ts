@@ -12,9 +12,17 @@ import {
   ISpecificCredentialIssuer,
   IAgentContext,
   IKeyManager,
+  ICreateVerifiablePresentationArgs,
+  ISpecificCredentialVerifier,
+  IVerifyCredentialArgs,
+  IVerifyResult,
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
+  IVerifyPresentationArgs,
   // ICanCreateVerifiableCredentialArgs
 } from '@veramo/core-types'
 import {
+  asArray,
   extractIssuer,
   getChainId,
   getEthereumAddress,
@@ -39,6 +47,7 @@ import {
   IVerifyPresentationJWTArgs,
 } from '../types/ICredentialJWT.js'
 
+import canonicalize from 'canonicalize'
 
 import {
   createVerifiableCredentialJwt,
@@ -48,6 +57,9 @@ import {
   verifyCredential as verifyCredentialJWT,
   verifyPresentation as verifyPresentationJWT,
 } from 'did-jwt-vc'
+import { Resolvable } from 'did-resolver'
+
+import { decodeJWT } from 'did-jwt'
 
 import Debug from 'debug'
 const debug = Debug('veramo:credential-jwt:agent')
@@ -57,7 +69,7 @@ const debug = Debug('veramo:credential-jwt:agent')
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIssuer {
+export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIssuer, ISpecificCredentialVerifier {
   readonly methods: ICredentialIssuerJWT
   readonly schema = schema.ICredentialIssuerJWT
 
@@ -82,6 +94,33 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
     return context.agent.createVerifiableCredentialJWT(args)
+  }
+
+  public issuePresentationType(
+    args: ICreateVerifiablePresentationArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiablePresentation> {
+    return context.agent.createVerifiablePresentationJWT(args)
+  }
+
+  public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
+    return (typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt)
+  }
+
+  public verifyCredentialType(
+    args: IVerifyCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<IVerifyResult | undefined> {
+    return this.verifyCredentialJWT2(args, context)
+  }
+
+  public verifyPresentationType(
+    args: IVerifyPresentationArgs,
+    context: IssuerAgentContext,
+  ): Promise<IVerifyResult | undefined> {
+    //return this.verifyCredentialJWT2(args, context)
+    // return undefined
+    throw new Error('Method not implemented.')
   }
 
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiableCredentialJWT} */
@@ -137,12 +176,69 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     return normalizeCredential(jwt)
   }
 
-  /** {@inheritdoc ICredentialIssuerJWT.verifyCredentialJWT} */
   private async verifyCredentialJWT(
     args: IVerifyCredentialJWTArgs,
     context: IRequiredContext,
   ): Promise<boolean> {
-    throw new Error('not implemented')
+    return false
+  }
+
+  /** {@inheritdoc ICredentialIssuerJWT.verifyCredentialJWT} */
+  private async verifyCredentialJWT2(
+    args: IVerifyCredentialJWTArgs,
+    context: IssuerAgentContext,
+  ): Promise<IVerifyResult | undefined> {
+    let { credential, policies, ...otherOptions } = args
+    let verifiedCredential: VerifiableCredential
+    let verificationResult: IVerifyResult | undefined = { verified: false }
+    let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
+
+    const resolver = {
+      resolve: (didUrl: string) =>
+        context.agent.resolveDid({
+          didUrl,
+          options: otherOptions?.resolutionOptions,
+        }),
+    } as Resolvable
+    try {
+      // needs broader credential as well to check equivalence with jwt
+      verificationResult = await verifyCredentialJWT(jwt, resolver, {
+        ...otherOptions,
+        policies: {
+          ...policies,
+          nbf: policies?.nbf ?? policies?.issuanceDate,
+          iat: policies?.iat ?? policies?.issuanceDate,
+          exp: policies?.exp ?? policies?.expirationDate,
+          aud: policies?.aud ?? policies?.audience,
+        },
+      })
+      verifiedCredential = verificationResult.verifiableCredential
+
+      // if credential was presented with other fields, make sure those fields match what's in the JWT
+      if (typeof credential !== 'string' && credential.proof.type === 'JwtProof2020') {
+        const credentialCopy = JSON.parse(JSON.stringify(credential))
+        delete credentialCopy.proof.jwt
+
+        const verifiedCopy = JSON.parse(JSON.stringify(verifiedCredential))
+        delete verifiedCopy.proof.jwt
+
+        if (canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
+          verificationResult.verified = false
+          verificationResult.error = new Error(
+            'invalid_credential: Credential JSON does not match JWT payload',
+          )
+        }
+      }
+    } catch (e: any) {
+      let { message, errorCode } = e
+      return {
+        verified: false,
+        error: {
+          message,
+          errorCode: errorCode ? errorCode : message.split(':')[0],
+        },
+      }
+    }
   }
 
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiablePresentationJWT} */
@@ -226,7 +322,59 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     args: IVerifyPresentationJWTArgs,
     context: IRequiredContext,
   ): Promise<boolean> {
-    throw new Error('not implemented')
+    let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
+    let jwt: string
+    if (typeof presentation === 'string') {
+      jwt = presentation
+    } else {
+      jwt = presentation.proof.jwt
+    }
+    const resolver = {
+      resolve: (didUrl: string) =>
+        context.agent.resolveDid({
+          didUrl,
+          options: otherOptions?.resolutionOptions,
+        }),
+    } as Resolvable
+
+    let audience = domain
+    if (!audience) {
+      const { payload } = await decodeJWT(jwt)
+      if (payload.aud) {
+        // automatically add a managed DID as audience if one is found
+        const intendedAudience = asArray(payload.aud)
+        const managedDids = await context.agent.didManagerFind()
+        const filtered = managedDids.filter((identifier) => intendedAudience.includes(identifier.did))
+        if (filtered.length > 0) {
+          audience = filtered[0].did
+        }
+      }
+    }
+
+    try {
+      return await verifyPresentationJWT(jwt, resolver, {
+        challenge,
+        domain,
+        audience,
+        policies: {
+          ...policies,
+          nbf: policies?.nbf ?? policies?.issuanceDate,
+          iat: policies?.iat ?? policies?.issuanceDate,
+          exp: policies?.exp ?? policies?.expirationDate,
+          aud: policies?.aud ?? policies?.audience,
+        },
+        ...otherOptions,
+      })
+    } catch (e: any) {
+      let { message, errorCode } = e
+      return {
+        verified: false,
+        error: {
+          message,
+          errorCode: errorCode ? errorCode : message.split(':')[0],
+        },
+      }
+    }
   }
 
   /**
