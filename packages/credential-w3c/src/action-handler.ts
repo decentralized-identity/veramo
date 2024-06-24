@@ -8,6 +8,7 @@ import {
   IIdentifier,
   IKey,
   IKeyManager,
+  ISpecificCredentialIssuer,
   IssuerAgentContext,
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
@@ -75,8 +76,10 @@ export class CredentialPlugin implements IAgentPlugin {
       },
     },
   }
+  private issuers: ISpecificCredentialIssuer[]
 
-  constructor() {
+  constructor(issuers: ISpecificCredentialIssuer[]) {
+    this.issuers = issuers
     this.methods = {
       createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
@@ -139,6 +142,7 @@ export class CredentialPlugin implements IAgentPlugin {
     const key = pickSigningKey(identifier, keyRef)
 
     let verifiablePresentation: VerifiablePresentation
+
     if (proofFormat === 'bbs') {
       if (typeof context.agent.createVerifiablePresentationBbs === 'function') {
         verifiablePresentation = await context.agent.createVerifiablePresentationBbs({ ...args, presentation })
@@ -215,41 +219,63 @@ export class CredentialPlugin implements IAgentPlugin {
       throw new Error(`invalid_argument: credential.issuer must be a DID managed by this agent. ${e}`)
     }
     try {
-      let verifiableCredential: VerifiableCredential
-      if (proofFormat === 'bbs') {
-        if (typeof context.agent.createVerifiableCredentialBbs === 'function') {
-          verifiableCredential = await context.agent.createVerifiableCredentialBbs({ ...args, credential })
-        }
-        else {
-          throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-        }
-      }
-      else if (proofFormat === 'lds') {
-        if (typeof context.agent.createVerifiableCredentialLD === 'function') {
-          verifiableCredential = await context.agent.createVerifiableCredentialLD({ ...args, credential })
-        } else {
-          throw new Error(
-            'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-          )
-        }
-      } else if (proofFormat === 'EthereumEip712Signature2021') {
-        if (typeof context.agent.createVerifiableCredentialEIP712 === 'function') {
-          verifiableCredential = await context.agent.createVerifiableCredentialEIP712({ ...args, credential })
-        } else {
-          throw new Error(
-            'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-          )
-        }
-      } else {
-        if (typeof context.agent.createVerifiableCredentialJWT === 'function') {
-          verifiableCredential = await context.agent.createVerifiableCredentialJWT({ ...args, credential })
-          console.log("got cred: ", verifiableCredential)
-        } else {
-          throw new Error(
-            'invalid_setup: your agent does not seem to have ICredentialIssuerJWT plugin installed',
-          )
+      let verifiableCredential: VerifiableCredential | undefined
+      // for (const issuer of this.issuers) {
+      //   if (issuer.canIssueCredentialType({ proofFormat }, context)) {
+      //     verifiableCredential = await issuer.issueCredentialType(args, context)
+      //     break
+      //   }
+      // }
+      async function getCredential(issuers: ISpecificCredentialIssuer[]) {
+        for (const issuer of issuers) {
+          if (issuer.canIssueCredentialType({ proofFormat }, context)) {
+            return await issuer.issueCredentialType(args, context)
+          }
         }
       }
+      verifiableCredential = await getCredential(this.issuers)
+      // await this.issuers.forEach(async (issuer) => {
+      //   if (issuer.canIssueCredentialType({ proofFormat }, context)) {
+      //     verifiableCredential = await issuer.issueCredentialType(args, context)
+      //   }
+      // })
+      if (!verifiableCredential) {
+        throw new Error('invalid_setup: No issuer found for the requested proof format')
+      }
+      // if (proofFormat === 'bbs') {
+      //   if (typeof context.agent.createVerifiableCredentialBbs === 'function') {
+      //     verifiableCredential = await context.agent.createVerifiableCredentialBbs({ ...args, credential })
+      //   }
+      //   else {
+      //     throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
+      //   }
+      // }
+      // else if (proofFormat === 'lds') {
+      //   if (typeof context.agent.createVerifiableCredentialLD === 'function') {
+      //     verifiableCredential = await context.agent.createVerifiableCredentialLD({ ...args, credential })
+      //   } else {
+      //     throw new Error(
+      //       'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
+      //     )
+      //   }
+      // } else if (proofFormat === 'EthereumEip712Signature2021') {
+      //   if (typeof context.agent.createVerifiableCredentialEIP712 === 'function') {
+      //     verifiableCredential = await context.agent.createVerifiableCredentialEIP712({ ...args, credential })
+      //   } else {
+      //     throw new Error(
+      //       'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
+      //     )
+      //   }
+      // } else {
+      //   if (typeof context.agent.createVerifiableCredentialJWT === 'function') {
+      //     verifiableCredential = await context.agent.createVerifiableCredentialJWT({ ...args, credential })
+      //     console.log("got cred: ", verifiableCredential)
+      //   } else {
+      //     throw new Error(
+      //       'invalid_setup: your agent does not seem to have ICredentialIssuerJWT plugin installed',
+      //     )
+      //   }
+      // }
       if (save) {
         await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
       }

@@ -160,8 +160,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
  */
 
 export interface ICanIssueCredentialTypeArgs {
-  credentialType: string
-
+  proofFormat: string
 }
 
 export interface ISpecificCredentialIssuer {

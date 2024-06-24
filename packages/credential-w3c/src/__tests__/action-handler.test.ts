@@ -101,8 +101,6 @@ const mockIdentifiers: IIdentifier[] = [
   },
 ]
 
-const w3c = new CredentialPlugin()
-const jwt = new CredentialIssuerJWT()
 
 let didKeyIdentifier: IIdentifier
 let didEthrIdentifier: IIdentifier
@@ -111,6 +109,8 @@ let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & IC
 describe('@veramo/credential-w3c', () => {
 
   beforeAll(async () => {
+
+    const jwt = new CredentialIssuerJWT()
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>({
       plugins: [
         new KeyManager({
@@ -136,8 +136,8 @@ describe('@veramo/credential-w3c', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialPlugin(),
-        new CredentialIssuerJWT()
+        new CredentialPlugin([jwt]),
+        jwt
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

@@ -59,13 +59,14 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
   }
 
   public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
-    return false
+    return args.proofFormat === 'EthereumEip712Signature2021'
   }
+
   public issueCredentialType(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
-    throw new Error("not implemented")
+    return context.agent.createVerifiableCredentialEIP712(args)
   }
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */

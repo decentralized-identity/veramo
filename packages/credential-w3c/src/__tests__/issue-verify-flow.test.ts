@@ -47,6 +47,11 @@ describe('credential-w3c full flow', () => {
   let credential: CredentialPayload
 
   beforeAll(async () => {
+    const jwt = new CredentialIssuerJWT()
+    const ld = new CredentialIssuerLD({
+      contextMaps: [LdDefaultContexts, customContext],
+      suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
+    })
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
@@ -72,12 +77,9 @@ describe('credential-w3c full flow', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialIssuer(),
-        new CredentialIssuerJWT(),
-        new CredentialIssuerLD({
-          contextMaps: [LdDefaultContexts, customContext],
-          suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
-        }),
+        new CredentialIssuer([jwt, ld]),
+        jwt,
+        ld,
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

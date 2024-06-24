@@ -43,6 +43,11 @@ describe('credential-LD full flow', () => {
   let didEthrIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
+  const ld = new CredentialIssuerLD({
+    contextMaps: [LdDefaultContexts, customContext],
+    suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
+  })
+
   beforeAll(async () => {
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
@@ -69,11 +74,8 @@ describe('credential-LD full flow', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialPlugin(),
-        new CredentialIssuerLD({
-          contextMaps: [LdDefaultContexts, customContext],
-          suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
-        }),
+        new CredentialPlugin([ld]),
+        ld,
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

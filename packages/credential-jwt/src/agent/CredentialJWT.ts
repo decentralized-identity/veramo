@@ -57,7 +57,7 @@ const debug = Debug('veramo:credential-jwt:agent')
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerJWT implements IAgentPlugin { //}, ISpecificCredentialIssuer {
+export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIssuer {
   readonly methods: ICredentialIssuerJWT
   readonly schema = schema.ICredentialIssuerJWT
 
@@ -73,14 +73,15 @@ export class CredentialIssuerJWT implements IAgentPlugin { //}, ISpecificCredent
     }
   }
 
-  // public canIssueCredentialType(args: ICanCreateVerifiableCredentialArgs, context: IRequiredContext): boolean {
-  //   return false
-  // }
+  public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+    return args.proofFormat === 'jwt'
+  }
+
   public issueCredentialType(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
-    throw new Error("not implemented")
+    return context.agent.createVerifiableCredentialJWT(args)
   }
 
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiableCredentialJWT} */

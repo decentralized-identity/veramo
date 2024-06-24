@@ -2,9 +2,13 @@ import {
   CredentialPayload,
   IAgentContext,
   IAgentPlugin,
+  ICanIssueCredentialTypeArgs,
+  ICreateVerifiableCredentialArgs,
   IIdentifier,
   IKey,
   IResolver,
+  ISpecificCredentialIssuer,
+  IssuerAgentContext,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
@@ -46,7 +50,7 @@ const debug = Debug('veramo:credential-ld:action-handler')
  *
  * @public
  */
-export class CredentialIssuerLD implements IAgentPlugin {
+export class CredentialIssuerLD implements IAgentPlugin, ISpecificCredentialIssuer {
   readonly methods: ICredentialIssuerLD
   readonly schema = schema.ICredentialIssuerLD
 
@@ -65,6 +69,17 @@ export class CredentialIssuerLD implements IAgentPlugin {
       verifyPresentationLD: this.verifyPresentationLD.bind(this),
       matchKeyForLDSuite: this.matchKeyForLDSuite.bind(this),
     }
+  }
+
+  public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+    return args.proofFormat === 'lds'
+  }
+
+  public issueCredentialType(
+    args: ICreateVerifiableCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiableCredential> {
+    return context.agent.createVerifiableCredentialLD(args)
   }
 
   /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */
