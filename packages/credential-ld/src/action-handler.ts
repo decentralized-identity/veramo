@@ -40,12 +40,8 @@ import { LdCredentialModule } from './ld-credential-module.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'
 import {
   ContextDoc,
-  ICreateVerifiableCredentialLDArgs,
-  ICreateVerifiablePresentationLDArgs,
   ICredentialIssuerLD,
   IRequiredContext,
-  IVerifyCredentialLDArgs,
-  IVerifyPresentationLDArgs,
 } from './types.js'
 import { DIDResolutionOptions } from 'did-resolver'
 
@@ -131,7 +127,7 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
 
   /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */
   public async createVerifiablePresentationLD(
-    args: ICreateVerifiablePresentationLDArgs,
+    args: ICreateVerifiablePresentationArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation> {
     const presentationContext = processEntryToArray(
@@ -203,7 +199,7 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
 
   /** {@inheritdoc ICredentialIssuerLD.createVerifiableCredentialLD} */
   public async createVerifiableCredentialLD(
-    args: ICreateVerifiableCredentialLDArgs,
+    args: ICreateVerifiableCredentialArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential> {
     const credentialContext = processEntryToArray(
@@ -257,9 +253,10 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
 
   /** {@inheritdoc ICredentialIssuerLD.verifyCredentialLD} */
   public async verifyCredentialLD(
-    args: IVerifyCredentialLDArgs,
+    args: IVerifyCredentialArgs,
     context: IRequiredContext,
   ): Promise<IVerifyResult> {
+    args.credential = args.credential as VerifiableCredential
     const credential = args.credential
 
     let now = new Date()
@@ -273,10 +270,10 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
 
   /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */
   public async verifyPresentationLD(
-    args: IVerifyPresentationLDArgs,
+    args: IVerifyPresentationArgs,
     context: IRequiredContext,
   ): Promise<IVerifyResult> {
-    const presentation = args.presentation
+    const presentation = args.presentation as VerifiablePresentation
     let { now } = args
     if (typeof now === 'number') {
       now = new Date(now * 1000)

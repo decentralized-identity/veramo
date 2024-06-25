@@ -13,7 +13,10 @@ import {
   ICreateVerifiableCredentialArgs,
   VerificationPolicies,
   W3CVerifiableCredential,
-  IVerifyResult
+  IVerifyResult,
+  ICreateVerifiablePresentationArgs,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs
 } from '@veramo/core-types'
 
 /**
@@ -58,7 +61,7 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialJWT(args: IVerifyCredentialJWTArgs, context: IRequiredContext): Promise<IVerifyResult>
+  verifyCredentialJWT(args: IVerifyCredentialArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Creates a Verifiable Presentation.
@@ -74,7 +77,7 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    *   }
    */
   createVerifiablePresentationJWT(
-    args: ICreateVerifiablePresentationJWTArgs,
+    args: ICreateVerifiablePresentationArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation>
 
@@ -88,7 +91,7 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentationJWT(args: IVerifyPresentationJWTArgs, context: IRequiredContext): Promise<IVerifyResult>
+  verifyPresentationJWT(args: IVerifyPresentationArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Checks if a key is suitable for signing JWT payloads.
@@ -101,176 +104,6 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    */
   matchKeyForJWT(key: IKey, context: IRequiredContext): Promise<boolean>
 
-}
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ICreateVerifiableCredentialJWTArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
-   */
-  credential: CredentialPayload
-
-  /**
-   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
-   */
-  keyRef?: string
-
-  /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- * using the {@link https://w3c-ccg.github.io/ethereum-JWT-signature-2021-spec/ | EthereumJWTSignature2021}
- * proof format.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ICreateVerifiablePresentationJWTArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Presentation according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
-   *
-   * The signer of the Presentation is chosen based on the `holder` property
-   * of the `presentation`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted.
-   */
-  presentation: PresentationPayload
-
-  /**
-   * Optional (only JWT) string challenge parameter to add to the verifiable presentation.
-   */
-  challenge?: string
-
-  /**
-   * Optional string domain parameter to add to the verifiable presentation.
-   */
-  domain?: string
-
-  /**
-   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
-   */
-  keyRef?: string
-
-  /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface IVerifyCredentialJWTArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   */
-  credential: W3CVerifiableCredential
-
-
-  /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Overrides specific aspects of credential verification, where possible.
-   */
-  policies?: VerificationPolicies
-
-  /**
-   * Other options can be specified for verification.
-   * They will be forwarded to the lower level modules. that perform the checks
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-export interface IVerifyPresentationJWTArgs extends UsingResolutionOptions {
-  /**
-   * The Verifiable Presentation object according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
-   *
-   * The signer of the Presentation is verified based on the `holder` property
-   * of the `presentation` or the `iss` property of the JWT payload respectively
-   *
-   */
-  presentation: VerifiablePresentation
-
-  /**
-   * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
-   */
-  challenge?: string
-
-  /**
-   * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
-   */
-  domain?: string
-
-  /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
-   * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Overrides specific aspects of credential verification, where possible.
-   */
-  policies?: VerificationPolicies
-
-  /**
-   * Other options can be specified for verification.
-   * They will be forwarded to the lower level modules. that perform the checks
-   */
-  [x: string]: any
 }
 
 /**

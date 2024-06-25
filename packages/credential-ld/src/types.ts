@@ -1,17 +1,17 @@
 import {
-  CredentialPayload,
   IAgentContext,
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
   IDIDManager,
   IKey,
   IKeyManager,
   IPluginMethodMap,
   IResolver,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
   IVerifyResult,
-  PresentationPayload,
-  UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
-  VerificationPolicies,
 } from '@veramo/core-types'
 
 /**
@@ -40,7 +40,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   createVerifiablePresentationLD(
-    args: ICreateVerifiablePresentationLDArgs,
+    args: ICreateVerifiablePresentationArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation>
 
@@ -59,7 +59,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   createVerifiableCredentialLD(
-    args: ICreateVerifiableCredentialLDArgs,
+    args: ICreateVerifiableCredentialArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential>
 
@@ -75,7 +75,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialLD(args: IVerifyCredentialLDArgs, context: IRequiredContext): Promise<IVerifyResult>
+  verifyCredentialLD(args: IVerifyCredentialArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Verifies a Verifiable Presentation JWT or LDS Format.
@@ -89,7 +89,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyPresentationLD(args: IVerifyPresentationLDArgs, context: IRequiredContext): Promise<IVerifyResult>
+  verifyPresentationLD(args: IVerifyPresentationArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Returns true if the key is supported by any of the installed LD Signature suites
@@ -99,163 +99,6 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    * @internal
    */
   matchKeyForLDSuite(key: IKey, context: IAgentContext<{}>): Promise<boolean>
-}
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ICreateVerifiablePresentationLDArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Presentation according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
-   *
-   * The signer of the Presentation is chosen based on the `holder` property
-   * of the `presentation`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted.
-   */
-  presentation: PresentationPayload
-
-  /**
-   * Optional (only JWT) string challenge parameter to add to the verifiable presentation.
-   */
-  challenge?: string
-
-  /**
-   * Optional string domain parameter to add to the verifiable presentation.
-   */
-  domain?: string
-
-  /**
-   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
-   */
-  keyRef?: string
-
-  /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ICreateVerifiableCredentialLDArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
-   */
-  credential: CredentialPayload
-
-  /**
-   * Optional. The key handle ({@link @veramo/core-types#IKey.kid | IKey.kid}) from the internal database.
-   */
-  keyRef?: string
-
-  /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @beta This API may change without a BREAKING CHANGE notice
- */
-export interface IVerifyCredentialLDArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   */
-  credential: VerifiableCredential
-
-  /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Overrides specific aspects of credential verification, where possible.
-   */
-  policies?: VerificationPolicies
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface IVerifyPresentationLDArgs extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   */
-  presentation: VerifiablePresentation
-
-  /**
-   * Optional (only for JWT) string challenge parameter to verify the verifiable presentation against
-   */
-  challenge?: string
-
-  /**
-   * Optional (only for JWT) string domain parameter to verify the verifiable presentation against
-   */
-  domain?: string
-
-  /**
-   * Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.
-   *
-   * Defaults to `false`
-   */
-  fetchRemoteContexts?: boolean
-
-  /**
-   * Any other options that can be forwarded to the lower level libraries
-   */
-  [x: string]: any
 }
 
 /**

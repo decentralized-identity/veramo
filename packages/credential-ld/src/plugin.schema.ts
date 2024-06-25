@@ -2,7 +2,7 @@ export const schema = {
   "ICredentialIssuerLD": {
     "components": {
       "schemas": {
-        "ICreateVerifiableCredentialLDArgs": {
+        "ICreateVerifiableCredentialArgs": {
           "type": "object",
           "properties": {
             "resolutionOptions": {
@@ -19,19 +19,33 @@ export const schema = {
             },
             "credential": {
               "$ref": "#/components/schemas/CredentialPayload",
-              "description": "The json payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
+              "description": "The JSON payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
+            },
+            "save": {
+              "type": "boolean",
+              "description": "If this parameter is true, the resulting VerifiableCredential is sent to the  {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved.",
+              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
+            },
+            "proofFormat": {
+              "type": "string",
+              "description": "The desired format for the VerifiableCredential to be created."
+            },
+            "removeOriginalFields": {
+              "type": "boolean",
+              "description": "Remove payload members during JWT-JSON transformation. Defaults to `true`. See https://www.w3.org/TR/vc-data-model/#jwt-encoding"
             },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  @veramo/core-types#IKey.kid | IKey.kid } ) from the internal database."
+              "description": "[Optional] The ID of the key that should sign this credential. If this is not specified, the first matching key will be used."
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             }
           },
           "required": [
-            "credential"
+            "credential",
+            "proofFormat"
           ],
           "additionalProperties": {
             "description": "Any other options that can be forwarded to the lower level libraries"
@@ -205,7 +219,7 @@ export const schema = {
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
         },
-        "ICreateVerifiablePresentationLDArgs": {
+        "ICreateVerifiablePresentationArgs": {
           "type": "object",
           "properties": {
             "resolutionOptions": {
@@ -222,7 +236,12 @@ export const schema = {
             },
             "presentation": {
               "$ref": "#/components/schemas/PresentationPayload",
-              "description": "The json payload of the Presentation according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted."
+              "description": "The JSON payload of the Presentation according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model } .\n\nThe signer of the Presentation is chosen based on the `holder` property of the `presentation`\n\n`@context`, `type` and `issuanceDate` will be added automatically if omitted"
+            },
+            "save": {
+              "type": "boolean",
+              "description": "If this parameter is true, the resulting VerifiablePresentation is sent to the  {@link  @veramo/core-types#IDataStore | storage plugin }  to be saved. <p/><p/>",
+              "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiablePresentation |}     *   dataStoreSaveVerifiablePresentation()} to save the credential after creating it."
             },
             "challenge": {
               "type": "string",
@@ -232,17 +251,26 @@ export const schema = {
               "type": "string",
               "description": "Optional string domain parameter to add to the verifiable presentation."
             },
+            "proofFormat": {
+              "type": "string",
+              "description": "The desired format for the VerifiablePresentation to be created."
+            },
+            "removeOriginalFields": {
+              "type": "boolean",
+              "description": "Remove payload members during JWT-JSON transformation. Defaults to `true`. See https://www.w3.org/TR/vc-data-model/#jwt-encoding"
+            },
             "keyRef": {
               "type": "string",
-              "description": "Optional. The key handle ( {@link  @veramo/core-types#IKey.kid | IKey.kid } ) from the internal database."
+              "description": "[Optional] The ID of the key that should sign this presentation. If this is not specified, the first matching key will be used."
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             }
           },
           "required": [
-            "presentation"
+            "presentation",
+            "proofFormat"
           ],
           "additionalProperties": {
             "description": "Any other options that can be forwarded to the lower level libraries"
@@ -360,7 +388,7 @@ export const schema = {
           ],
           "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         },
-        "IVerifyCredentialLDArgs": {
+        "IVerifyCredentialArgs": {
           "type": "object",
           "properties": {
             "resolutionOptions": {
@@ -376,12 +404,12 @@ export const schema = {
               "description": "Options to be passed to the DID resolver."
             },
             "credential": {
-              "$ref": "#/components/schemas/VerifiableCredential",
-              "description": "The json payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+              "$ref": "#/components/schemas/W3CVerifiableCredential",
+              "description": "The Verifiable Credential object according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             },
             "policies": {
               "$ref": "#/components/schemas/VerificationPolicies",
@@ -392,7 +420,7 @@ export const schema = {
             "credential"
           ],
           "additionalProperties": {
-            "description": "Any other options that can be forwarded to the lower level libraries"
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
@@ -459,7 +487,7 @@ export const schema = {
           },
           "description": "An error object, which can contain a code."
         },
-        "IVerifyPresentationLDArgs": {
+        "IVerifyPresentationArgs": {
           "type": "object",
           "properties": {
             "resolutionOptions": {
@@ -475,8 +503,8 @@ export const schema = {
               "description": "Options to be passed to the DID resolver."
             },
             "presentation": {
-              "$ref": "#/components/schemas/VerifiablePresentation",
-              "description": "The json payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+              "$ref": "#/components/schemas/W3CVerifiablePresentation",
+              "description": "The Verifiable Presentation object according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
             },
             "challenge": {
               "type": "string",
@@ -488,23 +516,38 @@ export const schema = {
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
             }
           },
           "required": [
             "presentation"
           ],
           "additionalProperties": {
-            "description": "Any other options that can be forwarded to the lower level libraries"
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "W3CVerifiablePresentation": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
         }
       },
       "methods": {
         "createVerifiableCredentialLD": {
           "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
           "arguments": {
-            "$ref": "#/components/schemas/ICreateVerifiableCredentialLDArgs"
+            "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiableCredential"
@@ -513,7 +556,7 @@ export const schema = {
         "createVerifiablePresentationLD": {
           "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
           "arguments": {
-            "$ref": "#/components/schemas/ICreateVerifiablePresentationLDArgs"
+            "$ref": "#/components/schemas/ICreateVerifiablePresentationArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/VerifiablePresentation"
@@ -522,7 +565,7 @@ export const schema = {
         "verifyCredentialLD": {
           "description": "Verifies a Verifiable Credential JWT or LDS Format.",
           "arguments": {
-            "$ref": "#/components/schemas/IVerifyCredentialLDArgs"
+            "$ref": "#/components/schemas/IVerifyCredentialArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/IVerifyResult"
@@ -531,7 +574,7 @@ export const schema = {
         "verifyPresentationLD": {
           "description": "Verifies a Verifiable Presentation JWT or LDS Format.",
           "arguments": {
-            "$ref": "#/components/schemas/IVerifyPresentationLDArgs"
+            "$ref": "#/components/schemas/IVerifyPresentationArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/IVerifyResult"
