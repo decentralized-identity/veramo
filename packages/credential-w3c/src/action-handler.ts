@@ -15,7 +15,6 @@ import {
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
   IVerifyResult,
-  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -50,13 +49,6 @@ import { Resolvable } from 'did-resolver'
 
 import canonicalize from 'canonicalize'
 // import { get } from 'http'
-
-const enum DocumentFormat {
-  JWT,
-  JSONLD,
-  EIP712,
-  BBS
-}
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -279,30 +271,18 @@ export class CredentialPlugin implements IAgentPlugin {
     return result
   }
 
-  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {
-    const signingOptions: ProofFormat[] = []
+  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<string[]> {
+    const signingOptions: string[] = []
     const keys = did.keys
     for (const key of keys) {
-      if (context.agent.availableMethods().includes('matchKeyForJWT')) {
-        if (await context.agent.matchKeyForJWT(key)) {
-          signingOptions.push('jwt')
+      async function getSigningOptions(issuers: ISpecificCredentialIssuer[]) {
+        for (const issuer of issuers) {
+          if (await issuer.matchKeyForType(key, context)) {
+            signingOptions.push(issuer.getTypeProofFormat())
+          }
         }
       }
-      if (context.agent.availableMethods().includes('matchKeyForLDSuite')) {
-        if (await context.agent.matchKeyForLDSuite(key)) {
-          signingOptions.push('lds')
-        }
-      }
-      if (context.agent.availableMethods().includes('matchKeyForEIP712')) {
-        if (await context.agent.matchKeyForEIP712(key)) {
-          signingOptions.push('EthereumEip712Signature2021')
-        }
-      }
-      if (context.agent.availableMethods().includes('matchKeyForBbs')) {
-        if (await context.agent.matchKeyForBbs(key)) {
-          signingOptions.push('bbs');
-        }
-      }
+      await getSigningOptions(this.issuers)
     }
     return signingOptions
   }
