@@ -100,6 +100,14 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
     throw new Error('Method not implemented.')
   }
 
+  public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    return context.agent.matchKeyForEIP712(key)
+  }
+
+  public getTypeProofFormat(): string {
+    return 'EthereumEip712Signature2021'
+  }
+
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */
   public async createVerifiableCredentialEIP712(

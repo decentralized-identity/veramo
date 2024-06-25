@@ -97,10 +97,13 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificIssuerVerifier
   }
 
   public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
-    // console.log("proofType: ", (<VerifiableCredential>document)?.proof?.type)
+    // TODO: can we get proof types dynamically?
     const canVerify = ['EcdsaSecp256k1RecoverySignature2020', 'Ed25519Signature2018', 'Ed25519Signature2020'].includes((<VerifiableCredential>document)?.proof?.type || '')
-    // console.log("canVerify: ", canVerify)
     return canVerify
+  }
+
+  public getTypeProofFormat(): string {
+    return 'lds'
   }
 
 
@@ -116,6 +119,10 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificIssuerVerifier
     context: IssuerAgentContext,
   ): Promise<IVerifyResult | undefined> {
     return context.agent.verifyPresentationLD(args)
+  }
+
+  public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    return context.agent.matchKeyForLDSuite(key)
   }
 
   /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */
@@ -252,9 +259,7 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificIssuerVerifier
     const credential = args.credential
 
     let now = new Date()
-    // if (args.policies) {
-    //   now = args.policies.now
-    // }
+
     if (args.policies?.now && typeof args.policies?.now === 'number') {
       now = new Date(args.policies?.now * 1000)
     }

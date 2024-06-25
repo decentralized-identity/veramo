@@ -15,15 +15,6 @@ import { ISpecificCredentialVerifier, IVerifyCredentialArgs, UsingResolutionOpti
 export type ISpecificIssuerVerifier = ISpecificCredentialIssuer & ISpecificCredentialVerifier
 
 /**
- * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
- *
- * Only `jwt` and `lds` is supported at the moment.
- *
- * @public
- */
-export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs'
-
-/**
  * Encapsulates the parameters required to create a
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
  *
@@ -63,9 +54,8 @@ export interface ICreateVerifiablePresentationArgs extends UsingResolutionOption
 
   /**
    * The desired format for the VerifiablePresentation to be created.
-   * Currently, only JWT is supported
    */
-  proofFormat: ProofFormat
+  proofFormat: string
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -125,7 +115,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   /**
    * The desired format for the VerifiableCredential to be created.
    */
-  proofFormat: ProofFormat
+  proofFormat: string
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -175,6 +165,8 @@ export interface ISpecificCredentialIssuer {
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext
   ): Promise<VerifiablePresentation>
+  matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean>
+  getTypeProofFormat(): string
 }
 
 /**
@@ -228,7 +220,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<ProofFormat>>
+  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>>
 
 }
 

@@ -27,7 +27,7 @@ export const schema = {
               "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
             },
             "proofFormat": {
-              "$ref": "#/components/schemas/ProofFormat",
+              "type": "string",
               "description": "The desired format for the VerifiableCredential to be created."
             },
             "removeOriginalFields": {
@@ -159,16 +159,6 @@ export const schema = {
             "type"
           ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
-        },
-        "ProofFormat": {
-          "type": "string",
-          "enum": [
-            "jwt",
-            "lds",
-            "EthereumEip712Signature2021",
-            "bbs"
-          ],
-          "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` and `lds` is supported at the moment."
         },
         "VerifiableCredential": {
           "type": "object",

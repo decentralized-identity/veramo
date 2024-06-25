@@ -121,6 +121,14 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     return context.agent.verifyPresentationJWT(args)
   }
 
+  public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    return context.agent.matchKeyForJWT(key)
+  }
+
+  public getTypeProofFormat(): string {
+    return 'jwt'
+  }
+
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiableCredentialJWT} */
   public async createVerifiableCredentialJWT(
     args: ICreateVerifiableCredentialJWTArgs,
