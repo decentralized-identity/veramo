@@ -77,7 +77,7 @@ describe('credential-w3c full flow', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialIssuer([jwt, ld]),
+        new CredentialIssuer({ issuers: [jwt, ld] }),
         jwt,
         ld,
       ],

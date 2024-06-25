@@ -74,7 +74,7 @@ describe('credential-LD full flow', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialPlugin([ld]),
+        new CredentialPlugin({ issuers: [ld] }),
         ld,
       ],
     })

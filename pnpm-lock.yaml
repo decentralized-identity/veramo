@@ -168,6 +168,9 @@ importers:
       '@veramo/credential-eip712':
         specifier: workspace:^
         version: link:../credential-eip712
+      '@veramo/credential-jwt':
+        specifier: workspace:^
+        version: link:../credential-jwt
       '@veramo/credential-ld':
         specifier: workspace:^
         version: link:../credential-ld
