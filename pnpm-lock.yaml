@@ -1364,6 +1364,9 @@ importers:
       '@veramo/core-types':
         specifier: workspace:*
         version: link:../core-types
+      '@veramo/credential-jwt':
+        specifier: workspace:*
+        version: link:../credential-jwt
       '@veramo/credential-ld':
         specifier: workspace:*
         version: link:../credential-ld

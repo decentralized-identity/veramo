@@ -156,7 +156,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   const eip712 = new CredentialIssuerEIP712()
   const jwt = new CredentialIssuerJWT()
-  const lds = new CredentialIssuerLD({
+  const ld = new CredentialIssuerLD({
     contextMaps: [LdDefaultContexts, credential_contexts as any],
     suites: [
       new VeramoEcdsaSecp256k1RecoverySignature2020(),
@@ -246,7 +246,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new CredentialIssuer([eip712, jwt, lds]),
       eip712,
       jwt,
-      lds,
+      ld,
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [
