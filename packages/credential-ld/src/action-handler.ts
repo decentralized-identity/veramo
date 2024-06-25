@@ -9,7 +9,11 @@ import {
   IKey,
   IResolver,
   ISpecificCredentialIssuer,
+  ISpecificIssuerVerifier,
   IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
@@ -53,7 +57,7 @@ const debug = Debug('veramo:credential-ld:action-handler')
  *
  * @public
  */
-export class CredentialIssuerLD implements IAgentPlugin, ISpecificCredentialIssuer {
+export class CredentialIssuerLD implements IAgentPlugin, ISpecificIssuerVerifier {
   readonly methods: ICredentialIssuerLD
   readonly schema = schema.ICredentialIssuerLD
 
@@ -93,7 +97,25 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificCredentialIssu
   }
 
   public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
-    return ((<VerifiableCredential>document)?.proof?.type === 'lds')
+    // console.log("proofType: ", (<VerifiableCredential>document)?.proof?.type)
+    const canVerify = ['EcdsaSecp256k1RecoverySignature2020', 'Ed25519Signature2018', 'Ed25519Signature2020'].includes((<VerifiableCredential>document)?.proof?.type || '')
+    // console.log("canVerify: ", canVerify)
+    return canVerify
+  }
+
+
+  public verifyCredentialType(
+    args: IVerifyCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<IVerifyResult | undefined> {
+    return context.agent.verifyCredentialLD(args)
+  }
+
+  public verifyPresentationType(
+    args: IVerifyPresentationArgs,
+    context: IssuerAgentContext,
+  ): Promise<IVerifyResult | undefined> {
+    return context.agent.verifyPresentationLD(args)
   }
 
   /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */
@@ -226,7 +248,7 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificCredentialIssu
   public async verifyCredentialLD(
     args: IVerifyCredentialLDArgs,
     context: IRequiredContext,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     const credential = args.credential
 
     let { now } = args
@@ -241,7 +263,7 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificCredentialIssu
   public async verifyPresentationLD(
     args: IVerifyPresentationLDArgs,
     context: IRequiredContext,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     const presentation = args.presentation
     let { now } = args
     if (typeof now === 'number') {

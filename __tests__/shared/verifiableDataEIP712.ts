@@ -76,7 +76,7 @@ export default (testContext: {
         credential: verifiableCredential,
       })
 
-      expect(result).toEqual(true)
+      expect(result.verified).toEqual(true)
     })
 
     it('should create verifiable presentation with EthereumEip712Signature2021 proof type', async () => {
@@ -115,7 +115,7 @@ export default (testContext: {
         presentation: verifiablePresentation,
       })
 
-      expect(result).toEqual(true)
+      expect(result.verified).toEqual(true)
     })
   })
 }

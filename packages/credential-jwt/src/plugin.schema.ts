@@ -400,14 +400,88 @@ export const schema = {
               "description": "Options to be passed to the DID resolver."
             },
             "credential": {
-              "$ref": "#/components/schemas/VerifiableCredential",
+              "$ref": "#/components/schemas/W3CVerifiableCredential",
               "description": "The json payload of the Credential according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model } \n\nThe signer of the Credential is chosen based on the `issuer.id` property of the `credential`"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
             }
           },
           "required": [
             "credential"
           ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
+          },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+        },
+        "VerificationPolicies": {
+          "type": "object",
+          "properties": {
+            "now": {
+              "type": "number",
+              "description": "policy to over the now (current time) during the verification check (UNIX time in seconds)"
+            },
+            "issuanceDate": {
+              "type": "boolean",
+              "description": "policy to skip the issuanceDate (nbf) timestamp check when set to `false`"
+            },
+            "expirationDate": {
+              "type": "boolean",
+              "description": "policy to skip the expirationDate (exp) timestamp check when set to `false`"
+            },
+            "audience": {
+              "type": "boolean",
+              "description": "policy to skip the audience check when set to `false`"
+            },
+            "credentialStatus": {
+              "type": "boolean",
+              "description": "policy to skip the revocation check (credentialStatus) when set to `false`"
+            }
+          },
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
+          },
+          "description": "These optional settings can be used to override some default checks that are performed on Presentations during verification."
+        },
+        "IVerifyResult": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "type": "boolean",
+              "description": "This value is used to transmit the result of verification."
+            },
+            "error": {
+              "$ref": "#/components/schemas/IError",
+              "description": "Optional Error object for the but currently the machine readable errors are not expored from DID-JWT package to be imported here"
+            }
+          },
+          "required": [
+            "verified"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
+          "description": "Encapsulates the response object to verifyPresentation method after verifying a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "IError": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "The details of the error being throw or forwarded"
+            },
+            "errorCode": {
+              "type": "string",
+              "description": "The code for the error being throw"
+            }
+          },
+          "description": "An error object, which can contain a code."
         },
         "IVerifyPresentationJWTArgs": {
           "type": "object",
@@ -427,11 +501,30 @@ export const schema = {
             "presentation": {
               "$ref": "#/components/schemas/VerifiablePresentation",
               "description": "The Verifiable Presentation object according to the  {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model }  or the JWT representation.\n\nThe signer of the Presentation is verified based on the `holder` property of the `presentation` or the `iss` property of the JWT payload respectively"
+            },
+            "challenge": {
+              "type": "string",
+              "description": "Optional (only for JWT) string challenge parameter to verify the verifiable presentation against"
+            },
+            "domain": {
+              "type": "string",
+              "description": "Optional (only for JWT) string domain parameter to verify the verifiable presentation against"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
             }
           },
           "required": [
             "presentation"
           ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
+          },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
         }
       },
@@ -460,7 +553,7 @@ export const schema = {
             "$ref": "#/components/schemas/IVerifyCredentialJWTArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         },
         "verifyPresentationJWT": {
@@ -469,7 +562,7 @@ export const schema = {
             "$ref": "#/components/schemas/IVerifyPresentationJWTArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         }
       }

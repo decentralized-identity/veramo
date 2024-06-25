@@ -9,7 +9,7 @@ import {
   VerifiableCredential,
 } from '../../../core-types/src'
 import { createAgent } from '../../../core/src'
-import { CredentialIssuer } from '../../../credential-w3c/src'
+import { CredentialIssuer } from '..'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
@@ -118,6 +118,7 @@ describe('credential-w3c full flow', () => {
     })
     const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
+    console.log("VERIFY RESULT", verifyResult)
     expect(verifyResult.verified).toBeFalsy()
   })
 

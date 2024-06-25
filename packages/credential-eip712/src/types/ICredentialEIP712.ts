@@ -10,7 +10,8 @@ import {
   UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
-  ISpecificCredentialIssuer
+  ISpecificCredentialIssuer,
+  IVerifyResult
 } from '@veramo/core-types'
 
 // interface Something = IPluginMethodMap | ISpecificCredentialIssuer
@@ -57,7 +58,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialEIP712(args: IVerifyCredentialEIP712Args, context: IRequiredContext): Promise<boolean>
+  verifyCredentialEIP712(args: IVerifyCredentialEIP712Args, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Creates a Verifiable Presentation.
@@ -87,7 +88,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<boolean>
+  verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Checks if a key is suitable for signing EIP712 payloads.
