@@ -7,7 +7,6 @@ import {
   ICredentialStatusVerifier,
   IIdentifier,
   IKey,
-  IKeyManager,
   IProofFormatIssuer,
   IProofFormatVerifier,
   IProofFormatIssuerVerifier,
@@ -18,37 +17,19 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
+  ICredentialPluginArgs,
 } from '@veramo/core-types'
 
 import { schema } from '@veramo/core-types'
 
 import {
-  createVerifiableCredentialJwt,
-  createVerifiablePresentationJwt,
-  normalizeCredential,
-  normalizePresentation,
-  verifyCredential as verifyCredentialJWT,
-  verifyPresentation as verifyPresentationJWT,
-} from 'did-jwt-vc'
-
-import { decodeJWT } from 'did-jwt'
-
-import {
-  asArray,
   extractIssuer,
   removeDIDParameters,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
   processEntryToArray,
-  intersect,
 } from '@veramo/utils'
 import Debug from 'debug'
-import { Resolvable } from 'did-resolver'
-
-import canonicalize from 'canonicalize'
-// import { get } from 'http'
 
 const debug = Debug('veramo:w3c:action-handler')
 
@@ -73,7 +54,7 @@ export class CredentialPlugin implements IAgentPlugin {
   }
   private issuers: IProofFormatIssuerVerifier[]
 
-  constructor({ issuers = [] }: { issuers: IProofFormatIssuerVerifier[] }) {
+  constructor({ issuers = [] }: ICredentialPluginArgs) {
     this.issuers = issuers
     this.methods = {
       createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
