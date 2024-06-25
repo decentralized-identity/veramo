@@ -10,14 +10,11 @@ import {
   UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
-  IProofFormatIssuer,
   ICreateVerifiableCredentialArgs,
   VerificationPolicies,
   W3CVerifiableCredential,
   IVerifyResult
 } from '@veramo/core-types'
-
-// interface Something = IPluginMethodMap | IProofFormatIssuer
 
 /**
  * The interface definition for a plugin that can issue and verify Verifiable Credentials and Presentations
@@ -104,11 +101,6 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    */
   matchKeyForJWT(key: IKey, context: IRequiredContext): Promise<boolean>
 
-  // canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IRequiredContext): boolean
-  // issueCredentialType(
-  //   args: ICreateVerifiableCredentialArgs,
-  //   context: IRequiredContext,
-  // ): Promise<VerifiableCredential>
 }
 
 /**

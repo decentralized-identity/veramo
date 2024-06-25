@@ -12,15 +12,12 @@ import { jest } from '@jest/globals'
 import {
   CredentialPayload,
   ICredentialPlugin,
-  IDataStore,
   IDIDManager,
   IIdentifier,
-  IKey,
   IKeyManager,
   IResolver,
   PresentationPayload,
   TAgent,
-  VerifiableCredential,
 } from '../../../core-types/src'
 import { CredentialPlugin } from '../action-handler.js'
 import { CredentialIssuerJWT, ICredentialIssuerJWT } from '../../../credential-jwt/src'
@@ -36,71 +33,6 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
-const mockIdentifiers: IIdentifier[] = [
-  {
-    did: 'did:example:111',
-    provider: 'mock',
-    controllerKeyId: 'kid1',
-    keys: [
-      {
-        kid: 'kid1',
-        publicKeyHex: 'pub',
-        type: 'Secp256k1',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-  {
-    did: 'did:example:222',
-    provider: 'mock',
-    controllerKeyId: 'kid2',
-    keys: [
-      {
-        kid: 'kid2a',
-        publicKeyHex: 'pub',
-        type: 'Ed25519',
-        kms: 'mock',
-      },
-      {
-        kid: 'kid2b',
-        publicKeyHex: 'pub',
-        type: 'Secp256k1',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-  {
-    did: 'did:example:333',
-    provider: 'mock',
-    controllerKeyId: 'kid3',
-    keys: [
-      {
-        kid: 'kid3',
-        publicKeyHex: 'pub',
-        type: 'Ed25519',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-  {
-    did: 'did:example:444?versionTime=2023-01-01T00:00:00Z',
-    provider: 'mock',
-    controllerKeyId: 'kid4',
-    keys: [
-      {
-        kid: 'kid4',
-        publicKeyHex: 'pub',
-        type: 'Ed25519',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-]
-
 
 let didKeyIdentifier: IIdentifier
 let didEthrIdentifier: IIdentifier
@@ -143,18 +75,11 @@ describe('@veramo/credential-w3c', () => {
     didKeyIdentifier = await agent.didManagerCreate()
     didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr' })
   })
-  // const keyManagerSign = agent.keyManagerSign as
-  //   | jest.Mock<(args: { algorithm: string; keyRef: string }) => Promise<string>>
 
-  // beforeEach(() => {
-  //   keyManagerSign.mockClear()
-  // });
-
-  test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
+  test('handles createVerifiableCredential', async () => {
     expect.assertions(1)
 
     const issuerId = didEthrIdentifier.did
-    const context = { agent }
 
     const credential: CredentialPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
@@ -178,29 +103,15 @@ describe('@veramo/credential-w3c', () => {
         credential,
         save: false,
         proofFormat: 'jwt',
-        // keyRef,
       },
-      // context,
     )
-    console.log("vc: ", vc)
-    // TODO Update these after refactoring did-jwt-vc
-    // expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
-    // expect(context.agent.dataStoreSaveVerifiableCredential).not.toBeCalled()
     expect(vc.id).toEqual('vc1')
-
-    // expect(keyManagerSign).toBeCalled()
-    // expect(keyManagerSign.mock.calls[0][0].keyRef).toEqual(expectedKey.kid)
-    // expect(keyManagerSign.mock.calls[0][0].algorithm).toEqual(expectedKey.type === 'Ed25519' ? 'EdDSA' : 'ES256K')
   })
 
-  test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
+  test('handles createVerifiablePresentation', async () => {
     expect.assertions(1)
 
     const issuerId = didEthrIdentifier.did;
-    // mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
-
-    // agent.didManagerGet = jest.fn(async (args): Promise<IIdentifier> => mockIdentifier)
-    const context = { agent }
 
     const credential = await agent.createVerifiableCredential(
       {
@@ -223,7 +134,6 @@ describe('@veramo/credential-w3c', () => {
         save: false,
         proofFormat: 'jwt',
       },
-      // context,
     )
 
     const presentation: PresentationPayload = {
@@ -240,12 +150,8 @@ describe('@veramo/credential-w3c', () => {
         save: false,
         proofFormat: 'jwt',
       },
-      // context,
     )
 
-    // expect(context.agent.didManagerGet).toBeCalledWith({ did: didEthrIdentifier.did })
-    // expect(context.agent.didManagerGet).not.toBeCalledWith({ did: presentation.holder })
-    // expect(context.agent.dataStoreSaveVerifiablePresentation).not.toBeCalled()
     expect(vp.holder).toEqual(issuerId)
   })
 })

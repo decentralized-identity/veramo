@@ -118,7 +118,6 @@ describe('credential-w3c full flow', () => {
     })
     const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
-    console.log("VERIFY RESULT", verifyResult)
     expect(verifyResult.verified).toBeFalsy()
   })
 
