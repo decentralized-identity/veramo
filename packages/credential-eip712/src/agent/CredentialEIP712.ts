@@ -94,7 +94,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
   }
 
   public verifyPresentationType(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined> {
-    throw new Error('Method not implemented.')
+    return context.agent.verifyPresentationEIP712(args)
   }
 
   public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {

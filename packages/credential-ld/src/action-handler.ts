@@ -97,7 +97,12 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
 
   public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
     // TODO: can we get proof types dynamically?
-    const canVerify = ['EcdsaSecp256k1RecoverySignature2020', 'Ed25519Signature2018', 'Ed25519Signature2020'].includes((<VerifiableCredential>document)?.proof?.type || '')
+    const canVerify = [
+      'EcdsaSecp256k1RecoverySignature2020',
+      'Ed25519Signature2018',
+      'Ed25519Signature2020',
+      'JsonWebSignature2020'
+    ].includes((<VerifiableCredential>document)?.proof?.type || '')
     return canVerify
   }
 
