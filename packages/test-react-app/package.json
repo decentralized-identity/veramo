@@ -6,6 +6,7 @@
   "dependencies": {
     "@veramo/core": "workspace:*",
     "@veramo/core-types": "workspace:*",
+    "@veramo/credential-jwt": "workspace:*",
     "@veramo/credential-ld": "workspace:*",
     "@veramo/credential-w3c": "workspace:*",
     "@veramo/data-store": "workspace:*",
