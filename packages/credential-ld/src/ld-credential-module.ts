@@ -23,7 +23,7 @@ const debug = Debug('veramo:w3c:ld-credential-module')
 
 type ForwardedOptions = UsingResolutionOptions & {
   fetchRemoteContexts?: boolean // defaults to false
-  now?: number // defaults to Date.now()
+  now?: Date // defaults to Date.now()
 }
 
 export class LdCredentialModule {

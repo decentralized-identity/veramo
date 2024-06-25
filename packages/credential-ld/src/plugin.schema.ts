@@ -382,6 +382,10 @@ export const schema = {
             "fetchRemoteContexts": {
               "type": "boolean",
               "description": "Set this to true if you want the `@context` URLs to be fetched in case they are not preloaded.\n\nDefaults to `false`"
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
             }
           },
           "required": [
@@ -391,6 +395,35 @@ export const schema = {
             "description": "Any other options that can be forwarded to the lower level libraries"
           },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+        },
+        "VerificationPolicies": {
+          "type": "object",
+          "properties": {
+            "now": {
+              "type": "number",
+              "description": "policy to over the now (current time) during the verification check (UNIX time in seconds)"
+            },
+            "issuanceDate": {
+              "type": "boolean",
+              "description": "policy to skip the issuanceDate (nbf) timestamp check when set to `false`"
+            },
+            "expirationDate": {
+              "type": "boolean",
+              "description": "policy to skip the expirationDate (exp) timestamp check when set to `false`"
+            },
+            "audience": {
+              "type": "boolean",
+              "description": "policy to skip the audience check when set to `false`"
+            },
+            "credentialStatus": {
+              "type": "boolean",
+              "description": "policy to skip the revocation check (credentialStatus) when set to `false`"
+            }
+          },
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules that perform the checks"
+          },
+          "description": "These optional settings can be used to override some default checks that are performed on Presentations during verification."
         },
         "IVerifyResult": {
           "type": "object",

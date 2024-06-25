@@ -11,6 +11,7 @@ import {
   UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
+  VerificationPolicies,
 } from '@veramo/core-types'
 
 /**
@@ -205,6 +206,11 @@ export interface IVerifyCredentialLDArgs extends UsingResolutionOptions {
    * Defaults to `false`
    */
   fetchRemoteContexts?: boolean
+
+  /**
+   * Overrides specific aspects of credential verification, where possible.
+   */
+  policies?: VerificationPolicies
 
   /**
    * Any other options that can be forwarded to the lower level libraries
