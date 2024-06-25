@@ -257,7 +257,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-      new CredentialPlugin([eip712, jwt, lds]),
+      new CredentialPlugin([eip712, jwt, ld]),
       eip712,
       jwt,
       ld,
