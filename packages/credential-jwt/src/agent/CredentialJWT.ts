@@ -31,12 +31,8 @@ import {
 import { schema } from '../plugin.schema.js'
 
 import {
-  ICreateVerifiableCredentialJWTArgs,
-  ICreateVerifiablePresentationJWTArgs,
   ICredentialIssuerJWT,
   IRequiredContext,
-  IVerifyCredentialJWTArgs,
-  IVerifyPresentationJWTArgs,
 } from '../types/ICredentialJWT.js'
 
 import canonicalize from 'canonicalize'
@@ -121,7 +117,7 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
 
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiableCredentialJWT} */
   public async createVerifiableCredentialJWT(
-    args: ICreateVerifiableCredentialJWTArgs,
+    args: ICreateVerifiableCredentialArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential> {
     let { proofFormat, keyRef, removeOriginalFields, save, now, ...otherOptions } = args
@@ -172,7 +168,7 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
 
   /** {@inheritdoc ICredentialIssuerJWT.verifyCredentialJWT} */
   private async verifyCredentialJWT(
-    args: IVerifyCredentialJWTArgs,
+    args: IVerifyCredentialArgs,
     context: IRequiredContext,
   ): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
@@ -234,7 +230,7 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
 
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiablePresentationJWT} */
   async createVerifiablePresentationJWT(
-    args: ICreateVerifiablePresentationJWTArgs,
+    args: ICreateVerifiablePresentationArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation> {
     let {
@@ -310,7 +306,7 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
 
   /** {@inheritdoc ICredentialIssuerJWT.verifyPresentationJWT} */
   private async verifyPresentationJWT(
-    args: IVerifyPresentationJWTArgs,
+    args: IVerifyPresentationArgs,
     context: IRequiredContext,
   ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
