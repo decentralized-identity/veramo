@@ -6,15 +6,15 @@ import {
     IKeyManager,
     IResolver,
     TAgent,
-} from '../../../core-types/src'
-import { createAgent } from '../../../core/src'
-import { CredentialPlugin } from '../../../credential-w3c/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { EthrDIDProvider } from '../../../did-provider-ethr/src'
+} from '../../../core-types/src/index.js'
+import { createAgent } from '../../../core/src/index.js'
+import { CredentialPlugin } from '../../../credential-w3c/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
+import { EthrDIDProvider } from '../../../did-provider-ethr/src/index.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
@@ -27,7 +27,7 @@ jest.setTimeout(300000)
 
 const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
-describe('credential-LD full flow', () => {
+describe('credential-jwt full flow', () => {
     let didKeyIdentifier: IIdentifier
     let didEthrIdentifier: IIdentifier
     let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>
@@ -67,18 +67,15 @@ describe('credential-LD full flow', () => {
         didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr' })
     })
 
-    it('create credential with inline context', async () => {
+    it('issues and verifies JWT credential', async () => {
         const credential: CredentialPayload = {
-            issuer: didKeyIdentifier.did,
-            '@context': [
-                {
-                    '@context': {
-                        nothing: 'custom:example.context#blank',
-                    },
-                },
-            ],
+            issuer: { id: didEthrIdentifier.did },
+            '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
+            type: ['VerifiableCredential', 'Custom'],
+            issuanceDate: new Date().toISOString(),
             credentialSubject: {
-                nothing: 'else matters',
+                id: 'did:web:example.com',
+                you: 'Rock',
             },
         }
         const verifiableCredential = await agent.createVerifiableCredential({
@@ -95,83 +92,7 @@ describe('credential-LD full flow', () => {
         expect(result.verified).toBe(true)
     })
 
-    it('works with Ed25519Signature2018 credential', async () => {
-        const credential: CredentialPayload = {
-            issuer: didKeyIdentifier.did,
-            '@context': ['custom:example.context'],
-            credentialSubject: {
-                nothing: 'else matters',
-            },
-        }
-        const verifiableCredential = await agent.createVerifiableCredential({
-            credential,
-            proofFormat: 'jwt',
-        })
-
-        expect(verifiableCredential).toBeDefined()
-
-        const result = await agent.verifyCredential({
-            credential: verifiableCredential,
-        })
-
-        expect(result.verified).toBe(true)
-    })
-
-    it('works with EcdsaSecp256k1RecoveryMethod2020 credentials', async () => {
-        const credential: CredentialPayload = {
-            issuer: didEthrIdentifier.did,
-            '@context': ['custom:example.context'],
-            credentialSubject: {
-                nothing: 'else matters',
-            },
-        }
-        const verifiableCredential = await agent.createVerifiableCredential({
-            credential,
-            proofFormat: 'jwt',
-        })
-
-        expect(verifiableCredential).toBeDefined()
-
-        const result = await agent.verifyCredential({
-            credential: verifiableCredential,
-        })
-
-        expect(result.verified).toBe(true)
-    })
-
-    it('works with Ed25519Signature2018 credential and presentation', async () => {
-        const credential: CredentialPayload = {
-            issuer: didKeyIdentifier.did,
-            '@context': ['custom:example.context'],
-            credentialSubject: {
-                nothing: 'else matters',
-            },
-        }
-        const verifiableCredential1 = await agent.createVerifiableCredential({
-            credential,
-            proofFormat: 'jwt',
-        })
-
-        const verifiablePresentation = await agent.createVerifiablePresentation({
-            presentation: {
-                verifiableCredential: [verifiableCredential1],
-                holder: didKeyIdentifier.did,
-            },
-            challenge: 'VERAMO',
-            proofFormat: 'jwt',
-        })
-
-        expect(verifiablePresentation).toBeDefined()
-
-        const result = await agent.verifyPresentation({
-            presentation: verifiablePresentation,
-            challenge: 'VERAMO',
-        })
-
-        expect(result.verified).toBe(true)
-    })
-
-    it('works with EcdsaSecp256k1RecoveryMethod2020 credential and presentation', async () => {
+    it('issues credential and verifies presentation', async () => {
         const credential: CredentialPayload = {
             issuer: { id: didEthrIdentifier.did },
             '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],

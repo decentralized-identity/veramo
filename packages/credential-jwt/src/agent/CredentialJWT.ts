@@ -111,16 +111,14 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     args: IVerifyCredentialArgs,
     context: IssuerAgentContext,
   ): Promise<IVerifyResult | undefined> {
-    return this.verifyCredentialJWT2(args, context)
+    return context.agent.verifyCredentialJWT(args)
   }
 
   public verifyPresentationType(
     args: IVerifyPresentationArgs,
     context: IssuerAgentContext,
   ): Promise<IVerifyResult | undefined> {
-    //return this.verifyCredentialJWT2(args, context)
-    // return undefined
-    throw new Error('Method not implemented.')
+    return context.agent.verifyPresentationJWT(args)
   }
 
   /** {@inheritdoc ICredentialIssuerJWT.createVerifiableCredentialJWT} */
@@ -128,7 +126,6 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     args: ICreateVerifiableCredentialJWTArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential> {
-    console.log("1!!!!!")
     let { proofFormat, keyRef, removeOriginalFields, save, now, ...otherOptions } = args
 
     const credentialContext = processEntryToArray(
@@ -172,27 +169,19 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
     )
     //FIXME: flagging this as a potential privacy leak.
     debug(jwt)
-    console.log("JWT: ", jwt)
     return normalizeCredential(jwt)
   }
 
+  /** {@inheritdoc ICredentialIssuerJWT.verifyCredentialJWT} */
   private async verifyCredentialJWT(
     args: IVerifyCredentialJWTArgs,
     context: IRequiredContext,
-  ): Promise<boolean> {
-    return false
-  }
-
-  /** {@inheritdoc ICredentialIssuerJWT.verifyCredentialJWT} */
-  private async verifyCredentialJWT2(
-    args: IVerifyCredentialJWTArgs,
-    context: IssuerAgentContext,
-  ): Promise<IVerifyResult | undefined> {
+  ): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
     let verifiedCredential: VerifiableCredential
     let verificationResult: IVerifyResult | undefined = { verified: false }
     let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
-
+    let errorCode, message
     const resolver = {
       resolve: (didUrl: string) =>
         context.agent.resolveDid({
@@ -230,14 +219,18 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
         }
       }
     } catch (e: any) {
-      let { message, errorCode } = e
-      return {
-        verified: false,
-        error: {
-          message,
-          errorCode: errorCode ? errorCode : message.split(':')[0],
-        },
-      }
+      errorCode = e.errorCode
+      message = e.message
+    }
+    if (verificationResult.verified) {
+      return verificationResult
+    }
+    return {
+      verified: false,
+      error: {
+        message,
+        errorCode: errorCode ? errorCode : message?.split(':')[0],
+      },
     }
   }
 
@@ -321,7 +314,7 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
   private async verifyPresentationJWT(
     args: IVerifyPresentationJWTArgs,
     context: IRequiredContext,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
     let jwt: string
     if (typeof presentation === 'string') {
@@ -351,8 +344,9 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
       }
     }
 
+    let message, errorCode
     try {
-      return await verifyPresentationJWT(jwt, resolver, {
+      const result = await verifyPresentationJWT(jwt, resolver, {
         challenge,
         domain,
         audience,
@@ -365,15 +359,22 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
         },
         ...otherOptions,
       })
-    } catch (e: any) {
-      let { message, errorCode } = e
-      return {
-        verified: false,
-        error: {
-          message,
-          errorCode: errorCode ? errorCode : message.split(':')[0],
-        },
+      if (result) {
+        return {
+          verified: true,
+          verifiablePresentation: result,
+        }
       }
+    } catch (e: any) {
+      message = e.message
+      errorCode = e.errorCode
+    }
+    return {
+      verified: false,
+      error: {
+        message,
+        errorCode: errorCode ? errorCode : message?.split(':')[0],
+      },
     }
   }
 
@@ -394,7 +395,6 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
       default:
         return false
     }
-    return false
   }
 
   wrapSigner(

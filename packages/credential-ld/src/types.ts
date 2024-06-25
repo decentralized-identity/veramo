@@ -6,6 +6,7 @@ import {
   IKeyManager,
   IPluginMethodMap,
   IResolver,
+  IVerifyResult,
   PresentationPayload,
   UsingResolutionOptions,
   VerifiableCredential,
@@ -73,7 +74,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialLD(args: IVerifyCredentialLDArgs, context: IRequiredContext): Promise<boolean>
+  verifyCredentialLD(args: IVerifyCredentialLDArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Verifies a Verifiable Presentation JWT or LDS Format.
@@ -87,7 +88,7 @@ export interface ICredentialIssuerLD extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyPresentationLD(args: IVerifyPresentationLDArgs, context: IRequiredContext): Promise<boolean>
+  verifyPresentationLD(args: IVerifyPresentationLDArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Returns true if the key is supported by any of the installed LD Signature suites

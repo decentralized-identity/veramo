@@ -49,7 +49,7 @@ import Debug from 'debug'
 import { Resolvable } from 'did-resolver'
 
 import canonicalize from 'canonicalize'
-import { get } from 'http'
+// import { get } from 'http'
 
 const enum DocumentFormat {
   JWT,
@@ -245,122 +245,6 @@ export class CredentialPlugin implements IAgentPlugin {
     }
     verifiedCredential = <VerifiableCredential>credential
 
-    // const type: DocumentFormat = detectDocumentType(credential)
-    // if (type == DocumentFormat.JWT) {
-    //   let jwt: string = typeof credential === 'string' ? credential : credential.proof.jwt
-
-    //   const resolver = {
-    //     resolve: (didUrl: string) =>
-    //       context.agent.resolveDid({
-    //         didUrl,
-    //         options: otherOptions?.resolutionOptions,
-    //       }),
-    //   } as Resolvable
-    //   try {
-    //     // needs broader credential as well to check equivalence with jwt
-    //     verificationResult = await verifyCredentialJWT(jwt, resolver, {
-    //       ...otherOptions,
-    //       policies: {
-    //         ...policies,
-    //         nbf: policies?.nbf ?? policies?.issuanceDate,
-    //         iat: policies?.iat ?? policies?.issuanceDate,
-    //         exp: policies?.exp ?? policies?.expirationDate,
-    //         aud: policies?.aud ?? policies?.audience,
-    //       },
-    //     })
-    //     verifiedCredential = verificationResult.verifiableCredential
-
-    //     // if credential was presented with other fields, make sure those fields match what's in the JWT
-    //     if (typeof credential !== 'string' && credential.proof.type === 'JwtProof2020') {
-    //       const credentialCopy = JSON.parse(JSON.stringify(credential))
-    //       delete credentialCopy.proof.jwt
-
-    //       const verifiedCopy = JSON.parse(JSON.stringify(verifiedCredential))
-    //       delete verifiedCopy.proof.jwt
-
-    //       if (canonicalize(credentialCopy) !== canonicalize(verifiedCopy)) {
-    //         verificationResult.verified = false
-    //         verificationResult.error = new Error(
-    //           'invalid_credential: Credential JSON does not match JWT payload',
-    //         )
-    //       }
-    //     }
-    //   } catch (e: any) {
-    //     let { message, errorCode } = e
-    //     return {
-    //       verified: false,
-    //       error: {
-    //         message,
-    //         errorCode: errorCode ? errorCode : message.split(':')[0],
-    //       },
-    //     }
-    //   }
-    // } else if (type == DocumentFormat.EIP712) {
-    //   if (typeof context.agent.verifyCredentialEIP712 !== 'function') {
-    //     throw new Error(
-    //       'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-    //     )
-    //   }
-
-    //   try {
-    //     const result = await context.agent.verifyCredentialEIP712(args)
-    //     if (result) {
-    //       verificationResult = {
-    //         verified: true,
-    //       }
-    //     } else {
-    //       verificationResult = {
-    //         verified: false,
-    //         error: {
-    //           message: 'invalid_signature: The signature does not match any of the issuer signing keys',
-    //           errorCode: 'invalid_signature',
-    //         },
-    //       }
-    //     }
-    //     verifiedCredential = <VerifiableCredential>credential
-    //   } catch (e: any) {
-    //     debug('encountered error while verifying EIP712 credential: %o', e)
-    //     const { message, errorCode } = e
-    //     return {
-    //       verified: false,
-    //       error: {
-    //         message,
-    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
-    //       },
-    //     }
-    //   }
-    // } else if (type == DocumentFormat.JSONLD) {
-    //   if (typeof context.agent.verifyCredentialLD !== 'function') {
-    //     throw new Error(
-    //       'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-    //     )
-    //   }
-
-    //   verificationResult = await context.agent.verifyCredentialLD({ ...args, now: policies?.now })
-    //   verifiedCredential = <VerifiableCredential>credential
-    // } else if (type == DocumentFormat.BBS) {
-    //   if (typeof context.agent.verifyCredentialBbs !== 'function') {
-    //     throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-    //   }
-    //   try {
-    //     verificationResult = await context.agent.verifyCredentialBbs({ ...args, now: policies?.now })
-    //     verifiedCredential = <VerifiableCredential>credential
-    //   }
-    //   catch (e) {
-    //     debug('encountered error while verifying BBS credential: %o', e)
-    //     const { message, errorCode } = e
-    //     return {
-    //       verified: false,
-    //       error: {
-    //         message,
-    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
-    //       },
-    //     }
-    //   }
-    // } else {
-    //   throw new Error('invalid_argument: Unknown credential type.')
-    // }
-
     if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context as any))) {
       verificationResult = {
         verified: false,
@@ -393,123 +277,6 @@ export class CredentialPlugin implements IAgentPlugin {
       throw new Error('invalid_setup: No verifier found for the provided presentation')
     }
     return result
-    // if (type === DocumentFormat.JWT) {
-    //   // JWT
-    //   let jwt: string
-    //   if (typeof presentation === 'string') {
-    //     jwt = presentation
-    //   } else {
-    //     jwt = presentation.proof.jwt
-    //   }
-    //   const resolver = {
-    //     resolve: (didUrl: string) =>
-    //       context.agent.resolveDid({
-    //         didUrl,
-    //         options: otherOptions?.resolutionOptions,
-    //       }),
-    //   } as Resolvable
-
-    //   let audience = domain
-    //   if (!audience) {
-    //     const { payload } = await decodeJWT(jwt)
-    //     if (payload.aud) {
-    //       // automatically add a managed DID as audience if one is found
-    //       const intendedAudience = asArray(payload.aud)
-    //       const managedDids = await context.agent.didManagerFind()
-    //       const filtered = managedDids.filter((identifier) => intendedAudience.includes(identifier.did))
-    //       if (filtered.length > 0) {
-    //         audience = filtered[0].did
-    //       }
-    //     }
-    //   }
-
-    //   try {
-    //     return await verifyPresentationJWT(jwt, resolver, {
-    //       challenge,
-    //       domain,
-    //       audience,
-    //       policies: {
-    //         ...policies,
-    //         nbf: policies?.nbf ?? policies?.issuanceDate,
-    //         iat: policies?.iat ?? policies?.issuanceDate,
-    //         exp: policies?.exp ?? policies?.expirationDate,
-    //         aud: policies?.aud ?? policies?.audience,
-    //       },
-    //       ...otherOptions,
-    //     })
-    //   } catch (e: any) {
-    //     let { message, errorCode } = e
-    //     return {
-    //       verified: false,
-    //       error: {
-    //         message,
-    //         errorCode: errorCode ? errorCode : message.split(':')[0],
-    //       },
-    //     }
-    //   }
-    // } else if (type === DocumentFormat.EIP712) {
-    //   // JSON-LD
-    //   if (typeof context.agent.verifyPresentationEIP712 !== 'function') {
-    //     throw new Error(
-    //       'invalid_setup: your agent does not seem to have ICredentialIssuerEIP712 plugin installed',
-    //     )
-    //   }
-    //   try {
-    //     const result = await context.agent.verifyPresentationEIP712(args)
-    //     if (result) {
-    //       return {
-    //         verified: true,
-    //       }
-    //     } else {
-    //       return {
-    //         verified: false,
-    //         error: {
-    //           message: 'invalid_signature: The signature does not match any of the issuer signing keys',
-    //           errorCode: 'invalid_signature',
-    //         },
-    //       }
-    //     }
-    //   } catch (e: any) {
-    //     const { message, errorCode } = e
-    //     return {
-    //       verified: false,
-    //       error: {
-    //         message,
-    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
-    //       },
-    //     };
-    //   }
-    // }
-    // else if (type === DocumentFormat.BBS) {
-    //   //Bbs
-    //   if (typeof context.agent.verifyPresentationBbs !== 'function') {
-    //     throw new Error('invalid_setup: your agent does not seem to have ICredentialIssuerBbs plugin installed')
-    //   }
-    //   try {
-    //     const result = await context.agent.verifyPresentationBbs(args)
-    //     return result;
-    //   }
-    //   catch (e) {
-    //     const { message, errorCode } = e;
-    //     return {
-    //       verified: false,
-    //       error: {
-    //         message,
-    //         errorCode: errorCode ? errorCode : e.message.split(':')[0],
-    //       },
-    //     }
-    //   }
-    // } else {
-    //   // JSON-LD
-    //   if (typeof context.agent.verifyPresentationLD === 'function') {
-    //     const result = await context.agent.verifyPresentationLD({ ...args, now: policies?.now })
-    //     return result
-    //   } else {
-    //     throw new Error(
-    //       'invalid_setup: your agent does not seem to have ICredentialIssuerLD plugin installed',
-    //     )
-    //   }
-    // }
   }
 
   async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {
@@ -555,13 +322,6 @@ function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   }
 
   return key as IKey
-}
-
-function detectDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): DocumentFormat {
-  if (typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt) return DocumentFormat.JWT
-  if ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
-    return DocumentFormat.EIP712
-  return DocumentFormat.JSONLD
 }
 
 async function isRevoked(

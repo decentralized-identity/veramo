@@ -392,6 +392,40 @@ export const schema = {
           },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
         },
+        "IVerifyResult": {
+          "type": "object",
+          "properties": {
+            "verified": {
+              "type": "boolean",
+              "description": "This value is used to transmit the result of verification."
+            },
+            "error": {
+              "$ref": "#/components/schemas/IError",
+              "description": "Optional Error object for the but currently the machine readable errors are not expored from DID-JWT package to be imported here"
+            }
+          },
+          "required": [
+            "verified"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that performt the checks"
+          },
+          "description": "Encapsulates the response object to verifyPresentation method after verifying a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
+        },
+        "IError": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "The details of the error being throw or forwarded"
+            },
+            "errorCode": {
+              "type": "string",
+              "description": "The code for the error being throw"
+            }
+          },
+          "description": "An error object, which can contain a code."
+        },
         "IVerifyPresentationLDArgs": {
           "type": "object",
           "properties": {
@@ -458,7 +492,7 @@ export const schema = {
             "$ref": "#/components/schemas/IVerifyCredentialLDArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         },
         "verifyPresentationLD": {
@@ -467,7 +501,7 @@ export const schema = {
             "$ref": "#/components/schemas/IVerifyPresentationLDArgs"
           },
           "returnType": {
-            "type": "boolean"
+            "$ref": "#/components/schemas/IVerifyResult"
           }
         }
       }

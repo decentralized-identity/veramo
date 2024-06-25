@@ -13,7 +13,8 @@ import {
   ISpecificCredentialIssuer,
   ICreateVerifiableCredentialArgs,
   VerificationPolicies,
-  W3CVerifiableCredential
+  W3CVerifiableCredential,
+  IVerifyResult
 } from '@veramo/core-types'
 
 // interface Something = IPluginMethodMap | ISpecificCredentialIssuer
@@ -60,7 +61,7 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialJWT(args: IVerifyCredentialJWTArgs, context: IRequiredContext): Promise<boolean>
+  verifyCredentialJWT(args: IVerifyCredentialJWTArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Creates a Verifiable Presentation.
@@ -90,7 +91,7 @@ export interface ICredentialIssuerJWT extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentationJWT(args: IVerifyPresentationJWTArgs, context: IRequiredContext): Promise<boolean>
+  verifyPresentationJWT(args: IVerifyPresentationJWTArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Checks if a key is suitable for signing JWT payloads.

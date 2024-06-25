@@ -16,6 +16,8 @@ import {
   ISpecificCredentialVerifier,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
+  IVerifyPresentationArgs,
+  VerifierAgentContext,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -92,6 +94,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
     context: IssuerAgentContext,
   ): Promise<IVerifyResult | undefined> {
     return context.agent.verifyCredentialEIP712(args)
+  }
+
+  public verifyPresentationType(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined> {
+    throw new Error('Method not implemented.')
   }
 
 
@@ -185,7 +191,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
   private async verifyCredentialEIP712(
     args: IVerifyCredentialEIP712Args,
     context: IRequiredContext,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     const { credential } = args
     if (!credential.proof || !credential.proof.proofValue)
       throw new Error('invalid_argument: proof is undefined')
@@ -230,14 +236,22 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
         if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
-          return true
+          return {
+            verified: true,
+          }
         }
       }
     } else {
       throw new Error('resolver_error: issuer DIDDocument does not contain any verificationMethods')
     }
 
-    return false
+    return {
+      verified: false,
+      error: {
+        message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+        errorCode: 'invalid_signature',
+      }
+    }
   }
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiablePresentationEIP712} */
@@ -353,7 +367,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
   private async verifyPresentationEIP712(
     args: IVerifyPresentationEIP712Args,
     context: IRequiredContext,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     const { presentation } = args
     if (!presentation.proof || !presentation.proof.proofValue) throw new Error('Proof is undefined')
 
@@ -397,14 +411,22 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
         if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
-          return true
+          return {
+            verified: true,
+          }
         }
       }
     } else {
       throw new Error('resolver_error: holder DIDDocument does not contain any verificationMethods')
     }
 
-    return false
+    return {
+      verified: false,
+      error: {
+        message: 'invalid_signature: The signature does not match any of the holder signing keys',
+        errorCode: 'invalid_signature',
+      }
+    }
   }
 
   /**
