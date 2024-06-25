@@ -1,5 +1,5 @@
 {
-  "name": "@ownyourdata/did-provider-oyd",
+  "name": "@veramo/did-provider-oyd",
   "description": "OwnYourData plugin that can enable creation and control of did:oyd identifiers.",
   "version": "0.0.1",
   "main": "build/index.js",
@@ -28,9 +28,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "git@github.com:OwnYourData/veramo.git",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-oyd"
+  },
   "author": "Christoph Fabianek <christoph@ownyourdata.eu>",
-  "keywords": [],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "DID-OYD"
+  ],
   "license": "MIT",
   "type": "module",
   "moduleDirectories": [

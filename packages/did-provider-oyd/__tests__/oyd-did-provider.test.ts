@@ -29,7 +29,7 @@ const agent = createAgent<IKeyManager & IDIDManager & IResolver>({
   ],
 })
 
-describe('@ownyourdata/did-provider-oyd', () => {
+describe('@veramo/did-provider-oyd', () => {
   it('should create identifier with no params', async () => {
     const did = await agent.didManagerCreate({})
     expect(did).toBeDefined()
