@@ -68,7 +68,7 @@ describe('@veramo/credential-w3c', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialPlugin([jwt]),
+        new CredentialPlugin({ issuers: [jwt] }),
         jwt
       ],
     })

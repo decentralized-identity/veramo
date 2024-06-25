@@ -73,7 +73,7 @@ export class CredentialPlugin implements IAgentPlugin {
   }
   private issuers: IProofFormatIssuerVerifier[]
 
-  constructor(issuers: IProofFormatIssuerVerifier[]) {
+  constructor({ issuers = [] }: { issuers: IProofFormatIssuerVerifier[] }) {
     this.issuers = issuers
     this.methods = {
       createVerifiablePresentation: this.createVerifiablePresentation.bind(this),

@@ -60,7 +60,7 @@ describe('credential-LD full flow', () => {
             ...new FakeDidResolver(() => agent, true).getDidFakeResolver(),
           }),
         }),
-        new CredentialPlugin([ld]),
+        new CredentialPlugin({ issuers: [ld] }),
         ld
       ],
     })

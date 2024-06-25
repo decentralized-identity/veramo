@@ -59,7 +59,7 @@ describe('credential-jwt full flow', () => {
                         ...ethrDidResolver({ infuraProjectId }),
                     }),
                 }),
-                new CredentialPlugin([jwt]),
+                new CredentialPlugin({ issuers: [jwt] }),
                 jwt
             ],
         })
