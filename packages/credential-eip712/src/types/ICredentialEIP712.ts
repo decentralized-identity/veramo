@@ -101,11 +101,6 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    */
   matchKeyForEIP712(key: IKey, context: IRequiredContext): Promise<boolean>
 
-  // canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IRequiredContext): boolean
-  // issueCredentialType(
-  //   args: ICreateVerifiableCredentialArgs,
-  //   context: IRequiredContext,
-  // ): Promise<VerifiableCredential>
 }
 
 /**
