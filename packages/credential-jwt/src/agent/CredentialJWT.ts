@@ -6,38 +6,30 @@ import {
   IIdentifier,
   IKey,
   IssuerAgentContext,
-  PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-  ISpecificCredentialIssuer,
   IAgentContext,
   IKeyManager,
   ICreateVerifiablePresentationArgs,
-  ISpecificCredentialVerifier,
   IVerifyCredentialArgs,
   IVerifyResult,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
   IVerifyPresentationArgs,
-  // ICanCreateVerifiableCredentialArgs
+  IProofFormatIssuerVerifier,
 } from '@veramo/core-types'
 import {
   asArray,
   extractIssuer,
-  getChainId,
-  getEthereumAddress,
   intersect,
   isDefined,
   MANDATORY_CREDENTIAL_CONTEXT,
-  mapIdentifierKeysToDoc,
   pickSigningKey,
   processEntryToArray,
   removeDIDParameters,
-  resolveDidOrThrow,
 } from '@veramo/utils'
 import { schema } from '../plugin.schema.js'
 
-import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
   ICreateVerifiableCredentialJWTArgs,
   ICreateVerifiablePresentationJWTArgs,
@@ -69,7 +61,7 @@ const debug = Debug('veramo:credential-jwt:agent')
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIssuer, ISpecificCredentialVerifier {
+export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVerifier {
   readonly methods: ICredentialIssuerJWT
   readonly schema = schema.ICredentialIssuerJWT
 
@@ -80,8 +72,6 @@ export class CredentialIssuerJWT implements IAgentPlugin, ISpecificCredentialIss
       verifyCredentialJWT: this.verifyCredentialJWT.bind(this),
       verifyPresentationJWT: this.verifyPresentationJWT.bind(this),
       matchKeyForJWT: this.matchKeyForJWT.bind(this),
-      // canIssueCredentialType: this.canIssueCredentialType.bind(this),
-      // issueCredentialType: this.issueCredentialType.bind(this),
     }
   }
 

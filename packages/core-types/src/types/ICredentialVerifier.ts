@@ -151,7 +151,7 @@ export interface VerificationPolicies {
  * @public
  */
 
-export interface ISpecificCredentialVerifier {
+export interface IProofFormatVerifier {
   canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean
   verifyCredentialType(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined>
   verifyPresentationType(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined>

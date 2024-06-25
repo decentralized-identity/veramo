@@ -8,8 +8,7 @@ import {
   IIdentifier,
   IKey,
   IResolver,
-  ISpecificCredentialIssuer,
-  ISpecificIssuerVerifier,
+  IProofFormatIssuerVerifier,
   IssuerAgentContext,
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
@@ -57,7 +56,7 @@ const debug = Debug('veramo:credential-ld:action-handler')
  *
  * @public
  */
-export class CredentialIssuerLD implements IAgentPlugin, ISpecificIssuerVerifier {
+export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerifier {
   readonly methods: ICredentialIssuerLD
   readonly schema = schema.ICredentialIssuerLD
 

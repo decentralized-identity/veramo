@@ -10,14 +10,14 @@ import {
   UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
-  ISpecificCredentialIssuer,
+  IProofFormatIssuer,
   ICreateVerifiableCredentialArgs,
   VerificationPolicies,
   W3CVerifiableCredential,
   IVerifyResult
 } from '@veramo/core-types'
 
-// interface Something = IPluginMethodMap | ISpecificCredentialIssuer
+// interface Something = IPluginMethodMap | IProofFormatIssuer
 
 /**
  * The interface definition for a plugin that can issue and verify Verifiable Credentials and Presentations

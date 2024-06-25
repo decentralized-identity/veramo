@@ -9,15 +9,14 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-  ISpecificCredentialIssuer,
   ICreateVerifiablePresentationArgs,
   IVerifyCredentialArgs,
   IVerifyResult,
-  ISpecificCredentialVerifier,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
   IVerifyPresentationArgs,
   VerifierAgentContext,
+  IProofFormatIssuerVerifier,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -50,7 +49,7 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredentialIssuer, ISpecificCredentialVerifier {
+export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerVerifier {
   readonly methods: ICredentialIssuerEIP712
   readonly schema = schema.ICredentialIssuerEIP712
 
@@ -61,8 +60,6 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, ISpecificCredential
       verifyCredentialEIP712: this.verifyCredentialEIP712.bind(this),
       verifyPresentationEIP712: this.verifyPresentationEIP712.bind(this),
       matchKeyForEIP712: this.matchKeyForEIP712.bind(this),
-      // canIssueCredentialType: this.canIssueCredentialType.bind(this),
-      // issueCredentialType: this.issueCredentialType.bind(this),
     }
   }
 

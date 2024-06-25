@@ -10,9 +10,9 @@ import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
 import { IIdentifier, IKey } from "./IIdentifier.js";
-import { ISpecificCredentialVerifier, IVerifyCredentialArgs, UsingResolutionOptions } from './ICredentialVerifier.js'
+import { IProofFormatVerifier, IVerifyCredentialArgs, UsingResolutionOptions } from './ICredentialVerifier.js'
 
-export type ISpecificIssuerVerifier = ISpecificCredentialIssuer & ISpecificCredentialVerifier
+export type IProofFormatIssuerVerifier = IProofFormatIssuer & IProofFormatVerifier
 
 /**
  * Encapsulates the parameters required to create a
@@ -155,7 +155,7 @@ export interface ICanIssueCredentialTypeArgs {
   proofFormat: string
 }
 
-export interface ISpecificCredentialIssuer {
+export interface IProofFormatIssuer {
   canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean
   issueCredentialType(
     args: ICreateVerifiableCredentialArgs,
