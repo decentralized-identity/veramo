@@ -251,9 +251,12 @@ export class CredentialIssuerLD implements IAgentPlugin, ISpecificIssuerVerifier
   ): Promise<IVerifyResult> {
     const credential = args.credential
 
-    let { now } = args
-    if (typeof now === 'number') {
-      now = new Date(now * 1000)
+    let now = new Date()
+    // if (args.policies) {
+    //   now = args.policies.now
+    // }
+    if (args.policies?.now && typeof args.policies?.now === 'number') {
+      now = new Date(args.policies?.now * 1000)
     }
 
     return this.ldCredentialModule.verifyCredential(credential, { ...args, now }, context)
