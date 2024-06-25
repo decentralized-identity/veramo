@@ -1,4 +1,4 @@
-import { ICredentialIssuer } from './ICredentialIssuer.js'
+import { ICredentialIssuer, IProofFormatIssuerVerifier } from './ICredentialIssuer.js'
 import { ICredentialVerifier } from './ICredentialVerifier.js'
 
 /**
@@ -9,3 +9,12 @@ import { ICredentialVerifier } from './ICredentialVerifier.js'
  * @public
  */
 export type ICredentialPlugin = ICredentialIssuer & ICredentialVerifier
+
+/**
+ * The interface definition for the arguments required to initialize a {@link ICredentialPlugin}
+ *
+ * @public
+ */
+export type ICredentialPluginArgs = {
+    issuers: IProofFormatIssuerVerifier[]
+}
