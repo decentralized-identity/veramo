@@ -1,17 +1,17 @@
 import {
-  CredentialPayload,
   IAgentContext,
   IDIDManager,
   IKey,
   IKeyManager,
   IPluginMethodMap,
   IResolver,
-  PresentationPayload,
-  UsingResolutionOptions,
   VerifiableCredential,
   VerifiablePresentation,
-  IProofFormatIssuer,
-  IVerifyResult
+  IVerifyResult,
+  IVerifyCredentialArgs,
+  ICreateVerifiablePresentationArgs,
+  IVerifyPresentationArgs,
+  ICreateVerifiableCredentialArgs
 } from '@veramo/core-types'
 
 // interface Something = IPluginMethodMap | IProofFormatIssuer
@@ -42,7 +42,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   createVerifiableCredentialEIP712(
-    args: ICreateVerifiableCredentialEIP712Args,
+    args: ICreateVerifiableCredentialArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential>
 
@@ -58,7 +58,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  verifyCredentialEIP712(args: IVerifyCredentialEIP712Args, context: IRequiredContext): Promise<IVerifyResult>
+  verifyCredentialEIP712(args: IVerifyCredentialArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Creates a Verifiable Presentation.
@@ -74,7 +74,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *   }
    */
   createVerifiablePresentationEIP712(
-    args: ICreateVerifiablePresentationEIP712Args,
+    args: ICreateVerifiablePresentationArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation>
 
@@ -88,7 +88,7 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    *
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
    */
-  verifyPresentationEIP712(args: IVerifyPresentationEIP712Args, context: IRequiredContext): Promise<IVerifyResult>
+  verifyPresentationEIP712(args: IVerifyPresentationArgs, context: IRequiredContext): Promise<IVerifyResult>
 
   /**
    * Checks if a key is suitable for signing EIP712 payloads.
@@ -101,93 +101,6 @@ export interface ICredentialIssuerEIP712 extends IPluginMethodMap {
    */
   matchKeyForEIP712(key: IKey, context: IRequiredContext): Promise<boolean>
 
-}
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ICreateVerifiableCredentialEIP712Args extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   * `@context`, 'type' and 'issuanceDate' will be added automatically if omitted
-   */
-  credential: CredentialPayload
-
-  /**
-   * Specific key to use for signing
-   */
-  keyRef?: string
-}
-
-/**
- * Encapsulates the parameters required to create a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- * using the {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEip712Signature2021}
- * proof format.
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface ICreateVerifiablePresentationEIP712Args extends UsingResolutionOptions {
-  /**
-   * The json payload of the Presentation according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model}.
-   *
-   * The signer of the Presentation is chosen based on the `holder` property
-   * of the `presentation`
-   *
-   * `@context`, `type` and `issuanceDate` will be added automatically if omitted
-   */
-  presentation: PresentationPayload
-
-  /**
-   * [Optional] The ID of the key that should sign this presentation.
-   * If this is not specified, the first matching key will be used.
-   */
-  keyRef?: string
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential}
- *
- * @beta This API may change without a BREAKING CHANGE notice.
- */
-export interface IVerifyCredentialEIP712Args extends UsingResolutionOptions {
-  /**
-   * The json payload of the Credential according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model}
-   *
-   * The signer of the Credential is chosen based on the `issuer.id` property
-   * of the `credential`
-   *
-   */
-  credential: VerifiableCredential
-}
-
-/**
- * Encapsulates the parameters required to verify a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-export interface IVerifyPresentationEIP712Args extends UsingResolutionOptions {
-  /**
-   * The Verifiable Presentation object according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#presentations | canonical model} or the JWT representation.
-   *
-   * The signer of the Presentation is verified based on the `holder` property
-   * of the `presentation` or the `iss` property of the JWT payload respectively
-   *
-   */
-  presentation: VerifiablePresentation
 }
 
 /**

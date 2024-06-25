@@ -34,12 +34,8 @@ import { schema } from '../plugin.schema.js'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {
-  ICreateVerifiableCredentialEIP712Args,
-  ICreateVerifiablePresentationEIP712Args,
   ICredentialIssuerEIP712,
   IRequiredContext,
-  IVerifyCredentialEIP712Args,
-  IVerifyPresentationEIP712Args,
 } from '../types/ICredentialEIP712.js'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
@@ -108,7 +104,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */
   public async createVerifiableCredentialEIP712(
-    args: ICreateVerifiableCredentialEIP712Args,
+    args: ICreateVerifiableCredentialArgs,
     context: IRequiredContext,
   ): Promise<VerifiableCredential> {
     const credentialContext = processEntryToArray(
@@ -194,10 +190,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
 
   /** {@inheritdoc ICredentialIssuerEIP712.verifyCredentialEIP712} */
   private async verifyCredentialEIP712(
-    args: IVerifyCredentialEIP712Args,
+    args: IVerifyCredentialArgs,
     context: IRequiredContext,
   ): Promise<IVerifyResult> {
-    const { credential } = args
+    const credential = args.credential as VerifiableCredential
     if (!credential.proof || !credential.proof.proofValue)
       throw new Error('invalid_argument: proof is undefined')
 
@@ -227,7 +223,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
 
     const recovered = recoverTypedSignature({
       data: objectToVerify,
-      signature: proofValue,
+      signature: proofValue!,
       version: SignTypedDataVersion.V4,
     })
 
@@ -261,7 +257,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
 
   /** {@inheritdoc ICredentialIssuerEIP712.createVerifiablePresentationEIP712} */
   async createVerifiablePresentationEIP712(
-    args: ICreateVerifiablePresentationEIP712Args,
+    args: ICreateVerifiablePresentationArgs,
     context: IRequiredContext,
   ): Promise<VerifiablePresentation> {
     const presentationContext = processEntryToArray(
@@ -370,10 +366,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
 
   /** {@inheritdoc ICredentialIssuerEIP712.verifyPresentationEIP712} */
   private async verifyPresentationEIP712(
-    args: IVerifyPresentationEIP712Args,
+    args: IVerifyPresentationArgs,
     context: IRequiredContext,
   ): Promise<IVerifyResult> {
-    const { presentation } = args
+    const presentation = args.presentation as VerifiablePresentation
     if (!presentation.proof || !presentation.proof.proofValue) throw new Error('Proof is undefined')
 
     const { proof, ...signingInput } = presentation
@@ -402,7 +398,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
 
     const recovered = recoverTypedSignature({
       data: objectToVerify,
-      signature: proofValue,
+      signature: proofValue!,
       version: SignTypedDataVersion.V4,
     })
 

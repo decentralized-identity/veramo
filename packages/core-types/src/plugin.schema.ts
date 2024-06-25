@@ -2287,6 +2287,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -3158,6 +3161,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4004,6 +4010,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4427,6 +4436,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
@@ -4902,6 +4914,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -5271,6 +5286,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
@@ -5798,6 +5816,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
