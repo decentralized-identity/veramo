@@ -53,18 +53,22 @@ const debug = Debug('veramo:credential-jwt:agent')
  */
 export class CredentialProviderJWT implements AbstractCredentialProvider {
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.matchKeyForType} */
   matchKeyForType(key: IKey): boolean {
     return this.matchKeyForJWT(key)
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getTypeProofFormat} */
   getTypeProofFormat(): string {
     return 'jwt'
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
   canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
     return args.proofFormat === 'jwt'
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
   canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
     return typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt

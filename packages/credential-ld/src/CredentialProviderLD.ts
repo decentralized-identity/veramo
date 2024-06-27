@@ -61,18 +61,22 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     })
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.matchKeyForType} */
   matchKeyForType(key: IKey): boolean {
     return this.matchKeyForLDSuite(key)
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getTypeProofFormat} */
   getTypeProofFormat(): string {
     return 'lds'
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
   canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
     return (args.proofFormat === 'lds')
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
   canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
 

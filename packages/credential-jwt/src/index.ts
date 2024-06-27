@@ -1,1 +1,1 @@
-export { CredentialProviderJWT } from './agent/CredentialJWT.js'
+export { CredentialProviderJWT } from './agent/CredentialProviderJWT.js'

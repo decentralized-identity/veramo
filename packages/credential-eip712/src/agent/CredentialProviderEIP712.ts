@@ -42,18 +42,22 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  */
 export class CredentialProviderEIP712 implements AbstractCredentialProvider {
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.matchKeyForType} */
   matchKeyForType(key: IKey): boolean {
     return this.matchKeyForEIP712(key)
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getTypeProofFormat} */
   getTypeProofFormat(): string {
     return 'EthereumEip712Signature2021'
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
   canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
     return (args.proofFormat === 'EthereumEip712Signature2021')
   }
 
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
   canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
     return ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')

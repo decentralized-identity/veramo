@@ -1,1 +1,1 @@
-export { CredentialProviderEIP712 } from './agent/CredentialEIP712.js'
+export { CredentialProviderEIP712 } from './agent/CredentialProviderEIP712.js'

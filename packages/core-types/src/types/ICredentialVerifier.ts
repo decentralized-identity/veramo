@@ -193,52 +193,6 @@ export interface ICredentialVerifier extends IPluginMethodMap {
 }
 
 /**
- * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
- *
- * @see {@link @veramo/credential-w3c#CredentialPlugin} for an implementation.
- * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
- *
- * @public
- */
-export interface ICredentialVerifierHandler {
-  /**
-   * Verifies a Verifiable Credential
-   *
-   * @param args - Arguments necessary to verify a VerifiableCredential
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
-   *   for details
-   *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
-   */
-  verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult>
-
-
-  /**
-   * 
-   * @param args - Arguments necessary to verify a document
-   * @param context  - This reserved param is automatically added and handled by the framework, *do not override*
-   * 
-   * @returns a promise that resolves to a boolean indicating if the document can be verified
-   */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: VerifierAgentContext): Promise<boolean>
-
-  /**
-   * Verifies a Verifiable Presentation JWT or LDS Format.
-   *
-   * @param args - Arguments necessary to verify a VerifiableCredential
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
-   *   for details
-   *
-   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
-   */
-  verifyPresentation(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult>
-}
-
-/**
  * Represents the requirements that this plugin has.
  * The agent that is using this plugin is expected to provide these methods.
  *
