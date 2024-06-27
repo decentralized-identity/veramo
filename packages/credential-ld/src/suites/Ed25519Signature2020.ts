@@ -35,6 +35,10 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     // TODO: add support for ['JsonWebKey2020', 'Multikey']
   }
 
+  getSupportedProofType(): string {
+    return 'Ed25519Signature2020'
+  }
+
   getSupportedVeramoKeyType(): TKeyType {
     return 'Ed25519'
   }
@@ -136,7 +140,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
 
   private transformVerificationMethod(vm: VerificationMethod): VerificationMethod {
     if (vm.type === 'Ed25519VerificationKey2020') {
-      ;(vm as any)['@context'] = 'https://w3id.org/security/suites/ed25519-2020/v1'
+      ; (vm as any)['@context'] = 'https://w3id.org/security/suites/ed25519-2020/v1'
       // publicKeyMultibase is required by this suite
       if (!vm.publicKeyMultibase) {
         const { publicKeyHex } = extractPublicKeyHex(vm)

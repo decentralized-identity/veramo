@@ -20,7 +20,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
-import { CredentialIssuerJWT } from '../agent/CredentialJWT.js'
+import { CredentialProviderJWT } from '../agent/CredentialJWT.js'
 
 jest.setTimeout(300000)
 
@@ -30,7 +30,7 @@ describe('credential-jwt full flow', () => {
     let didKeyIdentifier: IIdentifier
     let didEthrIdentifier: IIdentifier
     let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
-    const jwt = new CredentialIssuerJWT()
+    const jwt = new CredentialProviderJWT()
 
     beforeAll(async () => {
         agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({

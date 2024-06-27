@@ -50,7 +50,7 @@ const debug = Debug('veramo:credential-ld:action-handler')
  *
  * @public
  */
-export class CredentialIssuerLD implements AbstractCredentialProvider {
+export class CredentialProviderLD implements AbstractCredentialProvider {
 
   private ldCredentialModule: LdCredentialModule
 
@@ -61,7 +61,7 @@ export class CredentialIssuerLD implements AbstractCredentialProvider {
     })
   }
 
-  matchKeyForType(key: IKey, context: IssuerAgentContext): boolean {
+  matchKeyForType(key: IKey): boolean {
     return this.matchKeyForLDSuite(key)
   }
 
@@ -69,20 +69,20 @@ export class CredentialIssuerLD implements AbstractCredentialProvider {
     return 'lds'
   }
 
-  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
     return (args.proofFormat === 'lds')
   }
 
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): boolean {
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
-    // TODO: can we get proof types dynamically?
-    const canVerify = [
-      'EcdsaSecp256k1RecoverySignature2020',
-      'Ed25519Signature2018',
-      'Ed25519Signature2020',
-      'JsonWebSignature2020'
-    ].includes((<VerifiableCredential>document)?.proof?.type || '')
-    return (canVerify)
+
+    for (const suite of this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()) {
+      if (suite.getSupportedProofType() === (<VerifiableCredential>document)?.proof?.type || '') {
+        return true
+      }
+    }
+
+    return false
   }
 
   /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */

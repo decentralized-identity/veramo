@@ -23,10 +23,10 @@ import { DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712 } from '../packages/credential-eip712/src'
-import { CredentialIssuerJWT } from '../packages/credential-jwt/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -197,9 +197,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm(),
       new CredentialPlugin({
         issuers: [
-          new CredentialIssuerEIP712(),
-          new CredentialIssuerJWT(),
-          new CredentialIssuerLD({
+          new CredentialProviderEIP712(),
+          new CredentialProviderJWT(),
+          new CredentialProviderLD({
             contextMaps: [LdDefaultContexts, credential_contexts as any],
             suites: [
               new VeramoEcdsaSecp256k1RecoverySignature2020(),

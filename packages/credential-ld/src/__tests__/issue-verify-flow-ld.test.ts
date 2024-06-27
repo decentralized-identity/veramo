@@ -16,7 +16,7 @@ import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { EthrDIDProvider } from '../../../did-provider-ethr/src'
 import { ContextDoc } from '../types.js'
-import { CredentialIssuerLD } from '../action-handler.js'
+import { CredentialProviderLD } from '../CredentialProviderLD.js'
 import { LdDefaultContexts } from '../ld-default-contexts.js'
 import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
@@ -43,7 +43,7 @@ describe('credential-LD full flow', () => {
   let didEthrIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
-  const ld = new CredentialIssuerLD({
+  const ld = new CredentialProviderLD({
     contextMaps: [LdDefaultContexts, customContext],
     suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
   })

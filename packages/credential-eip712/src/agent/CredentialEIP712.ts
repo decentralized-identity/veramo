@@ -36,13 +36,13 @@ import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-u
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
 /**
- * A Veramo plugin that implements the {@link ICredentialIssuerEIP712} methods.
+ * A Veramo plugin that implements the {@link ICredentialProviderEIP712} methods.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerEIP712 implements AbstractCredentialProvider {
+export class CredentialProviderEIP712 implements AbstractCredentialProvider {
 
-  matchKeyForType(key: IKey, context: IssuerAgentContext): boolean {
+  matchKeyForType(key: IKey): boolean {
     return this.matchKeyForEIP712(key)
   }
 
@@ -50,11 +50,11 @@ export class CredentialIssuerEIP712 implements AbstractCredentialProvider {
     return 'EthereumEip712Signature2021'
   }
 
-  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
     return (args.proofFormat === 'EthereumEip712Signature2021')
   }
 
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): boolean {
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
     return ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
   }

@@ -272,8 +272,8 @@ didDiscovery:
         - $require: "@veramo/data-store#DataStoreDiscoveryProvider"
 
 # W3C credentialPlugin
-credentialIssuerLD:
-  $require: "@veramo/credential-ld#CredentialIssuerLD"
+CredentialProviderLD:
+  $require: "@veramo/credential-ld#CredentialProviderLD"
   $args:
     - suites:
         - $require: "@veramo/credential-ld#VeramoEd25519Signature2018"
@@ -286,15 +286,15 @@ credentialIssuerLD:
         - $require: "@transmute/credentials-context?t=object#contexts"
         #  others should be included here
 
-credentialIssuerJWT:
-  $require: "@veramo/credential-jwt#CredentialIssuerJWT"
+CredentialProviderJWT:
+  $require: "@veramo/credential-jwt#CredentialProviderJWT"
 
 credentialPlugin:
   $require: "@veramo/credential-w3c#CredentialPlugin"
   $args:
     - issuers:
-        - $ref: /credentialIssuerLD
-        - $ref: /credentialIssuerJWT
+        - $ref: /CredentialProviderLD
+        - $ref: /CredentialProviderJWT
 
 # Agent
 agent:

@@ -51,9 +51,9 @@ const debug = Debug('veramo:credential-jwt:agent')
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerJWT implements AbstractCredentialProvider {
+export class CredentialProviderJWT implements AbstractCredentialProvider {
 
-  matchKeyForType(key: IKey, context: IssuerAgentContext): boolean {
+  matchKeyForType(key: IKey): boolean {
     return this.matchKeyForJWT(key)
   }
 
@@ -61,11 +61,11 @@ export class CredentialIssuerJWT implements AbstractCredentialProvider {
     return 'jwt'
   }
 
-  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
     return args.proofFormat === 'jwt'
   }
 
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): boolean {
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
     return typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt
   }

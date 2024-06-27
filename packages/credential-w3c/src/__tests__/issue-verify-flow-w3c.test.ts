@@ -18,7 +18,7 @@ import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { EthrDIDProvider } from '../../../did-provider-ethr/src'
 import {
   ContextDoc,
-  CredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -26,7 +26,7 @@ import {
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
-import { CredentialIssuerJWT } from '../../../credential-jwt/src'
+import { CredentialProviderJWT } from '../../../credential-jwt/src'
 
 jest.setTimeout(300000)
 
@@ -47,8 +47,8 @@ describe('credential-w3c full flow', () => {
   let credential: CredentialPayload
 
   beforeAll(async () => {
-    const jwt = new CredentialIssuerJWT()
-    const ld = new CredentialIssuerLD({
+    const jwt = new CredentialProviderJWT()
+    const ld = new CredentialProviderLD({
       contextMaps: [LdDefaultContexts, customContext],
       suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
     })

@@ -1,5 +1,5 @@
 /**
- * Provides a {@link @veramo/credential-ld#CredentialIssuerLD | handler} for the {@link @veramo/credential-w3c#CredentialPlugin} that
+ * Provides a {@link @veramo/credential-ld#CredentialProviderLD | handler} for the {@link @veramo/credential-w3c#CredentialPlugin} that
  * implements
  * {@link @veramo/core-types#AbstractCredentialProvider} interface.
  *
@@ -10,7 +10,7 @@
  *
  * @packageDocumentation
  */
-export { CredentialIssuerLD } from './action-handler.js'
+export { CredentialProviderLD } from './CredentialProviderLD.js'
 export * from './types.js'
 export { LdDefaultContexts } from './ld-default-contexts.js'
 export { VeramoLdSignature } from './ld-suites.js'

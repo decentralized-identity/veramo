@@ -19,7 +19,11 @@ import {
 export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
   getSupportedVerificationType(): string {
     return 'JsonWebKey2020'
-      // TODO: add support for ['Ed25519VerificationKey2018', 'Ed25519VerificationKey2020', 'Multikey'] and others
+    // TODO: add support for ['Ed25519VerificationKey2018', 'Ed25519VerificationKey2020', 'Multikey'] and others
+  }
+
+  getSupportedProofType(): string {
+    return 'JsonWebSignature2020'
   }
 
   getSupportedVeramoKeyType(): TKeyType {

@@ -14,7 +14,7 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { ContextDoc } from '../types'
-import { CredentialIssuerLD } from '../action-handler'
+import { CredentialProviderLD } from '../CredentialProviderLD'
 import { LdDefaultContexts } from '../ld-default-contexts'
 import { VeramoEd25519Signature2020 } from '../suites/Ed25519Signature2020'
 import { Resolver } from 'did-resolver'
@@ -36,7 +36,7 @@ describe('credential-LD full flow', () => {
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
   beforeAll(async () => {
-    const ld = new CredentialIssuerLD({
+    const ld = new CredentialProviderLD({
       contextMaps: [LdDefaultContexts, customContext],
       suites: [new VeramoEd25519Signature2020()],
     })

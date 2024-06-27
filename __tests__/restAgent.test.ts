@@ -31,10 +31,10 @@ import {
   ICredentialVerifier,
   W3cMessageHandler,
 } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712 } from '../packages/credential-eip712/src'
-import { CredentialIssuerJWT } from '../packages/credential-jwt/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -150,9 +150,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   }).initialize()
 
-  const eip712 = new CredentialIssuerEIP712()
-  const jwt = new CredentialIssuerJWT()
-  const ld = new CredentialIssuerLD({
+  const eip712 = new CredentialProviderEIP712()
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
     contextMaps: [LdDefaultContexts, credential_contexts as any],
     suites: [
       new VeramoEcdsaSecp256k1RecoverySignature2020(),

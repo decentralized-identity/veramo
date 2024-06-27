@@ -20,7 +20,7 @@ import {
   TAgent,
 } from '../../../core-types/src'
 import { CredentialPlugin } from '../action-handler.js'
-import { CredentialIssuerJWT } from '../../../credential-jwt/src'
+import { CredentialProviderJWT } from '../../../credential-jwt/src'
 import { createAgent } from '../../../core/src/agent.js'
 import { KeyManager } from '../../../key-manager/src/key-manager.js'
 import { MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -42,7 +42,7 @@ describe('@veramo/credential-w3c', () => {
 
   beforeAll(async () => {
 
-    const jwt = new CredentialIssuerJWT()
+    const jwt = new CredentialProviderJWT()
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({

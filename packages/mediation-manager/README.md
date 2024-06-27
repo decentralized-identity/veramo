@@ -127,8 +127,10 @@ agent:
         - $ref: /mediationManager # <<<< include your mediationManager plugin here
         - $require: '@veramo/did-comm#DIDComm'
         - $require: '@veramo/credential-w3c#CredentialPlugin'
-        - $ref: /credentialIssuerLD
-        - $require: '@veramo/credential-eip712#CredentialIssuerEIP712'
+          $args:
+            - issuers:
+              - $ref: /CredentialProviderLD
+              - $ref: /CredentialProviderJWT
         - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
         - $require: '@veramo/data-store#DataStore'
           $args:

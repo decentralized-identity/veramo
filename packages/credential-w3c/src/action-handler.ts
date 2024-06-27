@@ -70,7 +70,7 @@ export class CredentialPlugin implements IAgentPlugin {
     const keys = did.keys
     for (const key of keys) {
       for (const issuer of this.issuers) {
-        if (issuer.matchKeyForType(key, context)) {
+        if (issuer.matchKeyForType(key)) {
           signingOptions.push(issuer.getTypeProofFormat())
         }
       }
@@ -116,7 +116,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
       async function getCredential(issuers: AbstractCredentialProvider[]) {
         for (const issuer of issuers) {
-          if (issuer.canIssueCredentialType({ proofFormat }, context)) {
+          if (issuer.canIssueCredentialType({ proofFormat })) {
             return await issuer.createVerifiableCredential(args, context)
           }
         }
@@ -146,7 +146,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
     async function getVerificationResult(issuers: AbstractCredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
-        if (issuer.canVerifyDocumentType({ document: credential }, context)) {
+        if (issuer.canVerifyDocumentType({ document: credential })) {
           return issuer.verifyCredential(args, context)
         }
       }
@@ -226,7 +226,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
     async function getPresentation(issuers: AbstractCredentialProvider[]) {
       for (const issuer of issuers) {
-        if (issuer.canIssueCredentialType({ proofFormat }, context)) {
+        if (issuer.canIssueCredentialType({ proofFormat })) {
           return await issuer.createVerifiablePresentation(args, context)
         }
       }
@@ -253,7 +253,7 @@ export class CredentialPlugin implements IAgentPlugin {
     let result: IVerifyResult | undefined = { verified: false }
     async function getVerificationResult(issuers: AbstractCredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
-        if (issuer.canVerifyDocumentType({ document: presentation }, context)) {
+        if (issuer.canVerifyDocumentType({ document: presentation })) {
           return issuer.verifyPresentation(args, context)
         }
       }
