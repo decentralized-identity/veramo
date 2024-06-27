@@ -64,6 +64,7 @@ describe('@veramo/credential-w3c', () => {
           }
         }
       },
+      canVerifyDocumentType: jest.fn(),
       verifyCredential: jest.fn(),
       verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),

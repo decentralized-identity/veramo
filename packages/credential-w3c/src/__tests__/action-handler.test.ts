@@ -20,7 +20,7 @@ import {
   TAgent,
 } from '../../../core-types/src'
 import { CredentialPlugin } from '../action-handler.js'
-import { CredentialIssuerJWT, ICredentialIssuerJWT } from '../../../credential-jwt/src'
+import { CredentialIssuerJWT } from '../../../credential-jwt/src'
 import { createAgent } from '../../../core/src/agent.js'
 import { KeyManager } from '../../../key-manager/src/key-manager.js'
 import { MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -36,14 +36,14 @@ const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 let didKeyIdentifier: IIdentifier
 let didEthrIdentifier: IIdentifier
-let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>
+let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
 describe('@veramo/credential-w3c', () => {
 
   beforeAll(async () => {
 
     const jwt = new CredentialIssuerJWT()
-    agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>({
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
           store: new MemoryKeyStore(),
@@ -69,7 +69,6 @@ describe('@veramo/credential-w3c', () => {
           }),
         }),
         new CredentialPlugin({ issuers: [jwt] }),
-        jwt
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

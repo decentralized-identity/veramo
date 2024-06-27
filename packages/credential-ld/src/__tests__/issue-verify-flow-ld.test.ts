@@ -75,7 +75,6 @@ describe('credential-LD full flow', () => {
           }),
         }),
         new CredentialPlugin({ issuers: [ld] }),
-        ld,
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

@@ -7,9 +7,6 @@ import {
   ICredentialStatusVerifier,
   IIdentifier,
   IKey,
-  IProofFormatIssuer,
-  IProofFormatVerifier,
-  IProofFormatIssuerVerifier,
   IssuerAgentContext,
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
@@ -18,6 +15,11 @@ import {
   VerifiablePresentation,
   VerifierAgentContext,
   ICredentialPluginArgs,
+  ICanIssueCredentialTypeArgs,
+  ICredentialIssuer,
+  ICredentialVerifier,
+  ICanVerifyDocumentTypeArgs,
+  ICredentialHandler
 } from '@veramo/core-types'
 
 import { schema } from '@veramo/core-types'
@@ -52,17 +54,177 @@ export class CredentialPlugin implements IAgentPlugin {
       },
     },
   }
-  private issuers: IProofFormatIssuerVerifier[]
+  private issuers: ICredentialHandler[]
 
   constructor({ issuers = [] }: ICredentialPluginArgs) {
     this.issuers = issuers
     this.methods = {
-      createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
+      matchKeyForType: this.matchKeyForType.bind(this),
+      getTypeProofFormat: this.getTypeProofFormat.bind(this),
+      canIssueCredentialType: this.canIssueCredentialType.bind(this),
+      canVerifyDocumentType: this.canVerifyDocumentType.bind(this),
+      listUsableProofFormats: this.listUsableProofFormats.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
       verifyCredential: this.verifyCredential.bind(this),
+      createVerifiablePresentation: this.createVerifiablePresentation.bind(this),
       verifyPresentation: this.verifyPresentation.bind(this),
-      listUsableProofFormats: this.listUsableProofFormats.bind(this),
     }
+  }
+
+  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    async function matchKey(issuers: ICredentialHandler[]): Promise<boolean> {
+      for (const issuer of issuers) {
+        if (await issuer.matchKeyForType(key, context)) {
+          return true
+        }
+      }
+      return false
+    }
+    return await matchKey(this.issuers)
+  }
+
+  async getTypeProofFormat(): Promise<string> {
+    throw new Error('Not implemented for this plugin')
+  }
+
+  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    let canIssue = false
+
+    async function getCanIssue(issuers: ICredentialHandler[]) {
+      for (const issuer of issuers) {
+        if (await issuer.canIssueCredentialType(args, context)) {
+          canIssue = true
+          return
+        }
+      }
+    }
+    await getCanIssue(this.issuers)
+    return canIssue
+  }
+
+
+  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    const { document } = args
+    let canVerify = false
+
+    async function getCanVerify(issuers: ICredentialHandler[]) {
+      for (const issuer of issuers) {
+        if (await issuer.canVerifyDocumentType({ document }, context)) {
+          canVerify = true
+          return
+        }
+      }
+    }
+    await getCanVerify(this.issuers)
+    return canVerify
+  }
+
+  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<string[]> {
+    const signingOptions: string[] = []
+    const keys = did.keys
+    for (const key of keys) {
+      async function getSigningOptions(issuers: ICredentialHandler[]) {
+        for (const issuer of issuers) {
+          if (await issuer.matchKeyForType(key, context)) {
+            signingOptions.push(await issuer.getTypeProofFormat())
+          }
+        }
+      }
+      await getSigningOptions(this.issuers)
+    }
+    return signingOptions
+  }
+
+  /** {@inheritdoc @veramo/core-types#ICredentialIssuer.createVerifiableCredential} */
+  async createVerifiableCredential(
+    args: ICreateVerifiableCredentialArgs,
+    context: IssuerAgentContext,
+  ): Promise<VerifiableCredential> {
+    let { credential, proofFormat, keyRef, removeOriginalFields, save, now, ...otherOptions } = args
+    const credentialContext = processEntryToArray(credential['@context'], MANDATORY_CREDENTIAL_CONTEXT)
+    const credentialType = processEntryToArray(credential.type, 'VerifiableCredential')
+
+    // only add issuanceDate for JWT
+    now = typeof now === 'number' ? new Date(now * 1000) : now
+    if (!Object.getOwnPropertyNames(credential).includes('issuanceDate')) {
+      credential.issuanceDate = (now instanceof Date ? now : new Date()).toISOString()
+    }
+
+    credential = {
+      ...credential,
+      '@context': credentialContext,
+      type: credentialType,
+    }
+
+    //FIXME: if the identifier is not found, the error message should reflect that.
+    const issuer = extractIssuer(credential, { removeParameters: true })
+    if (!issuer || typeof issuer === 'undefined') {
+      throw new Error('invalid_argument: credential.issuer must not be empty')
+    }
+
+    let identifier: IIdentifier
+    try {
+      identifier = await context.agent.didManagerGet({ did: issuer })
+    } catch (e) {
+      throw new Error(`invalid_argument: credential.issuer must be a DID managed by this agent. ${e}`)
+    }
+    try {
+      let verifiableCredential: VerifiableCredential | undefined
+
+      async function getCredential(issuers: ICredentialHandler[]) {
+        for (const issuer of issuers) {
+          if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
+            return await issuer.createVerifiableCredential(args, context)
+          }
+        }
+      }
+      verifiableCredential = await getCredential(this.issuers)
+
+      if (!verifiableCredential) {
+        throw new Error('invalid_setup: No issuer found for the requested proof format')
+      }
+
+      if (save) {
+        await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
+      }
+
+      return verifiableCredential
+    } catch (error) {
+      debug(error)
+      return Promise.reject(error)
+    }
+  }
+
+  /** {@inheritdoc @veramo/core-types#ICredentialVerifier.verifyCredential} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+    let { credential, policies, ...otherOptions } = args
+    let verifiedCredential: VerifiableCredential
+    let verificationResult: IVerifyResult | undefined = { verified: false }
+
+    async function getVerificationResult(issuers: ICredentialHandler[]): Promise<IVerifyResult | undefined> {
+      for (const issuer of issuers) {
+        if (await issuer.canVerifyDocumentType({ document: credential }, context)) {
+          return issuer.verifyCredential(args, context)
+        }
+      }
+    }
+    verificationResult = await getVerificationResult(this.issuers)
+    if (!verificationResult) {
+      throw new Error('invalid_setup: No verifier found for the provided credential')
+    }
+    verifiedCredential = <VerifiableCredential>credential
+
+    if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context as any))) {
+      verificationResult = {
+        verified: false,
+        error: {
+          message: 'revoked: The credential was revoked by the issuer',
+          errorCode: 'revoked',
+        },
+      }
+    }
+
+    return verificationResult
   }
 
   /** {@inheritdoc @veramo/core-types#ICredentialIssuer.createVerifiablePresentation} */
@@ -119,10 +281,10 @@ export class CredentialPlugin implements IAgentPlugin {
 
     let verifiablePresentation: VerifiablePresentation | undefined
 
-    async function getPresentation(issuers: IProofFormatIssuer[]) {
+    async function getPresentation(issuers: ICredentialHandler[]) {
       for (const issuer of issuers) {
-        if (issuer.canIssueCredentialType({ proofFormat }, context)) {
-          return await issuer.issuePresentationType(args, context)
+        if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
+          return await issuer.createVerifiablePresentation(args, context)
         }
       }
     }
@@ -139,98 +301,6 @@ export class CredentialPlugin implements IAgentPlugin {
     return verifiablePresentation
   }
 
-  /** {@inheritdoc @veramo/core-types#ICredentialIssuer.createVerifiableCredential} */
-  async createVerifiableCredential(
-    args: ICreateVerifiableCredentialArgs,
-    context: IssuerAgentContext,
-  ): Promise<VerifiableCredential> {
-    let { credential, proofFormat, keyRef, removeOriginalFields, save, now, ...otherOptions } = args
-    const credentialContext = processEntryToArray(credential['@context'], MANDATORY_CREDENTIAL_CONTEXT)
-    const credentialType = processEntryToArray(credential.type, 'VerifiableCredential')
-
-    // only add issuanceDate for JWT
-    now = typeof now === 'number' ? new Date(now * 1000) : now
-    if (!Object.getOwnPropertyNames(credential).includes('issuanceDate')) {
-      credential.issuanceDate = (now instanceof Date ? now : new Date()).toISOString()
-    }
-
-    credential = {
-      ...credential,
-      '@context': credentialContext,
-      type: credentialType,
-    }
-
-    //FIXME: if the identifier is not found, the error message should reflect that.
-    const issuer = extractIssuer(credential, { removeParameters: true })
-    if (!issuer || typeof issuer === 'undefined') {
-      throw new Error('invalid_argument: credential.issuer must not be empty')
-    }
-
-    let identifier: IIdentifier
-    try {
-      identifier = await context.agent.didManagerGet({ did: issuer })
-    } catch (e) {
-      throw new Error(`invalid_argument: credential.issuer must be a DID managed by this agent. ${e}`)
-    }
-    try {
-      let verifiableCredential: VerifiableCredential | undefined
-
-      async function getCredential(issuers: IProofFormatIssuer[]) {
-        for (const issuer of issuers) {
-          if (issuer.canIssueCredentialType({ proofFormat }, context)) {
-            return await issuer.issueCredentialType(args, context)
-          }
-        }
-      }
-      verifiableCredential = await getCredential(this.issuers)
-
-      if (!verifiableCredential) {
-        throw new Error('invalid_setup: No issuer found for the requested proof format')
-      }
-
-      if (save) {
-        await context.agent.dataStoreSaveVerifiableCredential({ verifiableCredential })
-      }
-
-      return verifiableCredential
-    } catch (error) {
-      debug(error)
-      return Promise.reject(error)
-    }
-  }
-
-  /** {@inheritdoc @veramo/core-types#ICredentialVerifier.verifyCredential} */
-  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
-    let { credential, policies, ...otherOptions } = args
-    let verifiedCredential: VerifiableCredential
-    let verificationResult: IVerifyResult | undefined = { verified: false }
-
-    function getVerificationResult(issuers: IProofFormatVerifier[]) {
-      for (const issuer of issuers) {
-        if (issuer.canVerifyDocumentType(credential)) {
-          return issuer.verifyCredentialType(args, context)
-        }
-      }
-    }
-    verificationResult = await getVerificationResult(this.issuers)
-    if (!verificationResult) {
-      throw new Error('invalid_setup: No verifier found for the provided credential')
-    }
-    verifiedCredential = <VerifiableCredential>credential
-
-    if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context as any))) {
-      verificationResult = {
-        verified: false,
-        error: {
-          message: 'revoked: The credential was revoked by the issuer',
-          errorCode: 'revoked',
-        },
-      }
-    }
-
-    return verificationResult
-  }
-
   /** {@inheritdoc @veramo/core-types#ICredentialVerifier.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
@@ -238,10 +308,10 @@ export class CredentialPlugin implements IAgentPlugin {
   ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
     let result: IVerifyResult | undefined = { verified: false }
-    function getVerificationResult(issuers: IProofFormatVerifier[]) {
+    async function getVerificationResult(issuers: ICredentialHandler[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
-        if (issuer.canVerifyDocumentType(presentation)) {
-          return issuer.verifyPresentationType(args, context)
+        if (await issuer.canVerifyDocumentType({ document: presentation }, context)) {
+          return issuer.verifyPresentation(args, context)
         }
       }
     }
@@ -250,22 +320,6 @@ export class CredentialPlugin implements IAgentPlugin {
       throw new Error('invalid_setup: No verifier found for the provided presentation')
     }
     return result
-  }
-
-  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<string[]> {
-    const signingOptions: string[] = []
-    const keys = did.keys
-    for (const key of keys) {
-      async function getSigningOptions(issuers: IProofFormatIssuer[]) {
-        for (const issuer of issuers) {
-          if (await issuer.matchKeyForType(key, context)) {
-            signingOptions.push(issuer.getTypeProofFormat())
-          }
-        }
-      }
-      await getSigningOptions(this.issuers)
-    }
-    return signingOptions
   }
 }
 

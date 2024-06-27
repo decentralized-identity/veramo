@@ -21,7 +21,6 @@ import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
 import { CredentialIssuerJWT } from '../agent/CredentialJWT.js'
-import { ICredentialIssuerJWT } from '../types/ICredentialJWT.js'
 
 jest.setTimeout(300000)
 
@@ -30,11 +29,11 @@ const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 describe('credential-jwt full flow', () => {
     let didKeyIdentifier: IIdentifier
     let didEthrIdentifier: IIdentifier
-    let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>
+    let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
     const jwt = new CredentialIssuerJWT()
 
     beforeAll(async () => {
-        agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin & ICredentialIssuerJWT>({
+        agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
             plugins: [
                 new KeyManager({
                     store: new MemoryKeyStore(),
@@ -60,7 +59,6 @@ describe('credential-jwt full flow', () => {
                     }),
                 }),
                 new CredentialPlugin({ issuers: [jwt] }),
-                jwt
             ],
         })
         didKeyIdentifier = await agent.didManagerCreate()

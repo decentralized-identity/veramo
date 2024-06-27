@@ -1,7 +1,7 @@
 /**
- * Provides a {@link @veramo/credential-ld#CredentialIssuerLD | plugin} for the {@link @veramo/core#Agent} that
+ * Provides a {@link @veramo/credential-ld#CredentialIssuerLD | handler} for the {@link @veramo/credential-w3c#CredentialPlugin} that
  * implements
- * {@link @veramo/credential-ld#ICredentialIssuerLD} interface.
+ * {@link @veramo/core-types#ICredentialHandler} interface.
  *
  * This plugin adds support for working with JSON-LD credentials.
  * When installed, this plugin will be automatically used by
@@ -18,4 +18,3 @@ export * from './suites/EcdsaSecp256k1RecoverySignature2020.js'
 export * from './suites/Ed25519Signature2018.js'
 export * from './suites/Ed25519Signature2020.js'
 export * from './suites/JsonWebSignature2020.js'
-export { schema } from './plugin.schema.js'

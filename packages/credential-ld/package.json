@@ -8,13 +8,7 @@
   },
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
-  },
-  "veramo": {
-    "pluginInterfaces": {
-      "ICredentialIssuerLD": "./src/action-handler.ts"
-    }
+    "build": "tsc"
   },
   "dependencies": {
     "@digitalcredentials/ed25519-signature-2020": "^4.0.0",

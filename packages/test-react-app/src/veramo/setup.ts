@@ -23,7 +23,6 @@ import { JwtMessageHandler } from '@veramo/did-jwt'
 import { CredentialPlugin, W3cMessageHandler } from '@veramo/credential-w3c'
 import {
   CredentialIssuerLD,
-  ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -62,7 +61,6 @@ type InstalledPlugins = IResolver &
   IKeyManager &
   IDIDManager &
   ICredentialPlugin &
-  ICredentialIssuerLD &
   IDataStoreORM &
   IDataStore &
   IMessageHandler &
@@ -157,8 +155,6 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
       }),
       new DIDComm(),
       new CredentialPlugin({ issuers: [jwt, ld] }),
-      jwt,
-      ld,
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

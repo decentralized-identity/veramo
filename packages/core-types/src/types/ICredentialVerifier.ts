@@ -145,16 +145,15 @@ export interface VerificationPolicies {
 }
 
 /**
- * Encapsulates the response object to verifyPresentation method after verifying a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
+ * Encapsulates the parameters required to check if a document can be verified
+ * 
  * @public
  */
-
-export interface IProofFormatVerifier {
-  canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean
-  verifyCredentialType(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined>
-  verifyPresentationType(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined>
+export interface ICanVerifyDocumentTypeArgs {
+  /**
+   * The document to check against the verifier
+   */
+  document: W3CVerifiableCredential | W3CVerifiablePresentation
 }
 
 /**
@@ -167,7 +166,7 @@ export interface IProofFormatVerifier {
  */
 export interface ICredentialVerifier extends IPluginMethodMap {
   /**
-   * Verifies a Verifiable Credential JWT, LDS Format or EIP712.
+   * Verifies a Verifiable Credential
    *
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -178,6 +177,62 @@ export interface ICredentialVerifier extends IPluginMethodMap {
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
    */
   verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult>
+
+
+  /**
+   * 
+   * @param args - Arguments necessary to verify a document
+   * @param context  - This reserved param is automatically added and handled by the framework, *do not override*
+   * 
+   * @returns a promise that resolves to a boolean indicating if the document can be verified
+   */
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: VerifierAgentContext): Promise<boolean>
+
+  /**
+   * Verifies a Verifiable Presentation JWT or LDS Format.
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
+   *   for details
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
+   */
+  verifyPresentation(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult>
+}
+
+/**
+ * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
+ *
+ * @see {@link @veramo/credential-w3c#CredentialPlugin} for an implementation.
+ * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
+ *
+ * @public
+ */
+export interface ICredentialVerifierHandler {
+  /**
+   * Verifies a Verifiable Credential
+   *
+   * @param args - Arguments necessary to verify a VerifiableCredential
+   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
+   *
+   * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
+   *   for details
+   *
+   * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
+   */
+  verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult>
+
+
+  /**
+   * 
+   * @param args - Arguments necessary to verify a document
+   * @param context  - This reserved param is automatically added and handled by the framework, *do not override*
+   * 
+   * @returns a promise that resolves to a boolean indicating if the document can be verified
+   */
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: VerifierAgentContext): Promise<boolean>
 
   /**
    * Verifies a Verifiable Presentation JWT or LDS Format.

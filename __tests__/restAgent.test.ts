@@ -31,11 +31,10 @@ import {
   ICredentialVerifier,
   W3cMessageHandler,
 } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
-import { CredentialIssuerJWT, ICredentialIssuerJWT } from '../packages/credential-jwt/src'
+import { CredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialIssuerJWT } from '../packages/credential-jwt/src'
 import {
   CredentialIssuerLD,
-  ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -126,9 +125,6 @@ const getAgent = (options?: IAgentOptions) =>
     IDIDComm &
     ICredentialIssuer & // import from old package to check compatibility
     ICredentialVerifier &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ICredentialIssuerJWT &
     ISelectiveDisclosure &
     IDIDDiscovery
   >({
@@ -244,9 +240,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       // intentionally use the deprecated name to test compatibility
       new CredentialIssuer({ issuers: [eip712, jwt, ld] }),
-      eip712,
-      jwt,
-      ld,
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [

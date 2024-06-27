@@ -16,7 +16,10 @@ import {
   W3CVerifiablePresentation,
   IVerifyPresentationArgs,
   VerifierAgentContext,
-  IProofFormatIssuerVerifier,
+  ICredentialPlugin,
+  IAgentContext,
+  ICanVerifyDocumentTypeArgs,
+  ICredentialHandler,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -30,13 +33,8 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { schema } from '../plugin.schema.js'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
-import {
-  ICredentialIssuerEIP712,
-  IRequiredContext,
-} from '../types/ICredentialEIP712.js'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
@@ -45,67 +43,33 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerVerifier {
-  readonly methods: ICredentialIssuerEIP712
-  readonly schema = schema.ICredentialIssuerEIP712
+export class CredentialIssuerEIP712 implements ICredentialHandler {
 
-  constructor() {
-    this.methods = {
-      createVerifiableCredentialEIP712: this.createVerifiableCredentialEIP712.bind(this),
-      createVerifiablePresentationEIP712: this.createVerifiablePresentationEIP712.bind(this),
-      verifyCredentialEIP712: this.verifyCredentialEIP712.bind(this),
-      verifyPresentationEIP712: this.verifyPresentationEIP712.bind(this),
-      matchKeyForEIP712: this.matchKeyForEIP712.bind(this),
-    }
+  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    return this.matchKeyForEIP712(key)
   }
 
-  public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
-    return args.proofFormat === 'EthereumEip712Signature2021'
+  async getTypeProofFormat(): Promise<string> {
+    return Promise.resolve('EthereumEip712Signature2021')
   }
 
-  public issueCredentialType(
+  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    return Promise.resolve(args.proofFormat === 'EthereumEip712Signature2021')
+  }
+
+  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    const { document } = args
+    return Promise.resolve((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
+  }
+
+  async listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>> {
+    throw new Error('Method not implemented.')
+  }
+
+  /** {@inheritdoc ICredentialIssuer.createVerifiableCredential} */
+  async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
-  ): Promise<VerifiableCredential> {
-    return context.agent.createVerifiableCredentialEIP712(args)
-  }
-
-
-  public issuePresentationType(
-    args: ICreateVerifiablePresentationArgs,
-    context: IssuerAgentContext,
-  ): Promise<VerifiablePresentation> {
-    return context.agent.createVerifiablePresentationEIP712(args)
-  }
-
-  public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
-    return ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
-  }
-
-  public verifyCredentialType(
-    args: IVerifyCredentialArgs,
-    context: IssuerAgentContext,
-  ): Promise<IVerifyResult | undefined> {
-    return context.agent.verifyCredentialEIP712(args)
-  }
-
-  public verifyPresentationType(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult | undefined> {
-    return context.agent.verifyPresentationEIP712(args)
-  }
-
-  public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
-    return context.agent.matchKeyForEIP712(key)
-  }
-
-  public getTypeProofFormat(): string {
-    return 'EthereumEip712Signature2021'
-  }
-
-
-  /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */
-  public async createVerifiableCredentialEIP712(
-    args: ICreateVerifiableCredentialArgs,
-    context: IRequiredContext,
   ): Promise<VerifiableCredential> {
     const credentialContext = processEntryToArray(
       args?.credential?.['@context'],
@@ -188,10 +152,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
     return credential as VerifiableCredential
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.verifyCredentialEIP712} */
-  private async verifyCredentialEIP712(
+  /** {@inheritdoc ICredentialIssuer.verifyCredential} */
+  async verifyCredential(
     args: IVerifyCredentialArgs,
-    context: IRequiredContext,
+    context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
     const credential = args.credential as VerifiableCredential
     if (!credential.proof || !credential.proof.proofValue)
@@ -255,10 +219,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
     }
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.createVerifiablePresentationEIP712} */
-  async createVerifiablePresentationEIP712(
+  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
-    context: IRequiredContext,
+    context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
     const presentationContext = processEntryToArray(
       args?.presentation?.['@context'],
@@ -364,10 +328,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin, IProofFormatIssuerV
     return presentation as VerifiablePresentation
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.verifyPresentationEIP712} */
-  private async verifyPresentationEIP712(
+  /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
+  async verifyPresentation(
     args: IVerifyPresentationArgs,
-    context: IRequiredContext,
+    context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
     const presentation = args.presentation as VerifiablePresentation
     if (!presentation.proof || !presentation.proof.proofValue) throw new Error('Proof is undefined')

@@ -8,7 +8,6 @@ import {
   IIdentifier,
   IKey,
   IResolver,
-  IProofFormatIssuerVerifier,
   IssuerAgentContext,
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
@@ -16,11 +15,11 @@ import {
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
+  VerifierAgentContext,
+  ICanVerifyDocumentTypeArgs,
+  ICredentialHandler,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
-import { schema } from './plugin.schema.js'
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader.js'
 import {
@@ -40,21 +39,17 @@ import { LdCredentialModule } from './ld-credential-module.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'
 import {
   ContextDoc,
-  ICredentialIssuerLD,
-  IRequiredContext,
 } from './types.js'
 import { DIDResolutionOptions } from 'did-resolver'
 
 const debug = Debug('veramo:credential-ld:action-handler')
 
 /**
- * A Veramo plugin that implements the {@link ICredentialIssuerLD} methods.
+ * A handler that implements the {@link ICredentialHandler} methods.
  *
  * @public
  */
-export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerifier {
-  readonly methods: ICredentialIssuerLD
-  readonly schema = schema.ICredentialIssuerLD
+export class CredentialIssuerLD implements ICredentialHandler {
 
   private ldCredentialModule: LdCredentialModule
 
@@ -63,35 +58,22 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
       ldContextLoader: new LdContextLoader({ contextsPaths: options.contextMaps }),
       ldSuiteLoader: new LdSuiteLoader({ veramoLdSignatures: options.suites }),
     })
-
-    this.methods = {
-      createVerifiablePresentationLD: this.createVerifiablePresentationLD.bind(this),
-      createVerifiableCredentialLD: this.createVerifiableCredentialLD.bind(this),
-      verifyCredentialLD: this.verifyCredentialLD.bind(this),
-      verifyPresentationLD: this.verifyPresentationLD.bind(this),
-      matchKeyForLDSuite: this.matchKeyForLDSuite.bind(this),
-    }
   }
 
-  public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
-    return args.proofFormat === 'lds'
+  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    return this.matchKeyForLDSuite(key)
   }
 
-  public issueCredentialType(
-    args: ICreateVerifiableCredentialArgs,
-    context: IssuerAgentContext,
-  ): Promise<VerifiableCredential> {
-    return context.agent.createVerifiableCredentialLD(args)
+  async getTypeProofFormat(): Promise<string> {
+    return Promise.resolve('lds')
   }
 
-  public issuePresentationType(
-    args: ICreateVerifiablePresentationArgs,
-    context: IssuerAgentContext,
-  ): Promise<VerifiablePresentation> {
-    return context.agent.createVerifiablePresentationLD(args)
+  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    return Promise.resolve(args.proofFormat === 'lds')
   }
 
-  public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
+  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    const { document } = args
     // TODO: can we get proof types dynamically?
     const canVerify = [
       'EcdsaSecp256k1RecoverySignature2020',
@@ -99,36 +81,17 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
       'Ed25519Signature2020',
       'JsonWebSignature2020'
     ].includes((<VerifiableCredential>document)?.proof?.type || '')
-    return canVerify
+    return Promise.resolve(canVerify)
   }
 
-  public getTypeProofFormat(): string {
-    return 'lds'
+  async listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>> {
+    throw new Error('Method not implemented.')
   }
 
-
-  public verifyCredentialType(
-    args: IVerifyCredentialArgs,
-    context: IssuerAgentContext,
-  ): Promise<IVerifyResult | undefined> {
-    return context.agent.verifyCredentialLD(args)
-  }
-
-  public verifyPresentationType(
-    args: IVerifyPresentationArgs,
-    context: IssuerAgentContext,
-  ): Promise<IVerifyResult | undefined> {
-    return context.agent.verifyPresentationLD(args)
-  }
-
-  public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
-    return context.agent.matchKeyForLDSuite(key)
-  }
-
-  /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */
-  public async createVerifiablePresentationLD(
+  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */
+  async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
-    context: IRequiredContext,
+    context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
     const presentationContext = processEntryToArray(
       args?.presentation?.['@context'],
@@ -197,10 +160,10 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
     }
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.createVerifiableCredentialLD} */
-  public async createVerifiableCredentialLD(
+  /** {@inheritdoc ICredentialIssuer.createVerifiableCredentialLD} */
+  async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
-    context: IRequiredContext,
+    context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
     const credentialContext = processEntryToArray(
       args?.credential?.['@context'],
@@ -251,11 +214,8 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
     }
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.verifyCredentialLD} */
-  public async verifyCredentialLD(
-    args: IVerifyCredentialArgs,
-    context: IRequiredContext,
-  ): Promise<IVerifyResult> {
+  /** {@inheritdoc ICredentialIssuer.verifyCredentialLD} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     args.credential = args.credential as VerifiableCredential
     const credential = args.credential
 
@@ -268,10 +228,10 @@ export class CredentialIssuerLD implements IAgentPlugin, IProofFormatIssuerVerif
     return this.ldCredentialModule.verifyCredential(credential, { ...args, now }, context)
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */
-  public async verifyPresentationLD(
+  /** {@inheritdoc ICredentialVerifier.verifyPresentation} */
+  async verifyPresentation(
     args: IVerifyPresentationArgs,
-    context: IRequiredContext,
+    context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
     const presentation = args.presentation as VerifiablePresentation
     let { now } = args

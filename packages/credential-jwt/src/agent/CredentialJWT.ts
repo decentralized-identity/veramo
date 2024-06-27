@@ -13,10 +13,10 @@ import {
   ICreateVerifiablePresentationArgs,
   IVerifyCredentialArgs,
   IVerifyResult,
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
   IVerifyPresentationArgs,
-  IProofFormatIssuerVerifier,
+  ICanVerifyDocumentTypeArgs,
+  ICredentialHandler,
+  VerifierAgentContext,
 } from '@veramo/core-types'
 import {
   asArray,
@@ -28,12 +28,6 @@ import {
   processEntryToArray,
   removeDIDParameters,
 } from '@veramo/utils'
-import { schema } from '../plugin.schema.js'
-
-import {
-  ICredentialIssuerJWT,
-  IRequiredContext,
-} from '../types/ICredentialJWT.js'
 
 import canonicalize from 'canonicalize'
 
@@ -53,72 +47,37 @@ import Debug from 'debug'
 const debug = Debug('veramo:credential-jwt:agent')
 
 /**
- * A Veramo plugin that implements the {@link ICredentialIssuerJWT} methods.
+ * A handler that implements the {@link ICredentialHandler} methods.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVerifier {
-  readonly methods: ICredentialIssuerJWT
-  readonly schema = schema.ICredentialIssuerJWT
+export class CredentialIssuerJWT implements ICredentialHandler {
 
-  constructor() {
-    this.methods = {
-      createVerifiableCredentialJWT: this.createVerifiableCredentialJWT.bind(this),
-      createVerifiablePresentationJWT: this.createVerifiablePresentationJWT.bind(this),
-      verifyCredentialJWT: this.verifyCredentialJWT.bind(this),
-      verifyPresentationJWT: this.verifyPresentationJWT.bind(this),
-      matchKeyForJWT: this.matchKeyForJWT.bind(this),
-    }
+  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+    return this.matchKeyForJWT(key, context)
   }
 
-  public canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
-    return args.proofFormat === 'jwt'
+  async getTypeProofFormat(): Promise<string> {
+    return Promise.resolve('jwt')
   }
 
-  public issueCredentialType(
+  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    return Promise.resolve(args.proofFormat === 'jwt')
+  }
+
+  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+    const { document } = args
+    return Promise.resolve(typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt)
+  }
+
+  async listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>> {
+    throw new Error('Method not implemented.')
+  }
+
+  /** {@inheritdoc ICredentialIssuer.createVerifiableCredential} */
+  async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
-  ): Promise<VerifiableCredential> {
-    return context.agent.createVerifiableCredentialJWT(args)
-  }
-
-  public issuePresentationType(
-    args: ICreateVerifiablePresentationArgs,
-    context: IssuerAgentContext,
-  ): Promise<VerifiablePresentation> {
-    return context.agent.createVerifiablePresentationJWT(args)
-  }
-
-  public canVerifyDocumentType(document: W3CVerifiableCredential | W3CVerifiablePresentation): boolean {
-    return (typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt)
-  }
-
-  public verifyCredentialType(
-    args: IVerifyCredentialArgs,
-    context: IssuerAgentContext,
-  ): Promise<IVerifyResult | undefined> {
-    return context.agent.verifyCredentialJWT(args)
-  }
-
-  public verifyPresentationType(
-    args: IVerifyPresentationArgs,
-    context: IssuerAgentContext,
-  ): Promise<IVerifyResult | undefined> {
-    return context.agent.verifyPresentationJWT(args)
-  }
-
-  public matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
-    return context.agent.matchKeyForJWT(key)
-  }
-
-  public getTypeProofFormat(): string {
-    return 'jwt'
-  }
-
-  /** {@inheritdoc ICredentialIssuerJWT.createVerifiableCredentialJWT} */
-  public async createVerifiableCredentialJWT(
-    args: ICreateVerifiableCredentialArgs,
-    context: IRequiredContext,
   ): Promise<VerifiableCredential> {
     let { proofFormat, keyRef, removeOriginalFields, save, now, ...otherOptions } = args
 
@@ -166,10 +125,10 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
     return normalizeCredential(jwt)
   }
 
-  /** {@inheritdoc ICredentialIssuerJWT.verifyCredentialJWT} */
-  private async verifyCredentialJWT(
+  /** {@inheritdoc ICredentialVerifier.verifyCredential} */
+  async verifyCredential(
     args: IVerifyCredentialArgs,
-    context: IRequiredContext,
+    context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
     let verifiedCredential: VerifiableCredential
@@ -228,10 +187,10 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
     }
   }
 
-  /** {@inheritdoc ICredentialIssuerJWT.createVerifiablePresentationJWT} */
-  async createVerifiablePresentationJWT(
+  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
-    context: IRequiredContext,
+    context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
     let {
       presentation,
@@ -304,10 +263,10 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
     return normalizePresentation(jwt)
   }
 
-  /** {@inheritdoc ICredentialIssuerJWT.verifyPresentationJWT} */
-  private async verifyPresentationJWT(
+  /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
+  async verifyPresentation(
     args: IVerifyPresentationArgs,
-    context: IRequiredContext,
+    context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
     let jwt: string
@@ -379,7 +338,7 @@ export class CredentialIssuerJWT implements IAgentPlugin, IProofFormatIssuerVeri
    *
    * @beta
    */
-  async matchKeyForJWT(key: IKey, context: IRequiredContext): Promise<boolean> {
+  async matchKeyForJWT(key: IKey, context: IssuerAgentContext): Promise<boolean> {
     switch (key.type) {
       case 'Ed25519':
       case 'Secp256r1':

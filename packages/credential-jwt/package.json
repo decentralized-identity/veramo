@@ -8,13 +8,7 @@
   },
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
-  },
-  "veramo": {
-    "pluginInterfaces": {
-      "ICredentialIssuerJWT": "./src/types/ICredentialJWT.ts"
-    }
+    "build": "tsc"
   },
   "dependencies": {
     "@veramo/core-types": "workspace:^",

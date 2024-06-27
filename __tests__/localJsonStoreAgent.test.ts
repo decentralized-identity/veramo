@@ -23,11 +23,10 @@ import { DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
-import { CredentialIssuerJWT, ICredentialIssuerJWT } from '../packages/credential-jwt/src'
+import { CredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialIssuerJWT } from '../packages/credential-jwt/src'
 import {
   CredentialIssuerLD,
-  ICredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -96,9 +95,6 @@ let agent: TAgent<
   IMessageHandler &
   IDIDComm &
   ICredentialPlugin &
-  ICredentialIssuerLD &
-  ICredentialIssuerEIP712 &
-  ICredentialIssuerJWT &
   ISelectiveDisclosure
 >
 
@@ -134,9 +130,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     IMessageHandler &
     IDIDComm &
     ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ICredentialIssuerJWT &
     ISelectiveDisclosure
   >({
     ...options,
@@ -216,9 +209,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm(),
       new CredentialPlugin({ issuers: [eip712, jwt, ld] }),
-      eip712,
-      jwt,
-      ld,
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

@@ -8,13 +8,7 @@
   },
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
-  },
-  "veramo": {
-    "pluginInterfaces": {
-      "ICredentialIssuerEIP712": "./src/types/ICredentialEIP712.ts"
-    }
+    "build": "tsc"
   },
   "dependencies": {
     "@metamask/eth-sig-util": "^7.0.0",

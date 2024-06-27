@@ -61,7 +61,6 @@ describe('credential-LD full flow', () => {
           }),
         }),
         new CredentialPlugin({ issuers: [ld] }),
-        ld
       ],
     })
     didFakeIdentifier = await agent.didManagerImport({

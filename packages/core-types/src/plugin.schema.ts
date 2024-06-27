@@ -4224,6 +4224,18 @@ export const schema = {
   "ICredentialIssuer": {
     "components": {
       "schemas": {
+        "ICanIssueCredentialTypeArgs": {
+          "type": "object",
+          "properties": {
+            "proofFormat": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "proofFormat"
+          ],
+          "description": "Encapsulates the parameters required to check if a credential type can be issued"
+        },
         "ICreateVerifiableCredentialArgs": {
           "type": "object",
           "properties": {
@@ -4776,6 +4788,15 @@ export const schema = {
         }
       },
       "methods": {
+        "canIssueCredentialType": {
+          "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
+          "arguments": {
+            "$ref": "#/components/schemas/ICanIssueCredentialTypeArgs"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
         "createVerifiableCredential": {
           "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
           "arguments": {
@@ -4794,6 +4815,15 @@ export const schema = {
             "$ref": "#/components/schemas/VerifiablePresentation"
           }
         },
+        "getTypeProofFormat": {
+          "description": "Gets the proof type supported by this issuer",
+          "arguments": {
+            "type": "object"
+          },
+          "returnType": {
+            "type": "string"
+          }
+        },
         "listUsableProofFormats": {
           "description": "Returns a list of supported proof formats.",
           "arguments": {
@@ -4805,6 +4835,15 @@ export const schema = {
               "type": "string"
             }
           }
+        },
+        "matchKeyForType": {
+          "description": "Matches a key against the type of proof supported by this issuer",
+          "arguments": {
+            "$ref": "#/components/schemas/IKey"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
         }
       }
     }
@@ -4812,41 +4851,25 @@ export const schema = {
   "ICredentialVerifier": {
     "components": {
       "schemas": {
-        "IVerifyCredentialArgs": {
+        "ICanVerifyDocumentTypeArgs": {
           "type": "object",
           "properties": {
-            "resolutionOptions": {
-              "type": "object",
-              "properties": {
-                "publicKeyFormat": {
-                  "type": "string"
+            "document": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/W3CVerifiableCredential"
                 },
-                "accept": {
-                  "type": "string"
+                {
+                  "$ref": "#/components/schemas/W3CVerifiablePresentation"
                 }
-              },
-              "description": "Options to be passed to the DID resolver."
-            },
-            "credential": {
-              "$ref": "#/components/schemas/W3CVerifiableCredential",
-              "description": "The Verifiable Credential object according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
-            },
-            "fetchRemoteContexts": {
-              "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
-            },
-            "policies": {
-              "$ref": "#/components/schemas/VerificationPolicies",
-              "description": "Overrides specific aspects of credential verification, where possible."
+              ],
+              "description": "The document to check against the verifier"
             }
           },
           "required": [
-            "credential"
+            "document"
           ],
-          "additionalProperties": {
-            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
-          },
-          "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+          "description": "Encapsulates the parameters required to check if a document can be verified"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -4993,6 +5016,107 @@ export const schema = {
           "type": "string",
           "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
         },
+        "W3CVerifiablePresentation": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiablePresentation"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
+        },
+        "VerifiablePresentation": {
+          "type": "object",
+          "properties": {
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "verifiableCredential": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              }
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "@context": {
+              "$ref": "#/components/schemas/ContextType"
+            },
+            "verifier": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@context",
+            "holder",
+            "proof"
+          ],
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+        },
+        "IVerifyCredentialArgs": {
+          "type": "object",
+          "properties": {
+            "resolutionOptions": {
+              "type": "object",
+              "properties": {
+                "publicKeyFormat": {
+                  "type": "string"
+                },
+                "accept": {
+                  "type": "string"
+                }
+              },
+              "description": "Options to be passed to the DID resolver."
+            },
+            "credential": {
+              "$ref": "#/components/schemas/W3CVerifiableCredential",
+              "description": "The Verifiable Credential object according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
+            },
+            "fetchRemoteContexts": {
+              "type": "boolean",
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+            },
+            "policies": {
+              "$ref": "#/components/schemas/VerificationPolicies",
+              "description": "Overrides specific aspects of credential verification, where possible."
+            }
+          },
+          "required": [
+            "credential"
+          ],
+          "additionalProperties": {
+            "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
+          },
+          "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#credentials | W3C Verifiable Credential }"
+        },
         "VerificationPolicies": {
           "type": "object",
           "properties": {
@@ -5099,76 +5223,20 @@ export const schema = {
             "description": "Other options can be specified for verification. They will be forwarded to the lower level modules. that perform the checks"
           },
           "description": "Encapsulates the parameters required to verify a  {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation }"
-        },
-        "W3CVerifiablePresentation": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/VerifiablePresentation"
-            },
-            {
-              "$ref": "#/components/schemas/CompactJWT"
-            }
-          ],
-          "description": "Represents a signed Verifiable Presentation (includes proof) in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
-        },
-        "VerifiablePresentation": {
-          "type": "object",
-          "properties": {
-            "proof": {
-              "$ref": "#/components/schemas/ProofType"
-            },
-            "holder": {
-              "type": "string"
-            },
-            "verifiableCredential": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/W3CVerifiableCredential"
-              }
-            },
-            "type": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "@context": {
-              "$ref": "#/components/schemas/ContextType"
-            },
-            "verifier": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "@context",
-            "holder",
-            "proof"
-          ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
         }
       },
       "methods": {
+        "canVerifyDocumentType": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/ICanVerifyDocumentTypeArgs"
+          },
+          "returnType": {
+            "type": "boolean"
+          }
+        },
         "verifyCredential": {
-          "description": "Verifies a Verifiable Credential JWT, LDS Format or EIP712.",
+          "description": "Verifies a Verifiable Credential",
           "arguments": {
             "$ref": "#/components/schemas/IVerifyCredentialArgs"
           },
