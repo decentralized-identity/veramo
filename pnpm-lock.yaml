@@ -458,8 +458,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.4
       did-jwt-vc:
-        specifier: ^4.0.4
-        version: 4.0.4
+        specifier: ^4.0.0
+        version: 4.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -14312,14 +14312,6 @@ packages:
     dependencies:
       did-jwt: 8.0.0
       did-resolver: 4.1.0
-
-  /did-jwt-vc@4.0.4:
-    resolution: {integrity: sha512-O/VSW+pux25+bERGQ1Z+LNv8z8gIy++yL8yjspxNZHCLjdmCelZz3hjuIpHlixhBCFP2YyTOQqGg8QeIMRwN9Q==}
-    engines: {node: '>=18'}
-    dependencies:
-      did-jwt: 8.0.0
-      did-resolver: 4.1.0
-    dev: false
 
   /did-jwt@7.4.2:
     resolution: {integrity: sha512-bdMVrUKD8wBiYihrxm5Bso33vYuw5DHxxN6y+IFSpHQpYQF16nuW6T8+FCrVkS5gDYE6jFZmnkqjJwycT4K7AA==}
