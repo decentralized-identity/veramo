@@ -309,9 +309,6 @@ agent:
         - $ref: /messageHandler
         - $require: "@veramo/did-comm#DIDComm"
         - $ref: /credentialPlugin
-        - $ref: /credentialIssuerLD
-        - $ref: /credentialIssuerJWT
-        - $require: "@veramo/credential-eip712#CredentialIssuerEIP712"
         - $require: "@veramo/selective-disclosure#SelectiveDisclosure"
         - $require: "@veramo/data-store#DataStore"
           $args:
