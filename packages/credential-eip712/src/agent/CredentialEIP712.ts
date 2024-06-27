@@ -12,14 +12,10 @@ import {
   ICreateVerifiablePresentationArgs,
   IVerifyCredentialArgs,
   IVerifyResult,
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
   IVerifyPresentationArgs,
   VerifierAgentContext,
-  ICredentialPlugin,
   IAgentContext,
   ICanVerifyDocumentTypeArgs,
-  ICredentialHandler,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -33,6 +29,7 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
+import { AbstractCredentialProvider } from '@veramo/credential-w3c'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
@@ -43,7 +40,7 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class CredentialIssuerEIP712 implements ICredentialHandler {
+export class CredentialIssuerEIP712 implements AbstractCredentialProvider {
 
   async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
     return this.matchKeyForEIP712(key)
@@ -62,11 +59,7 @@ export class CredentialIssuerEIP712 implements ICredentialHandler {
     return Promise.resolve((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
   }
 
-  async listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>> {
-    throw new Error('Method not implemented.')
-  }
-
-  /** {@inheritdoc ICredentialIssuer.createVerifiableCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -152,7 +145,7 @@ export class CredentialIssuerEIP712 implements ICredentialHandler {
     return credential as VerifiableCredential
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyCredential} */
   async verifyCredential(
     args: IVerifyCredentialArgs,
     context: VerifierAgentContext,
@@ -219,7 +212,7 @@ export class CredentialIssuerEIP712 implements ICredentialHandler {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -328,7 +321,7 @@ export class CredentialIssuerEIP712 implements ICredentialHandler {
     return presentation as VerifiablePresentation
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyPresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,

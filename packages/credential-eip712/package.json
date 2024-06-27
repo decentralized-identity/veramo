@@ -8,10 +8,12 @@
   },
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@metamask/eth-sig-util": "^7.0.0",
+    "@veramo/credential-w3c": "workspace:^",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",

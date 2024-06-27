@@ -1,6 +1,5 @@
-import { IAgentPlugin } from './IAgent.js'
-import { ICredentialIssuer, ICredentialIssuerHandler } from './ICredentialIssuer.js'
-import { ICredentialVerifier, ICredentialVerifierHandler } from './ICredentialVerifier.js'
+import { ICredentialIssuer } from './ICredentialIssuer.js'
+import { ICredentialVerifier } from './ICredentialVerifier.js'
 
 /**
  * The interface definition for a plugin that can generate and verify Verifiable Credentials and Presentations
@@ -10,14 +9,3 @@ import { ICredentialVerifier, ICredentialVerifierHandler } from './ICredentialVe
  * @public
  */
 export type ICredentialPlugin = ICredentialIssuer & ICredentialVerifier
-
-export type ICredentialHandler = ICredentialIssuerHandler & ICredentialVerifierHandler
-
-/**
- * The interface definition for the arguments required to initialize a {@link ICredentialPlugin}
- *
- * @public
- */
-export type ICredentialPluginArgs = {
-    issuers: ICredentialHandler[]
-}

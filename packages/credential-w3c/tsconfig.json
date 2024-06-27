@@ -8,9 +8,17 @@
     "skipLibCheck": true
   },
   "references": [
-    { "path": "../core-types" },
-    { "path": "../message-handler" },
-    { "path": "../utils" }
+    {
+      "path": "../core-types"
+    },
+    {
+      "path": "../message-handler"
+    },
+    {
+      "path": "../utils"
+    }
   ],
-  "include": ["./**/*.ts"]
+  "include": [
+    "./**/*.ts"
+  ]
 }

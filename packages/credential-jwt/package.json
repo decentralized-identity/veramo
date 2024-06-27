@@ -11,6 +11,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@veramo/credential-w3c": "workspace:^",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "canonicalize": "^2.0.0",

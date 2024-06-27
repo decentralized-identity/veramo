@@ -17,7 +17,6 @@ import {
   VerifiablePresentation,
   VerifierAgentContext,
   ICanVerifyDocumentTypeArgs,
-  ICredentialHandler,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
 import Debug from 'debug'
@@ -42,14 +41,16 @@ import {
 } from './types.js'
 import { DIDResolutionOptions } from 'did-resolver'
 
+import { AbstractCredentialProvider } from '@veramo/credential-w3c'
+
 const debug = Debug('veramo:credential-ld:action-handler')
 
 /**
- * A handler that implements the {@link ICredentialHandler} methods.
+ * A handler that implements the {@link AbstractCredentialProvider} methods.
  *
  * @public
  */
-export class CredentialIssuerLD implements ICredentialHandler {
+export class CredentialIssuerLD implements AbstractCredentialProvider {
 
   private ldCredentialModule: LdCredentialModule
 
@@ -82,10 +83,6 @@ export class CredentialIssuerLD implements ICredentialHandler {
       'JsonWebSignature2020'
     ].includes((<VerifiableCredential>document)?.proof?.type || '')
     return Promise.resolve(canVerify)
-  }
-
-  async listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>> {
-    throw new Error('Method not implemented.')
   }
 
   /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */

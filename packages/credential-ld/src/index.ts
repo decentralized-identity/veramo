@@ -1,7 +1,7 @@
 /**
  * Provides a {@link @veramo/credential-ld#CredentialIssuerLD | handler} for the {@link @veramo/credential-w3c#CredentialPlugin} that
  * implements
- * {@link @veramo/core-types#ICredentialHandler} interface.
+ * {@link @veramo/core-types#AbstractCredentialProvider} interface.
  *
  * This plugin adds support for working with JSON-LD credentials.
  * When installed, this plugin will be automatically used by

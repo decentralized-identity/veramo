@@ -426,6 +426,9 @@ importers:
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
+      '@veramo/credential-w3c':
+        specifier: workspace:^
+        version: link:../credential-w3c
       '@veramo/utils':
         specifier: workspace:^
         version: link:../utils
@@ -448,6 +451,9 @@ importers:
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
+      '@veramo/credential-w3c':
+        specifier: workspace:^
+        version: link:../credential-w3c
       '@veramo/utils':
         specifier: workspace:^
         version: link:../utils
@@ -500,6 +506,9 @@ importers:
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
+      '@veramo/credential-w3c':
+        specifier: workspace:^
+        version: link:../credential-w3c
       '@veramo/utils':
         specifier: workspace:^
         version: link:../utils
