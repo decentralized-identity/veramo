@@ -108,19 +108,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
 
-
-  const eip712 = new CredentialIssuerEIP712()
-  const jwt = new CredentialIssuerJWT()
-  const ld = new CredentialIssuerLD({
-    contextMaps: [LdDefaultContexts, credential_contexts as any],
-    suites: [
-      new VeramoEcdsaSecp256k1RecoverySignature2020(),
-      new VeramoEd25519Signature2018(),
-      new VeramoJsonWebSignature2020(),
-      new VeramoEd25519Signature2020(),
-    ],
-  })
-
   agent = createAgent<
     IDIDManager &
     IKeyManager &
@@ -208,7 +195,21 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin({ issuers: [eip712, jwt, ld] }),
+      new CredentialPlugin({
+        issuers: [
+          new CredentialIssuerEIP712(),
+          new CredentialIssuerJWT(),
+          new CredentialIssuerLD({
+            contextMaps: [LdDefaultContexts, credential_contexts as any],
+            suites: [
+              new VeramoEcdsaSecp256k1RecoverySignature2020(),
+              new VeramoEd25519Signature2018(),
+              new VeramoJsonWebSignature2020(),
+              new VeramoEd25519Signature2020(),
+            ],
+          })
+        ]
+      }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

@@ -198,25 +198,6 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
   *   }
   */
-  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean>
-
-
-  /**
-   * Matches a key against the type of proof supported by this issuer
-   * 
-   * @param key - The key to match against the proof type(s) supported by this issuer
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   * 
-   * @returns - a promise that resolves to a boolean indicating if the key can be used to sign a credential with this issuer
-   */
-  matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean>
-
-  /**
-   * Gets the proof type supported by this issuer
-   * 
-   * @returns - a promise that resolves to a string of the proof format supported by this issuer
-   */
-  getTypeProofFormat(): Promise<string>
 
   /**
    * Creates a Verifiable Credential.

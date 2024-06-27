@@ -57,10 +57,6 @@ export class CredentialPlugin implements IAgentPlugin {
   constructor({ issuers = [] }: { issuers: AbstractCredentialProvider[] }) {
     this.issuers = issuers
     this.methods = {
-      matchKeyForType: this.matchKeyForType.bind(this),
-      getTypeProofFormat: this.getTypeProofFormat.bind(this),
-      canIssueCredentialType: this.canIssueCredentialType.bind(this),
-      canVerifyDocumentType: this.canVerifyDocumentType.bind(this),
       listUsableProofFormats: this.listUsableProofFormats.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
       verifyCredential: this.verifyCredential.bind(this),
@@ -69,66 +65,15 @@ export class CredentialPlugin implements IAgentPlugin {
     }
   }
 
-  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
-    async function matchKey(issuers: AbstractCredentialProvider[]): Promise<boolean> {
-      for (const issuer of issuers) {
-        if (await issuer.matchKeyForType(key, context)) {
-          return true
-        }
-      }
-      return false
-    }
-    return await matchKey(this.issuers)
-  }
-
-  async getTypeProofFormat(): Promise<string> {
-    throw new Error('Not implemented for this plugin')
-  }
-
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
-    let canIssue = false
-
-    async function getCanIssue(issuers: AbstractCredentialProvider[]) {
-      for (const issuer of issuers) {
-        if (await issuer.canIssueCredentialType(args, context)) {
-          canIssue = true
-          return
-        }
-      }
-    }
-    await getCanIssue(this.issuers)
-    return canIssue
-  }
-
-
-  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
-    const { document } = args
-    let canVerify = false
-
-    async function getCanVerify(issuers: AbstractCredentialProvider[]) {
-      for (const issuer of issuers) {
-        if (await issuer.canVerifyDocumentType({ document }, context)) {
-          canVerify = true
-          return
-        }
-      }
-    }
-    await getCanVerify(this.issuers)
-    return canVerify
-  }
-
   async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<string[]> {
     const signingOptions: string[] = []
     const keys = did.keys
     for (const key of keys) {
-      async function getSigningOptions(issuers: AbstractCredentialProvider[]) {
-        for (const issuer of issuers) {
-          if (await issuer.matchKeyForType(key, context)) {
-            signingOptions.push(await issuer.getTypeProofFormat())
-          }
+      for (const issuer of this.issuers) {
+        if (issuer.matchKeyForType(key, context)) {
+          signingOptions.push(issuer.getTypeProofFormat())
         }
       }
-      await getSigningOptions(this.issuers)
     }
     return signingOptions
   }
@@ -171,7 +116,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
       async function getCredential(issuers: AbstractCredentialProvider[]) {
         for (const issuer of issuers) {
-          if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
+          if (issuer.canIssueCredentialType({ proofFormat }, context)) {
             return await issuer.createVerifiableCredential(args, context)
           }
         }
@@ -201,7 +146,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
     async function getVerificationResult(issuers: AbstractCredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
-        if (await issuer.canVerifyDocumentType({ document: credential }, context)) {
+        if (issuer.canVerifyDocumentType({ document: credential }, context)) {
           return issuer.verifyCredential(args, context)
         }
       }
@@ -281,7 +226,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
     async function getPresentation(issuers: AbstractCredentialProvider[]) {
       for (const issuer of issuers) {
-        if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
+        if (issuer.canIssueCredentialType({ proofFormat }, context)) {
           return await issuer.createVerifiablePresentation(args, context)
         }
       }
@@ -308,7 +253,7 @@ export class CredentialPlugin implements IAgentPlugin {
     let result: IVerifyResult | undefined = { verified: false }
     async function getVerificationResult(issuers: AbstractCredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
-        if (await issuer.canVerifyDocumentType({ document: presentation }, context)) {
+        if (issuer.canVerifyDocumentType({ document: presentation }, context)) {
           return issuer.verifyPresentation(args, context)
         }
       }

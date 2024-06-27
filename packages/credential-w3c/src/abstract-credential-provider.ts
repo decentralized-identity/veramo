@@ -40,7 +40,7 @@ export abstract class AbstractCredentialProvider {
      * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
     *   }
     */
-    abstract canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean>
+    abstract canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean
 
 
     /**
@@ -51,14 +51,14 @@ export abstract class AbstractCredentialProvider {
      * 
      * @returns - a promise that resolves to a boolean indicating if the key can be used to sign a credential with this issuer
      */
-    abstract matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean>
+    abstract matchKeyForType(key: IKey, context: IssuerAgentContext): boolean
 
     /**
      * Gets the proof type supported by this issuer
      * 
      * @returns - a promise that resolves to a string of the proof format supported by this issuer
      */
-    abstract getTypeProofFormat(): Promise<string>
+    abstract getTypeProofFormat(): string
 
     /**
      * Creates a Verifiable Credential.
@@ -98,7 +98,7 @@ export abstract class AbstractCredentialProvider {
      * 
      * @returns a promise that resolves to a boolean indicating if the document can be verified
      */
-    abstract canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: VerifierAgentContext): Promise<boolean>
+    abstract canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: VerifierAgentContext): boolean
 
     /**
      * Verifies a Verifiable Presentation JWT or LDS Format.

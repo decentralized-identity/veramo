@@ -178,16 +178,6 @@ export interface ICredentialVerifier extends IPluginMethodMap {
    */
   verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult>
 
-
-  /**
-   * 
-   * @param args - Arguments necessary to verify a document
-   * @param context  - This reserved param is automatically added and handled by the framework, *do not override*
-   * 
-   * @returns a promise that resolves to a boolean indicating if the document can be verified
-   */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: VerifierAgentContext): Promise<boolean>
-
   /**
    * Verifies a Verifiable Presentation JWT or LDS Format.
    *

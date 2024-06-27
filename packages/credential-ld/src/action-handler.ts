@@ -61,19 +61,19 @@ export class CredentialIssuerLD implements AbstractCredentialProvider {
     })
   }
 
-  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+  matchKeyForType(key: IKey, context: IssuerAgentContext): boolean {
     return this.matchKeyForLDSuite(key)
   }
 
-  async getTypeProofFormat(): Promise<string> {
-    return Promise.resolve('lds')
+  getTypeProofFormat(): string {
+    return 'lds'
   }
 
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
-    return Promise.resolve(args.proofFormat === 'lds')
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+    return (args.proofFormat === 'lds')
   }
 
-  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): boolean {
     const { document } = args
     // TODO: can we get proof types dynamically?
     const canVerify = [
@@ -82,7 +82,7 @@ export class CredentialIssuerLD implements AbstractCredentialProvider {
       'Ed25519Signature2020',
       'JsonWebSignature2020'
     ].includes((<VerifiableCredential>document)?.proof?.type || '')
-    return Promise.resolve(canVerify)
+    return (canVerify)
   }
 
   /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */
@@ -288,7 +288,7 @@ export class CredentialIssuerLD implements AbstractCredentialProvider {
    *
    * @internal
    */
-  async matchKeyForLDSuite(k: IKey): Promise<boolean> {
+  matchKeyForLDSuite(k: IKey): boolean {
     // prefilter based on key algorithms
     switch (k.type) {
       case 'Ed25519':

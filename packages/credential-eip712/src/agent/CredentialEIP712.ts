@@ -42,21 +42,21 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  */
 export class CredentialIssuerEIP712 implements AbstractCredentialProvider {
 
-  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+  matchKeyForType(key: IKey, context: IssuerAgentContext): boolean {
     return this.matchKeyForEIP712(key)
   }
 
-  async getTypeProofFormat(): Promise<string> {
-    return Promise.resolve('EthereumEip712Signature2021')
+  getTypeProofFormat(): string {
+    return 'EthereumEip712Signature2021'
   }
 
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
-    return Promise.resolve(args.proofFormat === 'EthereumEip712Signature2021')
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+    return (args.proofFormat === 'EthereumEip712Signature2021')
   }
 
-  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): boolean {
     const { document } = args
-    return Promise.resolve((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
+    return ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
   }
 
   /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiableCredential} */
@@ -395,7 +395,7 @@ export class CredentialIssuerEIP712 implements AbstractCredentialProvider {
    *
    * @internal
    */
-  async matchKeyForEIP712(k: IKey): Promise<boolean> {
+  matchKeyForEIP712(k: IKey): boolean {
     return (
       intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
     )

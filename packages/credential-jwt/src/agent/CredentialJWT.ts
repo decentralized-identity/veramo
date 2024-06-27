@@ -53,21 +53,21 @@ const debug = Debug('veramo:credential-jwt:agent')
  */
 export class CredentialIssuerJWT implements AbstractCredentialProvider {
 
-  async matchKeyForType(key: IKey, context: IssuerAgentContext): Promise<boolean> {
+  matchKeyForType(key: IKey, context: IssuerAgentContext): boolean {
     return this.matchKeyForJWT(key)
   }
 
-  async getTypeProofFormat(): Promise<string> {
-    return Promise.resolve('jwt')
+  getTypeProofFormat(): string {
+    return 'jwt'
   }
 
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): Promise<boolean> {
-    return Promise.resolve(args.proofFormat === 'jwt')
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs, context: IssuerAgentContext): boolean {
+    return args.proofFormat === 'jwt'
   }
 
-  async canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): Promise<boolean> {
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs, context: IssuerAgentContext): boolean {
     const { document } = args
-    return Promise.resolve(typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt)
+    return typeof document === 'string' || (<VerifiableCredential>document)?.proof?.jwt
   }
 
   /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiableCredential} */
@@ -334,7 +334,7 @@ export class CredentialIssuerJWT implements AbstractCredentialProvider {
    *
    * @beta
    */
-  async matchKeyForJWT(key: IKey): Promise<boolean> {
+  matchKeyForJWT(key: IKey): boolean {
     switch (key.type) {
       case 'Ed25519':
       case 'Secp256r1':
