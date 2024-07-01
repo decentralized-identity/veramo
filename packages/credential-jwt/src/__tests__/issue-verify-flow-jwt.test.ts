@@ -20,7 +20,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
-import { CredentialProviderJWT } from '../agent/CredentialJWT.js'
+import { CredentialProviderJWT } from '../agent/CredentialProviderJWT.js'
 
 jest.setTimeout(300000)
 
