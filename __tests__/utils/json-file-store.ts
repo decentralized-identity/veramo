@@ -25,8 +25,10 @@ export class JsonFileStore implements VeramoJsonStore {
   claims: Record<string, ClaimTableEntry>
   presentations: Record<string, PresentationTableEntry>
   messages: Record<string, IMessage>
+  private file: fs.PathLike
 
-  private constructor(private file: fs.PathLike) {
+  private constructor(file: fs.PathLike) {
+    this.file = file
     this.notifyUpdate = async (oldState: VeramoJsonCache, newState: VeramoJsonCache) => {
       await this.save(newState)
     }
