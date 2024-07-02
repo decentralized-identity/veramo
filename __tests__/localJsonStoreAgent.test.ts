@@ -106,6 +106,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
   databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
 
+  await fs.promises.open(databaseFile, 'w+')
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
 
   agent = createAgent<

@@ -81,11 +81,7 @@ export class JsonFileStore implements VeramoJsonStore {
   }
 
   private async checkFile() {
-    try {
-      const file = await fs.promises.open(this.file, 'w+')
-      await file.close()
-    } catch (e) {
-      console.error(e)
-    }
+    const file = await fs.promises.open(this.file, 'w+')
+    await file.close()
   }
 }
