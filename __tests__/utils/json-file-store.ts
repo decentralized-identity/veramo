@@ -53,7 +53,7 @@ export class JsonFileStore implements VeramoJsonStore {
     } catch (e: any) {
       cache = {}
     }
-    ;({
+    ; ({
       dids: this.dids,
       keys: this.keys,
       credentials: this.credentials,
@@ -81,7 +81,11 @@ export class JsonFileStore implements VeramoJsonStore {
   }
 
   private async checkFile() {
-    const file = await fs.promises.open(this.file, 'w+')
-    await file.close()
+    try {
+      const file = await fs.promises.open(this.file, 'w+')
+      await file.close()
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
