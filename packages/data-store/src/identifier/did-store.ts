@@ -48,7 +48,7 @@ export class DIDStore extends AbstractDIDStore {
       throw Error('[veramo:data-store:identifier-store] Get requires did or (alias and provider)')
     }
 
-    const identifier = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).findOne({
+    const [identifier] = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).find({
       where,
       relations: ['keys', 'services'],
     })
@@ -88,7 +88,7 @@ export class DIDStore extends AbstractDIDStore {
   }
 
   async deleteDID({ did }: { did: string }) {
-    const identifier = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).findOne({
+    const [identifier] = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).find({
       where: { did },
       relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
     })
