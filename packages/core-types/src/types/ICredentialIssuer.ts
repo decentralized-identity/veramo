@@ -12,6 +12,12 @@ import { IKeyManager } from './IKeyManager.js'
 import { IIdentifier, IKey } from "./IIdentifier.js";
 import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
+/*
+*
+* @public
+*/
+export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs'
+
 /**
  * Encapsulates the parameters required to create a
  * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}

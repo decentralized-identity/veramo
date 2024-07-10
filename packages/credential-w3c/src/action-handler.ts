@@ -14,8 +14,6 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
-  ICanIssueCredentialTypeArgs,
-  ICanVerifyDocumentTypeArgs,
 } from '@veramo/core-types'
 
 import { AbstractCredentialProvider } from './abstract-credential-provider.js'
@@ -54,8 +52,8 @@ export class CredentialPlugin implements IAgentPlugin {
   }
   private issuers: AbstractCredentialProvider[]
 
-  constructor({ issuers = [] }: { issuers: AbstractCredentialProvider[] }) {
-    this.issuers = issuers
+  constructor(options: { issuers: AbstractCredentialProvider[] }) {
+    this.issuers = options.issuers
     this.methods = {
       listUsableProofFormats: this.listUsableProofFormats.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),

@@ -106,13 +106,9 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
   databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
 
-  try {
-    await fs.promises.open(databaseFile, 'w+')
-  } catch (e) {
-    // manually create the tmp directory
-    await fs.promises.mkdir('./tmp')
-    await fs.promises.open(databaseFile, 'w+')
-  }
+
+  // manually create the tmp directory
+  await fs.promises.mkdir('./tmp', { recursive: true })
 
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
 
