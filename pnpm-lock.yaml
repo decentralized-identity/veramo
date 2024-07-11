@@ -696,8 +696,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       '@stablelib/gcm':
-        specifier: ^1.0.2
-        version: 1.0.2
+        specifier: ^2.0.0
+        version: 2.0.0
       '@stablelib/xchacha20poly1305':
         specifier: ^1.0.1
         version: 1.0.1
@@ -4254,6 +4254,9 @@ packages:
   '@stablelib/aead@1.0.1':
     resolution: {integrity: sha512-q39ik6sxGHewqtO0nP4BuSe3db5G1fEJE8ukvngS2gLkBXyy6E7pLubhbYgnkDFv6V8cWaxcE4Xn0t6LWcJkyg==}
 
+  '@stablelib/aead@2.0.0':
+    resolution: {integrity: sha512-U/RMANRxbT/ahIpYsPSiFwDFNjADHdnCFfmo09MO1ai2XmerPAOPtMl0qmX7XVvygnACC6ijKDyHBoT2rGyElg==}
+
   '@stablelib/aes-kw@1.0.1':
     resolution: {integrity: sha512-KrOkiRex1tQTbWk+hFB5fFw4vqKhNnTUtlCRf1bhUEOFp7hadWe49/sLa/P4X4FBQVoh3Z9Lj0zS1OWu/AHA1w==}
 
@@ -4287,14 +4290,17 @@ packages:
   '@stablelib/constant-time@1.0.1':
     resolution: {integrity: sha512-tNOs3uD0vSJcK6z1fvef4Y+buN7DXhzHDPqRLSXUel1UfqMB1PWNsnnAezrKfEwTLpN0cGH2p9NNjs6IqeD0eg==}
 
-  '@stablelib/ctr@1.0.2':
-    resolution: {integrity: sha512-Wq/Zr5QWNiXUu1UMhbeSIWhUm4YOhl01owaZOehxKFOKp6PPuUi9kAUAHv9cE5yQm9PLvIxzhwFco36sRpcOTQ==}
+  '@stablelib/constant-time@2.0.0':
+    resolution: {integrity: sha512-I7VCf71/mzsDsfV3xDjbTddxjmWq7+tRGvJgqI0VYWRA9eE6/nsf40wnuYFhzl/Ip0Qf2IqUF79oqV+7H33QWQ==}
+
+  '@stablelib/ctr@2.0.0':
+    resolution: {integrity: sha512-293g6AblySHr3MeYDmazuj2j65ELUnx4+2AEDbaiXjsAmcPOH4dNFNNjv24le+rrne2WESkExlw6WTd8Em6w0g==}
 
   '@stablelib/ed25519@1.0.3':
     resolution: {integrity: sha512-puIMWaX9QlRsbhxfDc5i+mNPMY+0TmQEskunY1rZEBPi1acBCVQAhnsk/1Hk50DGPtVsZtAWQg4NHGlVaO9Hqg==}
 
-  '@stablelib/gcm@1.0.2':
-    resolution: {integrity: sha512-sQIRPGti1UXm740RTI38Apbl3t0oEEQMsdKN6VbC8a2lFHff6Stg90IqbF1xSrMLmm52gDGwtODhub3rKOMkfQ==}
+  '@stablelib/gcm@2.0.0':
+    resolution: {integrity: sha512-8tDjfVQaoMMeNMrfy9xChfT8LkFzZxmTBcGo00TzTRKbiWFxK2Jp9VrQ2zwkzgfxRPxYoIC75a/KpH05FClE8g==}
 
   '@stablelib/hash@1.0.1':
     resolution: {integrity: sha512-eTPJc/stDkdtOcrNMZ6mcMK1e6yBbqRBaNW55XA1jU8w/7QdnCF0CmMmOD1m7VSkBR44PWrMHU2l6r8YEQHMgg==}
@@ -18673,6 +18679,8 @@ snapshots:
 
   '@stablelib/aead@1.0.1': {}
 
+  '@stablelib/aead@2.0.0': {}
+
   '@stablelib/aes-kw@1.0.1':
     dependencies:
       '@stablelib/aes': 1.0.1
@@ -18723,10 +18731,12 @@ snapshots:
 
   '@stablelib/constant-time@1.0.1': {}
 
-  '@stablelib/ctr@1.0.2':
+  '@stablelib/constant-time@2.0.0': {}
+
+  '@stablelib/ctr@2.0.0':
     dependencies:
-      '@stablelib/blockcipher': 1.0.1
-      '@stablelib/wipe': 1.0.1
+      '@stablelib/blockcipher': 2.0.0
+      '@stablelib/wipe': 2.0.0
 
   '@stablelib/ed25519@1.0.3':
     dependencies:
@@ -18734,14 +18744,14 @@ snapshots:
       '@stablelib/sha512': 1.0.1
       '@stablelib/wipe': 1.0.1
 
-  '@stablelib/gcm@1.0.2':
+  '@stablelib/gcm@2.0.0':
     dependencies:
-      '@stablelib/aead': 1.0.1
-      '@stablelib/binary': 1.0.1
-      '@stablelib/blockcipher': 1.0.1
-      '@stablelib/constant-time': 1.0.1
-      '@stablelib/ctr': 1.0.2
-      '@stablelib/wipe': 1.0.1
+      '@stablelib/aead': 2.0.0
+      '@stablelib/binary': 2.0.0
+      '@stablelib/blockcipher': 2.0.0
+      '@stablelib/constant-time': 2.0.0
+      '@stablelib/ctr': 2.0.0
+      '@stablelib/wipe': 2.0.0
 
   '@stablelib/hash@1.0.1': {}
 
