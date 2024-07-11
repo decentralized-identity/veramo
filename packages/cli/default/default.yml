@@ -73,10 +73,10 @@ dbConnection:
       synchronize: false
       migrationsRun: true
       migrations:
-        $require: '@veramo/data-store?t=object#migrations'
+        $require: "@veramo/data-store?t=object#migrations"
       logging: false
       entities:
-        $require: '@veramo/data-store?t=object#Entities'
+        $require: "@veramo/data-store?t=object#Entities"
 
 # Server configuration
 server:
@@ -86,20 +86,20 @@ server:
     $ref: /constants/port
   use:
     # CORS
-    - - $require: 'cors?t=function#default'
+    - - $require: "cors?t=function#default"
 
     # Add agent to the request object
-    - - $require: '@veramo/remote-server?t=function#RequestWithAgentRouter'
+    - - $require: "@veramo/remote-server?t=function#RequestWithAgentRouter"
         $args:
           - agent:
               $ref: /agent
 
     # DID Documents
-    - - $require: '@veramo/remote-server?t=function#WebDidDocRouter'
+    - - $require: "@veramo/remote-server?t=function#WebDidDocRouter"
 
     # API base path
     - - /messaging
-      - $require: '@veramo/remote-server?t=function#MessagingRouter'
+      - $require: "@veramo/remote-server?t=function#MessagingRouter"
         $args:
           - metaData:
               type: DIDComm
@@ -107,22 +107,22 @@ server:
 
     # API base path
     - - /agent
-      - $require: '@veramo/remote-server?t=function#apiKeyAuth'
+      - $require: "@veramo/remote-server?t=function#apiKeyAuth"
         $args:
           - apiKey: test123
-      - $require: '@veramo/remote-server?t=function#AgentRouter'
+      - $require: "@veramo/remote-server?t=function#AgentRouter"
         $args:
           - exposedMethods:
               $ref: /constants/methods
 
     # Open API schema
     - - /open-api.json
-      - $require: '@veramo/remote-server?t=function#ApiSchemaRouter'
+      - $require: "@veramo/remote-server?t=function#ApiSchemaRouter"
         $args:
           - basePath: :3332/agent
             securityScheme: bearer
             apiName: Agent
-            apiVersion: '1.0.0'
+            apiVersion: "1.0.0"
             exposedMethods:
               $ref: /constants/methods
 
@@ -133,11 +133,11 @@ server:
         $args:
           - null
           - swaggerOptions:
-              url: '/open-api.json'
+              url: "/open-api.json"
 
   # Execute during server initialization
   init:
-    - $require: '@veramo/remote-server?t=function#createDefaultDid'
+    - $require: "@veramo/remote-server?t=function#createDefaultDid"
       $args:
         - agent:
             $ref: /agent
@@ -147,18 +147,18 @@ server:
 
 # Message handler plugin
 messageHandler:
-  $require: '@veramo/message-handler#MessageHandler'
+  $require: "@veramo/message-handler#MessageHandler"
   $args:
     - messageHandlers:
-        - $require: '@veramo/did-comm#DIDCommMessageHandler'
-        - $require: '@veramo/did-comm#TrustPingMessageHandler'
-        - $require: '@veramo/did-jwt#JwtMessageHandler'
-        - $require: '@veramo/credential-w3c#W3cMessageHandler'
-        - $require: '@veramo/selective-disclosure#SdrMessageHandler'
+        - $require: "@veramo/did-comm#DIDCommMessageHandler"
+        - $require: "@veramo/did-comm#TrustPingMessageHandler"
+        - $require: "@veramo/did-jwt#JwtMessageHandler"
+        - $require: "@veramo/credential-w3c#W3cMessageHandler"
+        - $require: "@veramo/selective-disclosure#SdrMessageHandler"
 
 # DID resolvers
 didResolver:
-  $require: '@veramo/did-resolver#DIDResolverPlugin'
+  $require: "@veramo/did-resolver#DIDResolverPlugin"
   $args:
     - ethr:
         $ref: /ethr-did-resolver
@@ -167,11 +167,11 @@ didResolver:
       key:
         $ref: /did-key-resolver
       peer:
-        $require: '@veramo/did-provider-peer?t=function&p=/peer#getResolver'
+        $require: "@veramo/did-provider-peer?t=function&p=/peer#getResolver"
       jwk:
-        $require: '@veramo/did-provider-jwk?t=function&p=/jwk#getDidJwkResolver'
+        $require: "@veramo/did-provider-jwk?t=function&p=/jwk#getDidJwkResolver"
       pkh:
-        $require: '@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver'
+        $require: "@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver"
       elem:
         $ref: /universal-resolver
       io:
@@ -190,44 +190,44 @@ web-did-resolver:
   $require: web-did-resolver?t=function&p=/web#getResolver
 
 universal-resolver:
-  $require: '@veramo/did-resolver#UniversalResolver'
+  $require: "@veramo/did-resolver#UniversalResolver"
   $args:
     - url: https://dev.uniresolver.io/1.0/identifiers/
 
 did-key-resolver:
-  $require: '@veramo/did-provider-key?t=function&p=/key#getDidKeyResolver'
+  $require: "@veramo/did-provider-key?t=function&p=/key#getDidKeyResolver"
 
 # Key Manager
 keyManager:
-  $require: '@veramo/key-manager#KeyManager'
+  $require: "@veramo/key-manager#KeyManager"
   $args:
     - store:
-        $require: '@veramo/data-store#KeyStore'
+        $require: "@veramo/data-store#KeyStore"
         $args:
           - $ref: /dbConnection
       kms:
         local:
-          $require: '@veramo/kms-local#KeyManagementSystem'
+          $require: "@veramo/kms-local#KeyManagementSystem"
           $args:
-            - $require: '@veramo/data-store#PrivateKeyStore'
+            - $require: "@veramo/data-store#PrivateKeyStore"
               $args:
                 - $ref: /dbConnection
-                - $require: '@veramo/kms-local#SecretBox'
+                - $require: "@veramo/kms-local#SecretBox"
                   $args:
                     - $ref: /constants/dbEncryptionKey
 
 # DID Manager
 didManager:
-  $require: '@veramo/did-manager#DIDManager'
+  $require: "@veramo/did-manager#DIDManager"
   $args:
     - store:
-        $require: '@veramo/data-store#DIDStore'
+        $require: "@veramo/data-store#DIDStore"
         $args:
           - $ref: /dbConnection
       defaultProvider: did:ethr:sepolia
       providers:
         did:ethr:
-          $require: '@veramo/did-provider-ethr#EthrDIDProvider'
+          $require: "@veramo/did-provider-ethr#EthrDIDProvider"
           $args:
             - defaultKms: local
               network: mainnet
@@ -235,7 +235,7 @@ didManager:
               gas: 1000001
               ttl: 31104001
         did:ethr:sepolia:
-          $require: '@veramo/did-provider-ethr#EthrDIDProvider'
+          $require: "@veramo/did-provider-ethr#EthrDIDProvider"
           $args:
             - defaultKms: local
               network: sepolia
@@ -243,52 +243,62 @@ didManager:
               gas: 1000001
               ttl: 31104001
         did:web:
-          $require: '@veramo/did-provider-web#WebDIDProvider'
+          $require: "@veramo/did-provider-web#WebDIDProvider"
           $args:
             - defaultKms: local
         did:key:
-          $require: '@veramo/did-provider-key#KeyDIDProvider'
+          $require: "@veramo/did-provider-key#KeyDIDProvider"
           $args:
             - defaultKms: local
         did:jwk:
-          $require: '@veramo/did-provider-jwk#JwkDIDProvider'
+          $require: "@veramo/did-provider-jwk#JwkDIDProvider"
           $args:
             - defaultKms: local
         did:peer:
-          $require: '@veramo/did-provider-peer#PeerDIDProvider'
+          $require: "@veramo/did-provider-peer#PeerDIDProvider"
           $args:
             - defaultKms: local
         did:pkh:
-          $require: '@veramo/did-provider-pkh#PkhDIDProvider'
+          $require: "@veramo/did-provider-pkh#PkhDIDProvider"
           $args:
             - defaultKms: local
               chainId: 1
 
 didDiscovery:
-  $require: '@veramo/did-discovery#DIDDiscovery'
+  $require: "@veramo/did-discovery#DIDDiscovery"
   $args:
     - providers:
-        - $require: '@veramo/did-manager#AliasDiscoveryProvider'
-        - $require: '@veramo/data-store#DataStoreDiscoveryProvider'
+        - $require: "@veramo/did-manager#AliasDiscoveryProvider"
+        - $require: "@veramo/data-store#DataStoreDiscoveryProvider"
 
 # W3C credentialPlugin
-credentialIssuerLD:
-  $require: '@veramo/credential-ld#CredentialIssuerLD'
+CredentialProviderLD:
+  $require: "@veramo/credential-ld#CredentialProviderLD"
   $args:
     - suites:
-        - $require: '@veramo/credential-ld#VeramoEd25519Signature2018'
-        - $require: '@veramo/credential-ld#VeramoEd25519Signature2020'
-        - $require: '@veramo/credential-ld#VeramoJsonWebSignature2020'
-        - $require: '@veramo/credential-ld#VeramoEcdsaSecp256k1RecoverySignature2020'
+        - $require: "@veramo/credential-ld#VeramoEd25519Signature2018"
+        - $require: "@veramo/credential-ld#VeramoEd25519Signature2020"
+        - $require: "@veramo/credential-ld#VeramoJsonWebSignature2020"
+        - $require: "@veramo/credential-ld#VeramoEcdsaSecp256k1RecoverySignature2020"
       contextMaps:
         # The LdDefaultContext is a "catch-all" for now.
-        - $require: '@veramo/credential-ld?t=object#LdDefaultContexts'
-        - $require: '@transmute/credentials-context?t=object#contexts'
+        - $require: "@veramo/credential-ld?t=object#LdDefaultContexts"
+        - $require: "@transmute/credentials-context?t=object#contexts"
         #  others should be included here
+
+CredentialProviderJWT:
+  $require: "@veramo/credential-jwt#CredentialProviderJWT"
+
+credentialPlugin:
+  $require: "@veramo/credential-w3c#CredentialPlugin"
+  $args:
+    - issuers:
+        - $ref: /CredentialProviderLD
+        - $ref: /CredentialProviderJWT
 
 # Agent
 agent:
-  $require: '@veramo/core#Agent'
+  $require: "@veramo/core#Agent"
   $args:
     - schemaValidation: false
       plugins:
@@ -297,14 +307,12 @@ agent:
         - $ref: /didResolver
         - $ref: /didDiscovery
         - $ref: /messageHandler
-        - $require: '@veramo/did-comm#DIDComm'
-        - $require: '@veramo/credential-w3c#CredentialPlugin'
-        - $ref: /credentialIssuerLD
-        - $require: '@veramo/credential-eip712#CredentialIssuerEIP712'
-        - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
-        - $require: '@veramo/data-store#DataStore'
+        - $require: "@veramo/did-comm#DIDComm"
+        - $ref: /credentialPlugin
+        - $require: "@veramo/selective-disclosure#SelectiveDisclosure"
+        - $require: "@veramo/data-store#DataStore"
           $args:
             - $ref: /dbConnection
-        - $require: '@veramo/data-store#DataStoreORM'
+        - $require: "@veramo/data-store#DataStoreORM"
           $args:
             - $ref: /dbConnection

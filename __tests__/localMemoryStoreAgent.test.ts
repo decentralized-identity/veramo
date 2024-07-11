@@ -24,10 +24,10 @@ import { DataSource } from 'typeorm'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -80,16 +80,14 @@ const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 let agent: TAgent<
   IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ISelectiveDisclosure
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialPlugin &
+  ISelectiveDisclosure
 >
 let dbConnection: DataSource
 
@@ -106,18 +104,28 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   })
 
+  const eip712 = new CredentialProviderEIP712()
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts, credential_contexts as any],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoJsonWebSignature2020(),
+      new VeramoEd25519Signature2020(),
+    ],
+  })
+
   agent = createAgent<
     IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialPlugin &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
-      ISelectiveDisclosure
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ISelectiveDisclosure
   >({
     ...options,
     context: {
@@ -194,17 +202,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin(),
-      new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoJsonWebSignature2020(),
-          new VeramoEd25519Signature2020(),
-        ],
-      }),
+      new CredentialPlugin({ issuers: [eip712, jwt, ld] }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

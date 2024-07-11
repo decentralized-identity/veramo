@@ -1,6 +1,6 @@
 {
-  "name": "@veramo/credential-eip712",
-  "description": "Veramo plugin for working with EIP712 Verifiable Credentials & Presentations.",
+  "name": "@veramo/credential-jwt",
+  "description": "Veramo plugin for working with JWT Verifiable Credentials & Presentations.",
   "version": "6.0.0",
   "main": "build/index.js",
   "exports": {
@@ -12,12 +12,12 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@metamask/eth-sig-util": "^7.0.0",
     "@veramo/credential-w3c": "workspace:^",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
+    "canonicalize": "^2.0.0",
     "debug": "^4.3.3",
-    "eip-712-types-generation": "^0.1.6"
+    "did-jwt-vc": "^4.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
@@ -35,21 +35,14 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/decentralized-identity/veramo.git",
-    "directory": "packages/credential-eip712"
+    "directory": "packages/credential-jwt"
   },
-  "author": "Consensys Mesh R&D <hello@veramo.io>",
-  "contributors": [
-    "Nick Reynolds <nick.reynolds@mesh.xyz>",
-    "Italo Borssatto",
-    "Mircea Nistor <mircea.nistor@mesh.xyz>",
-    "Simonas Karuzas <simonas.karuzas@mesh.xyz>"
-  ],
+  "author": "Nick Reynolds <nicholas.s.reynolds@gmail.com>",
   "keywords": [
     "Veramo",
     "DID",
     "Verifiable Credential",
-    "EIP712",
-    "EthereumEIP712Signature2021",
+    "JWT",
     "veramo-plugin"
   ],
   "license": "Apache-2.0",

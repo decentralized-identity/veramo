@@ -439,6 +439,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"

@@ -31,10 +31,10 @@ import {
   ICredentialVerifier,
   W3cMessageHandler,
 } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -112,21 +112,21 @@ let dbConnection: Promise<DataSource>
 let serverAgent: IAgent
 let restServer: Server
 
+
+
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
     IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialIssuer & // import from old package to check compatibility
-      ICredentialVerifier &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
-      ISelectiveDisclosure &
-      IDIDDiscovery
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialIssuer & // import from old package to check compatibility
+    ICredentialVerifier &
+    ISelectiveDisclosure &
+    IDIDDiscovery
   >({
     ...options,
     plugins: [
@@ -149,6 +149,18 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     logging: false,
     entities: Entities,
   }).initialize()
+
+  const eip712 = new CredentialProviderEIP712()
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts, credential_contexts as any],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoJsonWebSignature2020(),
+      new VeramoEd25519Signature2020(),
+    ],
+  })
 
   serverAgent = new Agent({
     ...options,
@@ -227,15 +239,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       // intentionally use the deprecated name to test compatibility
-      new CredentialIssuer(),
-      new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoJsonWebSignature2020(),
-          new VeramoEd25519Signature2020(),
+      new CredentialIssuer({ issuers: [eip712, jwt, ld] }),
+      new SelectiveDisclosure(),
+      new DIDDiscovery({
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
         ],
       }),
       new SelectiveDisclosure(),

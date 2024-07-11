@@ -12,14 +12,11 @@ import { IKeyManager } from './IKeyManager.js'
 import { IIdentifier, IKey } from "./IIdentifier.js";
 import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
-/**
- * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
- *
- * Only `jwt` and `lds` is supported at the moment.
- *
- * @public
- */
-export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs'
+/*
+*
+* @public
+*/
+export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs' | string
 
 /**
  * Encapsulates the parameters required to create a
@@ -61,9 +58,8 @@ export interface ICreateVerifiablePresentationArgs extends UsingResolutionOption
 
   /**
    * The desired format for the VerifiablePresentation to be created.
-   * Currently, only JWT is supported
    */
-  proofFormat: ProofFormat
+  proofFormat: string
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -123,7 +119,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   /**
    * The desired format for the VerifiableCredential to be created.
    */
-  proofFormat: ProofFormat
+  proofFormat: string
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -158,6 +154,15 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
  *
  * @public
  */
+
+/**
+ * Encapsulates the parameters required to check if a credential type can be issued
+ * 
+ * @public
+ */
+export interface ICanIssueCredentialTypeArgs {
+  proofFormat: string
+}
 
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
@@ -210,16 +215,8 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<ProofFormat>>
+  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>>
 
-  /**
-   * Checks if a key is suitable for signing JWT payloads.
-   * @param key - the key to check for compatibility
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @internal
-   */
-  matchKeyForJWT(key: IKey, context: IAgentContext<any>): Promise<boolean>
 }
 
 /**

@@ -2,15 +2,23 @@ import {
   CredentialPayload,
   IAgentContext,
   IAgentPlugin,
+  ICanIssueCredentialTypeArgs,
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
   IIdentifier,
   IKey,
   IResolver,
+  IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
   PresentationPayload,
   VerifiableCredential,
   VerifiablePresentation,
+  VerifierAgentContext,
+  ICanVerifyDocumentTypeArgs,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
-import { schema } from './plugin.schema.js'
 import Debug from 'debug'
 import { LdContextLoader } from './ld-context-loader.js'
 import {
@@ -30,25 +38,19 @@ import { LdCredentialModule } from './ld-credential-module.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'
 import {
   ContextDoc,
-  ICreateVerifiableCredentialLDArgs,
-  ICreateVerifiablePresentationLDArgs,
-  ICredentialIssuerLD,
-  IRequiredContext,
-  IVerifyCredentialLDArgs,
-  IVerifyPresentationLDArgs,
 } from './types.js'
 import { DIDResolutionOptions } from 'did-resolver'
+
+import { AbstractCredentialProvider } from '@veramo/credential-w3c'
 
 const debug = Debug('veramo:credential-ld:action-handler')
 
 /**
- * A Veramo plugin that implements the {@link ICredentialIssuerLD} methods.
+ * A handler that implements the {@link AbstractCredentialProvider} methods.
  *
  * @public
  */
-export class CredentialIssuerLD implements IAgentPlugin {
-  readonly methods: ICredentialIssuerLD
-  readonly schema = schema.ICredentialIssuerLD
+export class CredentialProviderLD implements AbstractCredentialProvider {
 
   private ldCredentialModule: LdCredentialModule
 
@@ -57,20 +59,40 @@ export class CredentialIssuerLD implements IAgentPlugin {
       ldContextLoader: new LdContextLoader({ contextsPaths: options.contextMaps }),
       ldSuiteLoader: new LdSuiteLoader({ veramoLdSignatures: options.suites }),
     })
-
-    this.methods = {
-      createVerifiablePresentationLD: this.createVerifiablePresentationLD.bind(this),
-      createVerifiableCredentialLD: this.createVerifiableCredentialLD.bind(this),
-      verifyCredentialLD: this.verifyCredentialLD.bind(this),
-      verifyPresentationLD: this.verifyPresentationLD.bind(this),
-      matchKeyForLDSuite: this.matchKeyForLDSuite.bind(this),
-    }
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.createVerifiablePresentationLD} */
-  public async createVerifiablePresentationLD(
-    args: ICreateVerifiablePresentationLDArgs,
-    context: IRequiredContext,
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.matchKeyForType} */
+  matchKeyForType(key: IKey): boolean {
+    return this.matchKeyForLDSuite(key)
+  }
+
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getTypeProofFormat} */
+  getTypeProofFormat(): string {
+    return 'lds'
+  }
+
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
+  canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
+    return (args.proofFormat === 'lds')
+  }
+
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
+  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
+    const { document } = args
+
+    for (const suite of this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()) {
+      if (suite.getSupportedProofType() === (<VerifiableCredential>document)?.proof?.type || '') {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */
+  async createVerifiablePresentation(
+    args: ICreateVerifiablePresentationArgs,
+    context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
     const presentationContext = processEntryToArray(
       args?.presentation?.['@context'],
@@ -139,10 +161,10 @@ export class CredentialIssuerLD implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.createVerifiableCredentialLD} */
-  public async createVerifiableCredentialLD(
-    args: ICreateVerifiableCredentialLDArgs,
-    context: IRequiredContext,
+  /** {@inheritdoc ICredentialIssuer.createVerifiableCredentialLD} */
+  async createVerifiableCredential(
+    args: ICreateVerifiableCredentialArgs,
+    context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
     const credentialContext = processEntryToArray(
       args?.credential?.['@context'],
@@ -193,27 +215,26 @@ export class CredentialIssuerLD implements IAgentPlugin {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.verifyCredentialLD} */
-  public async verifyCredentialLD(
-    args: IVerifyCredentialLDArgs,
-    context: IRequiredContext,
-  ): Promise<boolean> {
+  /** {@inheritdoc ICredentialIssuer.verifyCredentialLD} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+    args.credential = args.credential as VerifiableCredential
     const credential = args.credential
 
-    let { now } = args
-    if (typeof now === 'number') {
-      now = new Date(now * 1000)
+    let now = new Date()
+
+    if (args.policies?.now && typeof args.policies?.now === 'number') {
+      now = new Date(args.policies?.now * 1000)
     }
 
     return this.ldCredentialModule.verifyCredential(credential, { ...args, now }, context)
   }
 
-  /** {@inheritdoc ICredentialIssuerLD.verifyPresentationLD} */
-  public async verifyPresentationLD(
-    args: IVerifyPresentationLDArgs,
-    context: IRequiredContext,
-  ): Promise<boolean> {
-    const presentation = args.presentation
+  /** {@inheritdoc ICredentialVerifier.verifyPresentation} */
+  async verifyPresentation(
+    args: IVerifyPresentationArgs,
+    context: VerifierAgentContext,
+  ): Promise<IVerifyResult> {
+    const presentation = args.presentation as VerifiablePresentation
     let { now } = args
     if (typeof now === 'number') {
       now = new Date(now * 1000)
@@ -271,7 +292,7 @@ export class CredentialIssuerLD implements IAgentPlugin {
    *
    * @internal
    */
-  async matchKeyForLDSuite(k: IKey): Promise<boolean> {
+  matchKeyForLDSuite(k: IKey): boolean {
     // prefilter based on key algorithms
     switch (k.type) {
       case 'Ed25519':

@@ -145,11 +145,16 @@ export interface VerificationPolicies {
 }
 
 /**
- * Encapsulates the response object to verifyPresentation method after verifying a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
+ * Encapsulates the parameters required to check if a document can be verified
+ * 
  * @public
  */
+export interface ICanVerifyDocumentTypeArgs {
+  /**
+   * The document to check against the verifier
+   */
+  document: W3CVerifiableCredential | W3CVerifiablePresentation
+}
 
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
@@ -161,7 +166,7 @@ export interface VerificationPolicies {
  */
 export interface ICredentialVerifier extends IPluginMethodMap {
   /**
-   * Verifies a Verifiable Credential JWT, LDS Format or EIP712.
+   * Verifies a Verifiable Credential
    *
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*

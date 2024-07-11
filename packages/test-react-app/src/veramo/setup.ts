@@ -22,8 +22,7 @@ import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
 import { CredentialPlugin, W3cMessageHandler } from '@veramo/credential-w3c'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -42,6 +41,7 @@ import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
 import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from '@veramo/data-store-json'
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
+import { CredentialProviderJWT } from '@veramo/credential-jwt'
 
 const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
@@ -61,7 +61,6 @@ type InstalledPlugins = IResolver &
   IKeyManager &
   IDIDManager &
   ICredentialPlugin &
-  ICredentialIssuerLD &
   IDataStoreORM &
   IDataStore &
   IMessageHandler &
@@ -69,6 +68,16 @@ type InstalledPlugins = IResolver &
   IDIDComm
 
 export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoEd25519Signature2020(),
+      new VeramoJsonWebSignature2020(),
+    ],
+  })
   const agent: TAgent<InstalledPlugins> = createAgent<InstalledPlugins>({
     ...options,
     plugins: [
@@ -145,16 +154,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoEd25519Signature2020(),
-          new VeramoJsonWebSignature2020(),
-        ],
-      }),
+      new CredentialPlugin({ issuers: [jwt, ld] }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

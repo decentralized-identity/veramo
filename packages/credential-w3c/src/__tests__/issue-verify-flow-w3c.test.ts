@@ -9,7 +9,7 @@ import {
   VerifiableCredential,
 } from '../../../core-types/src'
 import { createAgent } from '../../../core/src'
-import { CredentialIssuer } from '../../../credential-w3c/src'
+import { CredentialIssuer } from '..'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
@@ -18,7 +18,7 @@ import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { EthrDIDProvider } from '../../../did-provider-ethr/src'
 import {
   ContextDoc,
-  CredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -26,6 +26,7 @@ import {
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
+import { CredentialProviderJWT } from '../../../credential-jwt/src'
 
 jest.setTimeout(300000)
 
@@ -46,6 +47,11 @@ describe('credential-w3c full flow', () => {
   let credential: CredentialPayload
 
   beforeAll(async () => {
+    const jwt = new CredentialProviderJWT()
+    const ld = new CredentialProviderLD({
+      contextMaps: [LdDefaultContexts, customContext],
+      suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
+    })
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
@@ -71,11 +77,7 @@ describe('credential-w3c full flow', () => {
             ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
-        new CredentialIssuer(),
-        new CredentialIssuerLD({
-          contextMaps: [LdDefaultContexts, customContext],
-          suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
-        }),
+        new CredentialIssuer({ issuers: [jwt, ld] }),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
@@ -112,7 +114,7 @@ describe('credential-w3c full flow', () => {
       credential,
       proofFormat: 'lds',
     })
-    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' }}
+    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
     expect(verifyResult.verified).toBeFalsy()
   })
@@ -124,7 +126,7 @@ describe('credential-w3c full flow', () => {
       proofFormat: 'jwt',
     })
 
-    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' }}
+    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
 
     expect(verifyResult.verified).toBeFalsy()

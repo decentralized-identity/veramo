@@ -3,6 +3,7 @@ import {
   IAgentContext,
   IKey,
   IResolver,
+  IVerifyResult,
   PresentationPayload,
   UsingResolutionOptions,
   VerifiableCredential,
@@ -22,7 +23,7 @@ const debug = Debug('veramo:w3c:ld-credential-module')
 
 type ForwardedOptions = UsingResolutionOptions & {
   fetchRemoteContexts?: boolean // defaults to false
-  now?: number // defaults to Date.now()
+  now?: Date // defaults to Date.now()
 }
 
 export class LdCredentialModule {
@@ -170,7 +171,7 @@ export class LdCredentialModule {
     credential: VerifiableCredential,
     options: ForwardedOptions,
     context: IAgentContext<IResolver>,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     const fetchRemoteContexts = options.fetchRemoteContexts ?? false
     const result = await vc.verifyCredential({
       ...options,
@@ -195,7 +196,7 @@ export class LdCredentialModule {
     domain: string | undefined,
     options: ForwardedOptions,
     context: IAgentContext<IResolver>,
-  ): Promise<boolean> {
+  ): Promise<IVerifyResult> {
     const fetchRemoteContexts = options.fetchRemoteContexts ?? false
     const result = await vc.verify({
       ...options,

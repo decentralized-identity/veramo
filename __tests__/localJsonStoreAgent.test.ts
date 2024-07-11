@@ -23,10 +23,10 @@ import { DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -88,16 +88,14 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 
 let agent: TAgent<
   IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
-    ISelectiveDisclosure
+  IKeyManager &
+  IDataStore &
+  IDataStoreORM &
+  IResolver &
+  IMessageHandler &
+  IDIDComm &
+  ICredentialPlugin &
+  ISelectiveDisclosure
 >
 
 let databaseFile: string
@@ -108,20 +106,22 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
   databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
 
+
+  // manually create the tmp directory
+  await fs.promises.mkdir('./tmp', { recursive: true })
+
   const jsonFileStore = await JsonFileStore.fromFile(databaseFile)
 
   agent = createAgent<
     IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IDataStoreORM &
-      IResolver &
-      IMessageHandler &
-      IDIDComm &
-      ICredentialPlugin &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
-      ISelectiveDisclosure
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ISelectiveDisclosure
   >({
     ...options,
     context: {
@@ -199,16 +199,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin(),
-      new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoEd25519Signature2020(),
-          new VeramoJsonWebSignature2020(),
-        ],
+      new CredentialPlugin({
+        issuers: [
+          new CredentialProviderEIP712(),
+          new CredentialProviderJWT(),
+          new CredentialProviderLD({
+            contextMaps: [LdDefaultContexts, credential_contexts as any],
+            suites: [
+              new VeramoEcdsaSecp256k1RecoverySignature2020(),
+              new VeramoEd25519Signature2018(),
+              new VeramoJsonWebSignature2020(),
+              new VeramoEd25519Signature2020(),
+            ],
+          })
+        ]
       }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),

@@ -2287,6 +2287,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -3158,6 +3161,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4004,6 +4010,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4240,7 +4249,7 @@ export const schema = {
               "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
             },
             "proofFormat": {
-              "$ref": "#/components/schemas/ProofFormat",
+              "type": "string",
               "description": "The desired format for the VerifiableCredential to be created."
             },
             "removeOriginalFields": {
@@ -4373,16 +4382,6 @@ export const schema = {
           ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
-        "ProofFormat": {
-          "type": "string",
-          "enum": [
-            "jwt",
-            "lds",
-            "EthereumEip712Signature2021",
-            "bbs"
-          ],
-          "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` and `lds` is supported at the moment."
-        },
         "VerifiableCredential": {
           "type": "object",
           "properties": {
@@ -4438,6 +4437,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4475,8 +4477,8 @@ export const schema = {
               "description": "Optional string domain parameter to add to the verifiable presentation."
             },
             "proofFormat": {
-              "$ref": "#/components/schemas/ProofFormat",
-              "description": "The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported"
+              "type": "string",
+              "description": "The desired format for the VerifiablePresentation to be created."
             },
             "removeOriginalFields": {
               "type": "boolean",
@@ -4800,7 +4802,7 @@ export const schema = {
           "returnType": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProofFormat"
+              "type": "string"
             }
           }
         }
@@ -4911,6 +4913,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
@@ -5163,7 +5168,7 @@ export const schema = {
       },
       "methods": {
         "verifyCredential": {
-          "description": "Verifies a Verifiable Credential JWT, LDS Format or EIP712.",
+          "description": "Verifies a Verifiable Credential",
           "arguments": {
             "$ref": "#/components/schemas/IVerifyCredentialArgs"
           },
@@ -5281,6 +5286,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
@@ -5808,6 +5816,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
