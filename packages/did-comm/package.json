@@ -19,7 +19,7 @@
   "dependencies": {
     "@noble/curves": "^1.4.2",
     "@noble/ciphers": "^0.5.3",
-    "@stablelib/aes-kw": "^1.0.1",
+    "@stablelib/aes-kw": "^2.0.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/kv-store": "workspace:^",
     "@veramo/mediation-manager": "workspace:^",
