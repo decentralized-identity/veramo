@@ -10,7 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@noble/curves": "^1.1.0",
+    "@noble/curves": "^1.4.2",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.4",

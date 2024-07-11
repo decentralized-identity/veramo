@@ -8,7 +8,7 @@ import {
   hexToBytes,
   stringToUtf8Bytes,
 } from '../../../utils/src'
-import { randomBytes } from '@stablelib/random'
+import { randomBytes } from 'ethers'
 import {
   convertPublicKeyToX25519,
   convertSecretKeyToX25519,

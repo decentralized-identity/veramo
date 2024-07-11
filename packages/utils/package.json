@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ipld/dag-pb": "^4.0.5",
-    "@noble/curves": "^1.1.0",
+    "@noble/curves": "^1.4.2",
     "@veramo/core-types": "workspace:^",
     "credential-status": "^3.0.0",
     "cross-fetch": "^4.0.0",

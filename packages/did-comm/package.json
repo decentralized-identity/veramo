@@ -17,11 +17,9 @@
     }
   },
   "dependencies": {
-    "@noble/curves": "^1.1.0",
-    "@stablelib/aes": "^2.0.0",
+    "@noble/curves": "^1.4.2",
+    "@noble/ciphers": "^0.5.3",
     "@stablelib/aes-kw": "^1.0.1",
-    "@stablelib/gcm": "^1.0.2",
-    "@stablelib/xchacha20poly1305": "^1.0.1",
     "@veramo/core-types": "workspace:^",
     "@veramo/kv-store": "workspace:^",
     "@veramo/mediation-manager": "workspace:^",
@@ -31,7 +29,6 @@
     "debug": "^4.3.3",
     "did-jwt": "^8.0.0",
     "did-resolver": "^4.1.0",
-    "isomorphic-webcrypto": "^2.3.8",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
