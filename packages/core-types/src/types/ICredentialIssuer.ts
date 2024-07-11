@@ -16,7 +16,7 @@ import { UsingResolutionOptions } from './ICredentialVerifier.js'
 *
 * @public
 */
-export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs'
+export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs' | string
 
 /**
  * Encapsulates the parameters required to create a
