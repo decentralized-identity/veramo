@@ -690,8 +690,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@stablelib/aes':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^2.0.0
+        version: 2.0.0
       '@stablelib/aes-kw':
         specifier: ^1.0.1
         version: 1.0.1
@@ -4260,11 +4260,20 @@ packages:
   '@stablelib/aes@1.0.1':
     resolution: {integrity: sha512-bMiezJDeFONDHbMEa+Kic26962+bwkZfsHPAmcqTjLaHCAhEQuK3i1H0POPOkcHCdj75oVRIqFCraCA0cyHPvw==}
 
+  '@stablelib/aes@2.0.0':
+    resolution: {integrity: sha512-/xZT4E1fpmK2ISN4h0BlSbtZorlP6WTA8jG/3PINQYUynJ2fV/DXLDuql2UFm4I3/W4JL/nB7zIdwFhKDy8uFQ==}
+
   '@stablelib/binary@1.0.1':
     resolution: {integrity: sha512-ClJWvmL6UBM/wjkvv/7m5VP3GMr9t0osr4yVgLZsLCOz4hGN9gIAFEqnJ0TsSMAN+n840nf2cHZnA5/KFqHC7Q==}
 
+  '@stablelib/binary@2.0.0':
+    resolution: {integrity: sha512-dHejKHMtq5OtNwDSMcFx+djhixVAnZ76Rqga3WOOKe6KV3NlnE7JBXlmdLIn04G4FxqhRSEx+zkoO4Izdw10ZA==}
+
   '@stablelib/blockcipher@1.0.1':
     resolution: {integrity: sha512-4bkpV8HUAv0CgI1fUqkPUEEvv3RXQ3qBkuZaSWhshXGAz1JCpriesgiO9Qs4f0KzBJkCtvcho5n7d/RKvnHbew==}
+
+  '@stablelib/blockcipher@2.0.0':
+    resolution: {integrity: sha512-c0iMTah5a5KxeqVyf6ejpaRkYanODvGaQn8wgvLLAnY23fHZMjhR6ycQVvasW2nIzAmc+faetpRORJqAfaE/yw==}
 
   '@stablelib/bytes@1.0.1':
     resolution: {integrity: sha512-Kre4Y4kdwuqL8BR2E9hV/R5sOrUj6NanZaZis0V6lX5yzqC3hBuVSDXUIBqQv/sCpmuWRiHLwqiT1pqqjuBXoQ==}
@@ -4293,6 +4302,9 @@ packages:
   '@stablelib/int@1.0.1':
     resolution: {integrity: sha512-byr69X/sDtDiIjIV6m4roLVWnNNlRGzsvxw+agj8CIEazqWGOQp2dTYgQhtyVXV9wpO6WyXRQUzLV/JRNumT2w==}
 
+  '@stablelib/int@2.0.0':
+    resolution: {integrity: sha512-EiSYDisTYKk1wuCqoh7wuBySmE0A1isq7TQbsijQ6XFi6nIAozchgAT7Zv2PCl2iY8BTe0URScC4PdYHOe3Yow==}
+
   '@stablelib/keyagreement@1.0.1':
     resolution: {integrity: sha512-VKL6xBwgJnI6l1jKrBAfn265cspaWBPAPEc62VBQrWHLqVgNRE09gQ/AnOEyKUWrrqfD+xSQ3u42gJjLDdMDQg==}
 
@@ -4313,6 +4325,9 @@ packages:
 
   '@stablelib/wipe@1.0.1':
     resolution: {integrity: sha512-WfqfX/eXGiAd3RJe4VU2snh/ZPwtSjLG4ynQ/vYzvghTh7dHFcI1wl+nrkWG6lGhukOxOsUHfv8dUXr58D0ayg==}
+
+  '@stablelib/wipe@2.0.0':
+    resolution: {integrity: sha512-VBMpCJx8py9j9F5DxV5dGmSSO+vkYDnXHXG4alkfpaD08UTfNTqsQoRlUh5obeqBNHiO+3Iv40GxKpM0gfd5xA==}
 
   '@stablelib/x25519@1.0.3':
     resolution: {integrity: sha512-KnTbKmUhPhHavzobclVJQG5kuivH+qDLpe84iRqX3CLrKp881cF160JvXJ+hjn1aMyCwYOKeIZefIH/P5cJoRw==}
@@ -18672,11 +18687,23 @@ snapshots:
       '@stablelib/blockcipher': 1.0.1
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/aes@2.0.0':
+    dependencies:
+      '@stablelib/binary': 2.0.0
+      '@stablelib/blockcipher': 2.0.0
+      '@stablelib/wipe': 2.0.0
+
   '@stablelib/binary@1.0.1':
     dependencies:
       '@stablelib/int': 1.0.1
 
+  '@stablelib/binary@2.0.0':
+    dependencies:
+      '@stablelib/int': 2.0.0
+
   '@stablelib/blockcipher@1.0.1': {}
+
+  '@stablelib/blockcipher@2.0.0': {}
 
   '@stablelib/bytes@1.0.1': {}
 
@@ -18720,6 +18747,8 @@ snapshots:
 
   '@stablelib/int@1.0.1': {}
 
+  '@stablelib/int@2.0.0': {}
+
   '@stablelib/keyagreement@1.0.1':
     dependencies:
       '@stablelib/bytes': 1.0.1
@@ -18755,6 +18784,8 @@ snapshots:
       '@stablelib/wipe': 1.0.1
 
   '@stablelib/wipe@1.0.1': {}
+
+  '@stablelib/wipe@2.0.0': {}
 
   '@stablelib/x25519@1.0.3':
     dependencies:
