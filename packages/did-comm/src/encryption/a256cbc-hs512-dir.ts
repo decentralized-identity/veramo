@@ -1,5 +1,7 @@
-import crypto from 'isomorphic-webcrypto'
 import { randomBytes } from '@noble/hashes/utils'
+import { hmac } from '@noble/hashes/hmac'
+import { sha512 } from '@noble/hashes/sha512'
+import { cbc } from '@noble/ciphers/aes'
 import { base64ToBytes, bytesToBase64url, concat, encodeBase64url } from '@veramo/utils'
 import { Decrypter, Encrypter, EncryptionResult, ProtectedHeader } from 'did-jwt'
 import { fromString } from 'uint8arrays/from-string'
@@ -39,38 +41,18 @@ async function cbcEncrypt(
 ) {
   // A256CBC-HS512 CEK size should be 512 bits; first 256 bits are used for HMAC with SHA-512 and the rest for AES-CBC
   const keySize = parseInt(enc.slice(1, 4), 10)
-  const encKey = await crypto.subtle.importKey('raw', cek.subarray(keySize >> 3), 'AES-CBC', false, [
-    'encrypt',
-  ])
-  const macKey = await crypto.subtle.importKey(
-    'raw',
-    cek.subarray(0, keySize >> 3),
-    {
-      hash: `SHA-${keySize << 1}`,
-      name: 'HMAC',
-    },
-    false,
-    ['sign'],
-  )
+  const encKey = cek.subarray(keySize >> 3)
+  const macKey = cek.subarray(0, keySize >> 3)
 
   if (providedIV && providedIV.length !== keySize >> 4) {
     throw new Error(`illegal_argument: Invalid IV size, expected ${keySize >> 4}, got ${providedIV.length}`)
   }
   const iv = providedIV ?? randomBytes(keySize >> 4)
 
-  const ciphertext = new Uint8Array(
-    await crypto.subtle.encrypt(
-      {
-        iv,
-        name: 'AES-CBC',
-      },
-      encKey,
-      plaintext,
-    ),
-  )
+  const ciphertext = cbc(encKey, iv).encrypt(plaintext)
 
   const macData = concat([aad, iv, ciphertext, uint64be(aad.length << 3)])
-  const tag = new Uint8Array((await crypto.subtle.sign('HMAC', macKey, macData)).slice(0, keySize >> 3))
+  const tag = hmac(sha512, macKey, macData).slice(0, keySize >> 3)
 
   return { enc: 'dir', ciphertext, tag, iv }
 }
@@ -96,30 +78,17 @@ async function cbcDecrypt(
   aad: Uint8Array,
 ) {
   const keySize = parseInt(enc.slice(1, 4), 10)
-  const encKey = await crypto.subtle.importKey('raw', cek.subarray(keySize >> 3), 'AES-CBC', false, [
-    'decrypt',
-  ])
-  const macKey = await crypto.subtle.importKey(
-    'raw',
-    cek.subarray(0, keySize >> 3),
-    {
-      hash: `SHA-${keySize << 1}`,
-      name: 'HMAC',
-    },
-    false,
-    ['sign'],
-  )
+  const encKey = cek.subarray(keySize >> 3)
+  const macKey = cek.subarray(0, keySize >> 3)
 
   const macData = concat([aad, iv, ciphertext, uint64be(aad.length << 3)])
-  const expectedTag = new Uint8Array(
-    (await crypto.subtle.sign('HMAC', macKey, macData)).slice(0, keySize >> 3),
-  )
+  const expectedTag = hmac(sha512, macKey, macData).slice(0, keySize >> 3)
 
-  let macCheckPassed!: boolean
+  let macCheckPassed: boolean = false
   try {
     macCheckPassed = timingSafeEqual(tag, expectedTag)
   } catch {
-    //
+    // nop
   }
   if (!macCheckPassed) {
     // current JWE decryption pipeline tries to decrypt multiple times with different keys, so return null instead of
@@ -130,7 +99,7 @@ async function cbcDecrypt(
 
   let plaintext: Uint8Array | null = null
   try {
-    plaintext = new Uint8Array(await crypto.subtle.decrypt({ iv, name: 'AES-CBC' }, encKey, ciphertext))
+    plaintext = cbc(encKey, iv).decrypt(ciphertext)
   } catch (e: any) {
     // current JWE decryption pipeline tries to decrypt multiple times with different keys, so return null instead of
     // throwing an error

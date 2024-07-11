@@ -1,7 +1,6 @@
 import { AbstractSecretBox } from '@veramo/key-manager'
 import { secretBox, openSecretBox, generateKeyPair } from '@stablelib/nacl'
-import { randomBytes } from '@stablelib/random'
-import { getBytes, concat, hexlify, toUtf8Bytes, toUtf8String } from 'ethers'
+import { getBytes, concat, hexlify, toUtf8Bytes, toUtf8String, randomBytes } from 'ethers'
 
 const NONCE_BYTES = 24
 
