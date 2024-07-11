@@ -119,7 +119,7 @@ importers:
         version: 23.0.2(typescript@5.3.3)
       ts-jest:
         specifier: 29.1.2
-        version: 29.1.2(@babel/core@7.22.9)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.11.19)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.11.19)(typescript@5.3.3)))(typescript@5.3.3)
+        version: 29.1.2(@babel/core@7.23.6)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.11.19)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.11.19)(typescript@5.3.3)))(typescript@5.3.3)
       ts-json-schema-generator:
         specifier: 1.5.0
         version: 1.5.0
@@ -589,7 +589,7 @@ importers:
     optionalDependencies:
       '@veramo/credential-ld':
         specifier: ^6.0.0
-        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)
+        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -693,8 +693,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2
       '@stablelib/aes-kw':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^2.0.0
+        version: 2.0.0
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -1045,7 +1045,7 @@ importers:
         version: 4.1.8
       ethr-did-resolver:
         specifier: 10.1.9
-        version: 10.1.9(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 10.1.9(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -1983,6 +1983,7 @@ packages:
   '@babel/plugin-proposal-class-properties@7.18.6':
     resolution: {integrity: sha512-cumfXOF0+nzZrrN8Rf0t7M+tF6sZc7vhQwYQck9q1/5w2OExlD+b4v4RpMJFaV1Z7WcDRgO6FqvxqxGlwo+RHQ==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -2014,12 +2015,14 @@ packages:
   '@babel/plugin-proposal-nullish-coalescing-operator@7.18.6':
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-numeric-separator@7.18.6':
     resolution: {integrity: sha512-ozlZFogPqoLm8WBr5Z8UckIoE4YQ5KESVcNudyXOR8uqIkliTEgJ3RoketfG6pmzLdeZF0H/wjE9/cCEitBl7Q==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -2040,12 +2043,14 @@ packages:
   '@babel/plugin-proposal-optional-chaining@7.21.0':
     resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-private-methods@7.18.6':
     resolution: {integrity: sha512-nutsvktDItsNn4rpGItSNV2sz1XwS+nfU0Rg8aCx3W3NOKVzdMjJRu0O5OkgDp3ZGICSTbgRpxZoWsxoKRvbeA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -2058,12 +2063,14 @@ packages:
   '@babel/plugin-proposal-private-property-in-object@7.21.11':
     resolution: {integrity: sha512-0QZ8qP/3RLDVBwBFoWAwCtgcDZJVwA5LUJRZU8x2YFfKNuFq161wK3cuGrALu5yiPu+vzwTAg/sMWVNeWeNyaw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
   '@babel/plugin-proposal-unicode-property-regex@7.18.6':
     resolution: {integrity: sha512-2BShG/d5yoZyXZfVePH91urL5wTG6ASZU9M4o03lKK8u8UW1y08OMttBSOADTcJrnPMpvDXRG3G8fyLh4ovs8w==}
     engines: {node: '>=4'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -3310,6 +3317,7 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -3317,6 +3325,7 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.2':
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
+    deprecated: Use @eslint/object-schema instead
 
   '@hutson/parse-repository-url@3.0.2':
     resolution: {integrity: sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==}
@@ -3560,6 +3569,7 @@ packages:
   '@metamask/eth-sig-util@7.0.0':
     resolution: {integrity: sha512-8KeXZB4SKx3EfNS5ahbjUMegyGvDQYk6Nk3hmM658sXpfAQR5ZlIXBgj+9RF+ZROqsU6EuNVgKt7Fr10re60PQ==}
     engines: {node: ^16.20 || ^18.16 || >=20}
+    deprecated: This version generates invalid signatures for messages that include the value "0x" in a "bytes" field. This has been fixed in v6.0.2 and v7.0.1
 
   '@metamask/eth-sig-util@7.0.1':
     resolution: {integrity: sha512-59GSrMyFH2fPfu7nKeIQdZ150zxXNNhAQIUaFRUW+MGtVA4w/ONbiQobcRBLi+jQProfIyss51G8pfLPcQ0ylg==}
@@ -4242,14 +4252,26 @@ packages:
   '@stablelib/aes-kw@1.0.1':
     resolution: {integrity: sha512-KrOkiRex1tQTbWk+hFB5fFw4vqKhNnTUtlCRf1bhUEOFp7hadWe49/sLa/P4X4FBQVoh3Z9Lj0zS1OWu/AHA1w==}
 
+  '@stablelib/aes-kw@2.0.0':
+    resolution: {integrity: sha512-tvFczbep36KfOiHt2HuQLSxOaXszrLkDtXz+eaRf+0q7DaKbexN8w2Mfz9TRg6g2qtkuQ/C9ajktaYy6bNdbbw==}
+
   '@stablelib/aes@1.0.1':
     resolution: {integrity: sha512-bMiezJDeFONDHbMEa+Kic26962+bwkZfsHPAmcqTjLaHCAhEQuK3i1H0POPOkcHCdj75oVRIqFCraCA0cyHPvw==}
+
+  '@stablelib/aes@2.0.0':
+    resolution: {integrity: sha512-/xZT4E1fpmK2ISN4h0BlSbtZorlP6WTA8jG/3PINQYUynJ2fV/DXLDuql2UFm4I3/W4JL/nB7zIdwFhKDy8uFQ==}
 
   '@stablelib/binary@1.0.1':
     resolution: {integrity: sha512-ClJWvmL6UBM/wjkvv/7m5VP3GMr9t0osr4yVgLZsLCOz4hGN9gIAFEqnJ0TsSMAN+n840nf2cHZnA5/KFqHC7Q==}
 
+  '@stablelib/binary@2.0.0':
+    resolution: {integrity: sha512-dHejKHMtq5OtNwDSMcFx+djhixVAnZ76Rqga3WOOKe6KV3NlnE7JBXlmdLIn04G4FxqhRSEx+zkoO4Izdw10ZA==}
+
   '@stablelib/blockcipher@1.0.1':
     resolution: {integrity: sha512-4bkpV8HUAv0CgI1fUqkPUEEvv3RXQ3qBkuZaSWhshXGAz1JCpriesgiO9Qs4f0KzBJkCtvcho5n7d/RKvnHbew==}
+
+  '@stablelib/blockcipher@2.0.0':
+    resolution: {integrity: sha512-c0iMTah5a5KxeqVyf6ejpaRkYanODvGaQn8wgvLLAnY23fHZMjhR6ycQVvasW2nIzAmc+faetpRORJqAfaE/yw==}
 
   '@stablelib/bytes@1.0.1':
     resolution: {integrity: sha512-Kre4Y4kdwuqL8BR2E9hV/R5sOrUj6NanZaZis0V6lX5yzqC3hBuVSDXUIBqQv/sCpmuWRiHLwqiT1pqqjuBXoQ==}
@@ -4263,6 +4285,9 @@ packages:
   '@stablelib/constant-time@1.0.1':
     resolution: {integrity: sha512-tNOs3uD0vSJcK6z1fvef4Y+buN7DXhzHDPqRLSXUel1UfqMB1PWNsnnAezrKfEwTLpN0cGH2p9NNjs6IqeD0eg==}
 
+  '@stablelib/constant-time@2.0.0':
+    resolution: {integrity: sha512-I7VCf71/mzsDsfV3xDjbTddxjmWq7+tRGvJgqI0VYWRA9eE6/nsf40wnuYFhzl/Ip0Qf2IqUF79oqV+7H33QWQ==}
+
   '@stablelib/ed25519@1.0.3':
     resolution: {integrity: sha512-puIMWaX9QlRsbhxfDc5i+mNPMY+0TmQEskunY1rZEBPi1acBCVQAhnsk/1Hk50DGPtVsZtAWQg4NHGlVaO9Hqg==}
 
@@ -4271,6 +4296,9 @@ packages:
 
   '@stablelib/int@1.0.1':
     resolution: {integrity: sha512-byr69X/sDtDiIjIV6m4roLVWnNNlRGzsvxw+agj8CIEazqWGOQp2dTYgQhtyVXV9wpO6WyXRQUzLV/JRNumT2w==}
+
+  '@stablelib/int@2.0.0':
+    resolution: {integrity: sha512-EiSYDisTYKk1wuCqoh7wuBySmE0A1isq7TQbsijQ6XFi6nIAozchgAT7Zv2PCl2iY8BTe0URScC4PdYHOe3Yow==}
 
   '@stablelib/keyagreement@1.0.1':
     resolution: {integrity: sha512-VKL6xBwgJnI6l1jKrBAfn265cspaWBPAPEc62VBQrWHLqVgNRE09gQ/AnOEyKUWrrqfD+xSQ3u42gJjLDdMDQg==}
@@ -4292,6 +4320,9 @@ packages:
 
   '@stablelib/wipe@1.0.1':
     resolution: {integrity: sha512-WfqfX/eXGiAd3RJe4VU2snh/ZPwtSjLG4ynQ/vYzvghTh7dHFcI1wl+nrkWG6lGhukOxOsUHfv8dUXr58D0ayg==}
+
+  '@stablelib/wipe@2.0.0':
+    resolution: {integrity: sha512-VBMpCJx8py9j9F5DxV5dGmSSO+vkYDnXHXG4alkfpaD08UTfNTqsQoRlUh5obeqBNHiO+3Iv40GxKpM0gfd5xA==}
 
   '@stablelib/x25519@1.0.3':
     resolution: {integrity: sha512-KnTbKmUhPhHavzobclVJQG5kuivH+qDLpe84iRqX3CLrKp881cF160JvXJ+hjn1aMyCwYOKeIZefIH/P5cJoRw==}
@@ -4942,6 +4973,7 @@ packages:
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
+    deprecated: Use your platform's native atob() and btoa() methods instead
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -5148,10 +5180,12 @@ packages:
   are-we-there-yet@2.0.0:
     resolution: {integrity: sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw==}
     engines: {node: '>=10'}
+    deprecated: This package is no longer supported.
 
   are-we-there-yet@3.0.1:
     resolution: {integrity: sha512-QZW4EDmGwlYur0Yyf/b2uGucHQMa8aFUP7eu9ddR73vvhFyt4V0Vl3QHPcTNJ8l6qYOBdxgXdnBXQrHilfRQBg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+    deprecated: This package is no longer supported.
 
   arg@4.1.0:
     resolution: {integrity: sha512-ZWc51jO3qegGkVh8Hwpv636EkbesNV5ZNQPCtRa+0qytRYPEs9IYT9qITY9buezqUH5uqyzlWLcufrzU2rffdg==}
@@ -6666,10 +6700,12 @@ packages:
   domexception@2.0.1:
     resolution: {integrity: sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==}
     engines: {node: '>=8'}
+    deprecated: Use your platform's native DOMException instead
 
   domexception@4.0.0:
     resolution: {integrity: sha512-A2is4PLG+eeSfoTMA95/s4pvAoSo2mKtiM5jlHkAVewmiO8ISFTFKZjH7UAM1Atli/OT/7JHOrJRJiMKUZKYBw==}
     engines: {node: '>=12'}
+    deprecated: Use your platform's native DOMException instead
 
   domhandler@4.3.1:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
@@ -7575,10 +7611,12 @@ packages:
   gauge@3.0.2:
     resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}
     engines: {node: '>=10'}
+    deprecated: This package is no longer supported.
 
   gauge@4.0.4:
     resolution: {integrity: sha512-f9m+BEN5jkg6a0fZjleidjN51VE1X+mPFQ2DJ0uv1V39oCLCbsGe6yjbBnp7eK7z/+GAon99a3nHuqbuuthyPg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+    deprecated: This package is no longer supported.
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -7711,10 +7749,12 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@9.3.5:
     resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
@@ -8089,6 +8129,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
@@ -9992,10 +10033,12 @@ packages:
 
   npmlog@5.0.1:
     resolution: {integrity: sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw==}
+    deprecated: This package is no longer supported.
 
   npmlog@6.0.2:
     resolution: {integrity: sha512-/vBvz5Jfr9dT/aFWd0FIRf+T/Q2WBsLENygUaFUqstqsycmZAP/t5BvFJTK0viFmSUxiUKTUplWy5vt+rvKIxg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+    deprecated: This package is no longer supported.
 
   nth-check@1.0.2:
     resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==}
@@ -11067,6 +11110,7 @@ packages:
   puppeteer@22.2.0:
     resolution: {integrity: sha512-0Ax7zeqqbQL6Zcpo1WAvrqWQAnGsLB4tmQUUwsb5Cfo05XaQ78LWUUjaO4um7qaddKpZfk0vXlGcRVwtedpWfg==}
     engines: {node: '>=18'}
+    deprecated: < 22.6.4 is no longer supported
     hasBin: true
 
   pure-rand@6.0.2:
@@ -11082,6 +11126,10 @@ packages:
   q@1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qrcode-terminal@0.11.0:
     resolution: {integrity: sha512-Uu7ii+FQy4Qf82G4xu7ShHhjhGahEpCWc3x8UavY3CTcWV+ufmmCtwkr7ZKsX42jdL0kr1B5FKUeqJvAn51jzQ==}
@@ -11238,10 +11286,12 @@ packages:
   read-package-json@6.0.4:
     resolution: {integrity: sha512-AEtWXYfopBj2z5N5PbkAOeNHRPUg5q+Nen7QLxV8M2zJq1ym6/lCz3fYNTCXe19puu2d06jfHhrP7v/S2PtMMw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    deprecated: This package is no longer supported. Please use @npmcli/package-json instead.
 
   read-package-json@7.0.0:
     resolution: {integrity: sha512-uL4Z10OKV4p6vbdvIXB+OzhInYtIozl/VxUBPgNkBuUi2DeRonnuspmaVAMcrkmfjKGNmRndyQAbE7/AmzGwFg==}
     engines: {node: ^16.14.0 || >=18.0.0}
+    deprecated: This package is no longer supported. Please use @npmcli/package-json instead.
 
   read-pkg-up@10.0.0:
     resolution: {integrity: sha512-jgmKiS//w2Zs+YbX039CorlkOp8FIVbSAN8r8GJHDsGlmNPXo+VeHkqAwCiQVTTx5/LwLZTcEw59z3DvcLbr0g==}
@@ -11485,6 +11535,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rimraf@4.4.1:
@@ -13020,6 +13071,7 @@ packages:
 
   workbox-google-analytics@6.5.4:
     resolution: {integrity: sha512-8AU1WuaXsD49249Wq0B2zn4a/vvFfHkpcFfqAFHNHwln3jK9QUYmzdkKXGIZl9wyKNP+RRX30vcgcyWMcZ9VAg==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
 
   workbox-navigation-preload@6.5.4:
     resolution: {integrity: sha512-IIwf80eO3cr8h6XSQJF+Hxj26rg2RPFVUmJLUlM0+A2GzB4HFbQyKkrgD5y2d84g2IbJzP4B4j5dPBRzamHrng==}
@@ -18638,17 +18690,37 @@ snapshots:
       '@stablelib/constant-time': 1.0.1
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/aes-kw@2.0.0':
+    dependencies:
+      '@stablelib/aes': 2.0.0
+      '@stablelib/binary': 2.0.0
+      '@stablelib/blockcipher': 2.0.0
+      '@stablelib/constant-time': 2.0.0
+      '@stablelib/wipe': 2.0.0
+
   '@stablelib/aes@1.0.1':
     dependencies:
       '@stablelib/binary': 1.0.1
       '@stablelib/blockcipher': 1.0.1
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/aes@2.0.0':
+    dependencies:
+      '@stablelib/binary': 2.0.0
+      '@stablelib/blockcipher': 2.0.0
+      '@stablelib/wipe': 2.0.0
+
   '@stablelib/binary@1.0.1':
     dependencies:
       '@stablelib/int': 1.0.1
 
+  '@stablelib/binary@2.0.0':
+    dependencies:
+      '@stablelib/int': 2.0.0
+
   '@stablelib/blockcipher@1.0.1': {}
+
+  '@stablelib/blockcipher@2.0.0': {}
 
   '@stablelib/bytes@1.0.1': {}
 
@@ -18668,6 +18740,8 @@ snapshots:
 
   '@stablelib/constant-time@1.0.1': {}
 
+  '@stablelib/constant-time@2.0.0': {}
+
   '@stablelib/ed25519@1.0.3':
     dependencies:
       '@stablelib/random': 1.0.2
@@ -18677,6 +18751,8 @@ snapshots:
   '@stablelib/hash@1.0.1': {}
 
   '@stablelib/int@1.0.1': {}
+
+  '@stablelib/int@2.0.0': {}
 
   '@stablelib/keyagreement@1.0.1':
     dependencies:
@@ -18713,6 +18789,8 @@ snapshots:
       '@stablelib/wipe': 1.0.1
 
   '@stablelib/wipe@1.0.1': {}
+
+  '@stablelib/wipe@2.0.0': {}
 
   '@stablelib/x25519@1.0.3':
     dependencies:
@@ -19439,7 +19517,7 @@ snapshots:
       - supports-color
     optional: true
 
-  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)':
+  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)':
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@12.8.1(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)))(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7)))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
@@ -20024,6 +20102,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  babel-jest@29.7.0(@babel/core@7.23.6):
+    dependencies:
+      '@babel/core': 7.23.6
+      '@jest/transform': 29.7.0
+      '@types/babel__core': 7.20.1
+      babel-plugin-istanbul: 6.1.1
+      babel-preset-jest: 29.6.3(@babel/core@7.23.6)
+      chalk: 4.1.2
+      graceful-fs: 4.2.11
+      slash: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
+    optional: true
+
   babel-loader@8.3.0(@babel/core@7.20.12)(webpack@5.75.0):
     dependencies:
       '@babel/core': 7.20.12
@@ -20299,6 +20391,13 @@ snapshots:
       '@babel/core': 7.22.9
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.22.9)
+
+  babel-preset-jest@29.6.3(@babel/core@7.23.6):
+    dependencies:
+      '@babel/core': 7.23.6
+      babel-plugin-jest-hoist: 29.6.3
+      babel-preset-current-node-syntax: 1.0.1(@babel/core@7.23.6)
+    optional: true
 
   babel-preset-react-app@10.0.1:
     dependencies:
@@ -22251,14 +22350,6 @@ snapshots:
     dependencies:
       did-resolver: 4.1.0
       ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  ethr-did-resolver@10.1.9(bufferutil@4.0.7)(utf-8-validate@5.0.7):
-    dependencies:
-      did-resolver: 4.1.0
-      ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -28994,7 +29085,7 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.20.12)
 
-  ts-jest@29.1.2(@babel/core@7.22.9)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.11.19)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.11.19)(typescript@5.3.3)))(typescript@5.3.3):
+  ts-jest@29.1.2(@babel/core@7.23.6)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.11.19)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.11.19)(typescript@5.3.3)))(typescript@5.3.3):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -29007,9 +29098,9 @@ snapshots:
       typescript: 5.3.3
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 7.22.9
+      '@babel/core': 7.23.6
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.22.9)
+      babel-jest: 29.7.0(@babel/core@7.23.6)
 
   ts-json-schema-generator@1.5.0:
     dependencies:
