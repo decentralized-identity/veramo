@@ -1,0 +1,91 @@
+{
+  "name": "@veramo/credential-bbs",
+  "description": "Veramo plugin for working with W3C BBS Verifiable Credentials & Presentations.",
+  "version": "6.0.0",
+  "main": "build/index.js",
+  "exports": {
+    ".": "./build/index.js"
+  },
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "dependencies": {
+    "@mattrglobal/jsonld-signatures-bbs": "^1.2.0",
+    "@veramo/core": "workspace:^",
+    "@veramo/core-types": "workspace:^",
+    "@veramo/did-manager": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/kms-local": "workspace:^",
+    "@veramo/utils": "workspace:^",
+    "@veramo/credential-w3c": "workspace:^",
+    "@veramo/did-resolver": "workspace:^",
+    "@veramo/data-store": "workspace:^",
+    "@veramo/did-provider-ethr": "workspace:^",
+    "jsonld": "4.0.1",
+    "jsonld-signatures": "7.0.0",    
+    "did-resolver": "^4.1.0",
+    "cross-fetch": "^4.0.0",
+    "debug": "^4.3.3",
+    "did-jwt": "^8.0.0",
+    "ethers": "^6.11.1",
+    "uint8arrays": "^4.0.6",
+    "ethr-did-resolver": "^10.1.5",
+    "typeorm": "^0.3.17"
+  },
+  
+  "devDependencies": {
+   "@jest/globals": "29.7.0",
+    "@types/cors": "^2.8.15",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^4.17.17",
+    "@types/fast-crc32c": "^2.0.0",
+    "@types/jest": "^29.5.12",
+    "jest": "29.7.0",
+    "jest-config": "29.7.0",
+    "jest-environment-jsdom": "29.7.0",
+    "jest-environment-node": "29.7.0",
+    "ts-jest": "29.1.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "contexts/**/*.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/credential-bbs"
+  },
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "contributors": [
+    "TODO: VERO: Veromassera"
+  ],
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable Credential",
+    "JSON-LD",
+    "Data Integrity",
+    "EcdsaSecp256k1RecoverySignature2020",
+    "Ed25519Signature2018",
+    "Ed25519Signature2020",
+    "JsonWebSignature2020",
+    "vc-ld-json",
+    "veramo-plugin"
+  ],
+  "license": "Apache-2.0",
+  "type": "module",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
+}
