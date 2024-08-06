@@ -23,8 +23,6 @@ describe('data handling tests', () => {
   describe('can recompute p256 keys from old database', () => {
     const fixture = __dirname + '/fixtures/local-database-before-p256key-migration.sqlite'
     const databaseFile = fixture + '.tmp'
-
-    console.log("fixture: " + fixture)
     // intentionally using DataSource instead of Promise<DataSource> to test compatibility
     let dbConnection: DataSource
 
