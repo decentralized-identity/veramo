@@ -29,6 +29,7 @@ jest.setTimeout(600000)
 
 const database_test = path.normalize(path.resolve() + '/__tests__/fixtures/bbs_database_test.sqlite.tmp')
 
+
 const customContext: Record<string, ContextDoc> = {
   "https://w3id.org/citizenship/v1": citizenVocab,
 }
