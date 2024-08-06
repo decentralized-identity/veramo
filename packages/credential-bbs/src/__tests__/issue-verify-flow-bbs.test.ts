@@ -28,6 +28,7 @@ const KMS_SECRET_KEY = '11b574d316903ced6cc3f4787bbcc3047d9c72d1da4d83e36fe714ef
 jest.setTimeout(600000)
 
 const database_test = path.normalize(path.resolve() + '\\packages\\credential-bbs\\src\\__tests__\\sample\\bbs_database_test.sqlite.tmp')
+console.log("database_test: " + database_test)
 
 const customContext: Record<string, ContextDoc> = {
   "https://w3id.org/citizenship/v1": citizenVocab,
