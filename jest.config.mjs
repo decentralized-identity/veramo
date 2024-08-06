@@ -18,7 +18,7 @@ const config = {
   coverageReporters: ['json'],
   coverageDirectory: './coverage',
   coverageProvider: 'v8',
-  testMatch: ['**/__tests__/**/*issue-verify-flow-bbs.test.ts'],
+  testMatch: ['**/__tests__/**/*.test.ts'],
   automock: false,
   // // typescript 5 removes the need to specify relative imports as .js, so we should no longer need this workaround
   // // but webpack still requires .js specifiers, so we are keeping it for now
