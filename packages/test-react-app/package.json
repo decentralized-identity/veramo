@@ -41,7 +41,8 @@
     "typeorm": "^0.3.17",
     "util": "npm:util",
     "web-did-resolver": "^2.0.27",
-    "web-vitals": "^3.5.2"
+    "web-vitals": "^3.5.2",
+    "vm-browserify": "1.1.2"
   },
   "scripts": {
     "start": "craco start",

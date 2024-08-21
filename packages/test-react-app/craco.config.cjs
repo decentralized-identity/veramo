@@ -3,8 +3,6 @@ module.exports = {
         plugins: ["@babel/plugin-syntax-import-assertions"]
     },
     resolve: {
-        fallback: {
-          "vm": false
-        }
+        fallback: { "vm": require.resolve("vm-browserify") }
       }
 }
