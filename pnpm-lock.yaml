@@ -1572,9 +1572,9 @@ importers:
       util:
         specifier: npm:util
         version: 0.12.5
-      vm-browserify:
-        specifier: 1.1.2
-        version: 1.1.2
+      vm:
+        specifier: npm:vm-browserify
+        version: vm-browserify@1.1.2
       web-did-resolver:
         specifier: ^2.0.27
         version: 2.0.27(encoding@0.1.13)
