@@ -9,6 +9,11 @@ export type ContextDoc = {
   '@context': Record<string, any>
 }
 
+/**
+ * ICreateBbsSelectiveDisclosureCredentialArgs.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface ICreateBbsSelectiveDisclosureCredentialArgs {
   /**
    * A document featuring a linked data proof capable of proof derivation
@@ -37,6 +42,11 @@ export interface ICreateBbsSelectiveDisclosureCredentialArgs {
    [x: string]: any
 }
 
+/**
+ * IVerifyBbsDerivedProofCredentialArgs.
+ *
+ * @beta This API may change without a BREAKING CHANGE notice.
+ */
 export interface IVerifyBbsDerivedProofCredentialArgs {
   /**
    * The json payload of the Credential according to the

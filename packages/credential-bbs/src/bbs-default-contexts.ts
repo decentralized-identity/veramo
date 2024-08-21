@@ -21,7 +21,7 @@ import schema_org from './contexts/schema.org.json' assert { type: 'json' }
  * Provides a hardcoded map of common Linked Data `@context` definitions.
  *
  * You can use this to bootstrap the `@context` definitions used by
- * {@link @veramo/credential-bbs#CredentialProviderLD | CredentialProviderLD} with these common context definitions.
+ * {@link @veramo/credential-bbs#CredentialProviderBBS | CredentialProviderBBS} with these common context definitions.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */

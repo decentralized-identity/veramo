@@ -32,12 +32,9 @@ import {
 import { AbstractCredentialProvider } from '@veramo/credential-w3c'
 import { DIDResolutionOptions } from 'did-resolver'
 
-
-
 import { BbsCredentialModule } from './bbs-credential-module.js'
 import { BbsSuiteLoader } from './bbs-suite-loader.js'
 import { BbsContextLoader } from './bbs-context-loader.js'
-import { VeramoBbsBlsSignature } from './suites/BbsBlsSignature.js'
 import { ContextDoc } from './types.js'
 
 import { VeramoBbsSignature } from './index.js'
@@ -47,7 +44,6 @@ import Debug from 'debug'
 const debug = Debug('veramo:credential-bbs:action-handler')
 
 /**
- * A handler that implements the {@link AbstractCredentialProvider} methods.
  *
  * @public
  */
@@ -77,7 +73,7 @@ export class CredentialProviderBBS implements AbstractCredentialProvider {
     return (args.proofFormat === 'bbs')
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
+  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType} */
   canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
     const { document } = args
 
