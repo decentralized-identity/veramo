@@ -3,7 +3,7 @@
 This plugin implements a verifiable credential provider with BBS signature.
 This provider enables the issuing of credentials and the generation of presentations from BBS signatures.
 
-It also offers the ability to verify credentials and presentations. 
+It also offers the ability to verify credentials and presentations.
 
 This type of credential allows the holder to share credentials containing only a selected portion of the original VC data through selective disclosure, giving the holders real control over which data is shared.
 
