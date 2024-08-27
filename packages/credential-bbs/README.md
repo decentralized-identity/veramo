@@ -7,7 +7,7 @@ It also offers the ability to verify credentials and presentations.
 
 This type of credential allows the holder to share credentials containing only a selected portion of the original VC data through selective disclosure, giving the holders real control over which data is shared.
 
-The plugin extends the Veramo agent with the functionality of createSelectiveDisclosureCredentialBbs and verifyDerivedProofBbs.
+The plugin extends the Veramo agent with the functionality of createSelectiveDisclosureCredentialBbs and verifyDerivedProofBbs. 
 
 This implementation is built on top of the jsonld-signatures-bbs libraries provided by mattrglobal [https://github.com/mattrglobal/jsonld-signatures-bbs](https://github.com/mattrglobal/jsonld-signatures-bbs)
 
