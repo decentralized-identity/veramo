@@ -4363,7 +4363,15 @@ export const schema = {
           "description": "The data type for `@context` properties of credentials, presentations, etc."
         },
         "DateType": {
-          "type": "string",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ],
           "description": "Represents an issuance or expiration date for Credentials / Presentations. This is used as input when creating them."
         },
         "CredentialStatusReference": {
