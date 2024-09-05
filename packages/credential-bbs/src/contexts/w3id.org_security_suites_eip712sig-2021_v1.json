@@ -1,0 +1,93 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "Eip712SchemaValidator2021": "https://w3id.org/security#Eip712SchemaValidator2021",
+    "EthereumEip712Signature2021": {
+      "@id": "https://w3id.org/security#EthereumEip712Signature2021",
+      "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "created": {
+          "@id": "http://purl.org/dc/terms/created",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "domain": "https://w3id.org/security#domain",
+        "proofPurpose": {
+          "@id": "https://w3id.org/security#proofPurpose",
+          "@type": "@vocab",
+          "@context": {
+            "@version": 1.1,
+            "@protected": true,
+            "id": "@id",
+            "type": "@type",
+            "assertionMethod": {
+              "@id": "https://w3id.org/security#assertionMethod",
+              "@type": "@id",
+              "@container": "@set"
+            },
+            "authentication": {
+              "@id": "https://w3id.org/security#authenticationMethod",
+              "@type": "@id",
+              "@container": "@set"
+            },
+            "capabilityInvocation": {
+              "@id": "https://w3id.org/security#capabilityInvocationMethod",
+              "@type": "@id",
+              "@container": "@set"
+            },
+            "capabilityDelegation": {
+              "@id": "https://w3id.org/security#capabilityDelegationMethod",
+              "@type": "@id",
+              "@container": "@set"
+            }
+          }
+        },
+        "eip712Domain": {
+          "@id": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#eip712-domain",
+          "@context": {
+            "@version": 1.1,
+            "@protected": true,
+            "id": "@id",
+            "type": "@type",
+            "messageSchema": {
+              "@id": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#message-schema",
+              "@type": "@json"
+            },
+            "primaryType": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#primary-type",
+            "domain": {
+              "@id": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#domain",
+              "@type": "@json"
+            }
+          }
+        },
+        "eip712": {
+          "@id": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#eip712-domain",
+          "@context": {
+            "@version": 1.1,
+            "@protected": true,
+            "id": "@id",
+            "type": "@type",
+            "types": {
+              "@id": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#message-schema",
+              "@type": "@json"
+            },
+            "primaryType": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#primary-type",
+            "domain": {
+              "@id": "https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/#domain",
+              "@type": "@json"
+            }
+          }
+        },
+        "proofValue": "https://w3id.org/security#proofValue",
+        "verificationMethod": {
+          "@id": "https://w3id.org/security#verificationMethod",
+          "@type": "@id"
+        },
+        "canonicalizationHash": "https://w3id.org/security/suites/eip712sig-2021#canonicalizationHash"
+      }
+    }
+  }
+}

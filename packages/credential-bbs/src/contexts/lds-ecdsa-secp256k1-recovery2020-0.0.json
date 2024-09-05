@@ -1,0 +1,21 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "id": "@id",
+    "type": "@type",
+    "esrs2020": "https://identity.foundation/EcdsaSecp256k1RecoverySignature2020#",
+    "EcdsaSecp256k1RecoverySignature2020": "esrs2020:EcdsaSecp256k1RecoverySignature2020",
+    "EcdsaSecp256k1RecoveryMethod2020": "esrs2020:EcdsaSecp256k1RecoveryMethod2020",
+    "publicKeyJwk": {
+      "@id": "esrs2020:publicKeyJwk",
+      "@type": "@json"
+    },
+    "privateKeyJwk": {
+      "@id": "esrs2020:privateKeyJwk",
+      "@type": "@json"
+    },
+    "publicKeyHex": "esrs2020:publicKeyHex",
+    "privateKeyHex": "esrs2020:privateKeyHex",
+    "ethereumAddress": "esrs2020:ethereumAddress"
+  }
+}
