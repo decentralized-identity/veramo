@@ -687,8 +687,8 @@ importers:
   packages/did-comm:
     dependencies:
       '@noble/ciphers':
-        specifier: ^0.5.3
-        version: 0.5.3
+        specifier: ^1.0.0
+        version: 1.0.0
       '@noble/curves':
         specifier: ^1.4.2
         version: 1.4.2
@@ -3610,6 +3610,10 @@ packages:
 
   '@noble/ciphers@0.5.3':
     resolution: {integrity: sha512-B0+6IIHiqEs3BPMT0hcRmHvEj2QHOLu+uwt+tqDDeVd0oyVzh7BPrDcPjRnV1PV/5LaknXJJQvOuRGR0zQJz+w==}
+
+  '@noble/ciphers@1.0.0':
+    resolution: {integrity: sha512-wH5EHOmLi0rEazphPbecAzmjd12I6/Yv/SiHdkA9LSycsQk7RuuTp7am5/o62qYr0RScE7Pc9icXGBbsr6cesA==}
+    engines: {node: ^14.21.3 || >=16}
 
   '@noble/curves@1.1.0':
     resolution: {integrity: sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==}
@@ -11138,7 +11142,7 @@ packages:
   puppeteer@22.2.0:
     resolution: {integrity: sha512-0Ax7zeqqbQL6Zcpo1WAvrqWQAnGsLB4tmQUUwsb5Cfo05XaQ78LWUUjaO4um7qaddKpZfk0vXlGcRVwtedpWfg==}
     engines: {node: '>=18'}
-    deprecated: < 22.6.4 is no longer supported
+    deprecated: < 22.8.2 is no longer supported
     hasBin: true
 
   pure-rand@6.0.2:
@@ -17784,6 +17788,8 @@ snapshots:
   '@noble/ciphers@0.4.1': {}
 
   '@noble/ciphers@0.5.3': {}
+
+  '@noble/ciphers@1.0.0': {}
 
   '@noble/curves@1.1.0':
     dependencies:
