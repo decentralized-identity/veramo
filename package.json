@@ -79,7 +79,7 @@
     "access": "public"
   },
   "resolutions": {
-    "@types/eslint": "^8.4.6",
+    "@types/eslint": "^9.0.0",
     "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "engines": {
