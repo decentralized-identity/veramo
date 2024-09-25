@@ -76,8 +76,8 @@ importers:
         specifier: 6.11.1
         version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did-resolver:
-        specifier: 10.1.9
-        version: 10.1.9(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 10.1.10
+        version: 10.1.10(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       express:
         specifier: 4.19.2
         version: 4.19.2
@@ -1044,8 +1044,8 @@ importers:
         specifier: 4.1.8
         version: 4.1.8
       ethr-did-resolver:
-        specifier: 10.1.9
-        version: 10.1.9(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 10.1.10
+        version: 10.1.10(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       typescript:
         specifier: 5.3.3
         version: 5.3.3
@@ -7123,11 +7123,11 @@ packages:
   ethr-did-resolver@10.1.0:
     resolution: {integrity: sha512-PH3R8UQGpJGWXaVVSWPppPiEzb7eHrzG6yTCGtk23Fw8Et2totj+7V1id+zxCQvToM9cW+CHA/+k64F8xpk/Mw==}
 
+  ethr-did-resolver@10.1.10:
+    resolution: {integrity: sha512-4o1h2I1zMzLTTAhg03z30ZJzJ33LaXZMel9X5/Avrq1ByAvnXUBShrPXeaHYWBP7qR9SY2QEAdhozXVs0cWUbg==}
+
   ethr-did-resolver@10.1.5:
     resolution: {integrity: sha512-wVCKhF6qQo2IewH9ui4lRBixbvT/A6szZFQoJkfvjP6EU/3MSb4KOP5QNpM37zmFU/rQGjHNt7bF13fNcmZ6wQ==}
-
-  ethr-did-resolver@10.1.9:
-    resolution: {integrity: sha512-rfX6RAHnw3kv00vx/g7B9jZNVvxRBr3/JBlNJAVyOKYALwlTo3aCb+G2/wGY6HFMPlmAzP7c/k58B+Tr1z0u1Q==}
 
   ethr-did@3.0.5:
     resolution: {integrity: sha512-qvA2nBqsxQF2YFPoQ7v0rgSVlj+9CCBnbAu6VtD/veJTq9dhytsEtjz6VDCIqJ6mqEMw7nb8sTLDSwHRgbwyiA==}
@@ -22392,7 +22392,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethr-did-resolver@10.1.5(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  ethr-did-resolver@10.1.10(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
       did-resolver: 4.1.0
       ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -22400,7 +22400,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethr-did-resolver@10.1.9(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  ethr-did-resolver@10.1.5(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
       did-resolver: 4.1.0
       ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
