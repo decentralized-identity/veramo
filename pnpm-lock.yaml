@@ -1096,8 +1096,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2
       '@stablelib/nacl':
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^2.0.0
+        version: 2.0.0
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -4280,6 +4280,9 @@ packages:
   '@stablelib/bytes@1.0.1':
     resolution: {integrity: sha512-Kre4Y4kdwuqL8BR2E9hV/R5sOrUj6NanZaZis0V6lX5yzqC3hBuVSDXUIBqQv/sCpmuWRiHLwqiT1pqqjuBXoQ==}
 
+  '@stablelib/bytes@2.0.0':
+    resolution: {integrity: sha512-oSfT6VTfk/XK5s/BUi1L8Obp1Uoh/RFJHWDAG9Yj5D/kiGTnR7sEnzJIRenbIFDbzkb+lXP3OSDp+ttgI51Nng==}
+
   '@stablelib/chacha20poly1305@1.0.1':
     resolution: {integrity: sha512-MmViqnqHd1ymwjOQfghRKw2R/jMIGT3wySN7cthjXCBdO+qErNPUBnRzqNpnvIwg7JBCg3LdeCZZO4de/yEhVA==}
 
@@ -4307,17 +4310,26 @@ packages:
   '@stablelib/keyagreement@1.0.1':
     resolution: {integrity: sha512-VKL6xBwgJnI6l1jKrBAfn265cspaWBPAPEc62VBQrWHLqVgNRE09gQ/AnOEyKUWrrqfD+xSQ3u42gJjLDdMDQg==}
 
-  '@stablelib/nacl@1.0.4':
-    resolution: {integrity: sha512-PJ2U/MrkXSKUM8C4qFs87WeCNxri7KQwR8Cdwm9q2sweGuAtTvOJGuW0F3N+zn+ySLPJA98SYWSSpogMJ1gCmw==}
+  '@stablelib/keyagreement@2.0.0':
+    resolution: {integrity: sha512-SryWYB3S8w9EyjSJ1OdJb375Foj1Ujxgd4S6mh7L+ESiPVD/24EQWMbFANyhtpaPmpsAmgIBGyXlR+LfHW5X0Q==}
+
+  '@stablelib/nacl@2.0.0':
+    resolution: {integrity: sha512-W42Bn9ZREhiv9odlQJNuUhiXwZE6mkJTBuRaAiKIhzjDvSoK5Tg28RC0dkJfSOgwi730ugfqm3hKGVPKZb2UFA==}
 
   '@stablelib/poly1305@1.0.1':
     resolution: {integrity: sha512-1HlG3oTSuQDOhSnLwJRKeTRSAdFNVB/1djy2ZbS35rBSJ/PFqx9cf9qatinWghC2UbfOYD8AcrtbUQl8WoxabA==}
 
+  '@stablelib/poly1305@2.0.0':
+    resolution: {integrity: sha512-bPaqyedMMdyyLRSlBbBfn4lP1b5c+yT0QZ0Kop56YooZx6P6b3bvWPQxtbdqLDf0f20FIDe9Y1xN1OJ3MC0HIQ==}
+
   '@stablelib/random@1.0.2':
     resolution: {integrity: sha512-rIsE83Xpb7clHPVRlBj8qNe5L8ISQOzjghYQm/dZ7VaM2KHYwMW5adjQjrzTZCchFnNCNhkwtnOBa9HTMJCI8w==}
 
-  '@stablelib/salsa20@1.0.2':
-    resolution: {integrity: sha512-nfjKzw0KTKrrKBasEP+j7UP4I8Xudom8lVZIBCp0kQNARXq72IlSic0oabg2FC1NU68L4RdHrNJDd8bFwrphYA==}
+  '@stablelib/random@2.0.0':
+    resolution: {integrity: sha512-qvOSbiPq2B3ajvn/IDftC1mzL/W89OGv59gdJ7klMjm327Yk/54NyGl4Jtrwcz35GjCPy/ScVnQXC8YQk8uAUQ==}
+
+  '@stablelib/salsa20@2.0.0':
+    resolution: {integrity: sha512-jwCRqnDLEOD+HkWZYILsVkPlxCVppkXSitLIr102VngB7xFM6Ju8gb7gtecLTjPbSmDPVukU7xKnrm+fcuCC/w==}
 
   '@stablelib/sha512@1.0.1':
     resolution: {integrity: sha512-13gl/iawHV9zvDKciLo1fQ8Bgn2Pvf7OV6amaRVKiq3pjQ3UmEpXxWiAfV8tYjUpeZroBxtyrwtdooQT/i3hzw==}
@@ -4331,14 +4343,17 @@ packages:
   '@stablelib/x25519@1.0.3':
     resolution: {integrity: sha512-KnTbKmUhPhHavzobclVJQG5kuivH+qDLpe84iRqX3CLrKp881cF160JvXJ+hjn1aMyCwYOKeIZefIH/P5cJoRw==}
 
+  '@stablelib/x25519@2.0.0':
+    resolution: {integrity: sha512-mnl4U+1dE73rgrnhL2jPuT2u6TVOJPCwWKnC+A18JkYZaRKXERKVXJzuhc+jSNEnWHdv3BDMut50v8bpIdZCCQ==}
+
   '@stablelib/xchacha20@1.0.1':
     resolution: {integrity: sha512-1YkiZnFF4veUwBVhDnDYwo6EHeKzQK4FnLiO7ezCl/zu64uG0bCCAUROJaBkaLH+5BEsO3W7BTXTguMbSLlWSw==}
 
   '@stablelib/xchacha20poly1305@1.0.1':
     resolution: {integrity: sha512-B1Abj0sMJ8h3HNmGnJ7vHBrAvxuNka6cJJoZ1ILN7iuacXp7sUYcgOVEOTLWj+rtQMpspY9tXSCRLPmN1mQNWg==}
 
-  '@stablelib/xsalsa20@1.0.2':
-    resolution: {integrity: sha512-7XdBGbcNgBShmuhDXv1G1WPVCkjZdkb1oPMzSidO7Fve0MHntH6TjFkj5bfLI+aRE+61weO076vYpP/jmaAYog==}
+  '@stablelib/xsalsa20@2.0.0':
+    resolution: {integrity: sha512-Dw6Ppl85XYhZnfbnOE9wjUjPdAAqHHoxOuJS6HFwCxnOLph8FwN8dmh8zV3ZALLwxZT0Y9QxfA/PZeBXYZuaYQ==}
 
   '@surma/rollup-plugin-off-main-thread@2.2.3':
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
@@ -18768,6 +18783,8 @@ snapshots:
 
   '@stablelib/bytes@1.0.1': {}
 
+  '@stablelib/bytes@2.0.0': {}
+
   '@stablelib/chacha20poly1305@1.0.1':
     dependencies:
       '@stablelib/aead': 1.0.1
@@ -18802,29 +18819,43 @@ snapshots:
     dependencies:
       '@stablelib/bytes': 1.0.1
 
-  '@stablelib/nacl@1.0.4':
+  '@stablelib/keyagreement@2.0.0':
     dependencies:
-      '@stablelib/poly1305': 1.0.1
-      '@stablelib/random': 1.0.2
-      '@stablelib/wipe': 1.0.1
-      '@stablelib/x25519': 1.0.3
-      '@stablelib/xsalsa20': 1.0.2
+      '@stablelib/bytes': 2.0.0
+
+  '@stablelib/nacl@2.0.0':
+    dependencies:
+      '@stablelib/poly1305': 2.0.0
+      '@stablelib/random': 2.0.0
+      '@stablelib/wipe': 2.0.0
+      '@stablelib/x25519': 2.0.0
+      '@stablelib/xsalsa20': 2.0.0
 
   '@stablelib/poly1305@1.0.1':
     dependencies:
       '@stablelib/constant-time': 1.0.1
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/poly1305@2.0.0':
+    dependencies:
+      '@stablelib/constant-time': 2.0.0
+      '@stablelib/wipe': 2.0.0
+
   '@stablelib/random@1.0.2':
     dependencies:
       '@stablelib/binary': 1.0.1
       '@stablelib/wipe': 1.0.1
 
-  '@stablelib/salsa20@1.0.2':
+  '@stablelib/random@2.0.0':
     dependencies:
-      '@stablelib/binary': 1.0.1
-      '@stablelib/constant-time': 1.0.1
-      '@stablelib/wipe': 1.0.1
+      '@stablelib/binary': 2.0.0
+      '@stablelib/wipe': 2.0.0
+
+  '@stablelib/salsa20@2.0.0':
+    dependencies:
+      '@stablelib/binary': 2.0.0
+      '@stablelib/constant-time': 2.0.0
+      '@stablelib/wipe': 2.0.0
 
   '@stablelib/sha512@1.0.1':
     dependencies:
@@ -18842,6 +18873,12 @@ snapshots:
       '@stablelib/random': 1.0.2
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/x25519@2.0.0':
+    dependencies:
+      '@stablelib/keyagreement': 2.0.0
+      '@stablelib/random': 2.0.0
+      '@stablelib/wipe': 2.0.0
+
   '@stablelib/xchacha20@1.0.1':
     dependencies:
       '@stablelib/binary': 1.0.1
@@ -18856,11 +18893,11 @@ snapshots:
       '@stablelib/wipe': 1.0.1
       '@stablelib/xchacha20': 1.0.1
 
-  '@stablelib/xsalsa20@1.0.2':
+  '@stablelib/xsalsa20@2.0.0':
     dependencies:
-      '@stablelib/binary': 1.0.1
-      '@stablelib/salsa20': 1.0.2
-      '@stablelib/wipe': 1.0.1
+      '@stablelib/binary': 2.0.0
+      '@stablelib/salsa20': 2.0.0
+      '@stablelib/wipe': 2.0.0
 
   '@surma/rollup-plugin-off-main-thread@2.2.3':
     dependencies:
