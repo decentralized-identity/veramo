@@ -17,7 +17,7 @@
     "ethr-did": "^3.0.5"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.12",
     "typescript": "5.3.3"
   },
   "files": [
