@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "@types/uuid": "9.0.2",
+    "@types/uuid": "10.0.0",
     "sqlite3": "5.1.6",
     "typescript": "5.3.3"
   },
