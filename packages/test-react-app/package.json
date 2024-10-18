@@ -71,7 +71,7 @@
     "@babel/plugin-syntax-import-assertions": "7.23.3",
     "@babel/preset-typescript": "7.23.0",
     "@craco/craco": "7.1.0",
-    "@types/eslint": "8.56.2",
+    "@types/eslint": "9.6.1",
     "@types/eslint-scope": "3.7.7",
     "@types/expect-puppeteer": "5.0.6",
     "@types/jest": "29.5.12",
@@ -88,7 +88,7 @@
     "jest-environment-puppeteer-jsdom": "6.0.0",
     "jest-jasmine2": "29.7.0",
     "jest-puppeteer": "10.0.1",
-    "puppeteer": "22.2.0",
+    "puppeteer": "23.6.0",
     "react-scripts": "5.0.1",
     "ts-jest": "29.1.2",
     "typescript": "5.3.3"
