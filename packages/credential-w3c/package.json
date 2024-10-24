@@ -20,7 +20,7 @@
     "did-jwt": "^8.0.0",
     "did-jwt-vc": "^4.0.0",
     "did-resolver": "^4.1.0",
-    "uuid": "^9.0.0"
+    "uuid": "^10.0.0"
   },
   "optionalDependencies": {
     "@veramo/credential-ld": "^6.0.0"
