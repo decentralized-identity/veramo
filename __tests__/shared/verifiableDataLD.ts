@@ -395,14 +395,18 @@ export default (testContext: {
           proofFormat: 'lds',
           credential: {
             issuer: { id: didKeyIdentifier.did },
-            '@context': ['https://veramo.io/contexts/profile/v1'],
+            '@context': ['https://veramo.io/contexts/profile/v1', {
+              '@context': {
+                ThisMethodDoesNotExist2022: 'custom:example.status.method#unknown',
+              },
+            }],
             type: ['Profile'],
             credentialSubject: {
               id: didKeyIdentifier.did,
               name: 'hello',
             },
             credentialStatus: {
-              id: 'override:me',
+              id: 'https://override.me',
               type: 'ThisMethodDoesNotExist2022',
             },
           },
