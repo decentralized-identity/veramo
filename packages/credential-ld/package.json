@@ -29,11 +29,11 @@
     "did-resolver": "^4.1.0"
   },
   "resolutions": {
-    "@types/react": "18.2.20",
+    "@types/react": "18.3.12",
     "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.12",
     "borc": "3.0.0",
     "typescript": "5.3.3"
   },
