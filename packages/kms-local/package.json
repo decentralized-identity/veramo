@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@noble/curves": "^1.4.2",
-    "@stablelib/nacl": "^1.0.4",
+    "@stablelib/nacl": "^2.0.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
