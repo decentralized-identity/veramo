@@ -75,7 +75,7 @@
     "debug": "^4.3.4",
     "did-resolver": "^4.1.0",
     "dotenv": "^16.4.5",
-    "ethr-did-resolver": "^10.1.5",
+    "ethr-did-resolver": "^11.0.2",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "fuzzy": "^0.1.3",
