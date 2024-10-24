@@ -80,7 +80,7 @@
   },
   "resolutions": {
     "@types/eslint": "^8.4.6",
-    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
+    "jsonld": "npm:@digitalcredentials/jsonld@^9.0.0"
   },
   "engines": {
     "node": ">= 18.0.0"

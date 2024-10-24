@@ -20,10 +20,10 @@ type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDa
 const simulateStatusVerificationFailure = 'Any_unexpected_failure_during_status_verification.'
 
 // Constant used to simulate revoked credentials
-const simulateRevokedCredential = 'A_revoked_credential.'
+const simulateRevokedCredential = 'https://revoked.example.com/1'
 
 // Constant used to simulate revoked credentials
-const simulateNotRevokedCredential = 'A_NOT_revoked_credential.'
+const simulateNotRevokedCredential = 'https://not.revoked.example.com/2'
 
 const callsCounter = jest.fn()
 
