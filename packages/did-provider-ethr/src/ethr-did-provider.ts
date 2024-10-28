@@ -1,4 +1,4 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, KeyMetadata } from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, KeyMetadata, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
@@ -45,6 +45,7 @@ export interface CreateDidEthrOptions {
    * Metadata passed to the KMS when creating the key
    */
   key?: {
+    privateKeyHex?: string
     meta?: KeyMetadata
   }
 }
@@ -190,11 +191,14 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({
+    const key = await this.importOrGenerateKey({
       kms: kms || this.defaultKms,
-      type: 'Secp256k1',
-      meta: options?.key?.meta
-    })
+      options: {
+        ...(options?.key?.privateKeyHex && { privateKeyHex: options.key.privateKeyHex }),
+        ...(options?.key?.meta && { meta: options.key.meta }),
+      }
+    }, context)
+
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
 
     let networkSpecifier
@@ -586,5 +590,27 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       encoding: 'hex',
     })
     return Signature.from(signature)
+  }
+
+  private async importOrGenerateKey(
+    args: {
+      kms: string
+      options: RequireOnly<CreateDidEthrOptions, 'key'>['key']
+    },
+    context: IRequiredContext,
+  ): Promise<IKey> {
+    if (args.options.privateKeyHex) {
+      return context.agent.keyManagerImport({
+        kms: args.kms || this.defaultKms,
+        type: 'Secp256k1',
+        privateKeyHex: args.options.privateKeyHex,
+        meta: args.options.meta,
+      })
+    }
+    return context.agent.keyManagerCreate({
+      kms: args.kms || this.defaultKms,
+      type: 'Secp256k1',
+      meta: args.options.meta,
+    })
   }
 }
