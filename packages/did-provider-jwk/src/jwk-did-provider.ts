@@ -26,7 +26,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: JwkCreateIdentifierOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType: JwkDidSupportedKeyTypes = options?.key?.type || options?.keyType || 'Ed25519'
+    const keyType: JwkDidSupportedKeyTypes = options?.key?.type || options?.keyType || 'Secp256k1'
     const privateKeyHex = options?.key?.privateKeyHex || options?.privateKeyHex
 
     const key = await this.importOrGenerateKey(
