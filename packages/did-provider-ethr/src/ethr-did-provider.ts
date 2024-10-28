@@ -1,4 +1,4 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, KeyMetadata } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
@@ -40,6 +40,13 @@ export interface CreateDidEthrOptions {
    * network, if no `network` option is specified.
    */
   providerName?: string
+
+  /**
+   * Metadata passed to the KMS when creating the key
+   */
+  key?: {
+    meta?: KeyMetadata
+  }
 }
 
 export interface TransactionOptions extends TransactionRequest {
@@ -183,7 +190,11 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
+    const key = await context.agent.keyManagerCreate({
+      kms: kms || this.defaultKms,
+      type: 'Secp256k1',
+      meta: options?.key?.meta
+    })
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
 
     let networkSpecifier

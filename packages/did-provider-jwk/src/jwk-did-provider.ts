@@ -26,13 +26,15 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: JwkCreateIdentifierOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType: JwkDidSupportedKeyTypes = options?.keyType || 'Secp256k1'
+    const keyType: JwkDidSupportedKeyTypes = options?.key?.type || options?.keyType || 'Ed25519'
+    const privateKeyHex = options?.key?.privateKeyHex || options?.privateKeyHex
+
     const key = await this.importOrGenerateKey(
       {
         kms: kms || this.defaultKms,
         options: {
-          keyType,
-          ...(options?.privateKeyHex && { privateKeyHex: options.privateKeyHex }),
+          type: keyType,
+          ...(privateKeyHex && { privateKeyHex }),
         },
       },
       context,
@@ -108,13 +110,15 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     if (args.options.privateKeyHex) {
       return context.agent.keyManagerImport({
         kms: args.kms || this.defaultKms,
-        type: args.options.keyType,
+        type: args.options.type,
         privateKeyHex: args.options.privateKeyHex,
+        meta: args.options.meta,
       })
     }
     return context.agent.keyManagerCreate({
       kms: args.kms || this.defaultKms,
-      type: args.options.keyType,
+      type: args.options.type,
+      meta: args.options.meta,
     })
   }
 }

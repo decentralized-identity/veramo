@@ -5,7 +5,8 @@ import {
   IKey,
   IKeyManager,
   IService,
-  ManagedKeyInfo,
+  KeyMetadata,
+  RequireOnly,
 } from '@veramo/core-types';
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
@@ -28,6 +29,9 @@ export const isValidNamespace = (x: string) => isIn(SECPK1_NAMESPACES, x);
  */
 export interface CreateDidPkhOptions {
   namespace: string;
+  /**
+   * @deprecated use key.privateKeyHex instead
+   */
   privateKey: string;
   /**
    * This can be hex encoded chain ID (string) or a chainId number
@@ -35,6 +39,11 @@ export interface CreateDidPkhOptions {
    * If this is not specified, `1` is assumed.
    */
   chainId?: string | number;
+
+  key?: {
+    privateKeyHex?: string;
+    meta?: KeyMetadata;
+  }
 }
 
 /**
@@ -78,19 +87,16 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
       );
     }
 
-    let key: ManagedKeyInfo | null;
-    if (options?.privateKey !== undefined){
-      key = await context.agent.keyManagerImport({
-        kms: kms || this.defaultKms,
-        type: 'Secp256k1',
-        privateKeyHex: options?.privateKey as string,
-      });
-    } else {
-      key = await context.agent.keyManagerCreate({ 
-        kms: kms || this.defaultKms, 
-        type: 'Secp256k1' 
-      });
-    }
+    const privateKeyHex = options?.key?.privateKeyHex || options?.privateKey;
+
+    const key = await this.importOrGenerateKey({
+      kms: kms || this.defaultKms,
+      options: {
+        ...(privateKeyHex && { privateKeyHex }),
+        ...(options?.key?.meta && { meta: options.key.meta }),
+      }
+    }, context)
+
     const evmAddress: string = toEthereumAddress(key.publicKeyHex);
 
     if (key !== null) {
@@ -165,5 +171,27 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
   ): Promise<any> {
     throw Error('illegal_operation: did:pkh removeService is not possible.');
 
+  }
+
+  private async importOrGenerateKey(
+    args: {
+      kms: string
+      options: RequireOnly<CreateDidPkhOptions, 'key'>['key']
+    },
+    context: IContext,
+  ): Promise<IKey> {
+    if (args.options.privateKeyHex) {
+      return context.agent.keyManagerImport({
+        kms: args.kms || this.defaultKms,
+        type: 'Secp256k1',
+        privateKeyHex: args.options.privateKeyHex,
+        meta: args.options.meta,
+      })
+    }
+    return context.agent.keyManagerCreate({
+      kms: args.kms || this.defaultKms,
+      type: 'Secp256k1',
+      meta: args.options.meta,
+    })
   }
 }

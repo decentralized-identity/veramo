@@ -1,4 +1,4 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, KeyMetadata, RequireOnly } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { bytesToBase64url, bytesToMultibase, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
 
@@ -27,9 +27,25 @@ const encodeService = (service: IService): string => {
 type CreatePeerDidOptions = {
   num_algo: number
   // keyType?: keyof typeof keyCodecs // defaulting to Ed25519 keys only in this implementation
+  /**
+   * @deprecated use authKey.privateKeyHex instead
+   */
   authPrivateKeyHex?: string
+  /**
+   * @deprecated use agreementKey.privateKeyHex instead
+   */
   agreementPrivateKeyHex?: string
   service?: IService
+
+  agreementKey?: {
+    privateKeyHex?: string;
+    meta?: KeyMetadata
+  }
+
+  authKey?: {
+    privateKeyHex?: string;
+    meta?: KeyMetadata
+  }
 }
 
 /**
@@ -53,17 +69,20 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
     if (options.service) {
       options.num_algo = 2
     }
+
+    const authPrivateKeyHex = options?.authKey?.privateKeyHex || options?.authPrivateKeyHex
+    const agreementPrivateKeyHex = options?.agreementKey?.privateKeyHex || options?.agreementPrivateKeyHex
+
     if (options.num_algo == 0) {
-      let key: IKey
-      if (options.authPrivateKeyHex) {
-        key = await context.agent.keyManagerImport({
-          privateKeyHex: options.authPrivateKeyHex,
+      const key = await this.importOrGenerateKey({
+        kms: kms || this.defaultKms,
+        options: {
           type: 'Ed25519',
-          kms: kms ?? this.defaultKms,
-        })
-      } else {
-        key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
-      }
+          ...(authPrivateKeyHex && { privateKeyHex: authPrivateKeyHex }),
+          ...(options?.authKey?.meta && { meta: options.authKey.meta }),
+        }
+      }, context)
+
       const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
 
       const identifier: Omit<IIdentifier, 'provider'> = {
@@ -77,29 +96,23 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
     } else if (options.num_algo == 1) {
       throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
     } else if (options.num_algo == 2) {
-      let authKey: IKey
-      let agreementKey: IKey
-      if (options.authPrivateKeyHex) {
-        authKey = await context.agent.keyManagerImport({
-          kms: kms ?? this.defaultKms,
+      const authKey = await this.importOrGenerateKey({
+        kms: kms || this.defaultKms,
+        options: {
           type: 'Ed25519',
-          privateKeyHex: options.authPrivateKeyHex,
-        })
-      } else {
-        authKey = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
-      }
-      if (options.agreementPrivateKeyHex) {
-        agreementKey = await context.agent.keyManagerImport({
-          kms: kms ?? this.defaultKms,
+          ...(authPrivateKeyHex && { privateKeyHex: authPrivateKeyHex }),
+          ...(options?.authKey?.meta && { meta: options.authKey.meta }),
+        }
+      }, context)
+
+      const agreementKey = await this.importOrGenerateKey({
+        kms: kms || this.defaultKms,
+        options: {
           type: 'X25519',
-          privateKeyHex: options.agreementPrivateKeyHex,
-        })
-      } else {
-        agreementKey = await context.agent.keyManagerCreate({
-          kms: kms ?? this.defaultKms,
-          type: 'X25519',
-        })
-      }
+          ...(agreementPrivateKeyHex && { privateKeyHex: agreementPrivateKeyHex }),
+          ...(options?.agreementKey?.meta && { meta: options.agreementKey.meta }),
+        }
+      }, context)
 
       const authKeyText = bytesToMultibase(hexToBytes(authKey.publicKeyHex), 'base58btc', 'ed25519-pub')
 
@@ -168,5 +181,31 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('not_supported: PeerDIDProvider removeService not supported')
+  }
+
+  private async importOrGenerateKey(
+    args: {
+      kms: string
+      options: {
+        type: 'Ed25519' | 'X25519';
+        privateKeyHex?: string;
+        meta?: KeyMetadata
+      }
+    },
+    context: IContext,
+  ): Promise<IKey> {
+    if (args.options.privateKeyHex) {
+      return context.agent.keyManagerImport({
+        kms: args.kms || this.defaultKms,
+        type: args.options.type,
+        privateKeyHex: args.options.privateKeyHex,
+        meta: args.options.meta,
+      })
+    }
+    return context.agent.keyManagerCreate({
+      kms: args.kms || this.defaultKms,
+      type: args.options.type,
+      meta: args.options.meta,
+    })
   }
 }
