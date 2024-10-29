@@ -1,5 +1,6 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, KeyMetadata, RequireOnly } from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
+import { importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
@@ -27,7 +28,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
  * Options for creating a did:ethr
  * @beta
  */
-export interface CreateDidEthrOptions {
+export type CreateDidEthrOptions = CreateIdentifierBaseOptions<'Secp256k1'> & {
   /**
    * This can be a network name or hex encoded chain ID (string) or a chainId number
    *
@@ -40,14 +41,6 @@ export interface CreateDidEthrOptions {
    * network, if no `network` option is specified.
    */
   providerName?: string
-
-  /**
-   * Metadata passed to the KMS when creating the key
-   */
-  key?: {
-    privateKeyHex?: string
-    meta?: KeyMetadata
-  }
 }
 
 export interface TransactionOptions extends TransactionRequest {
@@ -191,13 +184,23 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await this.importOrGenerateKey({
-      kms: kms || this.defaultKms,
-      options: {
-        ...(options?.key?.privateKeyHex && { privateKeyHex: options.key.privateKeyHex }),
-        ...(options?.key?.meta && { meta: options.key.meta }),
+    let key: IKey
+
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef })
+
+      if (key.type !== 'Secp256k1') {
+        throw new Error(`not_supported: Key type must be Secp256k1`  );
       }
-    }, context)
+    } else {
+      key = await importOrCreateKey({
+        kms: kms || this.defaultKms,
+        options: {
+          ...(options?.key ?? {}),
+          type: 'Secp256k1',
+        }
+      }, context)
+    }
 
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
 
@@ -590,27 +593,5 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       encoding: 'hex',
     })
     return Signature.from(signature)
-  }
-
-  private async importOrGenerateKey(
-    args: {
-      kms: string
-      options: RequireOnly<CreateDidEthrOptions, 'key'>['key']
-    },
-    context: IRequiredContext,
-  ): Promise<IKey> {
-    if (args.options.privateKeyHex) {
-      return context.agent.keyManagerImport({
-        kms: args.kms || this.defaultKms,
-        type: 'Secp256k1',
-        privateKeyHex: args.options.privateKeyHex,
-        meta: args.options.meta,
-      })
-    }
-    return context.agent.keyManagerCreate({
-      kms: args.kms || this.defaultKms,
-      type: 'Secp256k1',
-      meta: args.options.meta,
-    })
   }
 }

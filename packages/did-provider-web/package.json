@@ -12,6 +12,7 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "debug": "^4.3.3"
   },
   "devDependencies": {

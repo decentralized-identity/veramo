@@ -1,7 +1,7 @@
 import { RequireOnly, KeyMetadata } from '@veramo/core-types'
-import { JwkDidSupportedKeyTypes, KeyUse } from '@veramo/utils'
+import { JwkDidSupportedKeyTypes, KeyUse, CreateIdentifierBaseOptions } from '@veramo/utils'
 
-export type JwkCreateIdentifierOptions = {
+export type JwkCreateIdentifierOptions = CreateIdentifierBaseOptions<JwkDidSupportedKeyTypes> & {
   /**
    * @deprecated use key.type instead
    */
@@ -12,19 +12,5 @@ export type JwkCreateIdentifierOptions = {
    */
   privateKeyHex?: string
 
-  key?: {
-    type?: JwkDidSupportedKeyTypes
-    privateKeyHex?: string
-    meta?: KeyMetadata
-  }
-
   keyUse?: KeyUse
-}
-
-export type JwkDidImportOrGenerateKeyArgs = {
-  kms: string
-  options: RequireOnly<
-    RequireOnly<JwkCreateIdentifierOptions, 'key'>['key'],
-    'type'
-  >
-}
+};

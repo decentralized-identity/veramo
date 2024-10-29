@@ -1,8 +1,8 @@
 import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { JwkDidSupportedKeyTypes, encodeJoseBlob, generateJwkFromVerificationMethod } from '@veramo/utils'
+import { SupportedKeyTypes, JwkDidSupportedKeyTypes, encodeJoseBlob, importOrCreateKey, generateJwkFromVerificationMethod } from '@veramo/utils'
 import { VerificationMethod } from 'did-resolver'
-import type { JwkCreateIdentifierOptions, JwkDidImportOrGenerateKeyArgs } from './types/jwk-provider-types.js'
+import type { JwkCreateIdentifierOptions } from './types/jwk-provider-types.js'
 
 import Debug from 'debug'
 const debug = Debug('veramo:did-jwk:identifier-provider')
@@ -23,22 +23,39 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    { kms, options }: { kms?: string; options?: JwkCreateIdentifierOptions },
+    {
+      kms,
+      options
+    }: {
+      kms?: string;
+      options?: JwkCreateIdentifierOptions
+    },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
     const keyType: JwkDidSupportedKeyTypes = options?.key?.type || options?.keyType || 'Secp256k1'
     const privateKeyHex = options?.key?.privateKeyHex || options?.privateKeyHex
 
-    const key = await this.importOrGenerateKey(
-      {
-        kms: kms || this.defaultKms,
-        options: {
-          type: keyType,
-          ...(privateKeyHex && { privateKeyHex }),
+    let key: IKey
+
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef })
+
+      if (!Object.keys(SupportedKeyTypes).includes(key.type)) {
+        throw new Error(`not_supported: Key type ${key.type} is not supported`)
+      }
+    } else {
+      key = await importOrCreateKey(
+        {
+          kms: kms || this.defaultKms,
+          options: {
+            ...(options?.key ?? {}),
+            type: keyType,
+            privateKeyHex,
+          },
         },
-      },
-      context,
-    )
+        context,
+      )
+    }
 
     const jwk = generateJwkFromVerificationMethod(
       keyType,
@@ -104,21 +121,5 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('not_supported: JwkDIDProvider removeService not possible')
-  }
-
-  private async importOrGenerateKey(args: JwkDidImportOrGenerateKeyArgs, context: IContext): Promise<IKey> {
-    if (args.options.privateKeyHex) {
-      return context.agent.keyManagerImport({
-        kms: args.kms || this.defaultKms,
-        type: args.options.type,
-        privateKeyHex: args.options.privateKeyHex,
-        meta: args.options.meta,
-      })
-    }
-    return context.agent.keyManagerCreate({
-      kms: args.kms || this.defaultKms,
-      type: args.options.type,
-      meta: args.options.meta,
-    })
   }
 }

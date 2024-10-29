@@ -5,11 +5,10 @@ import {
   IKey,
   IKeyManager,
   IService,
-  KeyMetadata,
-  RequireOnly,
 } from '@veramo/core-types';
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
+import { importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils';
 import Debug from 'debug'
 
 const debug = Debug('veramo:pkh-did-provider')
@@ -27,7 +26,7 @@ export const isValidNamespace = (x: string) => isIn(SECPK1_NAMESPACES, x);
  * Options for creating a did:pkh
  * @beta
  */
-export interface CreateDidPkhOptions {
+export type CreateDidPkhOptions = CreateIdentifierBaseOptions<'Secp256k1'> & {
   namespace: string;
   /**
    * @deprecated use key.privateKeyHex instead
@@ -39,11 +38,6 @@ export interface CreateDidPkhOptions {
    * If this is not specified, `1` is assumed.
    */
   chainId?: string | number;
-
-  key?: {
-    privateKeyHex?: string;
-    meta?: KeyMetadata;
-  }
 }
 
 /**
@@ -88,14 +82,24 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
     }
 
     const privateKeyHex = options?.key?.privateKeyHex || options?.privateKey;
+    let key: IKey
 
-    const key = await this.importOrGenerateKey({
-      kms: kms || this.defaultKms,
-      options: {
-        ...(privateKeyHex && { privateKeyHex }),
-        ...(options?.key?.meta && { meta: options.key.meta }),
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef });
+
+      if (key.type !== 'Secp256k1') {
+        throw new Error(`not_supported: Key type must be Secp256k1`  );
       }
-    }, context)
+    } else {
+      key = await importOrCreateKey({
+        kms: kms || this.defaultKms,
+        options: {
+          ...(options?.key ?? {}),
+          type: 'Secp256k1',
+          privateKeyHex,
+        },
+      }, context);
+    }
 
     const evmAddress: string = toEthereumAddress(key.publicKeyHex);
 
@@ -171,27 +175,5 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
   ): Promise<any> {
     throw Error('illegal_operation: did:pkh removeService is not possible.');
 
-  }
-
-  private async importOrGenerateKey(
-    args: {
-      kms: string
-      options: RequireOnly<CreateDidPkhOptions, 'key'>['key']
-    },
-    context: IContext,
-  ): Promise<IKey> {
-    if (args.options.privateKeyHex) {
-      return context.agent.keyManagerImport({
-        kms: args.kms || this.defaultKms,
-        type: 'Secp256k1',
-        privateKeyHex: args.options.privateKeyHex,
-        meta: args.options.meta,
-      })
-    }
-    return context.agent.keyManagerCreate({
-      kms: args.kms || this.defaultKms,
-      type: 'Secp256k1',
-      meta: args.options.meta,
-    })
   }
 }

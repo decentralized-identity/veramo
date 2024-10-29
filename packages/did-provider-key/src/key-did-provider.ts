@@ -1,6 +1,6 @@
-import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, RequireOnly, KeyMetadata } from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { hexToBytes, bytesToMultibase } from '@veramo/utils'
+import { hexToBytes, bytesToMultibase, importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils'
 import { SigningKey } from 'ethers'
 
 import Debug from 'debug'
@@ -8,7 +8,7 @@ import Debug from 'debug'
 const debug = Debug('veramo:did-key:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
-type CreateKeyDidOptions = {
+type CreateKeyDidOptions = CreateIdentifierBaseOptions<keyof typeof keyCodecs> & {
   /**
    * @deprecated use key.type instead
    */
@@ -18,16 +18,6 @@ type CreateKeyDidOptions = {
    * @deprecated use key.privateKeyHex instead
    */
   privateKeyHex?: string
-
-  /**
-   * Metadata passed to the KMS when creating the key
-   * Namespaced under key to align with other did provider formats
-   */
-  key?: {
-    type?: keyof typeof keyCodecs
-    privateKeyHex?: string
-    meta?: KeyMetadata
-  }
 }
 
 const keyCodecs = {
@@ -58,17 +48,27 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
                     'Ed25519'
     const privateKeyHex = options?.key?.privateKeyHex || options?.privateKeyHex
 
-    const key = await this.importOrGenerateKey(
-      {
-        kms: kms || this.defaultKms,
-        options: {
-          type: keyType,
-          ...(privateKeyHex && { privateKeyHex }),
-          ...(options?.key?.meta && { meta: options.key.meta }),
+    let key: IKey
+
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef })
+
+      if (!Object.keys(keyCodecs).includes(key.type)) {
+        throw new Error(`not_supported: Key type ${key.type} is not supported`)
+      }
+    } else {
+      key = await importOrCreateKey(
+        {
+          kms: kms || this.defaultKms,
+          options: {
+            ...(options?.key ?? {}),
+            type: keyType,
+            privateKeyHex,
+          },
         },
-      },
-      context,
-    )
+        context,
+      )
+    }
 
     const publicKeyHex = key.type === 'Secp256k1' ? SigningKey.computePublicKey('0x' + key.publicKeyHex, true) : key.publicKeyHex
     const methodSpecificId: string = bytesToMultibase(hexToBytes(publicKeyHex), 'base58btc', keyCodecs[keyType])
@@ -128,30 +128,5 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext,
   ): Promise<any> {
     throw Error('KeyDIDProvider removeService not supported')
-  }
-
-  private async importOrGenerateKey(
-    args: {
-      kms: string
-      options: RequireOnly<
-        RequireOnly<CreateKeyDidOptions, 'key'>['key'],
-        'type'
-      >
-    },
-    context: IContext,
-  ): Promise<IKey> {
-    if (args.options.privateKeyHex) {
-      return context.agent.keyManagerImport({
-        kms: args.kms || this.defaultKms,
-        type: args.options.type,
-        privateKeyHex: args.options.privateKeyHex,
-        meta: args.options.meta,
-      })
-    }
-    return context.agent.keyManagerCreate({
-      kms: args.kms || this.defaultKms,
-      type: args.options.type,
-      meta: args.options.meta,
-    })
   }
 }
