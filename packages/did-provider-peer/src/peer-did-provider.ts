@@ -72,6 +72,18 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
     let key: IKey
     let agreementKey: IKey | undefined
 
+    // Exit early so we don't create a key if we can't continue
+    if (![0, 2].includes(options.num_algo)) {
+      throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
+    }
+
+    if (options.agreementKeyRef) {
+      agreementKey = await context.agent.keyManagerGet({ kid: options.agreementKeyRef })
+      if (agreementKey.type !== 'Ed25519') {
+        throw new Error('not_supported: Key type must be Ed25519')
+      }
+    }
+
     if (options.keyRef) {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
       if (key.type !== 'Ed25519') {
@@ -88,13 +100,6 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
       }, context)
     }
 
-    if (options.agreementKeyRef) {
-      agreementKey = await context.agent.keyManagerGet({ kid: options.agreementKeyRef })
-      if (agreementKey.type !== 'Ed25519') {
-        throw new Error('not_supported: Key type must be Ed25519')
-      }
-    }
-
     switch (options.num_algo) {
       case 0: {
         const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
@@ -106,10 +111,6 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
         }
         debug('Created', identifier.did)
         return identifier
-      }
-
-      case 1: {
-        throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
       }
 
       case 2: {
