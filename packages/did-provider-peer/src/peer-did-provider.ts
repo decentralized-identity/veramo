@@ -70,11 +70,10 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
     const agreementPrivateKeyHex = options?.agreementKey?.privateKeyHex || options?.agreementPrivateKeyHex
     
     let key: IKey
-    let agreementKey: IKey
+    let agreementKey: IKey | undefined
 
     if (options.keyRef) {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
-
       if (key.type !== 'Ed25519') {
         throw new Error('not_supported: Key type must be Ed25519')
       }
@@ -89,52 +88,68 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
       }, context)
     }
 
-    if (options.num_algo == 0) {
-      const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
-      const identifier: Omit<IIdentifier, 'provider'> = {
-        did: 'did:peer:0' + methodSpecificId,
-        controllerKeyId: key.kid,
-        keys: [key],
-        services: [],
+    if (options.agreementKeyRef) {
+      agreementKey = await context.agent.keyManagerGet({ kid: options.agreementKeyRef })
+      if (agreementKey.type !== 'Ed25519') {
+        throw new Error('not_supported: Key type must be Ed25519')
       }
-      debug('Created', identifier.did)
-      return identifier
-    } else if (options.num_algo == 1) {
-      throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
-    } else if (options.num_algo == 2) {
-      agreementKey = await importOrCreateKey({
-        kms: kms || this.defaultKms,
-        options: {
-          ...(options?.agreementKey ?? {}),
-          type: 'X25519',
-          privateKeyHex: agreementPrivateKeyHex,
+    }
+
+    switch (options.num_algo) {
+      case 0: {
+        const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
+        const identifier: Omit<IIdentifier, 'provider'> = {
+          did: 'did:peer:0' + methodSpecificId,
+          controllerKeyId: key.kid,
+          keys: [key],
+          services: [],
         }
-      }, context)
-
-      const authKeyText = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
-
-      const agreementKeyText = bytesToMultibase(
-        hexToBytes(agreementKey.publicKeyHex),
-        'base58btc',
-        'x25519-pub',
-      )
-
-      let serviceString = ''
-
-      if (options.service) {
-        serviceString = `.S${encodeService(options.service)}`
+        debug('Created', identifier.did)
+        return identifier
       }
 
-      const identifier: Omit<IIdentifier, 'provider'> = {
-        did: `did:peer:2.E${agreementKeyText}.V${authKeyText}${serviceString}`,
-        controllerKeyId: key.kid,
-        keys: [key, agreementKey],
-        services: options.service ? [options.service] : [],
+      case 1: {
+        throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
       }
-      debug('Created', identifier.did)
-      return identifier
-    } else {
-      throw new Error(`'not_supported: PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
+
+      case 2: {
+        if (!agreementKey) {
+          agreementKey = await importOrCreateKey({
+            kms: kms || this.defaultKms,
+            options: {
+              ...(options?.agreementKey ?? {}),
+              type: 'Ed25519',
+              privateKeyHex: agreementPrivateKeyHex,
+            }
+          }, context)
+        }
+
+        const authKeyText = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
+
+        const agreementKeyText = bytesToMultibase(
+          hexToBytes(agreementKey.publicKeyHex),
+          'base58btc',
+          'x25519-pub',
+        )
+
+        let serviceString = ''
+
+        if (options.service) {
+          serviceString = `.S${encodeService(options.service)}`
+        }
+
+        const identifier: Omit<IIdentifier, 'provider'> = {
+          did: `did:peer:2.E${agreementKeyText}.V${authKeyText}${serviceString}`,
+          controllerKeyId: key.kid,
+          keys: [key, agreementKey],
+          services: options.service ? [options.service] : [],
+        }
+        debug('Created', identifier.did)
+        return identifier
+      }
+
+      default:
+        throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
     }
   }
 
