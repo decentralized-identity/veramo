@@ -30,13 +30,14 @@ export class WebDIDProvider extends AbstractIdentifierProvider {
     { kms, alias, options }: { kms?: string; alias?: string; options: CreateWebDidOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType = options?.key?.type || options?.keyType || 'Secp256k1'
+    let keyType = options?.key?.type || options?.keyType || 'Secp256k1'
     const privateKeyHex = options?.key?.privateKeyHex
 
     let key: IKey
 
     if (options?.keyRef) {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
+      keyType = key.type;
     } else {
       key = await importOrCreateKey(
         {

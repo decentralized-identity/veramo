@@ -43,7 +43,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateKeyDidOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType = (options?.key?.type && keyCodecs[options?.key.type] && options.key.type) || 
+    let keyType = (options?.key?.type && keyCodecs[options?.key.type] && options.key.type) || 
                     (options?.keyType && keyCodecs[options?.keyType] && options.keyType) ||
                     'Ed25519'
     const privateKeyHex = options?.key?.privateKeyHex || options?.privateKeyHex
@@ -52,10 +52,10 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
 
     if (options?.keyRef) {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
-
       if (!Object.keys(keyCodecs).includes(key.type)) {
         throw new Error(`not_supported: Key type ${key.type} is not supported`)
       }
+      keyType = key.type as keyof typeof keyCodecs
     } else {
       key = await importOrCreateKey(
         {

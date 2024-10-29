@@ -32,17 +32,17 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType: JwkDidSupportedKeyTypes = options?.key?.type || options?.keyType || 'Secp256k1'
+    let keyType: JwkDidSupportedKeyTypes = options?.key?.type || options?.keyType || 'Secp256k1'
     const privateKeyHex = options?.key?.privateKeyHex || options?.privateKeyHex
 
     let key: IKey
 
     if (options?.keyRef) {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
-
       if (!Object.keys(SupportedKeyTypes).includes(key.type)) {
         throw new Error(`not_supported: Key type ${key.type} is not supported`)
       }
+      keyType = key.type as JwkDidSupportedKeyTypes
     } else {
       key = await importOrCreateKey(
         {
