@@ -59,8 +59,8 @@ export type KeyUse = 'sig' | 'enc'
 export type JwkDidSupportedKeyTypes = keyof typeof SupportedKeyTypes
 
 export type ImportOrCreateKeyOptions<TKey extends TKeyType = TKeyType> = Omit<
-  IKeyManagerCreateArgs & MinimalImportableKey,
-  'kms' | 'type'
+  Partial<IKeyManagerCreateArgs & MinimalImportableKey>,
+  'kms'
 > & { type: TKey }
 
 export type CreateIdentifierBaseOptions<T extends TKeyType = TKeyType> = {

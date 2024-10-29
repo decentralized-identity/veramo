@@ -6,7 +6,7 @@ import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
   _NormalizedVerificationMethod,
-  SupportedKeyTypes,
+  ImportOrCreateKeyOptions,
 } from './types/utility-types.js'
 import { isDefined } from './type-utils.js'
 import Debug from 'debug'
@@ -371,14 +371,10 @@ export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   return key as IKey
 }
 
-type AvailableKeyOptions<K extends TKeyType> = Omit<Partial<IKeyManagerCreateArgs & MinimalImportableKey>, 'kms'> & {
-  type: K
-}
-
 export async function importOrCreateKey<K extends TKeyType = TKeyType>(
   args: {
     kms: string,
-    options: AvailableKeyOptions<K>
+    options: ImportOrCreateKeyOptions<K>
   },
   context: IAgentContext<IKeyManager>,
 ) {
