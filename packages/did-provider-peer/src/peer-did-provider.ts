@@ -74,13 +74,13 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
 
     // Exit early so we don't create a key if we can't continue
     if (![0, 2].includes(options.num_algo)) {
-      throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
+      throw new Error(`not_supported: PeerDIDProvider num algo ${options.num_algo} not supported yet.`)
     }
 
     if (options.agreementKeyRef) {
       agreementKey = await context.agent.keyManagerGet({ kid: options.agreementKeyRef })
-      if (agreementKey.type !== 'Ed25519') {
-        throw new Error('not_supported: Key type must be Ed25519')
+      if (agreementKey.type !== 'X25519') {
+        throw new Error('not_supported: Key type must be X25519')
       }
     }
 
@@ -119,7 +119,7 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
             kms: kms || this.defaultKms,
             options: {
               ...(options?.agreementKey ?? {}),
-              type: 'Ed25519',
+              type: 'X25519',
               privateKeyHex: agreementPrivateKeyHex,
             }
           }, context)
@@ -150,7 +150,7 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
       }
 
       default:
-        throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
+        throw new Error(`'not_supported: PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
     }
   }
 
