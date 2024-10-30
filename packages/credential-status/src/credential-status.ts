@@ -5,6 +5,7 @@ import {
   ICheckCredentialStatusArgs,
   ICredentialStatusVerifier,
   IResolver,
+  schema,
 } from '@veramo/core-types'
 import { extractIssuer, isDefined, resolveDidOrThrow } from '@veramo/utils'
 import { Status, StatusMethod } from 'credential-status'
@@ -29,6 +30,7 @@ import { Status, StatusMethod } from 'credential-status'
  */
 export class CredentialStatusPlugin implements IAgentPlugin {
   private readonly status: Status
+  readonly schema = schema.ICredentialStatusVerifier
   readonly methods: ICredentialStatusVerifier
 
   constructor(registry: Record<string, StatusMethod> = {}) {
