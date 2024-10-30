@@ -41,7 +41,7 @@ type CreatePeerDidOptions = CreateIdentifierBaseOptions<'Ed25519'> & {
   service?: IService
 
   agreementKeyRef?: string;
-  agreementKey?: ImportOrCreateKeyOptions<'Ed25519'>
+  agreementKey?: ImportOrCreateKeyOptions<'X25519'>
 }
 
 /**
