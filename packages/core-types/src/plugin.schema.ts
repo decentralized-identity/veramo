@@ -543,7 +543,7 @@ export const schema = {
             },
             "kid": {
               "type": "string",
-              "description": "Key ID"
+              "description": "Optional. Key ID"
             }
           },
           "required": [
