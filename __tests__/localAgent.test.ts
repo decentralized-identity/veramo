@@ -112,7 +112,8 @@ let agent: TAgent<
   ISelectiveDisclosure &
   IDIDDiscovery
 >
-let dbConnection: Promise<DataSource>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
