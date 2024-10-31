@@ -119,7 +119,7 @@ importers:
         version: 23.1.1(typescript@5.6.3)
       ts-jest:
         specifier: 29.2.5
-        version: 29.2.5(@babel/core@7.22.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.2.5(@babel/core@7.23.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.6.3)))(typescript@5.6.3)
       ts-json-schema-generator:
         specifier: 1.5.0
         version: 1.5.0
@@ -421,8 +421,8 @@ importers:
   packages/credential-eip712:
     dependencies:
       '@metamask/eth-sig-util':
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^8.0.0
+        version: 8.0.0
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -589,7 +589,7 @@ importers:
     optionalDependencies:
       '@veramo/credential-ld':
         specifier: ^6.0.0
-        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)
+        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -626,7 +626,7 @@ importers:
         version: 4.0.0
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.6.3))
+        version: 0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.6.3))
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -3649,17 +3649,28 @@ packages:
     resolution: {integrity: sha512-B/A1dY/w4F/t6cDHUscklO6ovb/ztFsrsTXFd8QlqSByk/vyy+QbPE3VVpmmyI/7RX+PA1AJcvBdzCIz+r9dVQ==}
     engines: {node: '>=16.0.0'}
 
-  '@metamask/eth-sig-util@7.0.0':
-    resolution: {integrity: sha512-8KeXZB4SKx3EfNS5ahbjUMegyGvDQYk6Nk3hmM658sXpfAQR5ZlIXBgj+9RF+ZROqsU6EuNVgKt7Fr10re60PQ==}
-    engines: {node: ^16.20 || ^18.16 || >=20}
-    deprecated: This version generates invalid signatures for messages that include the value "0x" in a "bytes" field. This has been fixed in v6.0.2 and v7.0.1
+  '@metamask/abi-utils@2.0.4':
+    resolution: {integrity: sha512-StnIgUB75x7a7AgUhiaUZDpCsqGp7VkNnZh2XivXkJ6mPkE83U8ARGQj5MbRis7VJY8BC5V1AbB1fjdh0hupPQ==}
+    engines: {node: '>=16.0.0'}
 
   '@metamask/eth-sig-util@7.0.1':
     resolution: {integrity: sha512-59GSrMyFH2fPfu7nKeIQdZ150zxXNNhAQIUaFRUW+MGtVA4w/ONbiQobcRBLi+jQProfIyss51G8pfLPcQ0ylg==}
     engines: {node: ^16.20 || ^18.16 || >=20}
 
+  '@metamask/eth-sig-util@8.0.0':
+    resolution: {integrity: sha512-IwE6aoxUL39IhmsAgE4nk+OZbNo+ThFZRNsUjE1pjdEa4MFpWzm1Rue4zJ5DMy1oUyZBi/aiCLMhdMnjl2bh2Q==}
+    engines: {node: ^18.18 || ^20.14 || >=22}
+
+  '@metamask/superstruct@3.1.0':
+    resolution: {integrity: sha512-N08M56HdOgBfRKkrgCMZvQppkZGcArEop3kixNEtVbJKm6P9Cfg0YkI6X0s1g78sNrj2fWUwvJADdZuzJgFttA==}
+    engines: {node: '>=16.0.0'}
+
   '@metamask/utils@8.1.0':
     resolution: {integrity: sha512-sFNpzBKRicDgM2ZuU6vrPROlqNGm8/jDsjc5WrU1RzCkAMc4Xr3vUUf8p59uQ6B09etUWNb8d2GTCbISdmH/Ug==}
+    engines: {node: '>=16.0.0'}
+
+  '@metamask/utils@9.3.0':
+    resolution: {integrity: sha512-w8CVbdkDrVXFJbfBSlDfafDR6BAkpDmv1bC1UJVCoVny5tW2RKAdn9i68Xf7asYT4TnUhl/hN4zfUiKQq9II4g==}
     engines: {node: '>=16.0.0'}
 
   '@microsoft/api-documenter@7.25.21':
@@ -7290,10 +7301,6 @@ packages:
     resolution: {integrity: sha512-21YtnZVg4/zKkCQPjrDj38B1r4nQvTZLopUGMLQ1ePU2zV/joCfDC3t3iKQjWRzjjjbzR+mdAIoikeBRNkdllA==}
     engines: {node: '>=14.0.0'}
 
-  ethjs-util@0.1.6:
-    resolution: {integrity: sha512-CUnVOQq7gSpDHZVVrQW8ExxUETWrnrvXYvYz55wOU8Uj4VCgw56XC2B/fVqQN+f7gmrnRHSLVnFAwsCuNwji8w==}
-    engines: {node: '>=6.5.0', npm: '>=3'}
-
   ethr-did-resolver@10.1.5:
     resolution: {integrity: sha512-wVCKhF6qQo2IewH9ui4lRBixbvT/A6szZFQoJkfvjP6EU/3MSb4KOP5QNpM37zmFU/rQGjHNt7bF13fNcmZ6wQ==}
 
@@ -8493,10 +8500,6 @@ packages:
   is-glob@4.0.3:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
     engines: {node: '>=0.10.0'}
-
-  is-hex-prefixed@1.0.0:
-    resolution: {integrity: sha512-WvtOiug1VFrE9v1Cydwm+FnXd3+w9GaeVUss5W4v/SLy3UW00vP+6iNF2SdnfiBoLy4bTqVdkftNGTUeOFVsbA==}
-    engines: {node: '>=6.5.0', npm: '>=3'}
 
   is-interactive@1.0.0:
     resolution: {integrity: sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w==}
@@ -10775,6 +10778,10 @@ packages:
     resolution: {integrity: sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==}
     engines: {node: '>=4.0.0'}
 
+  pony-cause@2.1.11:
+    resolution: {integrity: sha512-M7LhCsdNbNgiLYiP4WjsfLUuFmCfnjdF6jKe2R9NKl4WFN+HZPGHJZ9lnLP7f9ZnKe3U9nuWD0szirmj+migUg==}
+    engines: {node: '>=12.0.0'}
+
   postcss-attribute-case-insensitive@5.0.2:
     resolution: {integrity: sha512-XIidXV8fDr0kKt28vqki84fRK8VW8eTuIa4PChv2MqKuT6C9UjmSKzen6KaWhWEoYvwxFCa7n/tC1SZ3tyq4SQ==}
     engines: {node: ^12 || ^14 || >=16}
@@ -12365,10 +12372,6 @@ packages:
   strip-final-newline@4.0.0:
     resolution: {integrity: sha512-aulFJcD6YK8V1G7iRB5tigAP4TsHBZZrOV8pjV++zdUwmeV8uzbY7yn6h9MswN62adStNZFuCIx4haBnRuMDaw==}
     engines: {node: '>=18'}
-
-  strip-hex-prefix@1.0.0:
-    resolution: {integrity: sha512-q8d4ue7JGEiVcypji1bALTos+0pWtyGlivAWyPuTkHzuTCJqrK9sWxYQZUq6Nq3cuyv3bm734IhHvHtGGURU6A==}
-    engines: {node: '>=6.5.0', npm: '>=3'}
 
   strip-indent@3.0.0:
     resolution: {integrity: sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==}
@@ -18207,15 +18210,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@metamask/eth-sig-util@7.0.0':
+  '@metamask/abi-utils@2.0.4':
     dependencies:
-      '@ethereumjs/util': 8.1.0
-      '@metamask/abi-utils': 2.0.2
-      '@metamask/utils': 8.1.0
-      ethereum-cryptography: 2.1.2
-      ethjs-util: 0.1.6
-      tweetnacl: 1.0.3
-      tweetnacl-util: 0.15.1
+      '@metamask/superstruct': 3.1.0
+      '@metamask/utils': 9.3.0
     transitivePeerDependencies:
       - supports-color
 
@@ -18230,6 +18228,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@metamask/eth-sig-util@8.0.0':
+    dependencies:
+      '@ethereumjs/util': 8.1.0
+      '@metamask/abi-utils': 2.0.4
+      '@metamask/utils': 9.3.0
+      '@scure/base': 1.1.3
+      ethereum-cryptography: 2.1.2
+      tweetnacl: 1.0.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@metamask/superstruct@3.1.0': {}
+
   '@metamask/utils@8.1.0':
     dependencies:
       '@ethereumjs/tx': 4.2.0
@@ -18238,6 +18249,20 @@ snapshots:
       debug: 4.3.4
       semver: 7.5.4
       superstruct: 1.0.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@metamask/utils@9.3.0':
+    dependencies:
+      '@ethereumjs/tx': 4.2.0
+      '@metamask/superstruct': 3.1.0
+      '@noble/hashes': 1.5.0
+      '@scure/base': 1.1.3
+      '@types/debug': 4.1.8
+      debug: 4.3.7
+      pony-cause: 2.1.11
+      semver: 7.6.3
+      uuid: 9.0.1
     transitivePeerDependencies:
       - supports-color
 
@@ -18387,11 +18412,11 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.6.0
+      semver: 7.6.3
 
   '@npmcli/fs@3.1.0':
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.3
 
   '@npmcli/git@5.0.4':
     dependencies:
@@ -18401,7 +18426,7 @@ snapshots:
       proc-log: 3.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.6.0
+      semver: 7.6.3
       which: 4.0.0
     transitivePeerDependencies:
       - bluebird
@@ -20022,7 +20047,7 @@ snapshots:
       ignore: 5.2.4
       natural-compare-lite: 1.4.0
       regexpp: 3.2.0
-      semver: 7.6.0
+      semver: 7.6.3
       tsutils: 3.21.0(typescript@5.6.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -20075,7 +20100,7 @@ snapshots:
       debug: 4.3.7
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.6.0
+      semver: 7.6.3
       tsutils: 3.21.0(typescript@5.6.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -20092,7 +20117,7 @@ snapshots:
       eslint: 8.57.1
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0(eslint@8.57.1)
-      semver: 7.6.0
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -20153,7 +20178,7 @@ snapshots:
       - supports-color
     optional: true
 
-  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)':
+  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)':
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@12.8.1(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)))(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7)))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
@@ -20165,7 +20190,7 @@ snapshots:
       '@transmute/json-web-signature': 0.7.0-unstable.81(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@18.2.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@veramo/core-types': 6.0.0
-      '@veramo/utils': 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)
+      '@veramo/utils': 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
       cross-fetch: 4.0.0(encoding@0.1.13)
       debug: 4.3.4
       did-resolver: 4.1.0
@@ -20183,7 +20208,7 @@ snapshots:
       - web-streams-polyfill
     optional: true
 
-  '@veramo/utils@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)':
+  '@veramo/utils@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)':
     dependencies:
       '@ipld/dag-pb': 4.0.5
       '@noble/curves': 1.4.2
@@ -20194,7 +20219,7 @@ snapshots:
       did-jwt: 8.0.4
       did-jwt-vc: 4.0.4
       did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ipfs-unixfs: 11.1.0
       multiformats: 13.1.0
       uint8arrays: 4.0.6
@@ -20756,6 +20781,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  babel-jest@29.7.0(@babel/core@7.23.6):
+    dependencies:
+      '@babel/core': 7.23.6
+      '@jest/transform': 29.7.0
+      '@types/babel__core': 7.20.1
+      babel-plugin-istanbul: 6.1.1
+      babel-preset-jest: 29.6.3(@babel/core@7.23.6)
+      chalk: 4.1.2
+      graceful-fs: 4.2.11
+      slash: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
+    optional: true
+
   babel-loader@8.3.0(@babel/core@7.20.12)(webpack@5.75.0):
     dependencies:
       '@babel/core': 7.20.12
@@ -21033,6 +21072,13 @@ snapshots:
       '@babel/core': 7.22.9
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.22.9)
+
+  babel-preset-jest@29.6.3(@babel/core@7.23.6):
+    dependencies:
+      '@babel/core': 7.23.6
+      babel-plugin-jest-hoist: 29.6.3
+      babel-preset-current-node-syntax: 1.0.1(@babel/core@7.23.6)
+    optional: true
 
   babel-preset-react-app@10.0.1:
     dependencies:
@@ -21333,7 +21379,7 @@ snapshots:
 
   builtins@5.0.1:
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.3
 
   byte-size@8.1.1: {}
 
@@ -21788,7 +21834,7 @@ snapshots:
       handlebars: 4.7.8
       json-stringify-safe: 5.0.1
       meow: 8.1.2
-      semver: 7.6.0
+      semver: 7.6.3
       split: 1.0.1
 
   conventional-changelog-writer@7.0.1:
@@ -21797,7 +21843,7 @@ snapshots:
       handlebars: 4.7.8
       json-stringify-safe: 5.0.1
       meow: 12.1.1
-      semver: 7.6.0
+      semver: 7.6.3
       split2: 4.2.0
 
   conventional-commits-filter@3.0.0:
@@ -22990,11 +23036,6 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethjs-util@0.1.6:
-    dependencies:
-      is-hex-prefixed: 1.0.0
-      strip-hex-prefix: 1.0.0
-
   ethr-did-resolver@10.1.5(bufferutil@4.0.7)(utf-8-validate@5.0.7):
     dependencies:
       did-resolver: 4.1.0
@@ -23607,7 +23648,7 @@ snapshots:
       memfs: 3.4.13
       minimatch: 3.1.2
       schema-utils: 2.7.0
-      semver: 7.6.0
+      semver: 7.6.3
       tapable: 1.1.3
       typescript: 5.6.3
       webpack: 5.75.0
@@ -23846,7 +23887,7 @@ snapshots:
   git-semver-tags@5.0.1:
     dependencies:
       meow: 8.1.2
-      semver: 7.6.0
+      semver: 7.6.3
 
   git-up@7.0.0:
     dependencies:
@@ -24506,8 +24547,6 @@ snapshots:
     dependencies:
       is-extglob: 2.1.1
 
-  is-hex-prefixed@1.0.0: {}
-
   is-interactive@1.0.0: {}
 
   is-invalid-path@0.1.0:
@@ -24686,7 +24725,7 @@ snapshots:
       '@babel/parser': 7.23.6
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
-      semver: 7.6.0
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -25401,7 +25440,7 @@ snapshots:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.6.0
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -26819,7 +26858,7 @@ snapshots:
       make-fetch-happen: 13.0.0
       nopt: 7.2.0
       proc-log: 3.0.0
-      semver: 7.6.0
+      semver: 7.6.3
       tar: 6.2.0
       which: 4.0.0
     transitivePeerDependencies:
@@ -26871,21 +26910,21 @@ snapshots:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.13.1
-      semver: 7.6.0
+      semver: 7.6.3
       validate-npm-package-license: 3.0.4
 
   normalize-package-data@5.0.0:
     dependencies:
       hosted-git-info: 6.1.1
       is-core-module: 2.13.1
-      semver: 7.6.0
+      semver: 7.6.3
       validate-npm-package-license: 3.0.4
 
   normalize-package-data@6.0.0:
     dependencies:
       hosted-git-info: 7.0.0
       is-core-module: 2.13.1
-      semver: 7.6.0
+      semver: 7.6.3
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -26906,7 +26945,7 @@ snapshots:
 
   npm-install-checks@6.1.1:
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.3
 
   npm-normalize-package-bin@1.0.1: {}
 
@@ -26916,14 +26955,14 @@ snapshots:
     dependencies:
       hosted-git-info: 6.1.1
       proc-log: 3.0.0
-      semver: 7.6.0
+      semver: 7.6.3
       validate-npm-package-name: 5.0.0
 
   npm-package-arg@11.0.1:
     dependencies:
       hosted-git-info: 7.0.0
       proc-log: 3.0.0
-      semver: 7.6.0
+      semver: 7.6.3
       validate-npm-package-name: 5.0.0
 
   npm-package-arg@7.0.0:
@@ -26955,7 +26994,7 @@ snapshots:
       npm-install-checks: 6.1.1
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 11.0.1
-      semver: 7.6.0
+      semver: 7.6.3
 
   npm-registry-fetch@14.0.5:
     dependencies:
@@ -27574,6 +27613,8 @@ snapshots:
       xmlbuilder: 15.1.1
 
   pngjs@3.4.0: {}
+
+  pony-cause@2.1.11: {}
 
   postcss-attribute-case-insensitive@5.0.2(postcss@8.4.21):
     dependencies:
@@ -29479,10 +29520,6 @@ snapshots:
 
   strip-final-newline@4.0.0: {}
 
-  strip-hex-prefix@1.0.0:
-    dependencies:
-      is-hex-prefixed: 1.0.0
-
   strip-indent@3.0.0:
     dependencies:
       min-indent: 1.0.1
@@ -29856,7 +29893,7 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.20.12)
 
-  ts-jest@29.2.5(@babel/core@7.22.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.6.3)))(typescript@5.6.3):
+  ts-jest@29.2.5(@babel/core@7.23.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -29870,10 +29907,10 @@ snapshots:
       typescript: 5.6.3
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 7.22.9
+      '@babel/core': 7.23.6
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.22.9)
+      babel-jest: 29.7.0(@babel/core@7.23.6)
 
   ts-json-schema-generator@1.5.0:
     dependencies:
@@ -30034,7 +30071,7 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typeorm@0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.6.3)):
+  typeorm@0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.6.3)):
     dependencies:
       '@sqltools/formatter': 1.2.5
       app-root-path: 3.1.0
@@ -30054,7 +30091,7 @@ snapshots:
     optionalDependencies:
       pg: 8.11.3
       sqlite3: 5.1.6(encoding@0.1.13)
-      ts-node: 10.9.2(@types/node@20.17.4)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@22.7.5)(typescript@5.6.3)
     transitivePeerDependencies:
       - supports-color
 

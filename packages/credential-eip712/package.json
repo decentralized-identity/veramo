@@ -12,7 +12,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@metamask/eth-sig-util": "^7.0.0",
+    "@metamask/eth-sig-util": "^8.0.0",
     "@veramo/credential-w3c": "workspace:^",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
