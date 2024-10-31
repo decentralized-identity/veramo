@@ -108,7 +108,8 @@ const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa8
 const port = 3002
 const basePath = '/agent'
 
-let dbConnection: Promise<DataSource>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 let serverAgent: IAgent
 let restServer: Server
 
@@ -285,7 +286,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await new Promise((resolve, reject) => restServer.close(resolve))
+  await new Promise((resolve) => restServer.close(resolve))
   try {
     await (await dbConnection).dropDatabase()
     await (await dbConnection).close()

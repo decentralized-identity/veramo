@@ -23,8 +23,8 @@ describe('data handling tests', () => {
   describe('can recompute p256 keys from old database', () => {
     const fixture = __dirname + '/fixtures/local-database-before-p256key-migration.sqlite'
     const databaseFile = fixture + '.tmp'
-    // intentionally using DataSource instead of Promise<DataSource> to test compatibility
-    let dbConnection: DataSource
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 
     beforeAll(async () => {
       await fs.promises.copyFile(fixture, databaseFile)
@@ -93,7 +93,9 @@ describe('data handling tests', () => {
     })
 
     it('when using data-store', async () => {
-      const dbConnection = new DataSource({
+      // typeorm types don't seem to follow semantic release patterns leading to type errors
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const dbConnection: any = new DataSource({
         type: 'sqlite',
         database: ':memory:',
         entities: Entities,

@@ -93,7 +93,7 @@
     "sqlite3": "^5.1.7",
     "swagger-ui-express": "^5.0.0",
     "ts-json-schema-generator": "^2.0.0",
-    "typeorm": "^0.3.17",
+    "typeorm": "^0.3.20",
     "url-parse": "^1.5.10",
     "web-did-resolver": "^2.0.27",
     "ws": "^8.16.0",
