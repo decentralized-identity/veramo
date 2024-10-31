@@ -12,6 +12,9 @@
     },
     {
       "path": "../did-manager"
+    },
+    {
+      "path": "../utils"
     }
   ]
 }

@@ -1,5 +1,6 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
+import { importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils'
 import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
@@ -27,7 +28,7 @@ export function toEthereumAddress(hexPublicKey: string): string {
  * Options for creating a did:ethr
  * @beta
  */
-export interface CreateDidEthrOptions {
+export type CreateDidEthrOptions = CreateIdentifierBaseOptions<'Secp256k1'> & {
   /**
    * This can be a network name or hex encoded chain ID (string) or a chainId number
    *
@@ -183,7 +184,24 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateDidEthrOptions },
     context: IRequiredContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Secp256k1' })
+    let key: IKey
+
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef })
+
+      if (key.type !== 'Secp256k1') {
+        throw new Error(`not_supported: Key type must be Secp256k1`  );
+      }
+    } else {
+      key = await importOrCreateKey({
+        kms: kms || this.defaultKms,
+        options: {
+          ...(options?.key ?? {}),
+          type: 'Secp256k1',
+        }
+      }, context)
+    }
+
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
 
     let networkSpecifier

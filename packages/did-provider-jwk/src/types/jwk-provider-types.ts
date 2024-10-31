@@ -1,17 +1,16 @@
-import { JwkDidSupportedKeyTypes, KeyUse } from '@veramo/utils'
+import { RequireOnly, KeyMetadata } from '@veramo/core-types'
+import { JwkDidSupportedKeyTypes, KeyUse, CreateIdentifierBaseOptions } from '@veramo/utils'
 
-export type JwkCreateIdentifierOptions = {
+export type JwkCreateIdentifierOptions = CreateIdentifierBaseOptions<JwkDidSupportedKeyTypes> & {
+  /**
+   * @deprecated use key.type instead
+   */
   keyType?: JwkDidSupportedKeyTypes
+
+  /**
+   * @deprecated use key.privateKeyHex instead
+   */
   privateKeyHex?: string
+
   keyUse?: KeyUse
-}
-
-export type JwkDidImportOrGenerateKeyArgs = {
-  kms: string
-  options: ImportOrGenerateKeyOpts
-}
-
-type ImportOrGenerateKeyOpts = {
-  keyType: JwkDidSupportedKeyTypes
-  privateKeyHex?: string
-}
+};

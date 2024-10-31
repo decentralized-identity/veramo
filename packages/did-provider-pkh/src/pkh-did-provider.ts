@@ -5,10 +5,10 @@ import {
   IKey,
   IKeyManager,
   IService,
-  ManagedKeyInfo,
 } from '@veramo/core-types';
 
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
+import { importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils';
 import Debug from 'debug'
 
 const debug = Debug('veramo:pkh-did-provider')
@@ -26,8 +26,11 @@ export const isValidNamespace = (x: string) => isIn(SECPK1_NAMESPACES, x);
  * Options for creating a did:pkh
  * @beta
  */
-export interface CreateDidPkhOptions {
+export type CreateDidPkhOptions = CreateIdentifierBaseOptions<'Secp256k1'> & {
   namespace: string;
+  /**
+   * @deprecated use key.privateKeyHex instead
+   */
   privateKey: string;
   /**
    * This can be hex encoded chain ID (string) or a chainId number
@@ -78,19 +81,26 @@ export class PkhDIDProvider extends AbstractIdentifierProvider {
       );
     }
 
-    let key: ManagedKeyInfo | null;
-    if (options?.privateKey !== undefined){
-      key = await context.agent.keyManagerImport({
-        kms: kms || this.defaultKms,
-        type: 'Secp256k1',
-        privateKeyHex: options?.privateKey as string,
-      });
+    const privateKeyHex = options?.key?.privateKeyHex || options?.privateKey;
+    let key: IKey
+
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef });
+
+      if (key.type !== 'Secp256k1') {
+        throw new Error(`not_supported: Key type must be Secp256k1`  );
+      }
     } else {
-      key = await context.agent.keyManagerCreate({ 
-        kms: kms || this.defaultKms, 
-        type: 'Secp256k1' 
-      });
+      key = await importOrCreateKey({
+        kms: kms || this.defaultKms,
+        options: {
+          ...(options?.key ?? {}),
+          type: 'Secp256k1',
+          privateKeyHex,
+        },
+      }, context);
     }
+
     const evmAddress: string = toEthereumAddress(key.publicKeyHex);
 
     if (key !== null) {
