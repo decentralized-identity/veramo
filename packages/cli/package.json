@@ -71,7 +71,7 @@
     "console-table-printer": "^2.12.0",
     "cors": "^2.8.5",
     "cross-fetch": "^4.0.0",
-    "date-fns": "^3.3.1",
+    "date-fns": "^4.0.0",
     "debug": "^4.3.4",
     "did-resolver": "^4.1.0",
     "dotenv": "^16.4.5",
