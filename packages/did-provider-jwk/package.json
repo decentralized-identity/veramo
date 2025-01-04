@@ -23,7 +23,7 @@
     "@veramo/did-resolver": "workspace:*",
     "@veramo/key-manager": "workspace:*",
     "@veramo/kms-local": "workspace:*",
-    "typescript": "5.3.3"
+    "typescript": "5.6.3"
   },
   "repository": {
     "type": "git",

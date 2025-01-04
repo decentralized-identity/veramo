@@ -9,7 +9,7 @@ import { Entities, KeyStore, DIDStore, IDataStoreORM, PrivateKeyStore, migration
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
-import { DataSource } from 'typeorm'
+import { DataSource, DataSourceOptions } from 'typeorm'
 import * as path from 'path';
 import { CustomKeyManager } from '../custom-key-manager.js'
 import { VeramoBbsBlsSignature } from '../suites/BbsBlsSignature.js'
@@ -46,10 +46,12 @@ const domain = 'test_domain'
 let agent: any
 let issuer: any
 let holder: any
+
+let dbConnection: any
 describe('Local integration tests', () => {
 
   beforeAll(async () => {
-    const dbConnection = new DataSource({
+    dbConnection = new DataSource({
       type: 'sqlite',
       database: database_test,
       synchronize: false,
@@ -58,6 +60,8 @@ describe('Local integration tests', () => {
       logging: ['error', 'info', 'warn'],
       entities: [...Entities]
     }).initialize()
+
+
 
     agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM & IResolver &
       ICredentialPlugin>({
@@ -111,15 +115,15 @@ describe('Local integration tests', () => {
 
   })
 
-  
+
 
   it('credencial bbs', async () => {
     let proofFormatVC = 'bbs';
     const verifiableCredential = await createCredentialGeneric(issuer, agent, proofFormatVC)
     const vcVerified = await agent.verifyCredential({ credential: verifiableCredential })
-    expect(vcVerified.verified).toEqual(true)   
+    expect(vcVerified.verified).toEqual(true)
   })
-  
+
   it('credencial bbs - presentacion bbs', async () => {
     let proofFormatVC = 'bbs';
     let proofFormatVP = 'bbs';
@@ -127,8 +131,8 @@ describe('Local integration tests', () => {
     const verifiableCredential = await createCredentialGeneric(issuer, agent, proofFormatVC, 'b84ba7dac90ecdfc18cce60e37fe9f0f74ed9102150005691f285be4e61b40bd56b5d37d213363caba82f9ecdcc432931715cb5ef0914123d1cd6844460638ab25bccaf41cb34b7448926772ed2bbab5517c9119aceaf14404a78cd59451bd7d')
     const vcVerified = await agent.verifyCredential({ credential: verifiableCredential })
     expect(vcVerified.verified).toEqual(true)
-    
-    const verifiablePresentation = await createPresentationGeneric(holder, agent, verifiableCredential, proofFormatVP, challenge, domain)    
+
+    const verifiablePresentation = await createPresentationGeneric(holder, agent, verifiableCredential, proofFormatVP, challenge, domain)
     //const verifiablePresentation = await createPresentationGeneric(holder, agent, verifiableCredential, proofFormatVP, challenge, domain, 'b84ba7dac90ecdfc18cce60e37fe9f0f74ed9102150005691f285be4e61b40bd56b5d37d213363caba82f9ecdcc432931715cb5ef0914123d1cd6844460638ab25bccaf41cb34b7448926772ed2bbab5517c9119aceaf14404a78cd59451bd7d')    
     const vpVerified = await agent.verifyPresentation({
       presentation: verifiablePresentation,
@@ -144,8 +148,8 @@ describe('Local integration tests', () => {
     const verifiableCredential = await createCredentialGeneric(issuer, agent, proofFormatVC)
     const vcVerified = await agent.verifyCredential({ credential: verifiableCredential })
     expect(vcVerified.verified).toEqual(true)
-    
-    const verifiablePresentation = await createPresentationGeneric(holder, agent, verifiableCredential, proofFormatVP, challenge, domain)    
+
+    const verifiablePresentation = await createPresentationGeneric(holder, agent, verifiableCredential, proofFormatVP, challenge, domain)
     const vpVerified = await agent.verifyPresentation({
       presentation: verifiablePresentation,
       challenge,
@@ -203,9 +207,9 @@ async function createCredentialGeneric(issuer: IIdentifier, agent: TAgent<ICrede
 
 async function createPresentationGeneric(holder: IIdentifier, agent: TAgent<ICredentialIssuer>, verifiableCredential: VerifiableCredential, proofFormat: any, challenge: any, domain: any, keyRef?: string):
   Promise<VerifiablePresentation> {
-    //KeyRef should only be set if the did document has more than one bbs key
-    
-    return await agent.createVerifiablePresentation({
+  //KeyRef should only be set if the did document has more than one bbs key
+
+  return await agent.createVerifiablePresentation({
     presentation: {
       holder: holder.did,
       type: ['Example'],

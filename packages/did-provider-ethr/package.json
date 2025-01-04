@@ -12,13 +12,14 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
+    "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "ethers": "^6.11.1",
-    "ethr-did": "^3.0.5"
+    "ethr-did": "^3.0.21"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.3.3"
+    "typescript": "5.6.3"
   },
   "files": [
     "build/**/*",

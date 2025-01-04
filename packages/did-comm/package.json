@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@noble/curves": "^1.4.2",
-    "@noble/ciphers": "^0.5.3",
+    "@noble/ciphers": "^1.0.0",
     "@stablelib/aes-kw": "^2.0.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/kv-store": "workspace:^",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
-    "typescript": "5.3.3"
+    "typescript": "5.6.3"
   },
   "files": [
     "build/**/*",

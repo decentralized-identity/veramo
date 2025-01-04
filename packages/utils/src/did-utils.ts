@@ -1,11 +1,12 @@
 import { computeAddress, SigningKey } from 'ethers'
-import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IResolver } from '@veramo/core-types'
+import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IKeyManager, IResolver, KeyMetadata, IKeyManagerCreateArgs, MinimalImportableKey, RequireOnly, TKeyType } from '@veramo/core-types'
 import { DIDDocument, DIDResolutionOptions, VerificationMethod } from 'did-resolver'
 import { extractPublicKeyBytes } from 'did-jwt'
 import {
   _ExtendedIKey,
   _ExtendedVerificationMethod,
   _NormalizedVerificationMethod,
+  ImportOrCreateKeyOptions,
 } from './types/utility-types.js'
 import { isDefined } from './type-utils.js'
 import Debug from 'debug'
@@ -368,4 +369,24 @@ export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   }
 
   return key as IKey
+}
+
+export async function importOrCreateKey<K extends TKeyType = TKeyType>(
+  args: {
+    kms: string,
+    options: ImportOrCreateKeyOptions<K>
+  },
+  context: IAgentContext<IKeyManager>,
+) {
+  if (args.options.privateKeyHex) {
+    return context.agent.keyManagerImport({
+      ...args.options,
+      kms: args.kms,
+      privateKeyHex: args.options.privateKeyHex,
+    })
+  }
+  return context.agent.keyManagerCreate({
+    ...args.options,
+    kms: args.kms,
+  })
 }

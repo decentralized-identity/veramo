@@ -1,10 +1,18 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager } from '@veramo/core-types'
+import { IIdentifier, IKey, IService, IAgentContext, IKeyManager, TKeyType } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
+import { importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils'
 
 import Debug from 'debug'
 const debug = Debug('veramo:web-did:identifier-provider')
 
 type IContext = IAgentContext<IKeyManager>
+
+type CreateWebDidOptions = CreateIdentifierBaseOptions & {
+  /**
+   * @deprecated use key.type instead
+   */
+  keyType?: TKeyType
+}
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:web` identifiers
@@ -19,11 +27,30 @@ export class WebDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    { kms, alias, options }: { kms?: string; alias?: string; options: any },
+    { kms, alias, options }: { kms?: string; alias?: string; options: CreateWebDidOptions },
     context: IContext,
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    const keyType = options?.keyType || 'Secp256k1'
-    const key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: keyType })
+    let keyType = options?.key?.type || options?.keyType || 'Secp256k1'
+    const privateKeyHex = options?.key?.privateKeyHex
+
+    let key: IKey
+
+    if (options?.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef })
+      keyType = key.type;
+    } else {
+      key = await importOrCreateKey(
+        {
+          kms: kms || this.defaultKms,
+          options: {
+            ...(options?.key ?? {}),
+            type: keyType,
+            privateKeyHex,
+          },
+        },
+        context,
+      )
+    }
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: 'did:web:' + alias,
