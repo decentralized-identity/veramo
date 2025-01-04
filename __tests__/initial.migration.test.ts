@@ -74,7 +74,8 @@ describe('database initial migration tests', () => {
       const databaseFile = databaseBeforeFile + '.tmp'
       type TestingAgentPlugins = IDIDManager & IKeyManager & IDataStore & IDataStoreORM & IResolver & IDIDComm
       let agent: TAgent<TestingAgentPlugins>
-      let dbConnection: DataSource
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 
       beforeAll(async () => {
         fs.copyFileSync(databaseBeforeFile, databaseFile)

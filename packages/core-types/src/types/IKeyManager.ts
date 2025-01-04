@@ -42,6 +42,11 @@ export interface IKeyManagerCreateArgs {
    * Optional. Key meta data
    */
   meta?: KeyMetadata
+
+  /**
+   * Optional. Key ID
+   */
+  kid?: string;
 }
 
 /**

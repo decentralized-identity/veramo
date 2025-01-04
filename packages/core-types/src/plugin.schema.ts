@@ -540,6 +540,10 @@ export const schema = {
             "meta": {
               "$ref": "#/components/schemas/KeyMetadata",
               "description": "Optional. Key meta data"
+            },
+            "kid": {
+              "type": "string",
+              "description": "Optional. Key ID"
             }
           },
           "required": [

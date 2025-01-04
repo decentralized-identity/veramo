@@ -1,4 +1,5 @@
-import { IKey, KeyMetadata } from '@veramo/core-types'
+import { IKey, KeyMetadata, TKeyType, IKeyManagerCreateArgs, MinimalImportableKey, RequireOnly } from '@veramo/core-types'
+
 import { VerificationMethod } from 'did-resolver'
 
 /**
@@ -56,3 +57,13 @@ export enum SupportedKeyTypes {
 export type KeyUse = 'sig' | 'enc'
 
 export type JwkDidSupportedKeyTypes = keyof typeof SupportedKeyTypes
+
+export type ImportOrCreateKeyOptions<TKey extends TKeyType = TKeyType> = Omit<
+  Partial<IKeyManagerCreateArgs & MinimalImportableKey>,
+  'kms'
+> & { type: TKey }
+
+export type CreateIdentifierBaseOptions<T extends TKeyType = TKeyType> = {
+  keyRef?: string;
+  key?: ImportOrCreateKeyOptions<T>;
+}

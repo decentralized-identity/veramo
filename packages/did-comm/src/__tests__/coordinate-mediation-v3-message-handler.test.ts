@@ -74,7 +74,8 @@ describe('coordinate-mediation-message-handler', () => {
   >
   let didCommEndpointServer: Server
   let listeningPort = Math.round(Math.random() * 32000 + 2048)
-  let dbConnection: DataSource
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
   let policyStore: KeyValueStore<PreMediationRequestPolicy>
   let mediationStore: KeyValueStore<MediationResponse>
   let recipientDidStore: KeyValueStore<RequesterDid>
@@ -85,7 +86,8 @@ describe('coordinate-mediation-message-handler', () => {
       type: 'sqlite',
       database: ':memory:',
       synchronize: false,
-      migrations: dataStoreMigrations.concat(kvStoreMigrations),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      migrations: dataStoreMigrations.concat(kvStoreMigrations as any),
       migrationsRun: true,
       logging: false,
       entities: (KVStoreEntities as any).concat(DataStoreEntities),

@@ -65,6 +65,32 @@ describe('EthrDIDProvider', () => {
   })
 
   describe('adding keys', () => {
+    it('supports implicit creation of a Secp256k1 key', async () => {
+      const newDid = await agent.didManagerCreate({
+        kms: KMS,
+        provider: PROVIDER
+      })
+
+      expect(newDid.controllerKeyId).toBeDefined()
+    })
+
+    it('supports creation with a key reference', async () => {
+      const newKey = await agent.keyManagerCreate({
+        kms: KMS,
+        type: 'Secp256k1'
+      })
+
+      const newDid = await agent.didManagerCreate({
+        kms: KMS,
+        provider: PROVIDER,
+        options: {
+          keyRef: newKey.kid,
+        }
+      })
+
+      expect(newDid.controllerKeyId).toBe(newKey.kid)
+    })
+
     it('returns the signed addKey transaction parameters for an Ed25519 key type', async () => {
       expect.assertions(11)
       const ed25519Key: MinimalImportableKey = {

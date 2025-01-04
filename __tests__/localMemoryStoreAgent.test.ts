@@ -89,7 +89,8 @@ let agent: TAgent<
   ICredentialPlugin &
   ISelectiveDisclosure
 >
-let dbConnection: DataSource
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // intentionally not initializing here to test compatibility
