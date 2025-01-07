@@ -88,7 +88,7 @@ pnpm test:watch
 ```
 
 If you are running Visual Studio Code, there are some launch configurations available that can be used as template for
-step by step debugging.
+step by step debugging. 
 
 ### Building a plugin
 
