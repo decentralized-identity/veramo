@@ -1,8 +1,9 @@
 module.exports = {
   launch: {
     dumpio: true,
-    headless: 'new',
+    headless: true,
     product: 'chrome',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   },
   browserContext: 'default',
   server: {
