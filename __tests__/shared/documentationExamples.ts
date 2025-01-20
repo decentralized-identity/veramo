@@ -77,7 +77,7 @@ export default (testContext: {
     it('core-types-IDIDManager-didManagerCreate example', async () => {
       const identifier = await agent.didManagerCreate({
         alias: 'charlie',
-        provider: 'did:ethr:sepolia',
+        provider: 'did:ethr',
         kms: 'local',
       })
     })
@@ -88,14 +88,14 @@ export default (testContext: {
       })
 
       const sepoliaIdentifiers = await agent.didManagerFind({
-        provider: 'did:ethr:goerli',
+        provider: 'did:ethr',
       })
     })
 
     it('core-types-IDIDManager-didManagerGetByAlias example', async () => {
       const identifier = await agent.didManagerGetByAlias({
         alias: 'charlie',
-        provider: 'did:ethr:goerli',
+        provider: 'did:ethr',
       })
     })
 
