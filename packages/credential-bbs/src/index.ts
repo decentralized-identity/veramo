@@ -13,4 +13,9 @@
 export { CredentialProviderBBS } from './CredentialProviderBBS.js'
 export { BbsDefaultContexts } from './bbs-default-contexts.js'
 export { VeramoBbsSignature } from './bbs-suites.js'
+export { VeramoBbsBlsSignature } from './suites/BbsBlsSignature.js'
+export { BBSKeyManager as CustomKeyManager } from './bbs-key-manager.js'
+export { BbsSelectiveDisclosureCredentialPlugin } from './bbs-selective-diclosure-plugin.js'
+
+
 export * from './types.js'

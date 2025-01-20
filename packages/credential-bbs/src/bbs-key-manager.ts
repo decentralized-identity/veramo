@@ -39,7 +39,7 @@ const debug = Debug('veramo:key-manager')
  *
  * @public
  */
-export class CustomKeyManager implements IAgentPlugin  {
+export class BBSKeyManager implements IAgentPlugin {
   /**
    * Plugin methods
    * @public
@@ -74,7 +74,7 @@ export class CustomKeyManager implements IAgentPlugin  {
     const key = await this.store.getKey({ kid });
     const kms = this.getKms(key.kms);
     return await (kms as any).keyStore.getKey({ alias: kid })
-}
+  }
 
   private getKms(name: string): AbstractKeyManagementSystem {
     const kms = this.kms[name]

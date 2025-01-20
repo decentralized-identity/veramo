@@ -11,18 +11,15 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import * as path from 'path';
-import { CustomKeyManager } from '../custom-key-manager.js'
+import { BBSKeyManager } from '../bbs-key-manager.js'
 import { VeramoBbsBlsSignature } from '../suites/BbsBlsSignature.js'
 import { CredentialProviderBBS } from '../CredentialProviderBBS.js'
 import { BbsSelectiveDisclosureCredentialPlugin } from '../bbs-selective-diclosure-plugin.js'
 import { BbsDefaultContexts } from '../bbs-default-contexts.js'
 import { ContextDoc } from '../types.js'
 import citizenVocab from "../custom_contexts/citizenVocab.json"
-
-
 import { jest } from '@jest/globals'
 jest.setTimeout(30000)
-
 
 // This will be the secret key for the KMS
 const KMS_SECRET_KEY = '11b574d316903ced6cc3f4787bbcc3047d9c72d1da4d83e36fe714ef785d10c1'
@@ -40,16 +37,14 @@ const bbs = new CredentialProviderBBS({
   suites: bbsSuites
 })
 
-const challenge = 'test_challenge'
-const domain = 'test_domain'
+describe('credential-bbs full flow', () => {
+  const challenge = 'test_challenge'
+  const domain = 'test_domain'
+  let agent: any
+  let issuer: any
+  let holder: any
 
-let agent: any
-let issuer: any
-let holder: any
-
-let dbConnection: any
-describe('Local integration tests', () => {
-
+  let dbConnection: any
   beforeAll(async () => {
     dbConnection = new DataSource({
       type: 'sqlite',
@@ -61,12 +56,10 @@ describe('Local integration tests', () => {
       entities: [...Entities]
     }).initialize()
 
-
-
     agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataStoreORM & IResolver &
       ICredentialPlugin>({
         plugins: [
-          new CustomKeyManager({
+          new BBSKeyManager({
             store: new KeyStore(dbConnection),
             kms: {
               local: new KeyManagementSystem(new PrivateKeyStore(dbConnection, new SecretBox(KMS_SECRET_KEY))),
@@ -111,11 +104,7 @@ describe('Local integration tests', () => {
       })
     issuer = await agent.didManagerGetByAlias({ alias: 'sepolia_1' })
     holder = await agent.didManagerGetByAlias({ alias: 'sepolia_3' })
-    //holder = await agent.didManagerGetByAlias({ alias: 'sepolia_1' })
-
   })
-
-
 
   it('credencial bbs', async () => {
     let proofFormatVC = 'bbs';
@@ -157,11 +146,10 @@ describe('Local integration tests', () => {
     })
     expect(vpVerified.verified).toEqual(true)
 
-    let selectiveDisclosureCredential = await createSelectiveDisclosureCredential(verifiableCredential)
+    let selectiveDisclosureCredential = await createSelectiveDisclosureCredential(verifiableCredential, agent)
     const selectiveDisclosureCredentialVerified = await agent.verifyDerivedProofBbs({ credential: selectiveDisclosureCredential })
     expect(selectiveDisclosureCredentialVerified.verified).toEqual(true)
   })
-
 })
 
 async function createCredentialGeneric(issuer: IIdentifier, agent: TAgent<ICredentialIssuer>, proofFormat: any, keyRef?: string): Promise<VerifiableCredential> {
@@ -224,7 +212,7 @@ async function createPresentationGeneric(holder: IIdentifier, agent: TAgent<ICre
   })
 }
 
-async function createSelectiveDisclosureCredential(verifiableCredential: VerifiableCredential): Promise<VerifiableCredential> {
+async function createSelectiveDisclosureCredential(verifiableCredential: VerifiableCredential, agent: TAgent<ICredentialIssuer>): Promise<VerifiableCredential> {
 
   let revealDocument = {
     "@context": [
