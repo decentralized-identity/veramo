@@ -33,7 +33,7 @@
     "eslint-plugin-promise": "6.6.0",
     "keyv": "4.5.3",
     "timekeeper": "2.3.1",
-    "typescript": "5.6.3"
+    "typescript": "5.7.3"
   },
   "files": [
     "build/**/*",
