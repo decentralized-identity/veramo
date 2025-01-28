@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@types/eslint': ^8.4.6
+  '@types/eslint': ^9.0.0
   jsonld: npm:@digitalcredentials/jsonld@^6.0.0
 
 importers:
@@ -1492,8 +1492,8 @@ importers:
         specifier: 7.1.0
         version: 7.1.0(@types/node@20.17.4)(postcss@8.4.21)(react-scripts@5.0.1(@babel/plugin-syntax-flow@7.23.3(@babel/core@7.20.12))(@babel/plugin-transform-react-jsx@7.23.4(@babel/core@7.20.12))(@types/babel__core@7.20.1)(bufferutil@4.0.7)(eslint@8.57.1)(react@18.2.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3))(type-fest@3.13.1)(typescript@5.7.3)(utf-8-validate@5.0.7))(typescript@5.7.3)
       '@types/eslint':
-        specifier: ^8.4.6
-        version: 8.44.1
+        specifier: ^9.0.0
+        version: 9.6.1
       '@types/eslint-scope':
         specifier: 3.7.7
         version: 3.7.7
@@ -4692,8 +4692,8 @@ packages:
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
 
-  '@types/eslint@8.44.1':
-    resolution: {integrity: sha512-XpNDc4Z5Tb4x+SW1MriMVeIsMoONHCkWFMkR/aPJbzEsxqHy+4Glu/BqTdPrApfDeMaXbtNh6bseNgl5KaWrSg==}
+  '@types/eslint@9.6.1':
+    resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
 
   '@types/estree@0.0.39':
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -19750,13 +19750,13 @@ snapshots:
 
   '@types/eslint-scope@3.7.7':
     dependencies:
-      '@types/eslint': 8.44.1
+      '@types/eslint': 9.6.1
       '@types/estree': 1.0.1
 
-  '@types/eslint@8.44.1':
+  '@types/eslint@9.6.1':
     dependencies:
       '@types/estree': 1.0.1
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
 
   '@types/estree@0.0.39': {}
 
@@ -20110,7 +20110,7 @@ snapshots:
 
   '@typescript-eslint/utils@5.48.1(eslint@8.57.1)(typescript@5.7.3)':
     dependencies:
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
       '@types/semver': 7.3.13
       '@typescript-eslint/scope-manager': 5.48.1
       '@typescript-eslint/types': 5.48.1
@@ -22918,7 +22918,7 @@ snapshots:
 
   eslint-webpack-plugin@3.2.0(eslint@8.57.1)(webpack@5.75.0):
     dependencies:
-      '@types/eslint': 8.44.1
+      '@types/eslint': 9.6.1
       eslint: 8.57.1
       jest-worker: 28.1.3
       micromatch: 4.0.5
@@ -23669,7 +23669,7 @@ snapshots:
   fork-ts-checker-webpack-plugin@6.5.2(eslint@8.57.1)(typescript@5.7.3)(webpack@5.75.0):
     dependencies:
       '@babel/code-frame': 7.23.5
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
       chalk: 4.1.2
       chokidar: 3.5.3
       cosmiconfig: 6.0.0
@@ -28941,25 +28941,25 @@ snapshots:
 
   schema-utils@2.7.0:
     dependencies:
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
 
   schema-utils@2.7.1:
     dependencies:
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
 
   schema-utils@3.1.1:
     dependencies:
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
 
   schema-utils@4.0.0:
     dependencies:
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.15
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
       ajv-keywords: 5.1.0(ajv@8.12.0)
