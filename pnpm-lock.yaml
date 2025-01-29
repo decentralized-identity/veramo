@@ -584,8 +584,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     optionalDependencies:
       '@veramo/credential-ld':
         specifier: ^6.0.0
@@ -628,8 +628,8 @@ importers:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.7.3))
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -668,8 +668,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -723,8 +723,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1086,8 +1086,8 @@ importers:
         specifier: ^4.0.6
         version: 4.0.6
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1231,8 +1231,8 @@ importers:
         specifier: ^4.3.4
         version: 4.3.4
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     devDependencies:
       eslint:
         specifier: 8.57.1
@@ -1352,8 +1352,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: ^11.0.0
+        version: 11.0.5
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -13118,6 +13118,10 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
+  uuid@11.0.5:
+    resolution: {integrity: sha512-508e6IcKLrhxKdBbcA2b4KQZlLVp2+J5UwQ6F7Drckkc5N9ZJwFa4TgWtsww9UG8fGHbm6gbV19TdM5pQ4GaIA==}
+    hasBin: true
+
   uuid@3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
@@ -13129,10 +13133,6 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
-
-  uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
 
   uuid@9.0.1:
@@ -30350,13 +30350,13 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
+  uuid@11.0.5: {}
+
   uuid@3.4.0: {}
 
   uuid@7.0.3: {}
 
   uuid@8.3.2: {}
-
-  uuid@9.0.0: {}
 
   uuid@9.0.1: {}
 
