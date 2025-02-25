@@ -210,16 +210,6 @@ export class CredentialPlugin implements IAgentPlugin {
       })
     }
 
-    const holder = removeDIDParameters(presentation.holder)
-
-    let identifier: IIdentifier
-    try {
-      identifier = await context.agent.didManagerGet({ did: holder })
-    } catch (e) {
-      throw new Error('invalid_argument: presentation.holder must be a DID managed by this agent')
-    }
-    const key = pickSigningKey(identifier, keyRef)
-
     let verifiablePresentation: VerifiablePresentation | undefined
 
     async function getPresentation(issuers: AbstractCredentialProvider[]) {
