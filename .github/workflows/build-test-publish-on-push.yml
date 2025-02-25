@@ -121,6 +121,7 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
+      - run: npx puppeteer browsers install chrome
       - name: 'Run browser tests'
         run: pnpm test:browser
 
