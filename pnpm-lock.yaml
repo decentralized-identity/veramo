@@ -119,7 +119,7 @@ importers:
         version: 23.1.1(typescript@5.7.3)
       ts-jest:
         specifier: 29.2.5
-        version: 29.2.5(@babel/core@7.23.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3)
+        version: 29.2.5(@babel/core@7.22.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3)
       ts-json-schema-generator:
         specifier: 1.5.0
         version: 1.5.0
@@ -589,7 +589,7 @@ importers:
     optionalDependencies:
       '@veramo/credential-ld':
         specifier: ^6.0.0
-        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
+        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -626,7 +626,7 @@ importers:
         version: 4.0.0
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.7.3))
+        version: 0.3.20(pg@8.11.3)(sqlite3@5.1.7)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.7.3))
       uuid:
         specifier: ^11.0.0
         version: 11.0.5
@@ -638,8 +638,8 @@ importers:
         specifier: 9.0.2
         version: 9.0.2
       sqlite3:
-        specifier: 5.1.6
-        version: 5.1.6(encoding@0.1.13)
+        specifier: 5.1.7
+        version: 5.1.7
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -732,6 +732,9 @@ importers:
       '@types/uuid':
         specifier: 9.0.2
         version: 9.0.2
+      sqlite3:
+        specifier: 5.1.7
+        version: 5.1.7
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -3641,10 +3644,6 @@ packages:
     resolution: {integrity: sha512-ajo/heTlG3QgC8EGP6APIejksVAYt4ayz4tqoP3MolFELzcH1x1fzwEYRJTPO0IELutZ5HQ0c26/GqAYy79u3g==}
     engines: {node: '>= 0.4'}
 
-  '@mapbox/node-pre-gyp@1.0.10':
-    resolution: {integrity: sha512-4ySo4CjzStuprMwk35H5pPbkymjv1SF3jGLj6rAHp/xT/RF7TL7bd9CTm1xDY49K2qF7jmR/g7k+SkLETP6opA==}
-    hasBin: true
-
   '@metamask/abi-utils@2.0.2':
     resolution: {integrity: sha512-B/A1dY/w4F/t6cDHUscklO6ovb/ztFsrsTXFd8QlqSByk/vyy+QbPE3VVpmmyI/7RX+PA1AJcvBdzCIz+r9dVQ==}
     engines: {node: '>=16.0.0'}
@@ -5340,11 +5339,6 @@ packages:
 
   aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}
-
-  are-we-there-yet@2.0.0:
-    resolution: {integrity: sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw==}
-    engines: {node: '>=10'}
-    deprecated: This package is no longer supported.
 
   are-we-there-yet@3.0.1:
     resolution: {integrity: sha512-QZW4EDmGwlYur0Yyf/b2uGucHQMa8aFUP7eu9ddR73vvhFyt4V0Vl3QHPcTNJ8l6qYOBdxgXdnBXQrHilfRQBg==}
@@ -7823,11 +7817,6 @@ packages:
       - leveldown
       - secp256k1
 
-  gauge@3.0.2:
-    resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}
-    engines: {node: '>=10'}
-    deprecated: This package is no longer supported.
-
   gauge@4.0.4:
     resolution: {integrity: sha512-f9m+BEN5jkg6a0fZjleidjN51VE1X+mPFQ2DJ0uv1V39oCLCbsGe6yjbBnp7eK7z/+GAon99a3nHuqbuuthyPg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
@@ -10011,9 +10000,6 @@ packages:
   node-addon-api@2.0.2:
     resolution: {integrity: sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==}
 
-  node-addon-api@4.3.0:
-    resolution: {integrity: sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==}
-
   node-addon-api@7.1.0:
     resolution: {integrity: sha512-mNcltoe1R8o7STTegSOHdnJNN7s5EUvhoS7ShnTHDyOSd+8H+UdWODq6qSv67PjC8Zc5JRT8+oLAMCr0SIXw7g==}
     engines: {node: ^16 || ^18 || >= 20}
@@ -10283,10 +10269,6 @@ packages:
       - validate-npm-package-name
       - which
       - write-file-atomic
-
-  npmlog@5.0.1:
-    resolution: {integrity: sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw==}
-    deprecated: This package is no longer supported.
 
   npmlog@6.0.2:
     resolution: {integrity: sha512-/vBvz5Jfr9dT/aFWd0FIRf+T/Q2WBsLENygUaFUqstqsycmZAP/t5BvFJTK0viFmSUxiUKTUplWy5vt+rvKIxg==}
@@ -12245,9 +12227,6 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
-  sqlite3@5.1.6:
-    resolution: {integrity: sha512-olYkWoKFVNSSSQNvxVUfjiVbz3YtBwTJj+mfV5zpHmqW3sELx2Cf4QCdirMelhM5Zh+KDVaKgQHqCxrqiWHybw==}
-
   sqlite3@5.1.7:
     resolution: {integrity: sha512-GGIyOiFaG+TUra3JIfkI/zGP8yZYLPQ0pl1bH+ODjiX57sPhrLU5sQJn1y9bDKZUFYkX1crlrPfSYt0BKKdkog==}
 
@@ -12529,10 +12508,6 @@ packages:
   tar@6.1.11:
     resolution: {integrity: sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==}
     engines: {node: '>= 10'}
-
-  tar@6.1.15:
-    resolution: {integrity: sha512-/zKt9UyngnxIT/EAGYuxaMYgOIJiP81ab9ZfkILq4oNLPFX50qyYmu7jRj9qeXoxmJHjGlbH0+cm2uy1WCs10A==}
-    engines: {node: '>=10'}
 
   tar@6.2.0:
     resolution: {integrity: sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ==}
@@ -18209,21 +18184,6 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
 
-  '@mapbox/node-pre-gyp@1.0.10(encoding@0.1.13)':
-    dependencies:
-      detect-libc: 2.0.1
-      https-proxy-agent: 5.0.1
-      make-dir: 3.1.0
-      node-fetch: 2.7.0(encoding@0.1.13)
-      nopt: 5.0.0
-      npmlog: 5.0.1
-      rimraf: 3.0.2
-      semver: 7.6.0
-      tar: 6.2.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
   '@metamask/abi-utils@2.0.2':
     dependencies:
       '@metamask/utils': 8.1.0
@@ -20179,7 +20139,7 @@ snapshots:
       - supports-color
     optional: true
 
-  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)':
+  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)':
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@12.8.1(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)))(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7)))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
@@ -20191,7 +20151,7 @@ snapshots:
       '@transmute/json-web-signature': 0.7.0-unstable.81(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@veramo/core-types': 6.0.0
-      '@veramo/utils': 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
+      '@veramo/utils': 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)
       cross-fetch: 4.0.0(encoding@0.1.13)
       debug: 4.3.4
       did-resolver: 4.1.0
@@ -20209,7 +20169,7 @@ snapshots:
       - web-streams-polyfill
     optional: true
 
-  '@veramo/utils@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)':
+  '@veramo/utils@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)':
     dependencies:
       '@ipld/dag-pb': 4.0.5
       '@noble/curves': 1.4.2
@@ -20220,7 +20180,7 @@ snapshots:
       did-jwt: 8.0.8
       did-jwt-vc: 4.0.6
       did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       ipfs-unixfs: 11.1.0
       multiformats: 13.1.0
       uint8arrays: 4.0.6
@@ -20333,7 +20293,8 @@ snapshots:
 
   abab@2.0.6: {}
 
-  abbrev@1.1.1: {}
+  abbrev@1.1.1:
+    optional: true
 
   abbrev@2.0.0: {}
 
@@ -20542,11 +20503,6 @@ snapshots:
   application-config-path@0.1.1: {}
 
   aproba@2.0.0: {}
-
-  are-we-there-yet@2.0.0:
-    dependencies:
-      delegates: 1.0.0
-      readable-stream: 3.6.2
 
   are-we-there-yet@3.0.1:
     dependencies:
@@ -20781,20 +20737,6 @@ snapshots:
       slash: 3.0.0
     transitivePeerDependencies:
       - supports-color
-
-  babel-jest@29.7.0(@babel/core@7.23.6):
-    dependencies:
-      '@babel/core': 7.23.6
-      '@jest/transform': 29.7.0
-      '@types/babel__core': 7.20.1
-      babel-plugin-istanbul: 6.1.1
-      babel-preset-jest: 29.6.3(@babel/core@7.23.6)
-      chalk: 4.1.2
-      graceful-fs: 4.2.11
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-    optional: true
 
   babel-loader@8.3.0(@babel/core@7.20.12)(webpack@5.75.0):
     dependencies:
@@ -21073,13 +21015,6 @@ snapshots:
       '@babel/core': 7.22.9
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.22.9)
-
-  babel-preset-jest@29.6.3(@babel/core@7.23.6):
-    dependencies:
-      '@babel/core': 7.23.6
-      babel-plugin-jest-hoist: 29.6.3
-      babel-preset-current-node-syntax: 1.0.1(@babel/core@7.23.6)
-    optional: true
 
   babel-preset-react-app@10.0.1:
     dependencies:
@@ -23800,18 +23735,6 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.0.5
       utf-8-validate: 5.0.7
-
-  gauge@3.0.2:
-    dependencies:
-      aproba: 2.0.0
-      color-support: 1.1.3
-      console-control-strings: 1.1.0
-      has-unicode: 2.0.1
-      object-assign: 4.1.1
-      signal-exit: 3.0.7
-      string-width: 4.2.3
-      strip-ansi: 6.0.1
-      wide-align: 1.1.5
 
   gauge@4.0.4:
     dependencies:
@@ -26830,8 +26753,6 @@ snapshots:
 
   node-addon-api@2.0.2: {}
 
-  node-addon-api@4.3.0: {}
-
   node-addon-api@7.1.0: {}
 
   node-dir@0.1.17:
@@ -26906,7 +26827,7 @@ snapshots:
       nopt: 5.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.5.4
+      semver: 7.6.3
       tar: 6.2.0
       which: 2.0.2
     transitivePeerDependencies:
@@ -26927,6 +26848,7 @@ snapshots:
   nopt@5.0.0:
     dependencies:
       abbrev: 1.1.1
+    optional: true
 
   nopt@7.2.0:
     dependencies:
@@ -27071,13 +26993,6 @@ snapshots:
       unicorn-magic: 0.3.0
 
   npm@10.9.0: {}
-
-  npmlog@5.0.1:
-    dependencies:
-      are-we-there-yet: 2.0.0
-      console-control-strings: 1.1.0
-      gauge: 3.0.2
-      set-blocking: 2.0.0
 
   npmlog@6.0.2:
     dependencies:
@@ -29386,18 +29301,6 @@ snapshots:
 
   sprintf-js@1.0.3: {}
 
-  sqlite3@5.1.6(encoding@0.1.13):
-    dependencies:
-      '@mapbox/node-pre-gyp': 1.0.10(encoding@0.1.13)
-      node-addon-api: 4.3.0
-      tar: 6.1.15
-    optionalDependencies:
-      node-gyp: 8.4.1
-    transitivePeerDependencies:
-      - bluebird
-      - encoding
-      - supports-color
-
   sqlite3@5.1.7:
     dependencies:
       bindings: 1.5.0
@@ -29732,15 +29635,6 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
-  tar@6.1.15:
-    dependencies:
-      chownr: 2.0.0
-      fs-minipass: 2.1.0
-      minipass: 5.0.0
-      minizlib: 2.1.2
-      mkdirp: 1.0.4
-      yallist: 4.0.0
-
   tar@6.2.0:
     dependencies:
       chownr: 2.0.0
@@ -29923,7 +29817,7 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.20.12)
 
-  ts-jest@29.2.5(@babel/core@7.23.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3):
+  ts-jest@29.2.5(@babel/core@7.22.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -29937,10 +29831,10 @@ snapshots:
       typescript: 5.7.3
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 7.23.6
+      '@babel/core': 7.22.9
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.23.6)
+      babel-jest: 29.7.0(@babel/core@7.22.9)
 
   ts-json-schema-generator@1.5.0:
     dependencies:
@@ -30100,30 +29994,6 @@ snapshots:
       is-typedarray: 1.0.0
 
   typedarray@0.0.6: {}
-
-  typeorm@0.3.20(pg@8.11.3)(sqlite3@5.1.6(encoding@0.1.13))(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.7.3)):
-    dependencies:
-      '@sqltools/formatter': 1.2.5
-      app-root-path: 3.1.0
-      buffer: 6.0.3
-      chalk: 4.1.2
-      cli-highlight: 2.1.11
-      dayjs: 1.11.10
-      debug: 4.3.7
-      dotenv: 16.4.5
-      glob: 10.4.5
-      mkdirp: 2.1.6
-      reflect-metadata: 0.2.2
-      sha.js: 2.4.11
-      tslib: 2.7.0
-      uuid: 9.0.1
-      yargs: 17.7.2
-    optionalDependencies:
-      pg: 8.11.3
-      sqlite3: 5.1.6(encoding@0.1.13)
-      ts-node: 10.9.2(@types/node@22.7.5)(typescript@5.7.3)
-    transitivePeerDependencies:
-      - supports-color
 
   typeorm@0.3.20(pg@8.11.3)(sqlite3@5.1.7)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)):
     dependencies:
