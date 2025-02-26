@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+#          cache: 'pnpm'
 
       - run: pnpm install
       - run: pnpm build
@@ -64,7 +64,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+#          cache: 'pnpm'
       - name: 'Run integration tests'
         env:
           INCLUDE_POSTGRES_TESTS: true
@@ -118,7 +118,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+#          cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
       - name: 'Run browser tests'
@@ -143,7 +143,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+#          cache: 'pnpm'
       - run: pnpm run lint
       - run: pnpm run docs
 
@@ -174,7 +174,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+#          cache: 'pnpm'
 
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
