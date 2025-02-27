@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
       - run: pnpm add -g pnpm
@@ -49,7 +49,7 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
       - run: pnpm add -g pnpm
@@ -103,7 +103,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
       - run: pnpm add -g pnpm
@@ -128,7 +128,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
       - run: pnpm add -g pnpm
@@ -166,7 +166,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{secrets.GH_TOKEN}}
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
       - run: pnpm add -g pnpm
