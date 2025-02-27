@@ -18,7 +18,6 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      - run: pnpm add -g pnpm
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
@@ -52,7 +51,6 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      - run: pnpm add -g pnpm
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -65,7 +63,6 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-      - run: pnpm approve-builds
       - run: pnpm install --force
       - name: 'Run integration tests'
         env:
@@ -108,7 +105,6 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      - run: pnpm add -g pnpm
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -121,7 +117,6 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-      - run: pnpm approve-builds
       - run: pnpm install --force
       - run: pnpm rebuild -r
       - name: 'Run browser tests'
@@ -134,7 +129,6 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      - run: pnpm add -g pnpm
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -172,7 +166,6 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      - run: pnpm add -g pnpm
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
