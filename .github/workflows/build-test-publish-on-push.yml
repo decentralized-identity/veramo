@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-#          cache: 'pnpm'
+          cache: 'pnpm'
 
       - run: pnpm install
       - run: pnpm build
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        shard: [1, 2, 3, 4, 5]
+        shard: [ 1, 2, 3, 4, 5 ]
     services:
       postgres:
         image: postgres:16.0
@@ -64,7 +64,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-#          cache: 'pnpm'
+          cache: 'pnpm'
+      - run: pnpm install --force
       - name: 'Run integration tests'
         env:
           INCLUDE_POSTGRES_TESTS: true
@@ -81,7 +82,7 @@ jobs:
 
   report-coverage:
     runs-on: ubuntu-latest
-    needs: [test-integration]
+    needs: [ test-integration ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -118,8 +119,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-#          cache: 'pnpm'
-      - run: pnpm install
+          cache: 'pnpm'
+      - run: pnpm install --force
       - run: pnpm rebuild -r
       - name: 'Run browser tests'
         run: pnpm test:browser
@@ -143,7 +144,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-#          cache: 'pnpm'
+          cache: 'pnpm'
       - run: pnpm run lint
       - run: pnpm run docs
 
@@ -174,7 +175,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-#          cache: 'pnpm'
+          cache: 'pnpm'
 
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
