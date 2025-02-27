@@ -57,6 +57,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+      - run: pnpm approve-builds
       - run: pnpm install --force
       - name: 'Run integration tests'
         env:
@@ -111,6 +112,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+      - run: pnpm approve-builds
       - run: pnpm install --force
       - run: pnpm rebuild -r
       - name: 'Run browser tests'
