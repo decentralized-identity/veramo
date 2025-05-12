@@ -122,7 +122,7 @@ importers:
         version: 5.1.7
       ts-jest:
         specifier: 29.2.5
-        version: 29.2.5(@babel/core@7.22.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3)
+        version: 29.2.5(@babel/core@7.23.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3)
       ts-json-schema-generator:
         specifier: 1.5.0
         version: 1.5.0
@@ -149,10 +149,10 @@ importers:
     dependencies:
       '@microsoft/api-extractor':
         specifier: ^7.40.6
-        version: 7.40.6(@types/node@22.7.5)
+        version: 7.49.1(@types/node@22.7.5)
       '@microsoft/api-extractor-model':
         specifier: ^7.28.13
-        version: 7.28.13(@types/node@22.7.5)
+        version: 7.30.2(@types/node@22.7.5)
       '@transmute/credentials-context':
         specifier: ^0.7.0-unstable.82
         version: 0.7.0-unstable.82
@@ -266,7 +266,7 @@ importers:
         version: 3.3.1
       debug:
         specifier: ^4.3.4
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -275,10 +275,10 @@ importers:
         version: 16.4.5
       ethr-did-resolver:
         specifier: ^11.0.2
-        version: 11.0.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       express:
         specifier: ^4.18.2
-        version: 4.18.2
+        version: 4.21.1
       express-handlebars:
         specifier: ^7.1.2
         version: 7.1.2
@@ -323,7 +323,7 @@ importers:
         version: 5.1.7
       swagger-ui-express:
         specifier: ^5.0.0
-        version: 5.0.0(express@4.18.2)
+        version: 5.0.0(express@4.21.1)
       ts-json-schema-generator:
         specifier: ^2.0.0
         version: 2.3.0
@@ -335,10 +335,10 @@ importers:
         version: 1.5.10
       web-did-resolver:
         specifier: ^2.0.27
-        version: 2.0.27(encoding@0.1.13)
+        version: 2.0.29(encoding@0.1.13)
       ws:
         specifier: ^8.16.0
-        version: 8.16.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        version: 8.18.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       yaml:
         specifier: ^2.3.4
         version: 2.3.4
@@ -381,7 +381,7 @@ importers:
         version: link:../core-types
       debug:
         specifier: ^4.3.4
-        version: 4.3.4
+        version: 4.3.7
       events:
         specifier: ^3.2.0
         version: 3.3.0
@@ -403,13 +403,13 @@ importers:
     dependencies:
       credential-status:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.4
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt-vc:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -425,7 +425,7 @@ importers:
     dependencies:
       '@metamask/eth-sig-util':
         specifier: ^7.0.0
-        version: 7.0.0
+        version: 7.0.1
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -437,7 +437,7 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       eip-712-types-generation:
         specifier: ^0.1.6
         version: 0.1.6
@@ -465,10 +465,10 @@ importers:
         version: 2.0.0
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt-vc:
         specifier: ^4.0.0
-        version: 4.0.4
+        version: 4.0.6
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -496,7 +496,7 @@ importers:
         version: 7.0.0(expo-crypto@12.8.1(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)))(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7)))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@transmute/credentials-context':
         specifier: ^0.7.0-unstable.81
-        version: 0.7.0-unstable.81
+        version: 0.7.0-unstable.82
       '@transmute/ed25519-signature-2018':
         specifier: ^0.7.0-unstable.81
         version: 0.7.0-unstable.81(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
@@ -520,7 +520,7 @@ importers:
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -545,10 +545,10 @@ importers:
         version: link:../utils
       credential-status:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.4
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -576,23 +576,19 @@ importers:
         version: 2.0.0
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       did-jwt-vc:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       uuid:
         specifier: ^11.0.0
         version: 11.0.5
-    optionalDependencies:
-      '@veramo/credential-ld':
-        specifier: ^6.0.0
-        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -603,6 +599,10 @@ importers:
       typescript:
         specifier: 5.7.3
         version: 5.7.3
+    optionalDependencies:
+      '@veramo/credential-ld':
+        specifier: ^6.0.0
+        version: 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
 
   packages/data-store:
     dependencies:
@@ -623,10 +623,10 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt-vc:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.11.3)(sqlite3@5.1.7)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.7.3))
@@ -666,10 +666,10 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt-vc:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       uuid:
         specifier: ^11.0.0
         version: 11.0.5
@@ -718,10 +718,10 @@ importers:
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -749,7 +749,7 @@ importers:
         version: link:../core-types
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -768,10 +768,10 @@ importers:
         version: link:../message-handler
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -809,13 +809,13 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did:
         specifier: ^3.0.21
-        version: 3.0.21(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 3.0.21(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -834,7 +834,7 @@ importers:
         version: 1.4.2
       '@noble/hashes':
         specifier: ^1.4.0
-        version: 1.4.0
+        version: 1.7.1
       '@sphereon/ion-pow':
         specifier: ^0.2.0
         version: 0.2.0(@sphereon/react-native-argon2@2.0.9(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7)))(encoding@0.1.13)(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))
@@ -870,13 +870,13 @@ importers:
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       multihashes:
         specifier: ^4.0.3
         version: 4.0.3
@@ -904,7 +904,7 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -941,13 +941,13 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -972,7 +972,7 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1000,13 +1000,13 @@ importers:
         version: 1.1.0
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1028,7 +1028,7 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1050,7 +1050,7 @@ importers:
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1060,7 +1060,7 @@ importers:
         version: 4.1.8
       ethr-did-resolver:
         specifier: 11.0.3
-        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -1081,13 +1081,13 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.4
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.6
@@ -1124,13 +1124,13 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1149,10 +1149,10 @@ importers:
         version: link:../key-manager
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1171,7 +1171,7 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.4
-        version: 4.3.4
+        version: 4.3.7
       events:
         specifier: ^3.2.0
         version: 3.3.0
@@ -1235,7 +1235,7 @@ importers:
         version: link:../kv-store
       debug:
         specifier: ^4.3.4
-        version: 4.3.4
+        version: 4.3.7
       uuid:
         specifier: ^11.0.0
         version: 11.0.5
@@ -1260,7 +1260,7 @@ importers:
         version: link:../core-types
       debug:
         specifier: ^4.3.4
-        version: 4.3.4
+        version: 4.3.7
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1279,7 +1279,7 @@ importers:
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       openapi-types:
         specifier: 12.1.3
         version: 12.1.3
@@ -1304,13 +1304,13 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       express:
         specifier: ^4.18.2
-        version: 4.18.2
+        version: 4.21.1
       passport:
         specifier: ^0.6.0
         version: 0.6.0
@@ -1353,10 +1353,10 @@ importers:
         version: link:../utils
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       uuid:
         specifier: ^11.0.0
         version: 11.0.5
@@ -1453,13 +1453,13 @@ importers:
         version: 6.0.3
       crypto:
         specifier: npm:crypto-browserify
-        version: crypto-browserify@3.12.0
+        version: crypto-browserify@3.12.1
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       ethr-did-resolver:
         specifier: ^11.0.2
-        version: 11.0.2(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       path:
         specifier: npm:path-browserify
         version: path-browserify@1.0.1
@@ -1483,10 +1483,10 @@ importers:
         version: 0.12.5
       web-did-resolver:
         specifier: ^2.0.27
-        version: 2.0.27(encoding@0.1.13)
+        version: 2.0.29(encoding@0.1.13)
       web-vitals:
-        specifier: ^3.5.2
-        version: 3.5.2
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@babel/plugin-syntax-import-assertions':
         specifier: 7.26.0
@@ -1596,7 +1596,7 @@ importers:
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       url-parse:
         specifier: ^1.5.4
         version: 1.5.10
@@ -1627,25 +1627,25 @@ importers:
         version: link:../core-types
       credential-status:
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.4
       cross-fetch:
         specifier: ^4.0.0
         version: 4.0.0(encoding@0.1.13)
       debug:
         specifier: ^4.3.3
-        version: 4.3.4
+        version: 4.3.7
       did-jwt:
         specifier: ^8.0.0
-        version: 8.0.0
+        version: 8.0.8
       did-jwt-vc:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
       ethers:
         specifier: ^6.11.1
-        version: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ipfs-unixfs:
         specifier: ^11.1.0
         version: 11.1.0
@@ -3651,11 +3651,6 @@ packages:
     resolution: {integrity: sha512-B/A1dY/w4F/t6cDHUscklO6ovb/ztFsrsTXFd8QlqSByk/vyy+QbPE3VVpmmyI/7RX+PA1AJcvBdzCIz+r9dVQ==}
     engines: {node: '>=16.0.0'}
 
-  '@metamask/eth-sig-util@7.0.0':
-    resolution: {integrity: sha512-8KeXZB4SKx3EfNS5ahbjUMegyGvDQYk6Nk3hmM658sXpfAQR5ZlIXBgj+9RF+ZROqsU6EuNVgKt7Fr10re60PQ==}
-    engines: {node: ^16.20 || ^18.16 || >=20}
-    deprecated: This version generates invalid signatures for messages that include the value "0x" in a "bytes" field. This has been fixed in v6.0.2 and v7.0.1
-
   '@metamask/eth-sig-util@7.0.1':
     resolution: {integrity: sha512-59GSrMyFH2fPfu7nKeIQdZ150zxXNNhAQIUaFRUW+MGtVA4w/ONbiQobcRBLi+jQProfIyss51G8pfLPcQ0ylg==}
     engines: {node: ^16.20 || ^18.16 || >=20}
@@ -3668,28 +3663,15 @@ packages:
     resolution: {integrity: sha512-E1V8FIHd1ePefbvCZoQfusBPMyKqIq/VqgfJGeZKjOYluwQMlZEgJT18t0XH8zPMO5/rB/PWAVkv4fKrsnoYjw==}
     hasBin: true
 
-  '@microsoft/api-extractor-model@7.28.13':
-    resolution: {integrity: sha512-39v/JyldX4MS9uzHcdfmjjfS6cYGAoXV+io8B5a338pkHiSt+gy2eXQ0Q7cGFJ7quSa1VqqlMdlPrB6sLR/cAw==}
-
   '@microsoft/api-extractor-model@7.30.2':
     resolution: {integrity: sha512-3/t2F+WhkJgBzSNwlkTIL0tBgUoBqDqL66pT+nh2mPbM0NIDGVGtpqbGWPgHIzn/mn7kGS/Ep8D8po58e8UUIw==}
-
-  '@microsoft/api-extractor@7.40.6':
-    resolution: {integrity: sha512-9N+XCIQB94Di+ETTzNGLqjgQydslynHou7QPgDhl5gZ+B/Q5hTv5jtqBglTUnTrC0trHdG5/YKN07ehGKlSb5g==}
-    hasBin: true
 
   '@microsoft/api-extractor@7.49.1':
     resolution: {integrity: sha512-jRTR/XbQF2kb+dYn8hfYSicOGA99+Fo00GrsdMwdfE3eIgLtKdH6Qa2M3wZV9S2XmbgCaGX1OdPtYctbfu5jQg==}
     hasBin: true
 
-  '@microsoft/tsdoc-config@0.16.2':
-    resolution: {integrity: sha512-OGiIzzoBLgWWR0UdRJX98oYO+XKGf7tiK4Zk6tQ/E4IJqGCe7dvkTvgDZV5cFJUzLGDOjeAXrnZoA6QkVySuxw==}
-
   '@microsoft/tsdoc-config@0.17.1':
     resolution: {integrity: sha512-UtjIFe0C6oYgTnad4q1QP4qXwLhe6tIpNTRStJ2RZEPIkqQPREAwE5spzVxsdn9UaEMUqhh0AqSx3X4nWAKXWw==}
-
-  '@microsoft/tsdoc@0.14.2':
-    resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
 
   '@microsoft/tsdoc@0.15.0':
     resolution: {integrity: sha512-HZpPoABogPvjeJOdzCOSJsXeL/SMCBgBZMVC3X3d7YYp2gf31MfxhUoYUNwf1ERPJOnQc0wkFn9trqI6ZEdZuA==}
@@ -3702,9 +3684,6 @@ packages:
 
   '@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1':
     resolution: {integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==}
-
-  '@noble/ciphers@0.4.1':
-    resolution: {integrity: sha512-QCOA9cgf3Rc33owG0AYBB9wszz+Ul2kramWN8tXG44Gyciud/tbkEqvxRF/IpqQaBpRBNi9f4jdNxqB2CQCIXg==}
 
   '@noble/ciphers@0.5.3':
     resolution: {integrity: sha512-B0+6IIHiqEs3BPMT0hcRmHvEj2QHOLu+uwt+tqDDeVd0oyVzh7BPrDcPjRnV1PV/5LaknXJJQvOuRGR0zQJz+w==}
@@ -4195,14 +4174,6 @@ packages:
   '@rushstack/eslint-patch@1.2.0':
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
 
-  '@rushstack/node-core-library@4.0.2':
-    resolution: {integrity: sha512-hyES82QVpkfQMeBMteQUnrhASL/KHPhd7iJ8euduwNJG4mu2GSOKybf0rOEjOm1Wz7CwJEUm9y0yD7jg2C1bfg==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-
   '@rushstack/node-core-library@5.10.2':
     resolution: {integrity: sha512-xOF/2gVJZTfjTxbo4BDj9RtQq/HFnrrKdtem4JkyRLnwsRz2UDTg8gA1/et10fBx5RxmZD9bYVGST69W8ME5OQ==}
     peerDependencies:
@@ -4210,9 +4181,6 @@ packages:
     peerDependenciesMeta:
       '@types/node':
         optional: true
-
-  '@rushstack/rig-package@0.5.2':
-    resolution: {integrity: sha512-mUDecIJeH3yYGZs2a48k+pbhM6JYwWlgjs2Ca5f2n1G2/kgdgP9D/07oglEGf6mRyXEnazhEENeYTSNDRCwdqA==}
 
   '@rushstack/rig-package@0.5.3':
     resolution: {integrity: sha512-olzSSjYrvCNxUFZowevC3uz8gvKr3WTpHQ7BkpjtRpA3wK+T0ybep/SRUMfr195gBzJm5gaXw0ZMgjIyHqJUow==}
@@ -4224,17 +4192,6 @@ packages:
     peerDependenciesMeta:
       '@types/node':
         optional: true
-
-  '@rushstack/terminal@0.9.0':
-    resolution: {integrity: sha512-49RnIDooriXyqcd7mGyjh9CmjOjf/Vn8PkOQXHa1CS0/RrrynCJLFhRDkswf7gGXZW+6UhROOE8wTmbOrfUTSA==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-
-  '@rushstack/ts-command-line@4.17.3':
-    resolution: {integrity: sha512-/PtTYW38A8iUviuCmQSccHfmx3uBh4Jm5YRPU2aTgYEgwT2jtg60vAbwnkMYkyaT1AbWpjZM3xq5uHYPURvStw==}
 
   '@rushstack/ts-command-line@4.23.3':
     resolution: {integrity: sha512-HazKL8fv4HMQMzrKJCrOrhyBPPdzk7iajUXgsASwjQ8ROo1cmgyqxt/k9+SdmrNLGE1zATgRqMUH3s/6smbRMA==}
@@ -4550,9 +4507,6 @@ packages:
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
-
-  '@transmute/credentials-context@0.7.0-unstable.81':
-    resolution: {integrity: sha512-TLXJkXwu+jscCVnAOuEmJYYbdaSaM6b2yk4R1g4T8gtTcTKts2G+KR5gE8A6W6QA5AuTZggwOWTxkISjErnYbw==}
 
   '@transmute/credentials-context@0.7.0-unstable.82':
     resolution: {integrity: sha512-2cB6UcMKeEK6kqvl5Uhpoe5iUUAcVURlRHl9nVa/Xx2JymNHyBvyXi+CGjIwf/eEk7hsgMIwDfGqq5Mcnbk5cw==}
@@ -5429,6 +5383,9 @@ packages:
   asmcrypto.js@2.3.2:
     resolution: {integrity: sha512-3FgFARf7RupsZETQ1nHnhLUUvpcttcCq1iZCaVAbJZbCZ5VNRrNyvpDyHTOb0KC3llFcsyOT/a99NZcCbeiEsA==}
 
+  asn1.js@4.10.1:
+    resolution: {integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==}
+
   asn1.js@5.4.1:
     resolution: {integrity: sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==}
 
@@ -5719,10 +5676,6 @@ packages:
   bn.js@5.2.1:
     resolution: {integrity: sha512-eXRvHzWyYPBuB4NBy0cmYQjGitUrtqwbvlzP3G6VFnNRbsZQIxQ10PbKKHt8gZ/HW/D/747aDl+QkDqg3KQLMQ==}
 
-  body-parser@1.20.1:
-    resolution: {integrity: sha512-jWi7abTbYwajOytWCQc37VulmWiRae5RyTpaCyDcS5/lMdtwSz5lOpDE67srw/HYe35f1z3fDQw+3txg7gNtWw==}
-    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
-
   body-parser@1.20.3:
     resolution: {integrity: sha512-7rAxByjUMqQ3/bHJy7D6OGXvx/MMc4IqBn/X0fcM1QUcAItpZrBEYhWGem+tzXH90c+G01ypMcYJBO9Y30203g==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -5780,8 +5733,9 @@ packages:
   browserify-rsa@4.1.0:
     resolution: {integrity: sha512-AdEER0Hkspgno2aR97SAf6vi0y0k8NuOpGnVH3O99rcA5Q6sh8QxcngtHuJ6uXwnfAXNM4Gn1Gb7/MV1+Ymbog==}
 
-  browserify-sign@4.2.1:
-    resolution: {integrity: sha512-/vrA5fguVAKKAVTNJjgSm1tRQDHUU6DbwO9IROu/0WAzC8PKhucDSh18J0RMvVeHAn5puMd+QHC2erPRNf8lmg==}
+  browserify-sign@4.2.3:
+    resolution: {integrity: sha512-JWCZW6SKhfhjJxO8Tyiiy+XYB7cqd2S5/+WeYHsKdNKFlCBhKbblba1A/HN/90YwtxKc8tCErjffZl++UNmGiw==}
+    engines: {node: '>= 0.12'}
 
   browserslist@4.21.4:
     resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
@@ -6136,10 +6090,6 @@ packages:
   colorette@2.0.19:
     resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==}
 
-  colors@1.2.5:
-    resolution: {integrity: sha512-erNRLao/Y3Fv54qUa0LBB+//Uf3YwMUmdJinN20yMXm9zdKKqH9wt7R9IIVZ+K7ShzfpLV/Zg8+VyrBJYB4lpg==}
-    engines: {node: '>=0.1.90'}
-
   columnify@1.6.0:
     resolution: {integrity: sha512-lomjuFZKfM6MSAnV9aCZC9sc0qGbmZdfygNv+nCpqVkSKdCxCklLtd16O0EILGkImHw9ZpHkAnHaB+8Zxq5W6Q==}
     engines: {node: '>=8.0.0'}
@@ -6310,10 +6260,6 @@ packages:
   cookie-signature@1.0.6:
     resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
 
-  cookie@0.5.0:
-    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
-    engines: {node: '>= 0.6'}
-
   cookie@0.7.1:
     resolution: {integrity: sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==}
     engines: {node: '>= 0.6'}
@@ -6397,9 +6343,6 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  credential-status@3.0.0:
-    resolution: {integrity: sha512-kCHyxp+dtFVV1wy0auNZXwWWLIUmQTuw6uFLfdm5aRaN5JUWyR2Bv6aHLszB8sxEwRYgL6bqfQAUVCXTWo61jw==}
-
   credential-status@3.0.4:
     resolution: {integrity: sha512-6xHMXhdIZjhyTzkXx49hR4CjHNEqFJmWEL29CNulGA0XDozHsZXVF34BZyHGz9vWD/Du05pVEDhpZL0jdLGIRw==}
 
@@ -6428,8 +6371,9 @@ packages:
   crypt@0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
 
-  crypto-browserify@3.12.0:
-    resolution: {integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==}
+  crypto-browserify@3.12.1:
+    resolution: {integrity: sha512-r4ESw/IlusD17lgQi1O20Fa3qNnsckR126TdUuBgAu7GBYSIPvdNyONd3Zrxh0xCwA4+6w/TDArBPsMvhur+KQ==}
+    engines: {node: '>= 0.10'}
 
   crypto-ld@6.0.0:
     resolution: {integrity: sha512-XWL1LslqggNoaCI/m3I7HcvaSt9b2tYzdrXO+jHLUj9G1BvRfvV7ZTFDVY5nifYuIGAPdAGu7unPxLRustw3VA==}
@@ -6633,15 +6577,6 @@ packages:
       supports-color:
         optional: true
 
-  debug@4.3.4:
-    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-
   debug@4.3.7:
     resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
     engines: {node: '>=6.0'}
@@ -6794,20 +6729,9 @@ packages:
   devtools-protocol@0.0.1312386:
     resolution: {integrity: sha512-DPnhUXvmvKT2dFA/j7B+riVLUt9Q6RKJlcppojL5CoRywJJKLDYnRlw0gTFKfgDPHP5E04UoB71SxoJlVZy8FA==}
 
-  did-jwt-vc@4.0.0:
-    resolution: {integrity: sha512-lplB8Ksehx1gn/FQZQ8hW+9KziTqOHsNKqIFBIw26n2mCi+mbDJUyAmJ/rqQoN4OOUm97bdI39HS/b8KDE4drg==}
-    engines: {node: '>=18'}
-
-  did-jwt-vc@4.0.4:
-    resolution: {integrity: sha512-O/VSW+pux25+bERGQ1Z+LNv8z8gIy++yL8yjspxNZHCLjdmCelZz3hjuIpHlixhBCFP2YyTOQqGg8QeIMRwN9Q==}
-    engines: {node: '>=18'}
-
   did-jwt-vc@4.0.6:
     resolution: {integrity: sha512-V9fz6roNOyp9Q86A0UDzh/zFshixyFrDnqa94eFTdhB5x+UBLXfDWG6OYBCGNIdqMVawNUbgh+QxIxlLpJxIeQ==}
     engines: {node: '>=18'}
-
-  did-jwt@8.0.0:
-    resolution: {integrity: sha512-lJSVC9Ckxl+U+jDPbdATDtXV7CwE0XGT0Js6KNfjRlaj0LTXvDF90IAyayFwLUzO6punA/q3ZHVfTZaYDhHrLw==}
 
   did-jwt@8.0.4:
     resolution: {integrity: sha512-KPtG7H+8GgKGMiDqFvOdNy5BBN3hpA+8xV7VygEnpst5oPIqjvcH3rTtnPF55a8bOxIzE2PudKGIXIQhekv7WA==}
@@ -6962,6 +6886,9 @@ packages:
 
   elliptic@6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==}
+
+  elliptic@6.6.1:
+    resolution: {integrity: sha512-RaddvvMatK2LJHqFJ+YA4WysVN5Ita9E35botqIYspQ4TkRAlCicdzKOjlyv/1Za5RyTNn7di//eEV0uTAfe3g==}
 
   emittery@0.10.0:
     resolution: {integrity: sha512-AGvFfs+d0JKCJQ4o01ASQLGPmSCxgfU9RFXvzPvZdjKK8oscynksuJhWrSTSw7j7Ep/sZct5b5ZhYCi8S/t0HQ==}
@@ -7299,15 +7226,8 @@ packages:
     resolution: {integrity: sha512-21YtnZVg4/zKkCQPjrDj38B1r4nQvTZLopUGMLQ1ePU2zV/joCfDC3t3iKQjWRzjjjbzR+mdAIoikeBRNkdllA==}
     engines: {node: '>=14.0.0'}
 
-  ethjs-util@0.1.6:
-    resolution: {integrity: sha512-CUnVOQq7gSpDHZVVrQW8ExxUETWrnrvXYvYz55wOU8Uj4VCgw56XC2B/fVqQN+f7gmrnRHSLVnFAwsCuNwji8w==}
-    engines: {node: '>=6.5.0', npm: '>=3'}
-
   ethr-did-resolver@10.1.5:
     resolution: {integrity: sha512-wVCKhF6qQo2IewH9ui4lRBixbvT/A6szZFQoJkfvjP6EU/3MSb4KOP5QNpM37zmFU/rQGjHNt7bF13fNcmZ6wQ==}
-
-  ethr-did-resolver@11.0.2:
-    resolution: {integrity: sha512-xvJqOX0M23LjiDs3gusHMMHP9U0N0ZwBesmABzci5XzPJOk52MgCygfRx09PZLrVsoZVEjValmHJBle3vPrtmQ==}
 
   ethr-did-resolver@11.0.3:
     resolution: {integrity: sha512-lQ1T/SZfgR6Kp05/GSIXnMELxQ5H6M6OCTH4wBTVSAgHzbJiDNVIYWzg/c+NniIM88B0ViAi4CaiCHaiUlvPQg==}
@@ -7437,10 +7357,6 @@ packages:
     resolution: {integrity: sha512-ss9d3mBChOLTEtyfzXCsxlItUxpgS3i4cb/F70G6Q5ohQzmD12XB4x/Y9U6YboeeYBJZt7WQ5yUNu7ZSQ/EGyQ==}
     engines: {node: '>=v16'}
 
-  express@4.18.2:
-    resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==}
-    engines: {node: '>= 0.10.0'}
-
   express@4.21.1:
     resolution: {integrity: sha512-YSFlK1Ee0/GC8QaO91tHcDxJiE/X4FbpAyQWkxAvG6AXCuR65YzK8ua6D9hvi/TzUfZMpc+BwuM1IPw8fmQBiQ==}
     engines: {node: '>= 0.10.0'}
@@ -7565,10 +7481,6 @@ packages:
 
   finalhandler@1.1.2:
     resolution: {integrity: sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==}
-    engines: {node: '>= 0.8'}
-
-  finalhandler@1.2.0:
-    resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==}
     engines: {node: '>= 0.8'}
 
   finalhandler@1.3.1:
@@ -8088,6 +8000,10 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
 
+  hash-base@3.0.5:
+    resolution: {integrity: sha512-vXm0l45VbcHEVlTCzs8M+s0VeYsB2lnlAaThoLKGXr3bE/VWDOelNUnycUPEhKEaXARL2TEFjBOyUiM6+55KBg==}
+    engines: {node: '>= 0.10'}
+
   hash-base@3.1.0:
     resolution: {integrity: sha512-1nmYp/rhMDiE7AYkDw+lLwlAzz0AntGIe51F3RfFfEqyQ3feY2eI/NcwC6umIQVOASPMsWJLJScWKSSvzL9IVA==}
     engines: {node: '>=4'}
@@ -8500,10 +8416,6 @@ packages:
   is-glob@4.0.3:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
     engines: {node: '>=0.10.0'}
-
-  is-hex-prefixed@1.0.0:
-    resolution: {integrity: sha512-WvtOiug1VFrE9v1Cydwm+FnXd3+w9GaeVUss5W4v/SLy3UW00vP+6iNF2SdnfiBoLy4bTqVdkftNGTUeOFVsbA==}
-    engines: {node: '>=6.5.0', npm: '>=3'}
 
   is-interactive@1.0.0:
     resolution: {integrity: sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w==}
@@ -9619,9 +9531,6 @@ packages:
     resolution: {integrity: sha512-qtmzAS6t6grwEkNrunqTBdn0qKwFgNWvlxUbAV8es9M7Ot1EbyApytCnvE0jALPa46ZpKDUo527kKiaWplmlFA==}
     engines: {node: '>=0.10.0'}
 
-  merge-descriptors@1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
-
   merge-descriptors@1.0.3:
     resolution: {integrity: sha512-gaNvAS7TZ897/rVaZ0nMtAyxNyi/pdbjbAwUpFQpN70GqnVfOiXpeUUMKRBmzXaSQ8DdTX4/0ms62r2K+hE6mQ==}
 
@@ -9893,9 +9802,6 @@ packages:
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
 
-  ms@2.1.2:
-    resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
-
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -10014,6 +9920,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-emoji@2.1.3:
     resolution: {integrity: sha512-E2WEOVsgs7O16zsURJ/eH8BqhF029wGpEOnv7Urwdo2wmQanOACwJQh0devF9D9RhoZru0+9JXIS0dBXIAz+lA==}
@@ -10314,9 +10221,6 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
-  object-inspect@1.12.2:
-    resolution: {integrity: sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==}
-
   object-inspect@1.13.2:
     resolution: {integrity: sha512-IRZSRuzJiynemAXPYtPe5BoI/RESNYR7TYm50MC5Mqbd3Jmw5y790sErYw3V6SryFJD64b74qQQs9wn5Bg/k3g==}
     engines: {node: '>= 0.4'}
@@ -10553,6 +10457,10 @@ packages:
   parse-asn1@5.1.6:
     resolution: {integrity: sha512-RnZRo1EPU6JBnra2vGHj0yhp6ebyjBZpmUCLHWiFhxlzvBCCpAuZ7elsBp1PVAbQN0/04VD/19rfzlBSwLstMw==}
 
+  parse-asn1@5.1.7:
+    resolution: {integrity: sha512-CTM5kuWR3sx9IFamcl5ErfPl6ea/N8IYwiJ+vpeB2g+1iknv7zBl5uPwbMbRVznRVbrNY6lGuDoE5b30grmbqg==}
+    engines: {node: '>= 0.10'}
+
   parse-json@4.0.0:
     resolution: {integrity: sha512-aOIos8bujGN93/8Ox/jPLh7RwVnPEysynVFE+fQZyg6jKELEHwzgKdLRFHUgXJL6kylijVSBC4BvN9OmsB48Rw==}
     engines: {node: '>=4'}
@@ -10661,9 +10569,6 @@ packages:
 
   path-to-regexp@0.1.10:
     resolution: {integrity: sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==}
-
-  path-to-regexp@0.1.7:
-    resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
 
   path-type@3.0.0:
     resolution: {integrity: sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==}
@@ -11386,10 +11291,6 @@ packages:
     resolution: {integrity: sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==}
     hasBin: true
 
-  qs@6.11.0:
-    resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
-    engines: {node: '>=0.6'}
-
   qs@6.13.0:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
@@ -11426,10 +11327,6 @@ packages:
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
-
-  raw-body@2.5.1:
-    resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
-    engines: {node: '>= 0.8'}
 
   raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
@@ -11723,9 +11620,6 @@ packages:
     resolution: {integrity: sha512-X2UW6Nw3n/aMgDVy+0rSqgHlv39WZAlZrXCdnbyEiKm17DSqHX4MmQMaST3FbeWR5FTuRcUwYAziZajji0Y7mg==}
     engines: {node: '>=10'}
 
-  resolve@1.19.0:
-    resolution: {integrity: sha512-rArEXAgsBG4UgRGcynxWIWKFvh/XZCcS8UJdHhwy91zwAvCZIbcs+vAbflgBnNjYMs/i/i+/Ux6IZhML1yPvxg==}
-
   resolve@1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
     hasBin: true
@@ -11995,10 +11889,6 @@ packages:
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==}
     engines: {node: '>= 0.8.0'}
 
-  serve-static@1.15.0:
-    resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
-    engines: {node: '>= 0.8.0'}
-
   serve-static@1.16.2:
     resolution: {integrity: sha512-VqpjJZKadQB/PEbEwvFdO43Ax5dFBZ2UECszz8bQ7pi7wt//PWe1P6MN7eCnjsatYtBT6EuiClbjSWP2WrIoTw==}
     engines: {node: '>= 0.8.0'}
@@ -12052,9 +11942,6 @@ packages:
 
   shell-quote@1.8.1:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
-
-  side-channel@1.0.4:
-    resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
 
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
@@ -12365,10 +12252,6 @@ packages:
   strip-final-newline@4.0.0:
     resolution: {integrity: sha512-aulFJcD6YK8V1G7iRB5tigAP4TsHBZZrOV8pjV++zdUwmeV8uzbY7yn6h9MswN62adStNZFuCIx4haBnRuMDaw==}
     engines: {node: '>=18'}
-
-  strip-hex-prefix@1.0.0:
-    resolution: {integrity: sha512-q8d4ue7JGEiVcypji1bALTos+0pWtyGlivAWyPuTkHzuTCJqrK9sWxYQZUq6Nq3cuyv3bm734IhHvHtGGURU6A==}
-    engines: {node: '>=6.5.0', npm: '>=3'}
 
   strip-indent@3.0.0:
     resolution: {integrity: sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==}
@@ -13141,10 +13024,6 @@ packages:
     resolution: {integrity: sha512-YuKoXDAhBYxY7SfOKxHBDoSyENFeW5VvIIQp2TGQuit8gpK6MnWaQelBKxso72DoxTZfZdcP3W90LqpSkgPzLQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  validator@13.11.0:
-    resolution: {integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==}
-    engines: {node: '>= 0.10'}
-
   validator@13.9.0:
     resolution: {integrity: sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA==}
     engines: {node: '>= 0.10'}
@@ -13194,9 +13073,6 @@ packages:
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
-  web-did-resolver@2.0.27:
-    resolution: {integrity: sha512-YxQlNdeYBXLhVpMW62+TPlc6sSOiWyBYq7DNvY6FXmXOD9g0zLeShpq2uCKFFQV/WlSrBi/yebK/W5lMTDxMUQ==}
-
   web-did-resolver@2.0.29:
     resolution: {integrity: sha512-hpwctjy5qGhViloUdIv3zX5N234gzIbfJZ+hZ560qqZN+7Immpo9tsbxFsJVdmU93DDPMSpltnJJWENj9FfZug==}
 
@@ -13204,8 +13080,8 @@ packages:
     resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
     engines: {node: '>= 8'}
 
-  web-vitals@3.5.2:
-    resolution: {integrity: sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==}
+  web-vitals@5.0.0:
+    resolution: {integrity: sha512-yuayYLYyO4QdqB7YriMtUZxCIsUbcpZLnoPCJXocLvTRcAh/Jz2rgqsHrh9Oz/NHApB/Somd05NMsuhJV3YcLQ==}
 
   webcrypto-core@1.7.5:
     resolution: {integrity: sha512-gaExY2/3EHQlRNNNVSrbG2Cg94Rutl7fAaKILS1w8ZDhGxdFOaw6EbCfHIxPy9vt/xwp5o0VQAx9aySPF6hU1A==}
@@ -13488,18 +13364,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.16.0:
-    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.17.1:
     resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
     engines: {node: '>=10.0.0'}
@@ -13634,11 +13498,6 @@ packages:
     resolution: {integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==}
     engines: {node: '>=18'}
 
-  z-schema@5.0.5:
-    resolution: {integrity: sha512-D7eujBWkLa3p2sIpJA0d1pr7es+a7m0vFAnZLlCEKq/Ij2k0MLi9Br2UPxoxdYystm5K1yeBGzub0FlYUEWj2Q==}
-    engines: {node: '>=8.0.0'}
-    hasBin: true
-
   z-schema@6.0.1:
     resolution: {integrity: sha512-9L2G/s1hJ0bWUfhPRIpY4TZIlBEesnE8NceGrpGIuCmEDTsN98rmGD5tKYgXHlQ/ypEfmZiTP3gnAGW/6gFyhQ==}
     engines: {node: '>=16.0.0'}
@@ -13658,9 +13517,9 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
 
-  '@apideck/better-ajv-errors@0.3.6(ajv@8.12.0)':
+  '@apideck/better-ajv-errors@0.3.6(ajv@8.13.0)':
     dependencies:
-      ajv: 8.12.0
+      ajv: 8.13.0
       json-schema: 0.4.0
       jsonpointer: 5.0.1
       leven: 3.1.0
@@ -13725,7 +13584,7 @@ snapshots:
       '@babel/traverse': 7.22.5
       '@babel/types': 7.22.5
       convert-source-map: 1.9.0
-      debug: 4.3.4
+      debug: 4.3.7
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -13745,7 +13604,7 @@ snapshots:
       '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       convert-source-map: 1.9.0
-      debug: 4.3.4
+      debug: 4.3.7
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -17250,7 +17109,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4
+      debug: 4.3.7
       espree: 9.6.1
       globals: 13.20.0
       ignore: 5.2.4
@@ -17636,7 +17495,7 @@ snapshots:
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.3.4
+      debug: 4.3.7
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -18194,18 +18053,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@metamask/eth-sig-util@7.0.0':
-    dependencies:
-      '@ethereumjs/util': 8.1.0
-      '@metamask/abi-utils': 2.0.2
-      '@metamask/utils': 8.1.0
-      ethereum-cryptography: 2.1.2
-      ethjs-util: 0.1.6
-      tweetnacl: 1.0.3
-      tweetnacl-util: 0.15.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@metamask/eth-sig-util@7.0.1':
     dependencies:
       '@ethereumjs/util': 8.1.0
@@ -18222,7 +18069,7 @@ snapshots:
       '@ethereumjs/tx': 4.2.0
       '@noble/hashes': 1.7.1
       '@types/debug': 4.1.8
-      debug: 4.3.4
+      debug: 4.3.7
       semver: 7.5.4
       superstruct: 1.0.3
     transitivePeerDependencies:
@@ -18240,14 +18087,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor-model@7.28.13(@types/node@22.7.5)':
-    dependencies:
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.0.2(@types/node@22.7.5)
-    transitivePeerDependencies:
-      - '@types/node'
-
   '@microsoft/api-extractor-model@7.30.2(@types/node@20.17.4)':
     dependencies:
       '@microsoft/tsdoc': 0.15.1
@@ -18256,20 +18095,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.40.6(@types/node@22.7.5)':
+  '@microsoft/api-extractor-model@7.30.2(@types/node@22.7.5)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.28.13(@types/node@22.7.5)
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.0.2(@types/node@22.7.5)
-      '@rushstack/rig-package': 0.5.2
-      '@rushstack/terminal': 0.9.0(@types/node@22.7.5)
-      '@rushstack/ts-command-line': 4.17.3(@types/node@22.7.5)
-      lodash: 4.17.21
-      resolve: 1.22.8
-      semver: 7.5.4
-      source-map: 0.6.1
-      typescript: 5.3.3
+      '@microsoft/tsdoc': 0.15.1
+      '@microsoft/tsdoc-config': 0.17.1
+      '@rushstack/node-core-library': 5.10.2(@types/node@22.7.5)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -18291,12 +18121,23 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/tsdoc-config@0.16.2':
+  '@microsoft/api-extractor@7.49.1(@types/node@22.7.5)':
     dependencies:
-      '@microsoft/tsdoc': 0.14.2
-      ajv: 6.12.6
-      jju: 1.4.0
-      resolve: 1.19.0
+      '@microsoft/api-extractor-model': 7.30.2(@types/node@22.7.5)
+      '@microsoft/tsdoc': 0.15.1
+      '@microsoft/tsdoc-config': 0.17.1
+      '@rushstack/node-core-library': 5.10.2(@types/node@22.7.5)
+      '@rushstack/rig-package': 0.5.3
+      '@rushstack/terminal': 0.14.5(@types/node@22.7.5)
+      '@rushstack/ts-command-line': 4.23.3(@types/node@22.7.5)
+      lodash: 4.17.21
+      minimatch: 3.0.5
+      resolve: 1.22.8
+      semver: 7.5.4
+      source-map: 0.6.1
+      typescript: 5.7.2
+    transitivePeerDependencies:
+      - '@types/node'
 
   '@microsoft/tsdoc-config@0.17.1':
     dependencies:
@@ -18304,8 +18145,6 @@ snapshots:
       ajv: 8.12.0
       jju: 1.4.0
       resolve: 1.22.8
-
-  '@microsoft/tsdoc@0.14.2': {}
 
   '@microsoft/tsdoc@0.15.0': {}
 
@@ -18316,8 +18155,6 @@ snapshots:
   '@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1':
     dependencies:
       eslint-scope: 5.1.1
-
-  '@noble/ciphers@0.4.1': {}
 
   '@noble/ciphers@0.5.3': {}
 
@@ -18445,7 +18282,7 @@ snapshots:
       nx: 18.0.4
       semver: 7.6.3
       tmp: 0.2.1
-      tslib: 2.6.2
+      tslib: 2.7.0
       yargs-parser: 21.1.1
 
   '@nx/nx-darwin-arm64@18.0.4':
@@ -19016,17 +18853,6 @@ snapshots:
 
   '@rushstack/eslint-patch@1.2.0': {}
 
-  '@rushstack/node-core-library@4.0.2(@types/node@22.7.5)':
-    dependencies:
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.22.8
-      semver: 7.5.4
-      z-schema: 5.0.5
-    optionalDependencies:
-      '@types/node': 22.7.5
-
   '@rushstack/node-core-library@5.10.2(@types/node@20.17.4)':
     dependencies:
       ajv: 8.13.0
@@ -19040,10 +18866,18 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.17.4
 
-  '@rushstack/rig-package@0.5.2':
+  '@rushstack/node-core-library@5.10.2(@types/node@22.7.5)':
     dependencies:
+      ajv: 8.13.0
+      ajv-draft-04: 1.0.0(ajv@8.13.0)
+      ajv-formats: 3.0.1(ajv@8.13.0)
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
       resolve: 1.22.8
-      strip-json-comments: 3.1.1
+      semver: 7.5.4
+    optionalDependencies:
+      '@types/node': 22.7.5
 
   '@rushstack/rig-package@0.5.3':
     dependencies:
@@ -19057,25 +18891,25 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.17.4
 
-  '@rushstack/terminal@0.9.0(@types/node@22.7.5)':
+  '@rushstack/terminal@0.14.5(@types/node@22.7.5)':
     dependencies:
-      '@rushstack/node-core-library': 4.0.2(@types/node@22.7.5)
-      colors: 1.2.5
+      '@rushstack/node-core-library': 5.10.2(@types/node@22.7.5)
+      supports-color: 8.1.1
     optionalDependencies:
       '@types/node': 22.7.5
 
-  '@rushstack/ts-command-line@4.17.3(@types/node@22.7.5)':
+  '@rushstack/ts-command-line@4.23.3(@types/node@20.17.4)':
     dependencies:
-      '@rushstack/terminal': 0.9.0(@types/node@22.7.5)
+      '@rushstack/terminal': 0.14.5(@types/node@20.17.4)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
     transitivePeerDependencies:
       - '@types/node'
 
-  '@rushstack/ts-command-line@4.23.3(@types/node@20.17.4)':
+  '@rushstack/ts-command-line@4.23.3(@types/node@22.7.5)':
     dependencies:
-      '@rushstack/terminal': 0.14.5(@types/node@20.17.4)
+      '@rushstack/terminal': 0.14.5(@types/node@22.7.5)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -19107,7 +18941,7 @@ snapshots:
       conventional-changelog-angular: 7.0.0
       conventional-commits-filter: 4.0.0
       conventional-commits-parser: 5.0.0
-      debug: 4.3.4
+      debug: 4.3.7
       import-from-esm: 1.3.3
       lodash-es: 4.17.21
       micromatch: 4.0.5
@@ -19125,7 +18959,7 @@ snapshots:
       '@octokit/plugin-throttling': 9.3.2(@octokit/core@6.1.2)
       '@semantic-release/error': 4.0.0
       aggregate-error: 5.0.0
-      debug: 4.3.4
+      debug: 4.3.7
       dir-glob: 3.0.1
       globby: 14.0.2
       http-proxy-agent: 7.0.2
@@ -19162,7 +18996,7 @@ snapshots:
       conventional-changelog-writer: 7.0.1
       conventional-commits-filter: 4.0.0
       conventional-commits-parser: 5.0.0
-      debug: 4.3.4
+      debug: 4.3.7
       get-stream: 7.0.1
       import-from-esm: 1.3.3
       into-stream: 7.0.0
@@ -19260,7 +19094,7 @@ snapshots:
       '@sphereon/isomorphic-argon2': 1.0.1(@sphereon/react-native-argon2@2.0.9(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7)))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))
       '@sphereon/react-native-argon2': 2.0.9(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))
       cross-fetch: 3.1.8(encoding@0.1.13)
-      debug: 4.3.4
+      debug: 4.3.7
       uint8arrays: 3.1.1
     transitivePeerDependencies:
       - encoding
@@ -19517,8 +19351,6 @@ snapshots:
   '@tootallnate/once@2.0.0': {}
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
-
-  '@transmute/credentials-context@0.7.0-unstable.81': {}
 
   '@transmute/credentials-context@0.7.0-unstable.82': {}
 
@@ -20142,7 +19974,7 @@ snapshots:
       - supports-color
     optional: true
 
-  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(utf-8-validate@5.0.7)':
+  '@veramo/credential-ld@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)':
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@12.8.1(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)))(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7)))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
@@ -20154,9 +19986,9 @@ snapshots:
       '@transmute/json-web-signature': 0.7.0-unstable.81(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@49.0.21(@babel/core@7.23.6)(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7))(react-native@0.73.0(@babel/core@7.23.6)(@babel/preset-env@7.23.6(@babel/core@7.23.6))(bufferutil@4.0.7)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.2.1)
       '@veramo/core-types': 6.0.0
-      '@veramo/utils': 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)
+      '@veramo/utils': 6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)
       cross-fetch: 4.0.0(encoding@0.1.13)
-      debug: 4.3.4
+      debug: 4.3.7
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - bufferutil
@@ -20172,7 +20004,7 @@ snapshots:
       - web-streams-polyfill
     optional: true
 
-  '@veramo/utils@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@5.0.7)':
+  '@veramo/utils@6.0.0(bufferutil@4.0.7)(encoding@0.1.13)(utf-8-validate@6.0.3)':
     dependencies:
       '@ipld/dag-pb': 4.0.5
       '@noble/curves': 1.4.2
@@ -20183,7 +20015,7 @@ snapshots:
       did-jwt: 8.0.8
       did-jwt-vc: 4.0.6
       did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ipfs-unixfs: 11.1.0
       multiformats: 13.1.0
       uint8arrays: 4.0.6
@@ -20416,9 +20248,9 @@ snapshots:
     optionalDependencies:
       ajv: 8.13.0
 
-  ajv-formats@2.1.1(ajv@8.12.0):
+  ajv-formats@2.1.1(ajv@8.13.0):
     optionalDependencies:
-      ajv: 8.12.0
+      ajv: 8.13.0
 
   ajv-formats@3.0.1(ajv@8.13.0):
     optionalDependencies:
@@ -20428,9 +20260,9 @@ snapshots:
     dependencies:
       ajv: 6.12.6
 
-  ajv-keywords@5.1.0(ajv@8.12.0):
+  ajv-keywords@5.1.0(ajv@8.13.0):
     dependencies:
-      ajv: 8.12.0
+      ajv: 8.13.0
       fast-deep-equal: 3.1.3
 
   ajv@6.12.6:
@@ -20592,6 +20424,12 @@ snapshots:
 
   asmcrypto.js@2.3.2: {}
 
+  asn1.js@4.10.1:
+    dependencies:
+      bn.js: 4.12.0
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+
   asn1.js@5.4.1:
     dependencies:
       bn.js: 4.12.0
@@ -20740,6 +20578,20 @@ snapshots:
       slash: 3.0.0
     transitivePeerDependencies:
       - supports-color
+
+  babel-jest@29.7.0(@babel/core@7.23.6):
+    dependencies:
+      '@babel/core': 7.23.6
+      '@jest/transform': 29.7.0
+      '@types/babel__core': 7.20.1
+      babel-plugin-istanbul: 6.1.1
+      babel-preset-jest: 29.6.3(@babel/core@7.23.6)
+      chalk: 4.1.2
+      graceful-fs: 4.2.11
+      slash: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
+    optional: true
 
   babel-loader@8.3.0(@babel/core@7.20.12)(webpack@5.75.0):
     dependencies:
@@ -21019,6 +20871,13 @@ snapshots:
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.22.9)
 
+  babel-preset-jest@29.6.3(@babel/core@7.23.6):
+    dependencies:
+      '@babel/core': 7.23.6
+      babel-plugin-jest-hoist: 29.6.3
+      babel-preset-current-node-syntax: 1.0.1(@babel/core@7.23.6)
+    optional: true
+
   babel-preset-react-app@10.0.1:
     dependencies:
       '@babel/core': 7.22.5
@@ -21123,23 +20982,6 @@ snapshots:
 
   bn.js@5.2.1: {}
 
-  body-parser@1.20.1:
-    dependencies:
-      bytes: 3.1.2
-      content-type: 1.0.5
-      debug: 2.6.9
-      depd: 2.0.0
-      destroy: 1.2.0
-      http-errors: 2.0.0
-      iconv-lite: 0.4.24
-      on-finished: 2.4.1
-      qs: 6.11.0
-      raw-body: 2.5.1
-      type-is: 1.6.18
-      unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   body-parser@1.20.3:
     dependencies:
       bytes: 3.1.2
@@ -21234,16 +21076,17 @@ snapshots:
       bn.js: 5.2.1
       randombytes: 2.1.0
 
-  browserify-sign@4.2.1:
+  browserify-sign@4.2.3:
     dependencies:
       bn.js: 5.2.1
       browserify-rsa: 4.1.0
       create-hash: 1.2.0
       create-hmac: 1.1.7
-      elliptic: 6.5.4
+      elliptic: 6.6.1
+      hash-base: 3.0.5
       inherits: 2.0.4
-      parse-asn1: 5.1.6
-      readable-stream: 3.6.2
+      parse-asn1: 5.1.7
+      readable-stream: 2.3.8
       safe-buffer: 5.2.1
 
   browserslist@4.21.4:
@@ -21639,8 +21482,6 @@ snapshots:
 
   colorette@2.0.19: {}
 
-  colors@1.2.5: {}
-
   columnify@1.6.0:
     dependencies:
       strip-ansi: 6.0.1
@@ -21824,8 +21665,6 @@ snapshots:
 
   cookie-signature@1.0.6: {}
 
-  cookie@0.5.0: {}
-
   cookie@0.7.1: {}
 
   core-js-compat@3.30.2:
@@ -21939,14 +21778,9 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  credential-status@3.0.0:
-    dependencies:
-      did-jwt: 8.0.4
-      did-resolver: 4.1.0
-
   credential-status@3.0.4:
     dependencies:
-      did-jwt: 8.0.8
+      did-jwt: 8.0.4
       did-resolver: 4.1.0
 
   credentials-context@2.0.0: {}
@@ -21983,14 +21817,15 @@ snapshots:
 
   crypt@0.0.2: {}
 
-  crypto-browserify@3.12.0:
+  crypto-browserify@3.12.1:
     dependencies:
       browserify-cipher: 1.0.1
-      browserify-sign: 4.2.1
+      browserify-sign: 4.2.3
       create-ecdh: 4.0.4
       create-hash: 1.2.0
       create-hmac: 1.1.7
       diffie-hellman: 5.0.3
+      hash-base: 3.0.5
       inherits: 2.0.4
       pbkdf2: 3.1.2
       public-encrypt: 4.0.3
@@ -22032,7 +21867,7 @@ snapshots:
       postcss-modules-scope: 3.0.0(postcss@8.4.21)
       postcss-modules-values: 4.0.0(postcss@8.4.21)
       postcss-value-parser: 4.2.0
-      semver: 7.5.4
+      semver: 7.6.3
       webpack: 5.75.0
 
   css-minimizer-webpack-plugin@3.4.1(webpack@5.75.0):
@@ -22187,10 +22022,6 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  debug@4.3.4:
-    dependencies:
-      ms: 2.1.2
-
   debug@4.3.7:
     dependencies:
       ms: 2.1.3
@@ -22229,7 +22060,7 @@ snapshots:
       object-keys: 1.1.1
       object.assign: 4.1.4
       regexp.prototype.flags: 1.4.3
-      side-channel: 1.0.4
+      side-channel: 1.0.6
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
       which-typed-array: 1.1.11
@@ -22337,32 +22168,10 @@ snapshots:
 
   devtools-protocol@0.0.1312386: {}
 
-  did-jwt-vc@4.0.0:
-    dependencies:
-      did-jwt: 8.0.4
-      did-resolver: 4.1.0
-
-  did-jwt-vc@4.0.4:
-    dependencies:
-      did-jwt: 8.0.4
-      did-resolver: 4.1.0
-
   did-jwt-vc@4.0.6:
     dependencies:
-      did-jwt: 8.0.8
+      did-jwt: 8.0.4
       did-resolver: 4.1.0
-
-  did-jwt@8.0.0:
-    dependencies:
-      '@noble/ciphers': 0.4.1
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.4.0
-      '@scure/base': 1.1.3
-      canonicalize: 2.0.0
-      did-resolver: 4.1.0
-      multibase: 4.0.6
-      multiformats: 9.9.0
-      uint8arrays: 3.1.1
 
   did-jwt@8.0.4:
     dependencies:
@@ -22379,8 +22188,8 @@ snapshots:
   did-jwt@8.0.8:
     dependencies:
       '@noble/ciphers': 1.0.0
-      '@noble/curves': 1.4.2
-      '@noble/hashes': 1.7.1
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.4.0
       '@scure/base': 1.1.3
       canonicalize: 2.0.0
       did-resolver: 4.1.0
@@ -22527,6 +22336,16 @@ snapshots:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
 
+  elliptic@6.6.1:
+    dependencies:
+      bn.js: 4.12.0
+      brorand: 1.1.0
+      hash.js: 1.1.7
+      hmac-drbg: 1.0.1
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+      minimalistic-crypto-utils: 1.0.1
+
   emittery@0.10.0: {}
 
   emittery@0.10.2: {}
@@ -22626,7 +22445,7 @@ snapshots:
       is-string: 1.0.7
       is-typed-array: 1.1.12
       is-weakref: 1.0.2
-      object-inspect: 1.12.2
+      object-inspect: 1.13.2
       object-keys: 1.1.1
       object.assign: 4.1.4
       regexp.prototype.flags: 1.4.3
@@ -22877,7 +22696,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.4
+      debug: 4.3.7
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -22992,36 +22811,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethjs-util@0.1.6:
-    dependencies:
-      is-hex-prefixed: 1.0.0
-      strip-hex-prefix: 1.0.0
-
-  ethr-did-resolver@10.1.5(bufferutil@4.0.7)(utf-8-validate@5.0.7):
-    dependencies:
-      did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  ethr-did-resolver@11.0.2(bufferutil@4.0.7)(utf-8-validate@5.0.7):
-    dependencies:
-      did-resolver: 4.1.0
-      ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  ethr-did-resolver@11.0.2(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    dependencies:
-      did-resolver: 4.1.0
-      ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  ethr-did-resolver@11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  ethr-did-resolver@10.1.5(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
       did-resolver: 4.1.0
       ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -23029,12 +22819,28 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethr-did@3.0.21(bufferutil@4.0.7)(utf-8-validate@5.0.7):
+  ethr-did-resolver@11.0.3(bufferutil@4.0.7)(utf-8-validate@5.0.7):
     dependencies:
-      did-jwt: 8.0.4
       did-resolver: 4.1.0
       ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
-      ethr-did-resolver: 10.1.5(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  ethr-did-resolver@11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+    dependencies:
+      did-resolver: 4.1.0
+      ethers: 6.11.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  ethr-did@3.0.21(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+    dependencies:
+      did-jwt: 8.0.8
+      did-resolver: 4.1.0
+      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ethr-did-resolver: 10.1.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -23251,42 +23057,6 @@ snapshots:
       graceful-fs: 4.2.11
       handlebars: 4.7.8
 
-  express@4.18.2:
-    dependencies:
-      accepts: 1.3.8
-      array-flatten: 1.1.1
-      body-parser: 1.20.1
-      content-disposition: 0.5.4
-      content-type: 1.0.5
-      cookie: 0.5.0
-      cookie-signature: 1.0.6
-      debug: 2.6.9
-      depd: 2.0.0
-      encodeurl: 1.0.2
-      escape-html: 1.0.3
-      etag: 1.8.1
-      finalhandler: 1.2.0
-      fresh: 0.5.2
-      http-errors: 2.0.0
-      merge-descriptors: 1.0.1
-      methods: 1.1.2
-      on-finished: 2.4.1
-      parseurl: 1.3.3
-      path-to-regexp: 0.1.7
-      proxy-addr: 2.0.7
-      qs: 6.11.0
-      range-parser: 1.2.1
-      safe-buffer: 5.2.1
-      send: 0.18.0
-      serve-static: 1.15.0
-      setprototypeof: 1.2.0
-      statuses: 2.0.1
-      type-is: 1.6.18
-      utils-merge: 1.0.1
-      vary: 1.1.2
-    transitivePeerDependencies:
-      - supports-color
-
   express@4.21.1:
     dependencies:
       accepts: 1.3.8
@@ -23465,18 +23235,6 @@ snapshots:
       on-finished: 2.3.0
       parseurl: 1.3.3
       statuses: 1.5.0
-      unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
-
-  finalhandler@1.2.0:
-    dependencies:
-      debug: 2.6.9
-      encodeurl: 1.0.2
-      escape-html: 1.0.3
-      on-finished: 2.4.1
-      parseurl: 1.3.3
-      statuses: 2.0.1
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
@@ -23883,7 +23641,7 @@ snapshots:
     dependencies:
       foreground-child: 3.1.1
       jackspeak: 2.2.2
-      minimatch: 9.0.3
+      minimatch: 9.0.5
       minipass: 7.0.2
       path-scurry: 1.10.1
 
@@ -24051,6 +23809,11 @@ snapshots:
   has@1.0.3:
     dependencies:
       function-bind: 1.1.2
+
+  hash-base@3.0.5:
+    dependencies:
+      inherits: 2.0.4
+      safe-buffer: 5.2.1
 
   hash-base@3.1.0:
     dependencies:
@@ -24302,7 +24065,7 @@ snapshots:
 
   import-from-esm@1.3.3:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.7
       import-meta-resolve: 4.0.0
     transitivePeerDependencies:
       - supports-color
@@ -24401,7 +24164,7 @@ snapshots:
     dependencies:
       get-intrinsic: 1.2.4
       has: 1.0.3
-      side-channel: 1.0.4
+      side-channel: 1.0.6
 
   into-stream@7.0.0:
     dependencies:
@@ -24503,8 +24266,6 @@ snapshots:
   is-glob@4.0.3:
     dependencies:
       is-extglob: 2.1.1
-
-  is-hex-prefixed@1.0.0: {}
 
   is-interactive@1.0.0: {}
 
@@ -25696,7 +25457,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-      ws: 8.16.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ws: 8.18.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -26281,8 +26042,6 @@ snapshots:
       clone-deep: 0.2.4
       kind-of: 3.2.2
 
-  merge-descriptors@1.0.1: {}
-
   merge-descriptors@1.0.3: {}
 
   merge-stream@2.0.0: {}
@@ -26663,8 +26422,6 @@ snapshots:
   module-error@1.0.2: {}
 
   ms@2.0.0: {}
-
-  ms@2.1.2: {}
 
   ms@2.1.3: {}
 
@@ -27049,7 +26806,7 @@ snapshots:
       tar-stream: 2.2.0
       tmp: 0.2.1
       tsconfig-paths: 4.2.0
-      tslib: 2.6.2
+      tslib: 2.7.0
       yargs: 17.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
@@ -27071,8 +26828,6 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-hash@3.0.0: {}
-
-  object-inspect@1.12.2: {}
 
   object-inspect@1.13.2: {}
 
@@ -27359,6 +27114,15 @@ snapshots:
       pbkdf2: 3.1.2
       safe-buffer: 5.2.1
 
+  parse-asn1@5.1.7:
+    dependencies:
+      asn1.js: 4.10.1
+      browserify-aes: 1.2.0
+      evp_bytestokey: 1.0.3
+      hash-base: 3.0.5
+      pbkdf2: 3.1.2
+      safe-buffer: 5.2.1
+
   parse-json@4.0.0:
     dependencies:
       error-ex: 1.3.2
@@ -27462,8 +27226,6 @@ snapshots:
       minipass: 7.1.2
 
   path-to-regexp@0.1.10: {}
-
-  path-to-regexp@0.1.7: {}
 
   path-type@3.0.0:
     dependencies:
@@ -27724,7 +27486,7 @@ snapshots:
       cosmiconfig: 7.1.0
       klona: 2.0.5
       postcss: 8.4.21
-      semver: 7.5.4
+      semver: 7.6.3
       webpack: 5.75.0
 
   postcss-logical@5.0.4(postcss@8.4.21):
@@ -28202,10 +27964,6 @@ snapshots:
 
   qrcode-terminal@0.12.0: {}
 
-  qs@6.11.0:
-    dependencies:
-      side-channel: 1.0.4
-
   qs@6.13.0:
     dependencies:
       side-channel: 1.0.6
@@ -28238,13 +27996,6 @@ snapshots:
       safe-buffer: 5.2.1
 
   range-parser@1.2.1: {}
-
-  raw-body@2.5.1:
-    dependencies:
-      bytes: 3.1.2
-      http-errors: 2.0.0
-      iconv-lite: 0.4.24
-      unpipe: 1.0.0
 
   raw-body@2.5.2:
     dependencies:
@@ -28702,11 +28453,6 @@ snapshots:
 
   resolve.exports@2.0.2: {}
 
-  resolve@1.19.0:
-    dependencies:
-      is-core-module: 2.13.1
-      path-parse: 1.0.7
-
   resolve@1.22.1:
     dependencies:
       is-core-module: 2.12.1
@@ -28873,9 +28619,9 @@ snapshots:
   schema-utils@4.0.0:
     dependencies:
       '@types/json-schema': 7.0.15
-      ajv: 8.12.0
-      ajv-formats: 2.1.1(ajv@8.12.0)
-      ajv-keywords: 5.1.0(ajv@8.12.0)
+      ajv: 8.13.0
+      ajv-formats: 2.1.1(ajv@8.13.0)
+      ajv-keywords: 5.1.0(ajv@8.13.0)
 
   secp256k1@4.0.3:
     dependencies:
@@ -28898,7 +28644,7 @@ snapshots:
       '@semantic-release/release-notes-generator': 13.0.0(semantic-release@23.1.1(typescript@5.7.3))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.7.3)
-      debug: 4.3.4
+      debug: 4.3.7
       env-ci: 11.0.0
       execa: 9.5.1
       figures: 6.0.1
@@ -29020,15 +28766,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  serve-static@1.15.0:
-    dependencies:
-      encodeurl: 1.0.2
-      escape-html: 1.0.3
-      parseurl: 1.3.3
-      send: 0.18.0
-    transitivePeerDependencies:
-      - supports-color
-
   serve-static@1.16.2:
     dependencies:
       encodeurl: 2.0.0
@@ -29086,12 +28823,6 @@ snapshots:
   shell-quote@1.7.4: {}
 
   shell-quote@1.8.1: {}
-
-  side-channel@1.0.4:
-    dependencies:
-      call-bind: 1.0.7
-      get-intrinsic: 1.2.4
-      object-inspect: 1.12.2
 
   side-channel@1.0.6:
     dependencies:
@@ -29398,7 +29129,7 @@ snapshots:
       has-symbols: 1.0.3
       internal-slot: 1.0.4
       regexp.prototype.flags: 1.4.3
-      side-channel: 1.0.4
+      side-channel: 1.0.6
 
   string.prototype.trimend@1.0.6:
     dependencies:
@@ -29451,10 +29182,6 @@ snapshots:
   strip-final-newline@3.0.0: {}
 
   strip-final-newline@4.0.0: {}
-
-  strip-hex-prefix@1.0.0:
-    dependencies:
-      is-hex-prefixed: 1.0.0
 
   strip-indent@3.0.0:
     dependencies:
@@ -29561,9 +29288,9 @@ snapshots:
 
   swagger-ui-dist@5.3.1: {}
 
-  swagger-ui-express@5.0.0(express@4.18.2):
+  swagger-ui-express@5.0.0(express@4.21.1):
     dependencies:
-      express: 4.18.2
+      express: 4.21.1
       swagger-ui-dist: 5.3.1
 
   symbol-tree@3.2.4: {}
@@ -29820,7 +29547,7 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.20.12)
 
-  ts-jest@29.2.5(@babel/core@7.22.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.22.9))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3):
+  ts-jest@29.2.5(@babel/core@7.23.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@20.17.4)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.4)(typescript@5.7.3)))(typescript@5.7.3):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -29834,10 +29561,10 @@ snapshots:
       typescript: 5.7.3
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 7.22.9
+      '@babel/core': 7.23.6
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.22.9)
+      babel-jest: 29.7.0(@babel/core@7.23.6)
 
   ts-json-schema-generator@1.5.0:
     dependencies:
@@ -30257,8 +29984,6 @@ snapshots:
     dependencies:
       builtins: 5.0.1
 
-  validator@13.11.0: {}
-
   validator@13.9.0: {}
 
   varint@5.0.2: {}
@@ -30316,13 +30041,6 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
-  web-did-resolver@2.0.27(encoding@0.1.13):
-    dependencies:
-      cross-fetch: 4.0.0(encoding@0.1.13)
-      did-resolver: 4.1.0
-    transitivePeerDependencies:
-      - encoding
-
   web-did-resolver@2.0.29(encoding@0.1.13):
     dependencies:
       cross-fetch: 4.0.0(encoding@0.1.13)
@@ -30332,7 +30050,7 @@ snapshots:
 
   web-streams-polyfill@3.2.1: {}
 
-  web-vitals@3.5.2: {}
+  web-vitals@5.0.0: {}
 
   webcrypto-core@1.7.5:
     dependencies:
@@ -30394,7 +30112,7 @@ snapshots:
       spdy: 4.0.2
       webpack: 5.75.0
       webpack-dev-middleware: 5.3.3(webpack@5.75.0)
-      ws: 8.16.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+      ws: 8.18.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -30559,7 +30277,7 @@ snapshots:
 
   workbox-build@6.5.4(@types/babel__core@7.20.1):
     dependencies:
-      '@apideck/better-ajv-errors': 0.3.6(ajv@8.12.0)
+      '@apideck/better-ajv-errors': 0.3.6(ajv@8.13.0)
       '@babel/core': 7.23.6
       '@babel/preset-env': 7.22.4(@babel/core@7.23.6)
       '@babel/runtime': 7.23.6
@@ -30567,7 +30285,7 @@ snapshots:
       '@rollup/plugin-node-resolve': 11.2.1(rollup@2.79.1)
       '@rollup/plugin-replace': 2.4.2(rollup@2.79.1)
       '@surma/rollup-plugin-off-main-thread': 2.2.3
-      ajv: 8.12.0
+      ajv: 8.13.0
       common-tags: 1.8.2
       fast-json-stable-stringify: 2.1.0
       fs-extra: 9.1.0
@@ -30748,16 +30466,6 @@ snapshots:
       bufferutil: 4.0.7
       utf-8-validate: 6.0.3
 
-  ws@8.16.0(bufferutil@4.0.7)(utf-8-validate@5.0.7):
-    optionalDependencies:
-      bufferutil: 4.0.7
-      utf-8-validate: 5.0.7
-
-  ws@8.16.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    optionalDependencies:
-      bufferutil: 4.0.7
-      utf-8-validate: 6.0.3
-
   ws@8.17.1(bufferutil@4.0.7)(utf-8-validate@5.0.7):
     optionalDependencies:
       bufferutil: 4.0.7
@@ -30772,6 +30480,11 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.7
+
+  ws@8.18.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+    optionalDependencies:
+      bufferutil: 4.0.7
+      utf-8-validate: 6.0.3
 
   ws@8.5.0(bufferutil@4.0.7)(utf-8-validate@5.0.7):
     optionalDependencies:
@@ -30882,14 +30595,6 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors@2.1.1: {}
-
-  z-schema@5.0.5:
-    dependencies:
-      lodash.get: 4.4.2
-      lodash.isequal: 4.5.0
-      validator: 13.11.0
-    optionalDependencies:
-      commander: 9.5.0
 
   z-schema@6.0.1:
     dependencies:
