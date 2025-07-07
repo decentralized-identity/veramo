@@ -224,7 +224,6 @@ export class DIDManager implements IAgentPlugin {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     let result = true
-    // @ts-ignore
     if (!options?.isLocal) {
       result = await provider.addKey({ identifier, key, options }, context)
     }
@@ -241,7 +240,6 @@ export class DIDManager implements IAgentPlugin {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     let result = true
-    // @ts-ignore
     if (!options?.isLocal) {
       result = await provider.removeKey({ identifier, kid, options }, context)
     }
@@ -258,7 +256,6 @@ export class DIDManager implements IAgentPlugin {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     let result = true
-    // @ts-ignore
     if (!options?.isLocal) {
       result = await provider.addService({ identifier, service, options }, context)
     }
@@ -275,7 +272,6 @@ export class DIDManager implements IAgentPlugin {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
     let result = true
-    // @ts-ignore
     if (!options?.isLocal) {
       result = await provider.removeService({ identifier, id, options }, context)
     }
