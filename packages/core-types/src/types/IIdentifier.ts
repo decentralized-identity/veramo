@@ -51,7 +51,7 @@ export type MinimalImportableIdentifier = {
  *
  * @public
  */
-export type TKeyType = 'Ed25519' | 'Secp256k1' | 'Secp256r1' | 'X25519' | 'Bls12381G1' | 'Bls12381G2'
+export type TKeyType = 'Ed25519' | 'Secp256k1' | 'Secp256r1' | 'X25519' | 'Bls12381G1' | 'Bls12381G2' | (string & {})
 
 /**
  * Known algorithms supported by some of the above key types defined by {@link TKeyType}.
@@ -62,7 +62,7 @@ export type TKeyType = 'Ed25519' | 'Secp256k1' | 'Secp256r1' | 'X25519' | 'Bls12
  *
  * @public
  */
-export type TAlg = 'ES256K' | 'ES256K-R' | 'ES256' | 'EdDSA' | 'ECDH' | 'ECDH-ES' | 'ECDH-1PU' | string
+export type TAlg = 'ES256K' | 'ES256K-R' | 'ES256' | 'EdDSA' | 'ECDH' | 'ECDH-ES' | 'ECDH-1PU' | (string & {})
 
 /**
  * Mapping of known key types({@link TKeyType}) to the known algorithms({@link TAlg}) they should support.
