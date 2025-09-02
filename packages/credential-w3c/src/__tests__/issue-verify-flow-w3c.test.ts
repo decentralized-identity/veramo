@@ -15,7 +15,6 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { EthrDIDProvider } from '../../../did-provider-ethr/src'
 import {
   ContextDoc,
   CredentialProviderLD,
@@ -24,7 +23,6 @@ import {
   VeramoEd25519Signature2018,
 } from '../../../credential-ld/src'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { jest } from '@jest/globals'
 import { CredentialProviderJWT } from '../../../credential-jwt/src'
 
@@ -38,11 +36,8 @@ const customContext: Record<string, ContextDoc> = {
   },
 }
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
-
 describe('credential-w3c full flow', () => {
   let didKeyIdentifier: IIdentifier
-  let didEthrIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
   let credential: CredentialPayload
 
@@ -63,10 +58,6 @@ describe('credential-w3c full flow', () => {
         new DIDManager({
           providers: {
             'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
-            'did:ethr': new EthrDIDProvider({
-              defaultKms: 'local',
-              network: 'sepolia',
-            }),
           },
           store: new MemoryDIDStore(),
           defaultProvider: 'did:key',
@@ -74,14 +65,12 @@ describe('credential-w3c full flow', () => {
         new DIDResolverPlugin({
           resolver: new Resolver({
             ...getDidKeyResolver(),
-            ...ethrDidResolver({ infuraProjectId }),
           }),
         }),
         new CredentialIssuer({ issuers: [jwt, ld] }),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
-    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr' })
     credential = {
       issuer: didKeyIdentifier.did,
       '@context': ['custom:example.context'],
@@ -114,11 +103,13 @@ describe('credential-w3c full flow', () => {
       credential,
       proofFormat: 'lds',
     })
-    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
+    const modifiedCredential: VerifiableCredential = {
+      ...verifiableCredential1,
+      issuer: { id: 'did:fake:wrong' },
+    }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
     expect(verifyResult.verified).toBeFalsy()
   })
-
 
   it('fails the verification of a jwt credential with false value outside of proof', async () => {
     const verifiableCredential1 = await agent.createVerifiableCredential({
@@ -126,7 +117,10 @@ describe('credential-w3c full flow', () => {
       proofFormat: 'jwt',
     })
 
-    const modifiedCredential: VerifiableCredential = { ...verifiableCredential1, issuer: { id: 'did:fake:wrong' } }
+    const modifiedCredential: VerifiableCredential = {
+      ...verifiableCredential1,
+      issuer: { id: 'did:fake:wrong' },
+    }
     const verifyResult = await agent.verifyCredential({ credential: modifiedCredential })
 
     expect(verifyResult.verified).toBeFalsy()
@@ -191,7 +185,6 @@ describe('credential-w3c full flow', () => {
 
     expect(response.verified).toBe(true)
   })
-
 
   it('fails the verification of an expired credential', async () => {
     const presentationJWT =

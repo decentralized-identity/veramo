@@ -39,7 +39,7 @@ export default (testContext: {
     //DO NOT EDIT MANUALLY START
 
     it('core-types-IResolver-getDIDComponentById example', async () => {
-      const did = 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
+      const did = 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didFragment = `${did}#controller`
       const fragment = await agent.getDIDComponentById({
         didDocument: (await agent.resolveDid({ didUrl: did }))?.didDocument,
@@ -47,37 +47,37 @@ export default (testContext: {
         section: 'authentication',
       })
       expect(fragment).toEqual({
-        id: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
+        id: 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-        blockchainAccountId: 'eip155:1:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
+        controller: 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+        blockchainAccountId: 'eip155:1337:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
       })
     })
 
     it('core-types-IResolver-resolveDid example', async () => {
       const doc = await agent.resolveDid({
-        didUrl: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+        didUrl: 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
       })
       expect(doc.didDocument).toEqual({
         '@context': expect.anything(),
-        id: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+        id: 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
         verificationMethod: [
           {
-            id: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
+            id: 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller',
             type: 'EcdsaSecp256k1RecoveryMethod2020',
-            controller: 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
-            blockchainAccountId: 'eip155:1:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
+            controller: 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190',
+            blockchainAccountId: 'eip155:1337:0xb09B66026bA5909A7CFE99b76875431D2b8D5190',
           },
         ],
-        authentication: ['did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
-        assertionMethod: ['did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
+        authentication: ['did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
+        assertionMethod: ['did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190#controller'],
       })
     })
 
     it('core-types-IDIDManager-didManagerCreate example', async () => {
       const identifier = await agent.didManagerCreate({
         alias: 'charlie',
-        provider: 'did:ethr:sepolia',
+        provider: 'did:ethr',
         kms: 'local',
       })
     })
@@ -88,14 +88,14 @@ export default (testContext: {
       })
 
       const sepoliaIdentifiers = await agent.didManagerFind({
-        provider: 'did:ethr:goerli',
+        provider: 'did:ethr',
       })
     })
 
     it('core-types-IDIDManager-didManagerGetByAlias example', async () => {
       const identifier = await agent.didManagerGetByAlias({
         alias: 'charlie',
-        provider: 'did:ethr:goerli',
+        provider: 'did:ethr',
       })
     })
 

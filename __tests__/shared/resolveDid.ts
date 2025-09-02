@@ -21,7 +21,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should resolve didUrl', async () => {
-      const didUrl = 'did:ethr:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
+      const didUrl = 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didDoc = (await agent.resolveDid({ didUrl })).didDocument
       expect(didDoc?.id).toEqual(didUrl)
     })

@@ -47,6 +47,7 @@
     "start": "craco start",
     "buildz": "craco build",
     "ejectz": "react-scripts eject",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs pnpm jest -c jest-integration.config.cjs"
   },
   "eslintConfig": {

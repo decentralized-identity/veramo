@@ -13,7 +13,7 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/key-manager": "workspace:^",
     "debug": "^4.3.3",
-    "ethers": "^6.11.1"
+    "ethers": "^6.13.4"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

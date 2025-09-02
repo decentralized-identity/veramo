@@ -8,10 +8,10 @@ import {
   IIdentifier,
   IMessageHandler,
   TAgent,
-  VerifiableCredential,
-  VerifiablePresentation,
 } from '../../packages/core-types/src'
 import { IDIDComm } from '../../packages/did-comm/src'
+// @ts-ignore
+import nock from 'nock'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM & IDIDComm & IMessageHandler
@@ -35,7 +35,7 @@ export default (testContext: {
       await testContext.setup()
       agent = testContext.getAgent()
       challenge = 'TEST_CHALLENGE_STRING'
-      didEthrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr' })
+      didEthrIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:ethr:ganache' })
       didKeyIdentifier = await agent.didManagerCreate({ kms: 'local', provider: 'did:key' })
       pkhIdentifier = await agent.didManagerCreate({
         kms: 'local',
@@ -417,5 +417,79 @@ export default (testContext: {
         expect(result2.verified).toBe(true)
       })
     })
+  })
+
+  // Mock the external context URL
+  beforeAll(() => {
+    nock('https://veramo.io')
+      .persist() // Allow the mock to be used multiple times
+      .get('/contexts/discord-kudos/v1')
+      .reply(200, {
+        '@context': {
+          'w3ccred': 'https://www.w3.org/2018/credentials#',
+          'schema-id': 'https://veramo.io/contexts/discord-kudos#',
+          DiscordKudos: {
+            '@id': 'schema-id',
+          },
+          kudos: {
+            '@id': 'schema-id:kudos',
+            '@type': 'http://schema.org/Text',
+          },
+          url: {
+            '@id': 'schema-id:url',
+            '@type': 'http://schema.org/Text',
+          },
+          discordUserId: {
+            '@id': 'schema-id:discordUserId',
+            '@type': 'http://schema.org/Text',
+          },
+          discordUserName: {
+            '@id': 'schema-id:discordUserName',
+            '@type': 'http://schema.org/Text',
+          },
+          discordUserAvatar: {
+            '@id': 'schema-id:discordUserAvatar',
+            '@type': 'http://schema.org/URL',
+          },
+          discordAuthorId: {
+            '@id': 'schema-id:discordAuthorId',
+            '@type': 'http://schema.org/Text',
+          },
+          discordAuthorName: {
+            '@id': 'schema-id:discordAuthorName',
+            '@type': 'http://schema.org/Text',
+          },
+          discordAuthorAvatar: {
+            '@id': 'schema-id:discordAuthorAvatar',
+            '@type': 'http://schema.org/URL',
+          },
+          discordChannelId: {
+            '@id': 'schema-id:discordChannelId',
+            '@type': 'http://schema.org/Text',
+          },
+          discordChannelName: {
+            '@id': 'schema-id:discordChannelName',
+            '@type': 'http://schema.org/Text',
+          },
+          discordGuildId: {
+            '@id': 'schema-id:discordGuildId',
+            '@type': 'http://schema.org/Text',
+          },
+          discordGuildName: {
+            '@id': 'schema-id:discordGuildName',
+            '@type': 'http://schema.org/Text',
+          },
+          discordGuildAvatar: {
+            '@id': 'schema-id:discordGuildAvatar',
+            '@type': 'http://schema.org/URL',
+          },
+          '@version': 1.1,
+        },
+      })
+  })
+
+  // Clean up nock after tests
+  afterAll(() => {
+    nock.cleanAll()
   })
 }

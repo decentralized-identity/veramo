@@ -8,11 +8,15 @@ import { IonDIDProvider } from '../src/ion-did-provider.js'
 import { ICreateIdentifierOpts } from '../src/types/ion-provider-types.js'
 
 import { jest } from '@jest/globals'
+// @ts-ignore
+import nock from 'nock'
 
-jest.setTimeout(10000)
+jest.setTimeout(30000)
 
+// Disable PoW challenge in tests to avoid argon2 WASM fetches
 const ionDIDProvider = new IonDIDProvider({
   defaultKms: 'mem',
+  challengeEnabled: false,
 })
 const agent = createAgent<IKeyManager, IDIDManager>({
   plugins: [
@@ -43,6 +47,27 @@ const PRIVATE_DID4_KEY_HEX = '7dd923e40f4615ac496119f7e793cc2899e99b64b88ca8603d
 // console.log(generatePrivateKeyHex(KeyType.Secp256k1))
 
 describe('@veramo/did-provider-ion', () => {
+  beforeAll(async () => {
+    // Mocking ION HTTP requests
+    nock('https://beta.ion.msidentity.com')
+      .persist()
+      .post('/api/v1.0/operations')
+      .reply(200, { operation: 'mocked-operation' })
+
+    nock('https://beta.discover.did.microsoft.com')
+      .persist()
+      .get(/\/1\.0\/identifiers\/.*/)
+      .reply(200, {
+        didDocument: {
+          '@context': 'https://www.w3.org/ns/did/v1',
+          id: 'did:ion:mock',
+          verificationMethod: [],
+        },
+        didDocumentMetadata: { method: { updateCommitment: 'genesis', recoveryCommitment: 'genesis' } },
+        didResolutionMetadata: {},
+      })
+  })
+
   it('should create identifier', async () => {
     const options: ICreateIdentifierOpts = createIdentifierOpts
     const identifier: IIdentifier = await agent.didManagerCreate({ options })
@@ -60,7 +85,7 @@ describe('@veramo/did-provider-ion', () => {
 
   // this fails with TypeError: Failed to parse URL from
   // .../veramo/node_modules/.pnpm/argon2-browser@1.18.0/node_modules/argon2-browser/dist/argon2.wasm
-  it.skip('should add key', async () => {
+  it('should add key', async () => {
     // This DID is known in ION, hence no anchoring
     const identifier: IIdentifier = await agent.didManagerCreate(
       existingDidConfig(false, 'did1-test2', PRIVATE_DID1_KEY_HEX),
@@ -186,7 +211,7 @@ describe('@veramo/did-provider-ion', () => {
 
   // this fails with TypeError: Failed to parse URL from
   // .../veramo/node_modules/.pnpm/argon2-browser@1.18.0/node_modules/argon2-browser/dist/argon2.wasm
-  it.skip('should remove identifier', async () => {
+  it('should remove identifier', async () => {
     const identifier: IIdentifier = await agent.didManagerCreate(
       existingDidConfig(false, 'remove-test', PRIVATE_DID4_KEY_HEX),
     )

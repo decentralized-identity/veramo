@@ -1,12 +1,13 @@
-import { IDIDManager, IKeyManager, MinimalImportableKey } from '@veramo/core-types'
+import { IDIDManager, IKeyManager, MinimalImportableKey, TAgent } from '@veramo/core-types'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { EthrDIDProvider } from '../ethr-did-provider'
 import { createAgent } from '../../../core/src'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
 import { KeyManagementSystem } from '../../../kms-local/src'
+import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
 
-const PROVIDER = 'did:ethr:sepolia'
-const MOCK_DID = 'did:ethr:sepolia:0x76d331386cec35862a73aabdbfa5ef97cdac58cf'
+const PROVIDER = 'did:ethr:ganache'
+const MOCK_DID = 'did:ethr:ganache:0x76d331386cec35862a73aabdbfa5ef97cdac58cf'
 const KMS = 'local'
 const CONTROLLER_KEY = Object.freeze({
   type: 'Secp256k1',
@@ -27,33 +28,34 @@ const CONTROLLER_KEY = Object.freeze({
   kms: KMS,
 }) satisfies MinimalImportableKey
 
-const INFURA_API_KEY = '3586660d179141e3801c3895de1c2eba'
-
-const ethrDidProvider = new EthrDIDProvider({
-  defaultKms: KMS,
-  network: 'sepolia',
-  registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',
-  rpcUrl: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
-})
-
-const agent = createAgent<IKeyManager, IDIDManager>({
-  plugins: [
-    new KeyManager({
-      store: new MemoryKeyStore(),
-      kms: {
-        [KMS]: new KeyManagementSystem(new MemoryPrivateKeyStore()),
-      },
-    }),
-    new DIDManager({
-      providers: { [PROVIDER]: ethrDidProvider },
-      defaultProvider: PROVIDER,
-      store: new MemoryDIDStore(),
-    }),
-  ],
-})
-
 describe('EthrDIDProvider', () => {
+  let agent: TAgent<IKeyManager | IDIDManager>
+
   beforeAll(async () => {
+    const { provider, registry } = await createGanacheProvider()
+    const ethrDidProvider = new EthrDIDProvider({
+      defaultKms: KMS,
+      network: 'ganache',
+      registry,
+      web3Provider: provider,
+    })
+
+    agent = createAgent<IKeyManager, IDIDManager>({
+      plugins: [
+        new KeyManager({
+          store: new MemoryKeyStore(),
+          kms: {
+            [KMS]: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          },
+        }),
+        new DIDManager({
+          providers: { [PROVIDER]: ethrDidProvider },
+          defaultProvider: PROVIDER,
+          store: new MemoryDIDStore(),
+        }),
+      ],
+    })
+
     await agent.keyManagerImport(CONTROLLER_KEY)
     await agent.didManagerImport({
       did: MOCK_DID,
@@ -68,7 +70,7 @@ describe('EthrDIDProvider', () => {
     it('supports implicit creation of a Secp256k1 key', async () => {
       const newDid = await agent.didManagerCreate({
         kms: KMS,
-        provider: PROVIDER
+        provider: PROVIDER,
       })
 
       expect(newDid.controllerKeyId).toBeDefined()
@@ -77,7 +79,7 @@ describe('EthrDIDProvider', () => {
     it('supports creation with a key reference', async () => {
       const newKey = await agent.keyManagerCreate({
         kms: KMS,
-        type: 'Secp256k1'
+        type: 'Secp256k1',
       })
 
       const newDid = await agent.didManagerCreate({
@@ -85,7 +87,7 @@ describe('EthrDIDProvider', () => {
         provider: PROVIDER,
         options: {
           keyRef: newKey.kid,
-        }
+        },
       })
 
       expect(newDid.controllerKeyId).toBe(newKey.kid)
@@ -148,10 +150,6 @@ describe('EthrDIDProvider', () => {
         },
       }
       const [attrName, attrValue, signature, options] = await agent.didManagerRemoveKey(params)
-      console.log('attrName', attrName)
-      console.log('attrValue', attrValue)
-      console.log('signature', signature)
-      console.log('options', options)
       expect(attrName).toEqual('did/pub/Ed25519/veriKey/hex')
       expect(attrValue).toContain(ed25519Key.publicKeyHex)
       expect(attrValue.slice(0, 2)).toBe('0x')

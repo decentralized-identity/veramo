@@ -49,7 +49,7 @@ import { KeyManagementSystem } from '../packages/kms-local/src'
 import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
 import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
 import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-import { PeerDIDProvider, getResolver as getDidPeerResolver } from "../packages/did-provider-peer/src";
+import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src'
 
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -72,22 +72,21 @@ import messageHandler from './shared/messageHandler.js'
 import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import credentialInterop from './shared/credentialInterop.js'
-import credentialPluginTests from "./shared/credentialPluginTests.js";
+import credentialPluginTests from './shared/credentialPluginTests.js'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
 jest.setTimeout(120000)
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
-
 let agent: TAgent<
   IDIDManager &
-  IKeyManager &
-  IDataStore &
-  IDataStoreORM &
-  IResolver &
-  IMessageHandler &
-  IDIDComm &
-  ICredentialPlugin &
-  ISelectiveDisclosure
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ISelectiveDisclosure
 >
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
@@ -117,16 +116,18 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     ],
   })
 
+  const { provider, registry } = await createGanacheProvider()
+
   agent = createAgent<
     IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ISelectiveDisclosure
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialPlugin &
+      ISelectiveDisclosure
   >({
     ...options,
     context: {
@@ -149,19 +150,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
               {
-                name: 'mainnet',
-                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
+                chainId: 1337,
+                name: 'ganache',
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
+                registry,
               },
             ],
           }),
@@ -172,7 +164,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
           }),
           'did:peer': new PeerDIDProvider({
-            defaultKms: 'local'
+            defaultKms: 'local',
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
@@ -184,7 +176,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         },
       }),
       new DIDResolverPlugin({
-        ...ethrDidResolver({ infuraProjectId }),
+        ...ethrDidResolver({
+          networks: [
+            {
+              chainId: 1337,
+              name: 'ganache',
+              provider: provider as any, // different versions of ethers complain about a type mismatch here
+              registry,
+            },
+          ],
+        }),
         ...webDidResolver(),
         ...getDidKeyResolver(),
         ...getDidPeerResolver(),

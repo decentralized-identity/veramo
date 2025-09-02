@@ -53,17 +53,17 @@ describe('Browser integration tests', () => {
         },
         didDocument: {
           '@context': expect.anything(),
-          id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+          id: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
             {
-              id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
+              id: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
               type: 'EcdsaSecp256k1RecoveryMethod2020',
-              controller: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
-              blockchainAccountId: 'eip155:1:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
+              controller: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+              blockchainAccountId: 'eip155:1337:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
             },
           ],
-          authentication: ['did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
-          assertionMethod: ['did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          authentication: ['did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          assertionMethod: ['did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
         },
       }
 
@@ -79,7 +79,7 @@ describe('Browser integration tests', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Not a valid did:ethr: sepolia:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
+          message: 'Not a valid did:ethr: ganache:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
         },
         didDocument: null,
       }

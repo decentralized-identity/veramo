@@ -99,11 +99,11 @@ import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
 import credentialPluginTests from './shared/credentialPluginTests'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
 jest.setTimeout(120000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 const port = 3002
 const basePath = '/agent'
@@ -113,21 +113,19 @@ let dbConnection: any // typeorm types don't seem to follow semantic release pat
 let serverAgent: IAgent
 let restServer: Server
 
-
-
 const getAgent = (options?: IAgentOptions) =>
   createAgent<
     IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialIssuer & // import from old package to check compatibility
-    ICredentialVerifier &
-    ISelectiveDisclosure &
-    IDIDDiscovery
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialIssuer & // import from old package to check compatibility
+      ICredentialVerifier &
+      ISelectiveDisclosure &
+      IDIDDiscovery
   >({
     ...options,
     plugins: [
@@ -163,6 +161,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     ],
   })
 
+  const { provider, registry } = await createGanacheProvider()
+
   serverAgent = new Agent({
     ...options,
     plugins: [
@@ -182,19 +182,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
               {
-                name: 'mainnet',
-                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
+                chainId: 1337,
+                name: 'ganache',
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
+                registry,
               },
             ],
           }),
@@ -218,7 +209,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId }),
+          ...ethrDidResolver({
+            networks: [
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
+                registry,
+              },
+            ],
+          }),
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),

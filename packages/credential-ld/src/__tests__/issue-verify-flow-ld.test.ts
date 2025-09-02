@@ -25,6 +25,7 @@ import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp25
 import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
+import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
 
 jest.setTimeout(300000)
 
@@ -35,8 +36,6 @@ const customContext: Record<string, ContextDoc> = {
     },
   },
 }
-
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 
 describe('credential-LD full flow', () => {
   let didKeyIdentifier: IIdentifier
@@ -49,6 +48,7 @@ describe('credential-LD full flow', () => {
   })
 
   beforeAll(async () => {
+    const { provider, registry } = await createGanacheProvider()
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
@@ -62,7 +62,14 @@ describe('credential-LD full flow', () => {
             'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
             'did:ethr': new EthrDIDProvider({
               defaultKms: 'local',
-              network: 'mainnet',
+              networks: [
+                {
+                  chainId: 1337,
+                  name: 'ganache',
+                  provider,
+                  registry,
+                },
+              ],
             }),
           },
           store: new MemoryDIDStore(),
@@ -71,14 +78,21 @@ describe('credential-LD full flow', () => {
         new DIDResolverPlugin({
           resolver: new Resolver({
             ...getDidKeyResolver(),
-            ...ethrDidResolver({ infuraProjectId }),
+            ...ethrDidResolver({ networks: [
+                {
+                  chainId: 1337,
+                  name: 'ganache',
+                  provider,
+                  registry,
+                },
+              ], }),
           }),
         }),
         new CredentialPlugin({ issuers: [ld] }),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
-    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr' })
+    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr:ganache' })
   })
 
   it('create credential with inline context', async () => {

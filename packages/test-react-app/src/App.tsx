@@ -13,21 +13,21 @@ function App() {
 
   const resolve = async () => {
     const doc = await agent.resolveDid({
-      didUrl: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+      didUrl: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
     })
     setDidDoc(doc)
   }
 
   const resolveInvalid = async () => {
     const doc = await agent.resolveDid({
-      didUrl: 'did:ethr:sepolia:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
+      didUrl: 'did:ethr:ganache:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
     })
     setInvalidDidDoc(doc)
   }
   const issueCredential = async () => {
     const identifier = await agent.didManagerGetOrCreate({
       alias: 'default',
-      provider: 'did:ethr:sepolia',
+      provider: 'did:ethr:ganache',
     })
     const credential = await agent.createVerifiableCredential({
       credential: {
