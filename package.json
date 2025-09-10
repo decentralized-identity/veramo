@@ -64,7 +64,7 @@
     "rimraf": "5.0.5",
     "semantic-release": "23.1.1",
     "sqlite3": "5.1.7",
-    "ts-jest": "29.2.5",
+    "ts-jest": "29.4.1",
     "ts-json-schema-generator": "1.5.0",
     "ts-node": "10.9.2",
     "typeorm": "0.3.20",
@@ -82,7 +82,8 @@
   },
   "resolutions": {
     "@types/eslint": "^9.0.0",
-    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
+    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0",
+    "node-gyp": "^10.0.0"
   },
   "engines": {
     "node": ">= 18.0.0"

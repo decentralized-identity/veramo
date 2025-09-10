@@ -281,7 +281,7 @@ export default (testContext: {
             nonce: 1,
           },
         }),
-      ).rejects.toThrowError(
+      ).rejects.toThrow(
         'invalid_arguments: keyManagerSignEthTX `from` field does not match the chosen key. `from` field should be omitted.',
       )
     })

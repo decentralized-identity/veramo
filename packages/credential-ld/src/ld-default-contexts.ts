@@ -1,20 +1,20 @@
-import contextCredentialV1 from './contexts/www.w3.org_2018_credentials_v1.json' assert { type: 'json' }
-import contextCredentialExamplesV1 from './contexts/www.w3.org_2018_credentials_examples_v1.json' assert { type: 'json' }
-import contextDidV1 from './contexts/www.w3.org_ns_did_v1.json' assert { type: 'json' }
-import contextSecurityV1 from './contexts/w3id.org_security_v1.json' assert { type: 'json' }
-import contextSecurityV2 from './contexts/w3id.org_security_v2.json' assert { type: 'json' }
-import contextSecurityV3 from './contexts/w3id.org_security_v3-unstable.json' assert { type: 'json' }
-import contextSecurityBBSV1 from './contexts/w3id.org_security_bbs_v1.json' assert { type: 'json' }
-import contextSuitesEd25519 from './contexts/w3id.org_security_suites_ed25519-2018_v1.json' assert { type: 'json' }
-import contextSuitesX25519 from './contexts/w3id.org_security_suites_x25519-2019_v1.json' assert { type: 'json' }
-import contextVeramoProfile from './contexts/veramo.io_contexts_profile_v1.json' assert { type: 'json' }
-import contextLdsEcdsaSecpRecovery2020_0 from './contexts/lds-ecdsa-secp256k1-recovery2020-0.0.json' assert { type: 'json' }
-import contextSuitesSecp256k1Recovery2020 from './contexts/w3id.org_security_suites_secp256k1recovery-2020_v2.json' assert { type: 'json' }
-import contextSuitesEd25519_2020 from './contexts/w3id.org_security_suites_ed25519-2020-v1.json' assert { type: 'json' }
-import contextSuitesX25519_2020 from './contexts/w3id.org_security_suites_x25519-2020_v1.json' assert { type: 'json' }
-import contextSuitesJws_2020 from './contexts/w3id.org_security_suites_jws-2020_v1.json' assert { type: 'json' }
-import contextSuiteEip712 from './contexts/w3id.org_security_suites_eip712sig-2021_v1.json' assert { type: 'json' }
-import schema_org from './contexts/schema.org.json' assert { type: 'json' }
+import contextCredentialV1 from './contexts/www.w3.org_2018_credentials_v1.json' with { type: 'json' }
+import contextCredentialExamplesV1 from './contexts/www.w3.org_2018_credentials_examples_v1.json' with { type: 'json' }
+import contextDidV1 from './contexts/www.w3.org_ns_did_v1.json' with { type: 'json' }
+import contextSecurityV1 from './contexts/w3id.org_security_v1.json' with { type: 'json' }
+import contextSecurityV2 from './contexts/w3id.org_security_v2.json' with { type: 'json' }
+import contextSecurityV3 from './contexts/w3id.org_security_v3-unstable.json' with { type: 'json' }
+import contextSecurityBBSV1 from './contexts/w3id.org_security_bbs_v1.json' with { type: 'json' }
+import contextSuitesEd25519 from './contexts/w3id.org_security_suites_ed25519-2018_v1.json' with { type: 'json' }
+import contextSuitesX25519 from './contexts/w3id.org_security_suites_x25519-2019_v1.json' with { type: 'json' }
+import contextVeramoProfile from './contexts/veramo.io_contexts_profile_v1.json' with { type: 'json' }
+import contextLdsEcdsaSecpRecovery2020_0 from './contexts/lds-ecdsa-secp256k1-recovery2020-0.0.json' with { type: 'json' }
+import contextSuitesSecp256k1Recovery2020 from './contexts/w3id.org_security_suites_secp256k1recovery-2020_v2.json' with { type: 'json' }
+import contextSuitesEd25519_2020 from './contexts/w3id.org_security_suites_ed25519-2020-v1.json' with { type: 'json' }
+import contextSuitesX25519_2020 from './contexts/w3id.org_security_suites_x25519-2020_v1.json' with { type: 'json' }
+import contextSuitesJws_2020 from './contexts/w3id.org_security_suites_jws-2020_v1.json' with { type: 'json' }
+import contextSuiteEip712 from './contexts/w3id.org_security_suites_eip712sig-2021_v1.json' with { type: 'json' }
+import schema_org from './contexts/schema.org.json' with { type: 'json' }
 
 /**
  * Provides a hardcoded map of common Linked Data `@context` definitions.
