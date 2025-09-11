@@ -593,10 +593,6 @@ importers:
       uuid:
         specifier: ^11.0.0
         version: 11.1.0
-    optionalDependencies:
-      '@veramo/credential-ld':
-        specifier: ^6.0.0
-        version: link:../credential-ld
     devDependencies:
       '@types/debug':
         specifier: 4.1.8

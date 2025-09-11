@@ -125,7 +125,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
               {
                 chainId: 1337,
                 name: 'ganache',
-                provider: provider,
+                provider,
                 registry,
               },
             ],

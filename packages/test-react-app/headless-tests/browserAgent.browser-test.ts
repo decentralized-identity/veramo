@@ -44,7 +44,7 @@ describe('Browser integration tests', () => {
       /**
        * this is a test case snapshot, provided by documentation on
        * https://veramo.io/docs/react_tutorials/react_setup_resolver,
-       * to check if the app is returning same results as expected.
+       * to check if the app is returning the same results as expected.
        */
       let resultSnapshot = {
         didDocumentMetadata: {},
@@ -70,7 +70,7 @@ describe('Browser integration tests', () => {
       await page.waitForSelector('#result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
-        await expect(parsedResult).toMatchObject(resultSnapshot)
+        expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
 
@@ -87,7 +87,7 @@ describe('Browser integration tests', () => {
       await page.waitForSelector('#invalid-result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
-        await expect(parsedResult).toMatchObject(resultSnapshot)
+        expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
   })
