@@ -17,7 +17,7 @@ jobs:
           persist-credentials: false
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -104,7 +104,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -128,7 +128,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -165,7 +165,7 @@ jobs:
           token: ${{secrets.GH_TOKEN}}
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
