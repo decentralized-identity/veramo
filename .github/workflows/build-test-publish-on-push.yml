@@ -1,4 +1,6 @@
 name: build-test-publish-on-push-cached
+permissions:
+  contents: read
 on:
   workflow_dispatch:
   push:
@@ -145,6 +147,8 @@ jobs:
       - run: pnpm run docs
 
   publish:
+    permissions:
+      contents: write
     needs:
       - build
       - test-integration
