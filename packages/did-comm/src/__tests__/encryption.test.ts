@@ -191,7 +191,7 @@ describe('didcomm encryption tests', () => {
       expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'XC20P', more: 'protected' })
       expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
       delete jwe.aad
-      await expect(decryptJWE(jwe, decrypter)).rejects.toThrowError('Failed to decrypt')
+      await expect(decryptJWE(jwe, decrypter)).rejects.toThrow('Failed to decrypt')
     })
   })
 
@@ -238,15 +238,15 @@ describe('didcomm encryption tests', () => {
       expect(await decryptJWE(jwe, decrypter1)).toEqual(cleartext)
       expect(await decryptJWE(jwe, decrypter2)).toEqual(cleartext)
       delete jwe.aad
-      await expect(decryptJWE(jwe, decrypter1)).rejects.toThrowError('Failed to decrypt')
-      await expect(decryptJWE(jwe, decrypter2)).rejects.toThrowError('Failed to decrypt')
+      await expect(decryptJWE(jwe, decrypter1)).rejects.toThrow('Failed to decrypt')
+      await expect(decryptJWE(jwe, decrypter2)).rejects.toThrow('Failed to decrypt')
     })
 
     it('Incompatible encrypters throw', async () => {
       expect.assertions(1)
       const enc1 = { enc: 'cool enc alg1' } as Encrypter
       const enc2 = { enc: 'cool enc alg2' } as Encrypter
-      await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+      await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrow('Incompatible encrypters passed')
     })
   })
 
@@ -361,7 +361,7 @@ describe('didcomm encryption tests', () => {
         expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'XC20P', more: 'protected' })
         expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
         delete jwe.aad
-        await expect(decryptJWE(jwe, decrypter)).rejects.toThrowError('Failed to decrypt')
+        await expect(decryptJWE(jwe, decrypter)).rejects.toThrow('Failed to decrypt')
       })
 
       describe('using remote ECDH', () => {
@@ -495,15 +495,15 @@ describe('didcomm encryption tests', () => {
         expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
         expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
         delete jwe.aad
-        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
-        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrow('Failed to decrypt')
+        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrow('Failed to decrypt')
       })
 
       it('Incompatible encrypters throw', async () => {
         expect.assertions(1)
         const enc1 = { enc: 'cool enc alg1' } as Encrypter
         const enc2 = { enc: 'cool enc alg2' } as Encrypter
-        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrow('Incompatible encrypters passed')
       })
     })
   })
@@ -687,7 +687,7 @@ describe('didcomm encryption tests', () => {
         expect.assertions(1)
         const enc1 = { enc: 'cool enc alg1' } as Encrypter
         const enc2 = { enc: 'cool enc alg2' } as Encrypter
-        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrow('Incompatible encrypters passed')
       })
     })
   })
@@ -1007,7 +1007,7 @@ describe('didcomm encryption tests', () => {
         expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected' })
         expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
         delete jwe.aad
-        await expect(decryptJWE(jwe, decrypter)).rejects.toThrowError('Failed to decrypt')
+        await expect(decryptJWE(jwe, decrypter)).rejects.toThrow('Failed to decrypt')
       })
 
       describe('using remote ECDH', () => {
@@ -1105,15 +1105,15 @@ describe('didcomm encryption tests', () => {
         expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
         expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
         delete jwe.aad
-        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
-        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrow('Failed to decrypt')
+        await expect(decryptJWE(jwe, recipients[1].decrypter)).rejects.toThrow('Failed to decrypt')
       })
 
       it('Incompatible encrypters throw', async () => {
         expect.assertions(1)
         const enc1 = { enc: 'cool enc alg1' } as Encrypter
         const enc2 = { enc: 'cool enc alg2' } as Encrypter
-        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrow('Incompatible encrypters passed')
       })
     })
   })
@@ -1224,7 +1224,7 @@ describe('didcomm encryption tests', () => {
         expect(JSON.parse(decodeBase64url(jwe.protected))).toEqual({ enc: 'A256CBC-HS512', more: 'protected' })
         expect(await decryptJWE(jwe, decrypter)).toEqual(cleartext)
         delete jwe.aad
-        await expect(decryptJWE(jwe, decrypter)).rejects.toThrowError('Failed to decrypt')
+        await expect(decryptJWE(jwe, decrypter)).rejects.toThrow('Failed to decrypt')
       })
 
       describe('using remote ECDH', () => {
@@ -1332,15 +1332,15 @@ describe('didcomm encryption tests', () => {
         expect(await decryptJWE(jwe, recipients[0].decrypter)).toEqual(cleartext)
         expect(await decryptJWE(jwe, recipients[1].decrypter)).toEqual(cleartext)
         delete jwe.aad
-        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
-        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrowError('Failed to decrypt')
+        await expect(decryptJWE(jwe, recipients[0].decrypter)).rejects.toThrow('Failed to decrypt')
+        await expect(decryptJWE(jwe, recipients[1].decrypter)).rejects.toThrow('Failed to decrypt')
       })
 
       it('Incompatible encrypters throw', async () => {
         expect.assertions(1)
         const enc1 = { enc: 'cool enc alg1' } as Encrypter
         const enc2 = { enc: 'cool enc alg2' } as Encrypter
-        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrowError('Incompatible encrypters passed')
+        await expect(createJWE(cleartext, [enc1, enc2])).rejects.toThrow('Incompatible encrypters passed')
       })
     })
   })

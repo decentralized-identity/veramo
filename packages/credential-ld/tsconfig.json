@@ -11,6 +11,7 @@
   "include": ["src/**/*.json", "src/**/*.ts"],
   "references": [
     { "path": "../core-types" },
+    { "path": "../credential-w3c" },
     { "path": "../utils" }
   ]
 }

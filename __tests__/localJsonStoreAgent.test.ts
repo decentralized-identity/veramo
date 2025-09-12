@@ -80,22 +80,22 @@ import { JsonFileStore } from './utils/json-file-store'
 import credentialStatus from './shared/credentialStatus'
 import credentialPluginTests from './shared/credentialPluginTests'
 import dbInitOptions from './shared/dbInitOptions'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
 jest.setTimeout(120000)
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
   IDIDManager &
-  IKeyManager &
-  IDataStore &
-  IDataStoreORM &
-  IResolver &
-  IMessageHandler &
-  IDIDComm &
-  ICredentialPlugin &
-  ISelectiveDisclosure
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ISelectiveDisclosure
 >
 
 let databaseFile: string
@@ -106,6 +106,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   // and `DataStoreJson` if you want to use all the query capabilities of `DataStoreJson`
   databaseFile = options?.context?.databaseFile || `./tmp/local-database-${Math.random().toPrecision(5)}.json`
 
+  const { provider, registry } = await createGanacheProvider()
 
   // manually create the tmp directory
   await fs.promises.mkdir('./tmp', { recursive: true })
@@ -114,14 +115,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
   agent = createAgent<
     IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ISelectiveDisclosure
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialPlugin &
+      ISelectiveDisclosure
   >({
     ...options,
     context: {
@@ -144,19 +145,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
               {
-                name: 'mainnet',
-                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
+                name: 'ganache',
+                chainId: 1337,
+                provider: provider as any,
+                registry,
               },
             ],
           }),
@@ -180,7 +172,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId }),
+          ...ethrDidResolver({
+            networks: [
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
+                registry,
+              },
+            ],
+          }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
           ...getDidPeerResolver(),
@@ -211,8 +212,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
               new VeramoJsonWebSignature2020(),
               new VeramoEd25519Signature2020(),
             ],
-          })
-        ]
+          }),
+        ],
       }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),

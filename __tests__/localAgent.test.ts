@@ -64,8 +64,8 @@ import {
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource } from 'typeorm'
-import { createGanacheProvider } from './utils/ganache-provider'
-import { createEthersProvider } from './utils/ethers-provider'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
+import { createEthersProvider } from '../packages/test-react-app/src/test-utils/ethers-provider'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
@@ -97,20 +97,19 @@ import credentialPluginTests from './shared/credentialPluginTests.js'
 
 jest.setTimeout(120000)
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
   IDIDManager &
-  IKeyManager &
-  IDataStore &
-  IDataStoreORM &
-  IResolver &
-  IMessageHandler &
-  IDIDComm &
-  ICredentialPlugin &
-  ISelectiveDisclosure &
-  IDIDDiscovery
+    IKeyManager &
+    IDataStore &
+    IDataStoreORM &
+    IResolver &
+    IMessageHandler &
+    IDIDComm &
+    ICredentialPlugin &
+    ISelectiveDisclosure &
+    IDIDDiscovery
 >
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
@@ -147,15 +146,15 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   })
   agent = createAgent<
     IDIDManager &
-    IKeyManager &
-    IDataStore &
-    IDataStoreORM &
-    IResolver &
-    IMessageHandler &
-    IDIDComm &
-    ICredentialPlugin &
-    ISelectiveDisclosure &
-    IDIDDiscovery
+      IKeyManager &
+      IDataStore &
+      IDataStoreORM &
+      IResolver &
+      IMessageHandler &
+      IDIDComm &
+      ICredentialPlugin &
+      ISelectiveDisclosure &
+      IDIDDiscovery
   >({
     ...options,
     context: {
@@ -179,22 +178,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
-              {
-                name: 'mainnet',
-                chainId: 1,
-                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
-              },
               {
                 chainId: 1337,
                 name: 'ganache',
@@ -223,7 +206,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         ...ethrDidResolver({
-          infuraProjectId,
           networks: [
             {
               name: 'ganache',

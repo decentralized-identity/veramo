@@ -15,9 +15,9 @@ describe('core agent', () => {
 
     // @ts-ignore
     await agent.doSomething({ foo: 'baz' })
-    expect(plugin.methods?.doSomething).toBeCalledWith({ foo: 'baz' }, { agent })
+    expect(plugin.methods?.doSomething).toHaveBeenCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('doSomething', { foo: 'bar' })
-    expect(plugin.methods?.doSomething).toBeCalledWith({ foo: 'bar' }, { agent })
+    expect(plugin.methods?.doSomething).toHaveBeenCalledWith({ foo: 'bar' }, { agent })
   })
 
   it('should allow method overrides', async () => {
@@ -37,9 +37,9 @@ describe('core agent', () => {
 
     // @ts-ignore
     await agent.doSomething({ foo: 'baz' })
-    expect(doSomething).toBeCalledWith({ foo: 'baz' }, { agent })
+    expect(doSomething).toHaveBeenCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('doSomething', { foo: 'bar' })
-    expect(doSomething).toBeCalledWith({ foo: 'bar' }, { agent })
+    expect(doSomething).toHaveBeenCalledWith({ foo: 'bar' }, { agent })
   })
 
   it('should expose only authorized methods', async () => {
@@ -70,9 +70,9 @@ describe('core agent', () => {
 
     // @ts-ignore
     await agent.bar({ foo: 'baz' })
-    expect(plugin.methods?.bar).toBeCalledWith({ foo: 'baz' }, { agent })
+    expect(plugin.methods?.bar).toHaveBeenCalledWith({ foo: 'baz' }, { agent })
     await agent.execute('baz', { foo: 'bar' })
-    expect(baz).toBeCalledWith({ foo: 'bar' }, { agent })
+    expect(baz).toHaveBeenCalledWith({ foo: 'bar' }, { agent })
 
     expect(agent.availableMethods()).toEqual(['bar', 'baz'])
   })
@@ -92,12 +92,12 @@ describe('core agent', () => {
 
     // @ts-ignore
     await agent.doSomething({ foo: 'baz' })
-    expect(plugin.methods?.doSomething).toBeCalledWith(
+    expect(plugin.methods?.doSomething).toHaveBeenCalledWith(
       { foo: 'baz' },
       { agent, authorizedDid: 'did:example:123' },
     )
     await agent.execute('doSomething', { foo: 'bar' })
-    expect(plugin.methods?.doSomething).toBeCalledWith(
+    expect(plugin.methods?.doSomething).toHaveBeenCalledWith(
       { foo: 'bar' },
       { agent, authorizedDid: 'did:example:123' },
     )

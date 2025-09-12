@@ -46,45 +46,6 @@ export default (testContext: {
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
     })
 
-    it('should create identifier using did:ethr:arbitrum:goerli provider', async () => {
-      identifier = await agent.didManagerCreate({
-        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
-        provider: 'did:ethr:arbitrum:goerli',
-      })
-      expect(identifier.provider).toEqual('did:ethr:arbitrum:goerli')
-      expect(identifier.did).toMatch(/^did:ethr:arbitrum:goerli:0x.*$/)
-      expect(identifier.keys.length).toEqual(1)
-      expect(identifier.services.length).toEqual(0)
-      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
-    })
-
-    it('should create identifier using did:ethr:sepolia provider', async () => {
-      identifier = await agent.didManagerCreate({
-        provider: 'did:ethr:sepolia',
-      })
-      expect(identifier.provider).toEqual('did:ethr:sepolia')
-      expect(identifier.did).toMatch(/^did:ethr:sepolia:0x.*$/)
-      expect(identifier.keys.length).toEqual(1)
-      expect(identifier.services.length).toEqual(0)
-      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
-    })
-
-    it('should translate identifier using chainId 421613 to arbitrum', async () => {
-      identifier = await agent.didManagerCreate({
-        provider: 'did:ethr',
-        options: {
-          // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
-          // because the configured network has that name
-          network: 421613,
-        },
-      })
-      expect(identifier.provider).toEqual('did:ethr')
-      expect(identifier.did).toMatch(/^did:ethr:arbitrum:goerli:0x.*$/)
-      expect(identifier.keys.length).toEqual(1)
-      expect(identifier.services.length).toEqual(0)
-      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
-    })
-
     it('should create identifier using did:jwk', async () => {
       // keyType supports 'Secp256k1', 'Secp256r1', 'Ed25519', 'X25519'
       const keyType = 'Ed25519'
@@ -206,7 +167,7 @@ export default (testContext: {
     it('should get or create identifier', async () => {
       const identifier3 = await agent.didManagerGetOrCreate({
         alias: 'aliceDID11',
-        provider: 'did:ethr:mainnet',
+        provider: 'did:ethr:ganache',
       })
 
       const identifier4 = await agent.didManagerGetOrCreate({
@@ -251,15 +212,14 @@ export default (testContext: {
       expect(aliceIdentifiers.length).toEqual(1)
 
       const ethrIdentifiers = await agent.didManagerFind({
-        provider: 'did:ethr',
+        provider: 'did:ethr:ganache',
       })
       expect(ethrIdentifiers.length).toBeGreaterThanOrEqual(1)
 
-      // Default provider 'did:ethr:sepolia'
-      await agent.didManagerCreate({ provider: 'did:ethr' })
+      await agent.didManagerCreate({ provider: 'did:ethr:ganache' })
 
       const ethrIdentifiers2 = await agent.didManagerFind({
-        provider: 'did:ethr',
+        provider: 'did:ethr:ganache',
       })
       expect(ethrIdentifiers2.length).toEqual(ethrIdentifiers.length + 1)
     })

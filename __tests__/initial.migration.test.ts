@@ -16,7 +16,6 @@ import {
 } from '../packages/core-types/src'
 import { createAgent } from '../packages/core/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
 import { WebDIDProvider } from '../packages/did-provider-web/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
 import { DIDComm, IDIDComm } from '../packages/did-comm/src'
@@ -36,7 +35,6 @@ import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { Resolver } from 'did-resolver'
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
 
@@ -50,7 +48,6 @@ const __dirname = dirname(__filename)
 
 jest.setTimeout(60000)
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 describe('database initial migration tests', () => {
@@ -110,12 +107,6 @@ describe('database initial migration tests', () => {
               store: new DIDStore(dbConnection),
               defaultProvider: 'did:key',
               providers: {
-                // intentionally using deprecated config for backward compatibility checks
-                'did:ethr:sepolia': new EthrDIDProvider({
-                  defaultKms: 'local',
-                  network: 'sepolia',
-                  rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-                }),
                 'did:web': new WebDIDProvider({
                   defaultKms: 'local',
                 }),
@@ -127,7 +118,6 @@ describe('database initial migration tests', () => {
             }),
             new DIDResolverPlugin({
               resolver: new Resolver({
-                ...ethrDidResolver({ infuraProjectId }),
                 ...webDidResolver(),
                 ...getDidKeyResolver(),
                 ...new FakeDidResolver(() => agent).getDidFakeResolver(),

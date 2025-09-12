@@ -22,8 +22,8 @@
     "publish:next": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes",
     "publish:unstable": "lerna publish --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid unstable --pre-dist-tag unstable --yes",
     "docs": "pnpm docs:copy && pnpm docs:build",
-    "docs:copy": "ts-node ./scripts/docs-copy.ts",
-    "docs:build": "ts-node ./scripts/docs-build.ts && pnpm docs:pretty",
+    "docs:copy": "ts-node --project tsconfig.scripts.json ./scripts/docs-copy.ts",
+    "docs:build": "ts-node --project tsconfig.scripts.json ./scripts/docs-build.ts && pnpm docs:pretty",
     "docs:pretty": "prettier --write docs/**/*.md"
   },
   "devDependencies": {
@@ -58,12 +58,13 @@
     "json-schema": "0.4.0",
     "lerna": "8.1.2",
     "lerna-changelog": "2.2.0",
+    "nock": "14.0.10",
     "openapi-types": "12.1.3",
     "prettier": "3.4.2",
     "rimraf": "5.0.5",
     "semantic-release": "23.1.1",
     "sqlite3": "5.1.7",
-    "ts-jest": "29.2.5",
+    "ts-jest": "29.4.1",
     "ts-json-schema-generator": "1.5.0",
     "ts-node": "10.9.2",
     "typeorm": "0.3.20",
@@ -81,7 +82,8 @@
   },
   "resolutions": {
     "@types/eslint": "^9.0.0",
-    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
+    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0",
+    "node-gyp": "^10.0.0"
   },
   "engines": {
     "node": ">= 18.0.0"

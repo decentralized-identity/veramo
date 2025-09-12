@@ -1,6 +1,12 @@
 // noinspection ES6PreferShortImport
 
-import { IAgentOptions, IDIDManager, IResolver, MinimalImportableKey, TAgent } from '../../packages/core-types/src'
+import {
+  IAgentOptions,
+  IDIDManager,
+  IResolver,
+  MinimalImportableKey,
+  TAgent,
+} from '../../packages/core-types/src'
 import { getChainId, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
@@ -21,17 +27,17 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     it('should get chainId for ethr did', async () => {
-      const didUrl = 'did:ethr:mainnet:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
+      const didUrl = 'did:ethr:ganache:0xb09b66026ba5909a7cfe99b76875431d2b8d5190'
       const didDoc = await resolveDidOrThrow(didUrl, { agent })
       if (didDoc.verificationMethod) {
         const chainId = getChainId(didDoc.verificationMethod[0])
-        expect(chainId).toEqual(1)
+        expect(chainId).toEqual(1337)
       }
     })
 
     it('should map identifier keys to did doc', async () => {
       const account = `0xb09b66026ba5909a7cfe99b76875431d2b8d5190`
-      const did = `did:ethr:${account}`
+      const did = `did:ethr:ganache:${account}`
       const controllerKeyId = `metamask-${account}`
       await agent.didManagerImport({
         did,
@@ -56,7 +62,7 @@ export default (testContext: {
       const identifier = await agent.didManagerGet({ did })
       const extendedKeys = await mapIdentifierKeysToDoc(identifier, 'verificationMethod', { agent })
       expect(extendedKeys[0].meta.verificationMethod?.blockchainAccountId?.toLocaleLowerCase()).toEqual(
-        `eip155:1:${account}`,
+        `eip155:1337:${account}`,
       )
     })
 
@@ -65,8 +71,8 @@ export default (testContext: {
       const issuer = await agent.didManagerCreate({
         provider: 'did:peer',
         options: {
-          num_algo: 0
-        }
+          num_algo: 0,
+        },
       })
       const payload = {
         issuer: issuer.did,

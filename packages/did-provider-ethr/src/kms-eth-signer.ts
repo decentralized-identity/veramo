@@ -1,5 +1,5 @@
 import {
-  Provider,
+  type Provider,
   Signer,
   TypedDataDomain,
   TypedDataField,

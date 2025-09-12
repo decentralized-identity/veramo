@@ -1,0 +1,27 @@
+{
+  "extends": "./packages/tsconfig.settings.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./build",
+    "rootDir": ".",
+    "types": ["node", "jest"],
+  },
+  "include": [
+    "scripts/**/*",
+    "packages/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "**/__tests__/**/*",
+    "**/build/**/*"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "target": "ES2020",
+      "moduleResolution": "node",
+      "types": ["node"]
+    }
+  }
+}

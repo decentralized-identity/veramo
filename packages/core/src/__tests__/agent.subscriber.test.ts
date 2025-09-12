@@ -18,7 +18,7 @@ describe('core agent', () => {
 
     agent.emit('foo', { bar: 'baz' })
 
-    expect(plugin.onEvent).toBeCalledWith({ type: 'foo', data: { bar: 'baz' } }, { agent })
+    expect(plugin.onEvent).toHaveBeenCalledWith({ type: 'foo', data: { bar: 'baz' } }, { agent })
   })
 
   it('calls listener with primitive data', async () => {
@@ -32,7 +32,7 @@ describe('core agent', () => {
 
     agent.emit('foo', 'bar')
 
-    expect(plugin.onEvent).toBeCalledWith({ type: 'foo', data: 'bar' }, { agent })
+    expect(plugin.onEvent).toHaveBeenCalledWith({ type: 'foo', data: 'bar' }, { agent })
   })
 
   it('does not call listener with mismatched eventType', async () => {
@@ -46,7 +46,7 @@ describe('core agent', () => {
 
     agent.emit('bar', 'baz')
 
-    expect(plugin.onEvent).not.toBeCalled()
+    expect(plugin.onEvent).not.toHaveBeenCalled()
   })
 
   it('handles event chain', async () => {
@@ -67,7 +67,7 @@ describe('core agent', () => {
 
     agent.emit('foo', {})
 
-    expect(secondPlugin.onEvent).toBeCalled()
+    expect(secondPlugin.onEvent).toHaveBeenCalled()
   })
 
   it('handles errors thrown in listeners', async () => {
@@ -87,7 +87,7 @@ describe('core agent', () => {
 
     await agent.emit('foo', 'bar')
 
-    expect(errorHandler.onEvent).toBeCalledWith(
+    expect(errorHandler.onEvent).toHaveBeenCalledWith(
       {
         type: CoreEvents.error,
         data: new Error("I can't handle it!!!!"),
