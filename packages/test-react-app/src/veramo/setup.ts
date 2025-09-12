@@ -20,14 +20,14 @@ import { KeyManager } from '@veramo/key-manager'
 import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
 import { CredentialPlugin, W3cMessageHandler } from '@veramo/credential-w3c'
-// import {
-//   CredentialProviderLD,
-//   LdDefaultContexts,
-//   VeramoEcdsaSecp256k1RecoverySignature2020,
-//   VeramoEd25519Signature2018,
-//   VeramoEd25519Signature2020,
-//   VeramoJsonWebSignature2020,
-// } from '@veramo/credential-ld'
+import {
+  CredentialProviderLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+  VeramoEd25519Signature2020,
+  VeramoJsonWebSignature2020,
+} from '@veramo/credential-ld'
 import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key'
 import { getResolver as getDidPeerResolver, PeerDIDProvider } from '@veramo/did-provider-peer'
 import { getDidPkhResolver, PkhDIDProvider } from '@veramo/did-provider-pkh'
@@ -73,15 +73,15 @@ type InstalledPlugins = IResolver &
 
 export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
   const jwt = new CredentialProviderJWT()
-  // const ld = new CredentialProviderLD({
-  //   contextMaps: [LdDefaultContexts],
-  //   suites: [
-  //     new VeramoEcdsaSecp256k1RecoverySignature2020(),
-  //     new VeramoEd25519Signature2018(),
-  //     new VeramoEd25519Signature2020(),
-  //     new VeramoJsonWebSignature2020(),
-  //   ],
-  // })
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoEd25519Signature2020(),
+      new VeramoJsonWebSignature2020(),
+    ],
+  })
   const agent: TAgent<InstalledPlugins> = createAgent<InstalledPlugins>({
     ...options,
     plugins: [
@@ -158,11 +158,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin({ issuers: [
-          jwt,
-          // ld,
-        ]
-      }),
+      new CredentialPlugin({ issuers: [jwt, ld] }),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

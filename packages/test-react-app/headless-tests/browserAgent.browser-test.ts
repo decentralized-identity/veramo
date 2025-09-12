@@ -3,8 +3,7 @@ import { getAgent, setup } from '../src/veramo/setup.js'
 import keyManager from '../../../__tests__/shared/keyManager.js'
 import didManager from '../../../__tests__/shared/didManager.js'
 import verifiableDataJWT from '../../../__tests__/shared/verifiableDataJWT.js'
-// // these tests are too flaky in the CI env
-// import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD.js'
+import verifiableDataLD from '../../../__tests__/shared/verifiableDataLD.js'
 import handleSdrMessage from '../../../__tests__/shared/handleSdrMessage.js'
 import resolveDid from '../../../__tests__/shared/resolveDid.js'
 import webDidFlow from '../../../__tests__/shared/webDidFlow.js'
@@ -23,8 +22,7 @@ describe('Browser integration tests', () => {
   describe('shared tests', () => {
     const testContext = { getAgent, setup, tearDown: async () => true }
     verifiableDataJWT(testContext)
-    // // these tests are too flaky in the CI env
-    // verifiableDataLD(testContext)
+    verifiableDataLD(testContext)
     handleSdrMessage(testContext)
     resolveDid(testContext)
     webDidFlow(testContext)
