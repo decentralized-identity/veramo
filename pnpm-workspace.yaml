@@ -2,11 +2,11 @@ packages:
   - packages/*
 
 ignoredBuiltDependencies:
+  - '@scarf/scarf'
   - bufferutil
   - core-js
   - core-js-pure
   - nx
-  - protobufjs
   - secp256k1
   - utf-8-validate
 

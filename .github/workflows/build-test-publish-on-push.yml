@@ -17,8 +17,7 @@ jobs:
           persist-credentials: false
       - uses: pnpm/action-setup@v3
         with:
-          version: 9
-      - run: pnpm add -g pnpm
+          version: 10
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
@@ -51,8 +50,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
         with:
-          version: 9
-      - run: pnpm add -g pnpm
+          version: 10
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -65,6 +63,8 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm rebuild -r
       - name: 'Run integration tests'
         env:
           INCLUDE_POSTGRES_TESTS: true
@@ -104,8 +104,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
         with:
-          version: 9
-      - run: pnpm add -g pnpm
+          version: 10
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -129,8 +128,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
         with:
-          version: 9
-      - run: pnpm add -g pnpm
+          version: 10
       - name: 'Restore build output'
         uses: actions/cache/restore@v4
         with:
@@ -167,8 +165,7 @@ jobs:
           token: ${{secrets.GH_TOKEN}}
       - uses: pnpm/action-setup@v3
         with:
-          version: 9
-      - run: pnpm add -g pnpm
+          version: 10
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
