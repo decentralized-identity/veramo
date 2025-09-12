@@ -1,3 +1,17 @@
-prefer-workspace-packages: true
 packages:
-  - "packages/*"
+  - packages/*
+
+ignoredBuiltDependencies:
+  - '@scarf/scarf'
+  - bufferutil
+  - core-js
+  - core-js-pure
+  - nx
+  - secp256k1
+  - utf-8-validate
+
+onlyBuiltDependencies:
+  - puppeteer
+  - sqlite3
+
+prefer-workspace-packages: true
