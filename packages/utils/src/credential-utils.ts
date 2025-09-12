@@ -102,7 +102,7 @@ export function computeEntryHash(
 
   const unixfs = new UnixFS({
     type: 'file',
-    data: new TextEncoder().encode(hashable)
+    data: new TextEncoder().encode(hashable),
   })
 
   const bytes = encode(prepare({ Data: unixfs.marshal() }))
@@ -127,7 +127,7 @@ export function extractIssuer(
     | CredentialPayload
     | PresentationPayload
     | null,
-  options: { removeParameters?: boolean } = {}
+  options: { removeParameters?: boolean } = {},
 ): string {
   if (!isDefined(input)) {
     return ''
@@ -156,12 +156,32 @@ export function extractIssuer(
 }
 
 /**
- * Remove all DID parameters from a DID url
+ * Remove all DID query parameters and fragment components from a DID URL
  *
- * @param did - the DID URL
+ * @param did - the DID URL that may contain query parameters
+ * @returns DID URL without query parameters
+ *
+ * @example
+ * ```TypeScript
+ * removeDIDParameters('did:example:abc:0x123?service=agent&relativeRef=%2Fpath#version=42')
+ * // Returns: 'did:example:abc:0x123'
+ *
+ * removeDIDParameters('https://example.com:3128/:abc:0x123?service=agent&relativeRef=%2Fpath#version=42')
+ * // Returns: 'https://example.com:3128/:abc:0x123'
+ *
+ * removeDIDParameters('did:example:abc:0x123#version=42')
+ * // Returns: 'did:example:abc:0x123'
+ * ```
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function removeDIDParameters(did: string): string {
-  return did.replace(/\?.+$/, '')
+  try {
+    const { origin, protocol, pathname } = new URL(did)
+    // Reconstruct URL without search parameters or hash
+    return origin !== 'null' ? `${origin}${pathname}` : `${protocol}${pathname}`
+  } catch (error) {
+    // Fallback: return original input for malformed URLs or non-URL strings
+    return did
+  }
 }

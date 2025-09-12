@@ -4,6 +4,7 @@ import {
   decodePresentationToObject,
   extractIssuer,
   processEntryToArray,
+  removeDIDParameters,
 } from '../credential-utils.js'
 
 describe('@veramo/utils credential utils', () => {
@@ -252,5 +253,64 @@ describe('@veramo/utils credential utils', () => {
     expect(extractIssuer({} as any)).toEqual('')
     expect(extractIssuer(null)).toEqual('')
     expect(extractIssuer(undefined)).toEqual('')
+  })
+
+  describe('removeDIDParameters', () => {
+    it('should remove query parameters from DID URLs', () => {
+      expect(removeDIDParameters('did:example:abc:0x123?service=agent')).toEqual('did:example:abc:0x123')
+      expect(removeDIDParameters('did:example:abc:0x123?service=agent&relativeRef=%2Fpath')).toEqual('did:example:abc:0x123')
+      expect(removeDIDParameters('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn?versionTime=2023-01-01T00:00:00Z')).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
+    })
+
+    it('should remove fragment components from DID URLs', () => {
+      expect(removeDIDParameters('did:example:abc:0x123#version=42')).toEqual('did:example:abc:0x123')
+      expect(removeDIDParameters('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn#key-1')).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
+    })
+
+    it('should remove both query parameters and fragment components', () => {
+      expect(removeDIDParameters('did:example:abc:0x123?service=agent&relativeRef=%2Fpath#version=42')).toEqual('did:example:abc:0x123')
+      expect(removeDIDParameters('did:web:example.com?service=files#key-1')).toEqual('did:web:example.com')
+    })
+
+    it('should return unchanged DID URLs without parameters', () => {
+      expect(removeDIDParameters('did:example:abc:0x123')).toEqual('did:example:abc:0x123')
+      expect(removeDIDParameters('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')).toEqual('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn')
+      expect(removeDIDParameters('did:web:example.com')).toEqual('did:web:example.com')
+      expect(removeDIDParameters('did:ethr:mainnet:0x1234567890abcdef')).toEqual('did:ethr:mainnet:0x1234567890abcdef')
+    })
+
+    it('should handle various DID methods', () => {
+      expect(removeDIDParameters('did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7?service=endpoint')).toEqual('did:ethr:rinkeby:0x02f64955dd05dde55910f379ec5785eee08bbe6e50ddae6bace0596fd8d46018f7')
+      expect(removeDIDParameters('did:web:example.com:user:alice?versionId=1#publicKey')).toEqual('did:web:example.com:user:alice')
+      expect(removeDIDParameters('did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w?service=hub#auth-key')).toEqual('did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w')
+    })
+
+    it('should handle edge cases gracefully', () => {
+      // Empty string
+      expect(removeDIDParameters('')).toEqual('')
+
+      // Non-DID URLs (URL constructor behavior)
+      expect(removeDIDParameters('https://example.com:123/456?param=value#fragment')).toEqual('https://example.com:123/456')
+      expect(removeDIDParameters('not-a-url')).toEqual('not-a-url')
+
+      // Malformed DIDs (fallback behavior)
+      expect(removeDIDParameters('did:')).toEqual('did:')
+      expect(removeDIDParameters('did:invalid')).toEqual('did:invalid')
+    })
+
+    it('should handle complex query parameters', () => {
+      expect(removeDIDParameters('did:example:123?service=files&transform=upper&version=1.0')).toEqual('did:example:123')
+      expect(removeDIDParameters('did:example:123?hl=en-US&service=agent%20endpoint')).toEqual('did:example:123')
+    })
+
+    it('should handle only query parameters', () => {
+      expect(removeDIDParameters('did:example:123?service=agent')).toEqual('did:example:123')
+      expect(removeDIDParameters('did:example:123?')).toEqual('did:example:123')
+    })
+
+    it('should handle only fragment components', () => {
+      expect(removeDIDParameters('did:example:123#key-1')).toEqual('did:example:123')
+      expect(removeDIDParameters('did:example:123#')).toEqual('did:example:123')
+    })
   })
 })
