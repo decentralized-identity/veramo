@@ -554,14 +554,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -1128,14 +1120,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -2812,14 +2796,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -4712,14 +4688,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
