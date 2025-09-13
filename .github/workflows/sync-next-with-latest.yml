@@ -1,4 +1,6 @@
 name: Sync @next with @latest
+permissions:
+  contents: write
 on:
   workflow_dispatch:
   push:
