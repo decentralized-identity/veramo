@@ -1,6 +1,5 @@
 [![Discord](https://img.shields.io/discord/878293684620234752?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/huwyNfVkhe)
-![Twitter Follow](https://img.shields.io/twitter/follow/veramolabs?logo=twitter&style=flat-square)
-[![Build, Test and Publish](https://github.com/decentralized-identity/veramo/workflows/Build,%20Test%20and%20Publish/badge.svg?branch=next)](https://github.com/decentralized-identity/veramo/actions?query=workflow%3A%22Build%2C+Test+and+Publish%22)
+[![Build, Test and Publish](https://github.com/decentralized-identity/veramo/actions/workflows/build-test-publish-on-push.yml/badge.svg)](https://github.com/decentralized-identity/veramo/actions/workflows/build-test-publish-on-push.yml)
 [![codecov](https://codecov.io/gh/decentralized-identity/veramo/branch/next/graph/badge.svg)](https://codecov.io/gh/decentralized-identity/veramo)
 
 # Veramo
@@ -62,7 +61,7 @@ fixes [there](https://github.com/uport-project/veramo-website) as well.
 
 ### Build Veramo locally
 
-This monorepo uses [pnpm](https://pnpm.io/) and [lerna](https://lerna.js.org/)
+This monorepo uses [pnpm@10](https://pnpm.io/) and [lerna](https://lerna.js.org/)
 
 Install dependencies
 
