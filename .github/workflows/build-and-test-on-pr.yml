@@ -1,5 +1,7 @@
 name: build-test-on-pr-cached
 on: [pull_request, workflow_dispatch]
+permissions:
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
