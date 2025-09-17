@@ -122,6 +122,7 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
+      - run: cd packages/test-react-app && pnpm playwright install ; cd -
       - name: 'Run browser tests'
         run: pnpm test:browser
 

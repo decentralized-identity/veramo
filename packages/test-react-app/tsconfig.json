@@ -3,9 +3,9 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": [
-      "puppeteer",
-      "jest-environment-puppeteer",
-      "expect-puppeteer"
+      "playwright",
+      "@playwright/test",
+      "jest"
     ],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -16,7 +16,9 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src/**/*.ts[x]?"
+    "src/**/*.ts[x]?",
+    "headless-tests/**/*.ts",
+    "../../../__tests__/shared/**/*.ts"
   ],
   "references": [
     { "path": "../core-types" },

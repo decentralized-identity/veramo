@@ -7,8 +7,7 @@
   "globals": {
     "page": true,
     "browser": true,
-    "context": true,
-    "jestPuppeteer": true
+    "context": true
   },
   "parserOptions": {
     "sourceType": "module",

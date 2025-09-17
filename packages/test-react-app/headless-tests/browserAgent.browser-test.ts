@@ -35,11 +35,12 @@ describe('Browser integration tests', () => {
     didCommPacking(testContext)
   })
 
-  // // https://github.com/smooth-code/jest-puppeteer/issues/503 prevents us from using puppeteer currently
   describe('should initialize in the react app', () => {
     beforeAll(async () => {
+      // Navigate to the React app using Playwright
       await page.goto('http://localhost:3000')
     })
+
     it('should get didDoc data and match the snapshot', async () => {
       /**
        * this is a test case snapshot, provided by documentation on
@@ -67,11 +68,14 @@ describe('Browser integration tests', () => {
         },
       }
 
-      await page.waitForSelector('#result', { timeout: JEST_TIMEOUT }).then(async (element) => {
-        let result = await element!.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result!)
-        expect(parsedResult).toMatchObject(resultSnapshot)
-      })
+      // Wait for the result element using Playwright API
+      const resultElement = await page.waitForSelector('#result', { timeout: JEST_TIMEOUT })
+
+      // Get the text content using Playwright's evaluate method
+      const result = await resultElement.evaluate((el) => el.textContent)
+      const parsedResult = JSON.parse(result!)
+
+      expect(parsedResult).toMatchObject(resultSnapshot)
     })
 
     it('should get didDoc data based on invalid URL', async () => {
@@ -84,11 +88,14 @@ describe('Browser integration tests', () => {
         didDocument: null,
       }
 
-      await page.waitForSelector('#invalid-result', { timeout: JEST_TIMEOUT }).then(async (element) => {
-        let result = await element!.evaluate((el) => el.textContent)
-        let parsedResult = JSON.parse(result!)
-        expect(parsedResult).toMatchObject(resultSnapshot)
-      })
+      // Wait for the invalid result element using Playwright API
+      const invalidResultElement = await page.waitForSelector('#invalid-result', { timeout: JEST_TIMEOUT })
+
+      // Get the text content using Playwright's evaluate method
+      const result = await invalidResultElement.evaluate((el) => el.textContent)
+      const parsedResult = JSON.parse(result!)
+
+      expect(parsedResult).toMatchObject(resultSnapshot)
     })
   })
 })

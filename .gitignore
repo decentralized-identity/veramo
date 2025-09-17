@@ -40,3 +40,8 @@ data
 .vscode-upload.json
 
 local-database*.json
+
+# Playwright artifacts
+**/playwright-report/
+**/test-results/
+**/.playwright/
