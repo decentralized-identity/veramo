@@ -20,6 +20,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     let identifier: IIdentifier
+    let localKey: ManagedKeyInfo
     it('should create identifier', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:web',
@@ -432,30 +433,21 @@ export default (testContext: {
         provider: 'did:web',
       })
 
-      const mockNewKey: ManagedKeyInfo = {
-        "type": "X25519",
-        "kid": "ec38b35a3cdf99d2aac3beecebe70e1451869a69d02cba923d0eed1f3969065e",
-        "publicKeyHex": "ec38b35a3cdf99d2aac3beecebe70e1451869a69d02cba923d0eed1f3969065e",
-        "meta": {
-          "algorithms": [
-            "ECDH",
-            "ECDH-ES",
-            "ECDH-1PU"
-          ]
-        },
-        "kms": "local"
-      }
+      localKey = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
 
       const result = await agent.didManagerAddKey({
         did: webIdentifier.did,
-        key: mockNewKey,
+        key: localKey,
         options: { isLocal: true },
       })
 
       expect(result).toEqual(true)
 
       const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
-      expect(updatedIdentifier.keys.some((key: any) => key.kid === mockNewKey.kid)).toBe(true)
+      expect(updatedIdentifier.keys.some((key: any) => key.kid === localKey.kid)).toBe(true)
     })
 
     it('should remove key from DIDStore', async () => {
@@ -463,30 +455,16 @@ export default (testContext: {
         did: 'did:web:did.example.com',
       })
 
-      const mockNewKey: ManagedKeyInfo = {
-        "type": "X25519",
-        "kid": "ec38b35a3cdf99d2aac3beecebe70e1451869a69d02cba923d0eed1f3969065e",
-        "publicKeyHex": "ec38b35a3cdf99d2aac3beecebe70e1451869a69d02cba923d0eed1f3969065e",
-        "meta": {
-          "algorithms": [
-            "ECDH",
-            "ECDH-ES",
-            "ECDH-1PU"
-          ]
-        },
-        "kms": "local"
-      }
-
       const result = await agent.didManagerRemoveKey({
         did: webIdentifier.did,
-        kid:  mockNewKey.kid,
+        kid: localKey.kid,
         options: { isLocal: true },
       })
 
       expect(result).toEqual(true)
 
       const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
-      expect(updatedIdentifier.keys.some((key: any) => key.kid === mockNewKey.kid)).toBe(false)
+      expect(updatedIdentifier.keys.some((key: any) => key.kid === localKey.kid)).toBe(false)
     })
 
     it('should add service only in DIDStore', async () => {
@@ -505,18 +483,18 @@ export default (testContext: {
         did: webIdentifier.did,
         service: mockService,
         options: { isLocal: true },
-      });
+      })
 
-      expect(result).toEqual(true);
+      expect(result).toEqual(true)
 
-      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did });
+      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
       expect(updatedIdentifier.services.some((service: any) => service.id === mockService.id)).toBe(true)
-    });
+    })
 
     it('should remove service from identifier with isLocal=true', async () => {
       const webIdentifier = await agent.didManagerGet({
         did: 'did:web:did.example.com',
-      });
+      })
       const mockService = {
         id: 'did.example.com#didcomm_service',
       }
@@ -525,12 +503,12 @@ export default (testContext: {
         did: webIdentifier.did,
         id: mockService.id,
         options: { isLocal: true },
-      });
+      })
 
-      expect(result).toEqual(true);
+      expect(result).toEqual(true)
 
-      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did });
+      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
       expect(updatedIdentifier.services.some((service: any) => service.id === mockService.id)).toBe(false)
-    });
+    })
   })
 }
