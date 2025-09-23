@@ -1066,6 +1066,11 @@ export const schema = {
             },
             "options": {
               "type": "object",
+              "properties": {
+                "isLocal": {
+                  "type": "boolean"
+                }
+              },
               "description": "Optional. Identifier provider specific options"
             }
           },
@@ -1151,6 +1156,11 @@ export const schema = {
             },
             "options": {
               "type": "object",
+              "properties": {
+                "isLocal": {
+                  "type": "boolean"
+                }
+              },
               "description": "Optional. Identifier provider specific options"
             }
           },
@@ -1447,6 +1457,11 @@ export const schema = {
             },
             "options": {
               "type": "object",
+              "properties": {
+                "isLocal": {
+                  "type": "boolean"
+                }
+              },
               "description": "Optional. Identifier provider specific options"
             }
           },
@@ -1469,6 +1484,11 @@ export const schema = {
             },
             "options": {
               "type": "object",
+              "properties": {
+                "isLocal": {
+                  "type": "boolean"
+                }
+              },
               "description": "Optional. Identifier provider specific options"
             }
           },

@@ -171,7 +171,10 @@ export interface IDIDManagerAddKeyArgs {
   /**
    * Optional. Identifier provider specific options
    */
-  options?: object
+  options?: {
+    isLocal?: boolean
+    [key: string]: any
+  }
 }
 
 /**
@@ -192,7 +195,10 @@ export interface IDIDManagerRemoveKeyArgs {
   /**
    * Optional. Identifier provider specific options
    */
-  options?: object
+  options?: {
+    isLocal?: boolean
+    [key: string]: any
+  }
 }
 
 /**
@@ -213,7 +219,10 @@ export interface IDIDManagerAddServiceArgs {
   /**
    * Optional. Identifier provider specific options
    */
-  options?: object
+  options?: {
+    isLocal?: boolean
+    [key: string]: any
+  }
 }
 
 /**
@@ -234,7 +243,10 @@ export interface IDIDManagerRemoveServiceArgs {
   /**
    * Optional. Identifier provider specific options
    */
-  options?: object
+  options?: {
+    isLocal?: boolean
+    [key: string]: any
+  }
 }
 
 /**
