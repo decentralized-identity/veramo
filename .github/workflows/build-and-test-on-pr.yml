@@ -15,7 +15,7 @@ jobs:
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
 
       - run: pnpm install
@@ -55,7 +55,7 @@ jobs:
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
@@ -109,7 +109,7 @@ jobs:
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
@@ -133,7 +133,7 @@ jobs:
       - name: 'Setup Node.js with pnpm cache'
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
       - run: pnpm run lint
       - run: pnpm run docs
