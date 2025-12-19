@@ -1,0 +1,40 @@
+{
+  "name": "did-provider-dht",
+  "version": "1.0.0",
+  "description": "Veramo plugin that enables creation and control of did:dht method.",
+  "main": "build/index.js",
+  "exports": "./build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decentralized-identity/veramo.git",
+    "directory": "packages/did-provider-dht"
+  },
+  "keywords": [
+    "Veramo",
+    "DID",
+    "Verifiable",
+    "Credential",
+    "veramo-plugin",
+    "did:dht"
+  ],
+  "author": "Consensys Mesh R&D <hello@veramo.io>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/decentralized-identity/veramo/issues"
+  },
+  "homepage": "https://github.com/decentralized-identity/veramo#readme",
+  "dependencies": {
+    "@veramo/core": "^6.0.0",
+    "@veramo/core-types": "^6.0.0",
+    "@veramo/did-manager": "^6.0.0",
+    "debug": "^4.3.6"
+  }
+}
