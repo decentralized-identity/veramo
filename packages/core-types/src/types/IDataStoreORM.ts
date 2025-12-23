@@ -4,6 +4,29 @@ import { IAgentContext, IPluginMethodMap } from './IAgent.js'
 import { IMessage } from './IMessage.js'
 
 /**
+ *  The allowed columns for querying different data types in the {@link IDataStoreORM} interface.
+ *  @internal
+ */
+export const ALLOWED_COLUMNS = {
+  message: ['from', 'to', 'id', 'createdAt', 'expiresAt', 'threadId', 'type', 'raw', 'replyTo', 'replyUrl'],
+  claim: [
+    'context',
+    'credentialType',
+    'type',
+    'value',
+    'isObj',
+    'id',
+    'issuer',
+    'subject',
+    'expirationDate',
+    'issuanceDate',
+  ],
+  credential: ['context', 'type', 'id', 'issuer', 'subject', 'expirationDate', 'issuanceDate', 'hash'],
+  presentation: ['context', 'type', 'id', 'holder', 'verifier', 'expirationDate', 'issuanceDate'],
+  identifier: ['did', 'alias', 'provider'],
+} as const
+
+/**
  * Represents the sort order of results from a {@link FindArgs} query.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
@@ -70,7 +93,7 @@ export interface FindArgs<TColumns> {
  * @deprecated This type will be removed in future versions of this plugin interface.
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type TIdentifiersColumns = 'did' | 'alias' | 'provider'
+export type TIdentifiersColumns = (typeof ALLOWED_COLUMNS.identifier)[number]
 
 /**
  * The columns that can be queried for an {@link IMessage}
@@ -78,17 +101,7 @@ export type TIdentifiersColumns = 'did' | 'alias' | 'provider'
  * See {@link IDataStoreORM.dataStoreORMGetMessagesCount}
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type TMessageColumns =
-  | 'from'
-  | 'to'
-  | 'id'
-  | 'createdAt'
-  | 'expiresAt'
-  | 'threadId'
-  | 'type'
-  | 'raw'
-  | 'replyTo'
-  | 'replyUrl'
+export type TMessageColumns = (typeof ALLOWED_COLUMNS.message)[number]
 
 /**
  * The columns that can be searched for a {@link VerifiableCredential}
@@ -98,15 +111,7 @@ export type TMessageColumns =
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type TCredentialColumns =
-  | 'context'
-  | 'type'
-  | 'id'
-  | 'issuer'
-  | 'subject'
-  | 'expirationDate'
-  | 'issuanceDate'
-  | 'hash'
+export type TCredentialColumns = (typeof ALLOWED_COLUMNS.credential)[number]
 
 /**
  * The columns that can be searched for the claims of a {@link VerifiableCredential}
@@ -116,17 +121,7 @@ export type TCredentialColumns =
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type TClaimsColumns =
-  | 'context'
-  | 'credentialType'
-  | 'type'
-  | 'value'
-  | 'isObj'
-  | 'id'
-  | 'issuer'
-  | 'subject'
-  | 'expirationDate'
-  | 'issuanceDate'
+export type TClaimsColumns = (typeof ALLOWED_COLUMNS.claim)[number]
 
 /**
  * The columns that can be searched for a {@link VerifiablePresentation}
@@ -136,14 +131,7 @@ export type TClaimsColumns =
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type TPresentationColumns =
-  | 'context'
-  | 'type'
-  | 'id'
-  | 'holder'
-  | 'verifier'
-  | 'expirationDate'
-  | 'issuanceDate'
+export type TPresentationColumns = (typeof ALLOWED_COLUMNS.presentation)[number]
 
 /**
  * This context can be used for Veramo Agents that are created behind an authorization mechanism, that attaches a DID
