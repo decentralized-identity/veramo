@@ -5,7 +5,7 @@ import { jest } from '@jest/globals'
 
 describe('@veramo/did-jwt', () => {
   const vcJwt =
-    'eyJhbGciOiJFZERTQSJ9.eyJleHAiOjE3NjQ4Nzg5MDgsImlzcyI6ImRpZDprZXk6ejZNa29USHNnTk5yYnk4SnpDTlExaVJMeVc1UVE2UjhYdXU2QUE4aWdHck1WUFVNIiwibmJmIjoxNjA3MTEyNTA4LCJzdWIiOiJkaWQ6a2V5Ono2TWtvVEhzZ05OcmJ5OEp6Q05RMWlSTHlXNVFRNlI4WHV1NkFBOGlnR3JNVlBVTSIsInZjIjp7IkBjb250ZXh0IjpbImh0dHBzOi8vd3d3LnczLm9yZy8yMDE4L2NyZWRlbnRpYWxzL3YxIiwiaHR0cHM6Ly9pZGVudGl0eS5mb3VuZGF0aW9uLy53ZWxsLWtub3duL2RpZC1jb25maWd1cmF0aW9uL3YxIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmtleTp6Nk1rb1RIc2dOTnJieThKekNOUTFpUkx5VzVRUTZSOFh1dTZBQThpZ0dyTVZQVU0iLCJvcmlnaW4iOiJpZGVudGl0eS5mb3VuZGF0aW9uIn0sImV4cGlyYXRpb25EYXRlIjoiMjAyNS0xMi0wNFQxNDowODoyOC0wNjowMCIsImlzc3VhbmNlRGF0ZSI6IjIwMjAtMTItMDRUMTQ6MDg6MjgtMDY6MDAiLCJpc3N1ZXIiOiJkaWQ6a2V5Ono2TWtvVEhzZ05OcmJ5OEp6Q05RMWlSTHlXNVFRNlI4WHV1NkFBOGlnR3JNVlBVTSIsInR5cGUiOlsiVmVyaWZpYWJsZUNyZWRlbnRpYWwiLCJEb21haW5MaW5rYWdlQ3JlZGVudGlhbCJdfX0.6ovgQ-T_rmYueviySqXhzMzgqJMAizOGUKAObQr2iikoRNsb8DHfna4rh1puwWqYwgT3QJVpzdO_xZARAYM9Dw'
+    'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vZXhhbXBsZS5jb20vMS8yLzMiXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIkN1c3RvbSJdLCJjcmVkZW50aWFsU3ViamVjdCI6eyJ5b3UiOiJSb2NrIn19LCJzdWIiOiJkaWQ6d2ViOmV4YW1wbGUuY29tIiwibmJmIjoxNjA3MTEyNTA4LCJpc3MiOiJkaWQ6a2V5Ono2TWtpRkpBcU1HUE5tSnFLS0NkVW11REhSdUo3QWp3ZXFIQ200Q2NLd2tkelJINSJ9.KBRelZUm3bTURJ_biZaU51MqT22IN96FFS0cj1zuGijBg5cu1dXOMahnYK_E4Rz2iYpk9esVG9YEdLNjKGVfCA'
 
   const context: IContext = {
     // @ts-ignore
@@ -21,15 +21,25 @@ describe('@veramo/did-jwt', () => {
           didDocumentMetadata: {},
           didResolutionMetadata: {},
           didDocument: {
-            '@context': 'https://www.w3.org/ns/did/v1',
-            id: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-            publicKey: [
+            '@context': ['https://www.w3.org/ns/did/v1'],
+            id: 'did:key:z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5',
+            verificationMethod: [
               {
-                id: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM#z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
+                id: 'did:key:z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5#z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5',
                 type: 'Ed25519VerificationKey2018',
-                controller: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-                publicKeyBase58: 'A12q688RGRdqshXhL9TW8QXQaX9H82ejU9DnqztLaAgy',
+                controller: 'did:key:z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5',
+                publicKeyJwk: {
+                  kty: 'OKP',
+                  crv: 'Ed25519',
+                  x: 'OF4uPFtnTUcrZESegfsnJ0K8v5mDnv7wRtoBFpwClYw',
+                },
               },
+            ],
+            authentication: [
+              'did:key:z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5#z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5',
+            ],
+            assertionMethod: [
+              'did:key:z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5#z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5',
             ],
           },
         }
@@ -54,23 +64,13 @@ describe('@veramo/did-jwt', () => {
       expect.objectContaining({
         raw: vcJwt,
         data: {
-          exp: 1764878908,
-          iss: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
+          iss: 'did:key:z6MkiFJAqMGPNmJqKKCdUmuDHRuJ7AjweqHCm4CcKwkdzRH5',
           nbf: 1607112508,
-          sub: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
+          sub: 'did:web:example.com',
           vc: {
-            '@context': [
-              'https://www.w3.org/2018/credentials/v1',
-              'https://identity.foundation/.well-known/did-configuration/v1',
-            ],
-            credentialSubject: {
-              id: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-              origin: 'identity.foundation',
-            },
-            expirationDate: '2025-12-04T14:08:28-06:00',
-            issuanceDate: '2020-12-04T14:08:28-06:00',
-            issuer: 'did:key:z6MkoTHsgNNrby8JzCNQ1iRLyW5QQ6R8Xuu6AA8igGrMVPUM',
-            type: ['VerifiableCredential', 'DomainLinkageCredential'],
+            '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
+            credentialSubject: { you: 'Rock' },
+            type: ['VerifiableCredential', 'Custom'],
           },
         },
         metaData: [{ type: 'test' }, { type: 'JWT', value: 'EdDSA' }],
