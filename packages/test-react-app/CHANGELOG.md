@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/decentralized-identity/veramo/compare/v6.0.0...v6.0.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **ci:** update jest puppeteer config ([#1437](https://github.com/decentralized-identity/veramo/issues/1437)) ([437ecc5](https://github.com/decentralized-identity/veramo/commit/437ecc5e04a16d7eb0407b4e7b749461eaa52e6c))
+
+
+
+
+
 # [6.0.0](https://github.com/decentralized-identity/veramo/compare/v5.6.0...v6.0.0) (2024-04-02)
 
 

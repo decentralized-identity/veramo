@@ -1,7 +1,7 @@
 {
   "name": "@veramo/kv-store",
   "description": "Veramo Key Value Store plugin",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
