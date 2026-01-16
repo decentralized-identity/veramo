@@ -20,7 +20,7 @@
     "@types/debug": "4.1.8",
     "@types/url-parse": "1.4.8",
     "jest-fetch-mock": "3.0.3",
-    "typescript": "5.7.3"
+    "typescript": "5.9.3"
   },
   "files": [
     "build/**/*",
