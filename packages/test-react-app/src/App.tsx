@@ -20,14 +20,14 @@ function App() {
 
   const resolveInvalid = async () => {
     const doc = await agent.resolveDid({
-      didUrl: 'did:ethr:goerli:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
+      didUrl: 'did:ethr:sepolia:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
     })
     setInvalidDidDoc(doc)
   }
   const issueCredential = async () => {
     const identifier = await agent.didManagerGetOrCreate({
       alias: 'default',
-      provider: 'did:ethr:goerli',
+      provider: 'did:ethr:sepolia',
     })
     const credential = await agent.createVerifiableCredential({
       credential: {

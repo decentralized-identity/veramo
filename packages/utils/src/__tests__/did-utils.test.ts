@@ -29,12 +29,12 @@ describe('@veramo/utils did utils', () => {
     ).toEqual(1)
     expect(
       getChainId({
-        id: 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
+        id: 'did:ethr:sepolia:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: 'did:ethr:goerli:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
-        blockchainAccountId: 'eip155:5:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
+        controller: 'did:ethr:sepolia:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
+        blockchainAccountId: 'eip155:11155111:0x1B54DaD834f2017ab66C1a1ffF74425889141e51',
       }),
-    ).toEqual(5)
+    ).toEqual(11155111)
   })
 
   it('should return correct chainId for did:pkh', () => {
