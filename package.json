@@ -44,11 +44,11 @@
     "caip": "1.1.0",
     "credential-status": "3.0.4",
     "cross-env": "7.0.3",
-    "did-jwt": "8.0.8",
-    "did-jwt-vc": "4.0.6",
+    "did-jwt": "8.0.18",
+    "did-jwt-vc": "4.0.16",
     "did-resolver": "4.1.0",
     "ethers": "6.13.4",
-    "ethr-did-resolver": "11.0.3",
+    "ethr-did-resolver": "11.0.5",
     "express": "4.21.1",
     "ganache": "7.9.2",
     "jest": "29.7.0",
@@ -71,7 +71,7 @@
     "typescript": "5.7.3",
     "uint8arrays": "5.1.0",
     "uuid": "9.0.1",
-    "web-did-resolver": "2.0.29"
+    "web-did-resolver": "2.0.32"
   },
   "repository": {
     "type": "git",

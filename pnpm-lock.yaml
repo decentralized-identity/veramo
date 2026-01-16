@@ -65,11 +65,11 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       did-jwt:
-        specifier: 8.0.8
-        version: 8.0.8
+        specifier: 8.0.18
+        version: 8.0.18
       did-jwt-vc:
-        specifier: 4.0.6
-        version: 4.0.6
+        specifier: 4.0.16
+        version: 4.0.16
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -77,8 +77,8 @@ importers:
         specifier: 6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did-resolver:
-        specifier: 11.0.3
-        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 11.0.5
+        version: 11.0.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       express:
         specifier: 4.21.1
         version: 4.21.1
@@ -146,8 +146,8 @@ importers:
         specifier: 9.0.1
         version: 9.0.1
       web-did-resolver:
-        specifier: 2.0.29
-        version: 2.0.29(encoding@0.1.13)
+        specifier: 2.0.32
+        version: 2.0.32(encoding@0.1.13)
 
   packages/cli:
     dependencies:
@@ -1059,14 +1059,14 @@ importers:
         specifier: 4.1.8
         version: 4.1.8
       ethr-did-resolver:
-        specifier: 11.0.3
-        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 11.0.5
+        version: 11.0.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       typescript:
         specifier: 5.7.3
         version: 5.7.3
       web-did-resolver:
-        specifier: 2.0.29
-        version: 2.0.29(encoding@0.1.13)
+        specifier: 2.0.32
+        version: 2.0.32(encoding@0.1.13)
 
   packages/key-manager:
     dependencies:
@@ -3566,6 +3566,9 @@ packages:
   '@scure/base@1.2.6':
     resolution: {integrity: sha512-g/nm5FgUa//MCj1gV09zTJTaM6KBAHqLN907YVQqf7zC49+DcO4B1so4ZX07Ef10Twr6nuqYEH9GEggFXA4Fmg==}
 
+  '@scure/base@2.0.0':
+    resolution: {integrity: sha512-3E1kpuZginKkek01ovG8krQ0Z44E3DHPjc5S2rjJw9lZn3KSQOs8S7wqikF/AH7iRanHypj85uGyxk0XAyC37w==}
+
   '@scure/bip32@1.4.0':
     resolution: {integrity: sha512-sVUpc0Vq3tXCkDGYVWGIZTRfnvu8LoTDaev7vbwh0omSvVORONr960MQWdKqJDCReIEmTj3PAr73O3aoxz7OPg==}
 
@@ -5973,9 +5976,16 @@ packages:
   devtools-protocol@0.0.1495869:
     resolution: {integrity: sha512-i+bkd9UYFis40RcnkW7XrOprCujXRAHg62IVh/Ah3G8MmNXpCGt1m0dTFhSdx/AVs8XEMbdOGRwdkR1Bcta8AA==}
 
+  did-jwt-vc@4.0.16:
+    resolution: {integrity: sha512-is7/e2KdLwtDP3JTnf9sLhUeBQF9AhyGjBuJAAVs5U2Uf8CBchRwDycztHQJCx1voBabVprrmAa9NJMd+qWcSA==}
+    engines: {node: '>=18'}
+
   did-jwt-vc@4.0.6:
     resolution: {integrity: sha512-V9fz6roNOyp9Q86A0UDzh/zFshixyFrDnqa94eFTdhB5x+UBLXfDWG6OYBCGNIdqMVawNUbgh+QxIxlLpJxIeQ==}
     engines: {node: '>=18'}
+
+  did-jwt@8.0.18:
+    resolution: {integrity: sha512-yS3Y+aUKjYqRFrgR/RY77NuOOqS7SFfvfFH4THhWD6+hkxeUZcKQSsdNZ12QR1Vd48yP9exwae2wzbuOZn0NqQ==}
 
   did-jwt@8.0.8:
     resolution: {integrity: sha512-XlL71xneBxwGiED4yB+LklGpBnCwY3/ZpIf9o3e+3ubo1BLDaPppfhZTevUKG4UXWAqZC5/WT2hD/WfqAhl8FA==}
@@ -6461,6 +6471,9 @@ packages:
 
   ethr-did-resolver@11.0.4:
     resolution: {integrity: sha512-EJ/dL2QsFzvhBJd0nlPFjma3bxpQOWyp2TytQZyAeqi6SfZ4ALCB0VaA4dSeT4T8ZtI2pzs/sD7t/7A0584J6Q==}
+
+  ethr-did-resolver@11.0.5:
+    resolution: {integrity: sha512-fTQ+4g4aRDyU1hzlPH6FYgpoOd7fM8ZV9+3JCl2PqSDnS8Iz9V+y/9KOjLzqhY6LKhMWW5hIbaGypwOPWj15JA==}
 
   ethr-did@3.0.38:
     resolution: {integrity: sha512-gUxtErXVOQUJf+bmnxRdSJdlU9aFbQSBNaJCYGt+PLqw6l4qqInTfMRiWpwe/brhRtdjE+64tnayOVk8ataeQA==}
@@ -12064,6 +12077,9 @@ packages:
   web-did-resolver@2.0.29:
     resolution: {integrity: sha512-hpwctjy5qGhViloUdIv3zX5N234gzIbfJZ+hZ560qqZN+7Immpo9tsbxFsJVdmU93DDPMSpltnJJWENj9FfZug==}
 
+  web-did-resolver@2.0.32:
+    resolution: {integrity: sha512-L91/ApTmDjgzS0UDstTKn3kN/1hlQBnVcUN8K29e3xhVBpPktHYC6uvVAQ8ohbIg9D6wrrbaBQvfRArDxgJG2g==}
+
   web-streams-polyfill@3.3.3:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
@@ -12155,10 +12171,12 @@ packages:
 
   whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
@@ -15400,6 +15418,8 @@ snapshots:
 
   '@scure/base@1.2.6': {}
 
+  '@scure/base@2.0.0': {}
+
   '@scure/bip32@1.4.0':
     dependencies:
       '@noble/curves': 1.4.2
@@ -17975,7 +17995,7 @@ snapshots:
 
   credential-status@3.0.4:
     dependencies:
-      did-jwt: 8.0.8
+      did-jwt: 8.0.18
       did-resolver: 4.1.0
 
   credentials-context@2.0.0: {}
@@ -18315,10 +18335,27 @@ snapshots:
 
   devtools-protocol@0.0.1495869: {}
 
+  did-jwt-vc@4.0.16:
+    dependencies:
+      did-jwt: 8.0.18
+      did-resolver: 4.1.0
+
   did-jwt-vc@4.0.6:
     dependencies:
-      did-jwt: 8.0.8
+      did-jwt: 8.0.18
       did-resolver: 4.1.0
+
+  did-jwt@8.0.18:
+    dependencies:
+      '@noble/ciphers': 1.3.0
+      '@noble/curves': 1.9.7
+      '@noble/hashes': 1.7.1
+      '@scure/base': 2.0.0
+      canonicalize: 2.1.0
+      did-resolver: 4.1.0
+      multibase: 4.0.6
+      multiformats: 9.9.0
+      uint8arrays: 3.1.1
 
   did-jwt@8.0.8:
     dependencies:
@@ -18421,7 +18458,7 @@ snapshots:
 
   dotenv-expand@11.0.7:
     dependencies:
-      dotenv: 16.4.7
+      dotenv: 16.6.1
     optional: true
 
   dotenv-expand@5.1.0: {}
@@ -18977,9 +19014,17 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  ethr-did-resolver@11.0.5(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+    dependencies:
+      did-resolver: 4.1.0
+      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   ethr-did@3.0.38(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
-      did-jwt: 8.0.8
+      did-jwt: 8.0.18
       did-resolver: 4.1.0
       ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did-resolver: 11.0.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -25946,6 +25991,13 @@ snapshots:
       defaults: 1.0.4
 
   web-did-resolver@2.0.29(encoding@0.1.13):
+    dependencies:
+      cross-fetch: 4.1.0(encoding@0.1.13)
+      did-resolver: 4.1.0
+    transitivePeerDependencies:
+      - encoding
+
+  web-did-resolver@2.0.32(encoding@0.1.13):
     dependencies:
       cross-fetch: 4.1.0(encoding@0.1.13)
       did-resolver: 4.1.0
