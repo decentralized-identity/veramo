@@ -12,11 +12,11 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@digitalcredentials/ed25519-signature-2020": "^4.0.0",
-    "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
-    "@digitalcredentials/jsonld": "^6.0.0",
-    "@digitalcredentials/jsonld-signatures": "^10.0.0",
-    "@digitalcredentials/vc": "^7.0.0",
+    "@digitalcredentials/ed25519-signature-2020": "^7.0.0",
+    "@digitalcredentials/ed25519-verification-key-2020": "^5.0.0",
+    "@digitalcredentials/jsonld": "^9.0.0",
+    "@digitalcredentials/jsonld-signatures": "^12.0.0",
+    "@digitalcredentials/vc": "^10.0.0",
     "@transmute/credentials-context": "^0.7.0-unstable.81",
     "@transmute/ed25519-signature-2018": "^0.7.0-unstable.81",
     "@transmute/json-web-signature": "^0.7.0-unstable.81",
@@ -30,7 +30,7 @@
   },
   "resolutions": {
     "@types/react": "19.0.8",
-    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
+    "jsonld": "npm:@digitalcredentials/jsonld@^9.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

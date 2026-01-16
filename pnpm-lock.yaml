@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@types/eslint': ^9.0.0
-  jsonld: npm:@digitalcredentials/jsonld@^6.0.0
+  jsonld: npm:@digitalcredentials/jsonld@^9.0.0
   node-gyp: ^10.0.0
 
 importers:
@@ -484,29 +484,29 @@ importers:
   packages/credential-ld:
     dependencies:
       '@digitalcredentials/ed25519-signature-2020':
-        specifier: ^4.0.0
-        version: 4.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
-      '@digitalcredentials/ed25519-verification-key-2020':
-        specifier: ^4.0.0
-        version: 4.0.0
-      '@digitalcredentials/jsonld':
-        specifier: ^6.0.0
-        version: 6.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
-      '@digitalcredentials/jsonld-signatures':
-        specifier: ^10.0.0
-        version: 10.1.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
-      '@digitalcredentials/vc':
         specifier: ^7.0.0
-        version: 7.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+        version: 7.0.0
+      '@digitalcredentials/ed25519-verification-key-2020':
+        specifier: ^5.0.0
+        version: 5.0.0
+      '@digitalcredentials/jsonld':
+        specifier: ^9.0.0
+        version: 9.0.0
+      '@digitalcredentials/jsonld-signatures':
+        specifier: ^12.0.0
+        version: 12.0.1
+      '@digitalcredentials/vc':
+        specifier: ^10.0.0
+        version: 10.0.2
       '@transmute/credentials-context':
         specifier: ^0.7.0-unstable.81
         version: 0.7.0-unstable.82
       '@transmute/ed25519-signature-2018':
         specifier: ^0.7.0-unstable.81
-        version: 0.7.0-unstable.82(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+        version: 0.7.0-unstable.82
       '@transmute/json-web-signature':
         specifier: ^0.7.0-unstable.81
-        version: 0.7.0-unstable.82(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+        version: 0.7.0-unstable.82
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020':
         specifier: uport-project/EcdsaSecp256k1RecoverySignature2020
         version: https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
@@ -959,8 +959,8 @@ importers:
   packages/did-provider-peer:
     dependencies:
       '@aviarytech/did-peer':
-        specifier: ^0.0.22
-        version: 0.0.22
+        specifier: ^1.0.0
+        version: 1.1.2
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -1686,8 +1686,8 @@ packages:
     peerDependencies:
       ajv: '>=8'
 
-  '@aviarytech/did-peer@0.0.22':
-    resolution: {integrity: sha512-BdA7L9wpYNLf1c3d0yB92aoj1AUWE10p408VZ4IJXfavb/oNxALZRRRJTcvMdrd5P2XXQsP5+x4bXfO24iRURg==}
+  '@aviarytech/did-peer@1.1.2':
+    resolution: {integrity: sha512-5epYnyduIhp+xs7GtpI3IMLqbryjgHEtAqaKVZHtjTz+hQEgm2rPspm5LB2sHG+04dy6v/gbxNDOCO+hxaix4g==}
 
   '@babel/code-frame@7.10.4':
     resolution: {integrity: sha512-vG6SvB6oYEhvgisZNFRmRCUkLz11c7rp+tbNTynGqc6mS1d5ATd/sGyV6W0KZZnXRKMTzZDRgQT3Ou9jhpAfUg==}
@@ -1860,13 +1860,6 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-proposal-export-namespace-from@7.18.9':
-    resolution: {integrity: sha512-k1NtHyOMvlDDFeb9G5PhUXuGj8m/wiwojgQVEhJ/fsVsMCpLyOP4h0uGEjYJKrRI+EVPlb5Jk+Gt9P97lOGwtA==}
-    engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
   '@babel/plugin-proposal-nullish-coalescing-operator@7.18.6':
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
@@ -1943,11 +1936,6 @@ packages:
   '@babel/plugin-syntax-export-default-from@7.27.1':
     resolution: {integrity: sha512-eBC/3KSekshx19+N40MzjWqJd7KTEdOoLesAfa4IDFI8eRz5a47i5Oszus6zG/cwIXN63YhgLOMSSNJx49sENg==}
     engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-syntax-export-namespace-from@7.8.3':
-    resolution: {integrity: sha512-MXf5laXo6c1IbEbegDmzGPwGNTsHZmEy6QGznu5Sh2UCWvueywb2ee+CCE4zQiZstxU9BMoQO9i6zUFSY0Kj0Q==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -2569,24 +2557,36 @@ packages:
     resolution: {integrity: sha512-1xKdJnfITMvrF/sCgwBx2C4p7qcNAARyIvrAOZGqIHmBaT/hAenpC8bf44qVY+UIMuCYP23kqpIfJQebQDThDQ==}
     engines: {node: '>=12'}
 
-  '@digitalcredentials/ed25519-signature-2020@4.0.0':
-    resolution: {integrity: sha512-xdmtgmp7OYnc9imXzA2IJjkLmY28e9oCL0UshEMF9vljcPnkfAWvi9wrfXyOoFVdszxVNivF7U/q0u1PbQ7gfA==}
-    engines: {node: '>=14'}
+  '@digitalcredentials/credentials-v2-context@0.0.1-beta.0':
+    resolution: {integrity: sha512-i0AQXFnMeOqf2uKNBUcnN78mO8L9H91QKMdpDqsgDYzTIKGLnNCOOxbRbrJOimhR+soYO64xn54U8/R7Qx0nyA==}
+    engines: {node: '>=18'}
+
+  '@digitalcredentials/ed25519-multikey@1.4.0':
+    resolution: {integrity: sha512-BXgNEX42a1EwnUantP6Po7yt43BamajrzVIvips6/egcQIFfXFHwl8yBvmPndsNY1Q9HKv/b743Nl5C3HEt8PA==}
+    engines: {node: '>=16'}
+
+  '@digitalcredentials/ed25519-signature-2020@7.0.0':
+    resolution: {integrity: sha512-Q0HdBdYKfg6yiPMJ1NlZMbUslSAVVwet/WhA/8emddb7W9lmmAtPJv3f9AuMfLFhY70z29Iedc5KWxqqbkMHbA==}
+    engines: {node: '>=18'}
 
   '@digitalcredentials/ed25519-verification-key-2020@3.2.2':
     resolution: {integrity: sha512-ZfxNFZlA379MZpf+gV2tUYyiZ15eGVgjtCQLWlyu3frWxsumUgv++o0OJlMnrDsWGwzFMRrsXcosd5+752rLOA==}
     engines: {node: '>=14'}
 
-  '@digitalcredentials/ed25519-verification-key-2020@4.0.0':
-    resolution: {integrity: sha512-GrfITgp1guFbExZckj2q6LOxxm08PFSScr0lBYtDRezJa6CTpA9XQ8yXSSXE3LvpEi5/2uOMFxxIfKAtL1J2ww==}
-    engines: {node: '>=18'}
+  '@digitalcredentials/ed25519-verification-key-2020@5.0.0':
+    resolution: {integrity: sha512-Uo9D5czn6FBFKze780TQ+nquPL60DUe4zhUSlackvYKf3iZydjH58LEr/X4yAv4YC51KXo8cgCVoKkjoJ7WaXw==}
+    engines: {node: '>=20'}
 
   '@digitalcredentials/http-client@1.2.2':
     resolution: {integrity: sha512-YOwaE+vUDSwiDhZT0BbXSWVg+bvp1HA1eg/gEc8OCwCOj9Bn9FRQdu8P9Y/fnYqyFCioDwwTRzGxgJLl50baEg==}
     engines: {node: '>=12.0.0'}
 
-  '@digitalcredentials/jsonld-signatures@10.1.0':
-    resolution: {integrity: sha512-qLRHN4UUBAEoOk6LUL3z4jEP5hv4obJekx8Fy/f+9m8nW/JLAIeIAEfZwYzMytySUHMBpmUSxR7YRBm81FD80w==}
+  '@digitalcredentials/http-client@5.0.4':
+    resolution: {integrity: sha512-TbbfFauhd5fUAcZ/6TDenTuYqkzqdEhxYk1Rqicxcz33B9rzvJcmT+/81KF9DrUXmu6gpoqCranT2UkZftsxZA==}
+    engines: {node: '>=18.0'}
+
+  '@digitalcredentials/jsonld-signatures@12.0.1':
+    resolution: {integrity: sha512-KdyE7Bex+boqKRbvxofRyuI09BD6/8hQGSC5qbrXEmHd0oSLqePqKBM2pu9UZnzjxMZrN9sB3RqHxpijYEFh/w==}
     engines: {node: '>=18'}
 
   '@digitalcredentials/jsonld-signatures@9.4.0':
@@ -2601,9 +2601,13 @@ packages:
     resolution: {integrity: sha512-5tTakj0/GsqAJi8beQFVMQ97wUJZnuxViW9xRuAATL6eOBIefGBwHkVryAgEq2I4J/xKgb/nEyw1ZXX0G8wQJQ==}
     engines: {node: '>=12'}
 
-  '@digitalcredentials/keypair@1.0.5':
-    resolution: {integrity: sha512-g0QvhJMTSFCoUkEvSeggwVTJa2jFkQXjf/mpTn9sePkz+5OouMEDfXUWL61juTaxK5JWPEFc0PKlolXzHaHHHQ==}
-    engines: {node: '>=16.0'}
+  '@digitalcredentials/jsonld@9.0.0':
+    resolution: {integrity: sha512-lWVpg65xQbi4lvXWs3BezCwPrGDAllFjHwTBUWJCoKsfGzxtxTwbRNXpfhii5psQ2vvpjPXSI+y0uyRNOzr4cw==}
+    engines: {node: '>=14'}
+
+  '@digitalcredentials/keypair@3.0.0':
+    resolution: {integrity: sha512-kVap/M6LDxY0YuEkhzV9AUn03BjMbGZlq+OKS/1nmCH6r1tXQDKbKOwGH6uocsBQm3VIg5Qy7tcHkqaLy6jOUw==}
+    engines: {node: '>=18.0'}
 
   '@digitalcredentials/open-badges-context@2.1.0':
     resolution: {integrity: sha512-VK7X5u6OoBFxkyIFplNqUPVbo+8vFSAEoam8tSozpj05KPfcGw41Tp5p9fqMnY38oPfwtZR2yDNSctj/slrE0A==}
@@ -2612,9 +2616,13 @@ packages:
     resolution: {integrity: sha512-z8St0Ex2doecsExCFK1uI4gJC+a5EqYYu1xpRH1pKmqSS9l/nxfuVxexNFyaeEum4dUdg1EetIC2rTwLIFhPRA==}
     engines: {node: '>=12'}
 
-  '@digitalcredentials/vc@7.0.0':
-    resolution: {integrity: sha512-CgjUOqU2VWanbcKUA8L50/72O8rTtCtOY9indMwRIUgFgWkdY4wT89UTWs5QG3SGimXJsbjzKhVJ67VahPxg+Q==}
-    engines: {node: '>=12'}
+  '@digitalcredentials/ssi@5.4.2':
+    resolution: {integrity: sha512-/rNw47tbC8661tNzVBbKfmX6jaZT+NE7PhPkaFzHdMIzzY8knGotiPqp+8UjjWcQTkzXrqeu1AktRSAnEF+IFw==}
+    engines: {node: '>=20.0'}
+
+  '@digitalcredentials/vc@10.0.2':
+    resolution: {integrity: sha512-Mmts8WtAQmgdrSurQv+SFZNozNgvPzsruWQNIBlmfrlJ7QSyCoO7jybSnq43EuLm3UcqyqSb2mLHwAza310mhw==}
+    engines: {node: '>=18'}
 
   '@eslint-community/eslint-utils@4.9.0':
     resolution: {integrity: sha512-ayVFHdtZ+hsq1t2Dy24wCmGXGe4q9Gu3smhLYALJrr473ZH27MsnSL+LKUlimp4BWJqMDMLmPpx/Q9R3OAlL4g==}
@@ -3697,24 +3705,6 @@ packages:
       '@sphereon/react-native-argon2': ^2.0.9
       react-native: '>=0.60.0'
 
-  '@sphereon/isomorphic-webcrypto@2.5.0-unstable.0':
-    resolution: {integrity: sha512-HEOpZATW7zzYiF8Ak2X0lMvrVQL+6FTeIHm6E815zu7xP5PLjwYPJ0galBjc/F+kex22BzK9hndsdH0/y3bjqA==}
-    peerDependencies:
-      expo: '*'
-      expo-crypto: '*'
-      msrcrypt: '*'
-      msrcrypto: ^1.5.8
-      react-native-securerandom: ^1.0.1
-    peerDependenciesMeta:
-      expo:
-        optional: true
-      expo-crypto:
-        optional: true
-      msrcrypt:
-        optional: true
-      react-native-securerandom:
-        optional: true
-
   '@sphereon/react-native-argon2@2.0.9':
     resolution: {integrity: sha512-mXcp3meaKbv5TpEPxItZ1ZuRqkdNf8vjx3EM+GqNVQ8QQF9pbD3jw6wQfuFRPc+8kN+m9GEiVVbd9I0m50OPBg==}
     peerDependencies:
@@ -3768,8 +3758,14 @@ packages:
   '@stablelib/ed25519@1.0.3':
     resolution: {integrity: sha512-puIMWaX9QlRsbhxfDc5i+mNPMY+0TmQEskunY1rZEBPi1acBCVQAhnsk/1Hk50DGPtVsZtAWQg4NHGlVaO9Hqg==}
 
+  '@stablelib/ed25519@2.0.2':
+    resolution: {integrity: sha512-d/lJ5sgzhtmpMIbKFWfev+i6WebBdIzzBpMzXtZdvUijoksjXosYFNqytoMj7cRshNj+/XTLYnnVMdZfd+penw==}
+
   '@stablelib/hash@1.0.1':
     resolution: {integrity: sha512-eTPJc/stDkdtOcrNMZ6mcMK1e6yBbqRBaNW55XA1jU8w/7QdnCF0CmMmOD1m7VSkBR44PWrMHU2l6r8YEQHMgg==}
+
+  '@stablelib/hash@2.0.0':
+    resolution: {integrity: sha512-u3WPSqGido8lwJuMcrBgM5K54LrPGhkWAdtsyccf7dGsLixAZUds77zOAbu7bvKPwQlmoByH0txBi5rTmEKuHg==}
 
   '@stablelib/int@1.0.1':
     resolution: {integrity: sha512-byr69X/sDtDiIjIV6m4roLVWnNNlRGzsvxw+agj8CIEazqWGOQp2dTYgQhtyVXV9wpO6WyXRQUzLV/JRNumT2w==}
@@ -3789,11 +3785,17 @@ packages:
   '@stablelib/random@1.0.2':
     resolution: {integrity: sha512-rIsE83Xpb7clHPVRlBj8qNe5L8ISQOzjghYQm/dZ7VaM2KHYwMW5adjQjrzTZCchFnNCNhkwtnOBa9HTMJCI8w==}
 
+  '@stablelib/random@2.0.1':
+    resolution: {integrity: sha512-W6GAtXEEs7r+dSbuBsvoFmlyL3gLxle41tQkjKu17dDWtDdjhVUbtRfRCQcCUeczwkgjQxMPopgwYEvxXtHXGw==}
+
   '@stablelib/salsa20@1.0.2':
     resolution: {integrity: sha512-nfjKzw0KTKrrKBasEP+j7UP4I8Xudom8lVZIBCp0kQNARXq72IlSic0oabg2FC1NU68L4RdHrNJDd8bFwrphYA==}
 
   '@stablelib/sha512@1.0.1':
     resolution: {integrity: sha512-13gl/iawHV9zvDKciLo1fQ8Bgn2Pvf7OV6amaRVKiq3pjQ3UmEpXxWiAfV8tYjUpeZroBxtyrwtdooQT/i3hzw==}
+
+  '@stablelib/sha512@2.0.1':
+    resolution: {integrity: sha512-DUNe5cbnoH3sSIN+MG04RvTCLXtkbyy/SnQxiNO+GgF/KSXkkUSlF6mUVvCUdZBZ2X3NgogR+tAvaRSn8wxnLw==}
 
   '@stablelib/wipe@1.0.1':
     resolution: {integrity: sha512-WfqfX/eXGiAd3RJe4VU2snh/ZPwtSjLG4ynQ/vYzvghTh7dHFcI1wl+nrkWG6lGhukOxOsUHfv8dUXr58D0ayg==}
@@ -4704,9 +4706,6 @@ packages:
   asmcrypto.js@0.22.0:
     resolution: {integrity: sha512-usgMoyXjMbx/ZPdzTSXExhMPur2FTdz/Vo5PVx2gIaBcdAAJNOFlsdgqveM8Cff7W0v+xrf9BwjOV26JSAF9qA==}
 
-  asmcrypto.js@2.3.2:
-    resolution: {integrity: sha512-3FgFARf7RupsZETQ1nHnhLUUvpcttcCq1iZCaVAbJZbCZ5VNRrNyvpDyHTOb0KC3llFcsyOT/a99NZcCbeiEsA==}
-
   asn1.js@4.10.1:
     resolution: {integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==}
 
@@ -4933,12 +4932,20 @@ packages:
   base-x@4.0.1:
     resolution: {integrity: sha512-uAZ8x6r6S3aUM9rbHGVOIsR15U/ZSc82b3ymnCPsT45Gk1DDvhDPdIgB5MrhirZWt+5K0EEPQH985kNqZgNPFw==}
 
+  base58-universal@2.0.0:
+    resolution: {integrity: sha512-BgkgF8zVLOAygszG4W8NkLm7iXrw80VYAOcedrzANrIhS14+4W6zVqjyGTFUBM/FpqkHUt8aAYd4DbBBfn3zKg==}
+    engines: {node: '>=14'}
+
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
   base64url-universal@1.1.0:
     resolution: {integrity: sha512-WyftvZqye29YQ10ZnuiBeEj0lk8SN8xHU9hOznkLc85wS1cLTp6RpzlMrHxMPD9nH7S55gsBqMqgGyz93rqmkA==}
     engines: {node: '>=8.3.0'}
+
+  base64url-universal@2.0.0:
+    resolution: {integrity: sha512-6Hpg7EBf3t148C3+fMzjf+CHnADVDafWzlJUXAqqqbm4MKNXbsoPdOkWeRTjNlkYG7TpyjIpRO1Gk0SnsFD1rw==}
+    engines: {node: '>=14'}
 
   base64url@3.0.1:
     resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
@@ -6750,9 +6757,6 @@ packages:
     resolution: {integrity: sha512-2kCCtc+JvcZ86IGAz3Z2Y0A1baIz9fL31pH/0S1IqZr9Iwnjq8izfPtrCyQKO6TLMPELLsQMre7VDqeIKCsHkA==}
     engines: {node: '>=18'}
 
-  fix-esm@1.0.1:
-    resolution: {integrity: sha512-EZtb7wPXZS54GaGxaWxMlhd1DUDCnAg5srlYdu/1ZVeW+7wwR3Tp59nu52dXByFs3MBRq+SByx1wDOJpRvLEXw==}
-
   flat-cache@3.2.0:
     resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -8302,6 +8306,10 @@ packages:
   ky@0.25.1:
     resolution: {integrity: sha512-PjpCEWlIU7VpiMVrTwssahkYXX1by6NCT0fhTUX34F3DTinARlgMpriuroolugFPcMgpPWrOW4mTb984Qm1RXA==}
     engines: {node: '>=10'}
+
+  ky@1.14.2:
+    resolution: {integrity: sha512-q3RBbsO5A5zrPhB6CaCS8ZUv+NWCXv6JJT4Em0i264G9W0fdPB8YRfnnEi7Dm7X7omAkBIPojzYJ2D1oHTHqug==}
+    engines: {node: '>=18'}
 
   lan-network@0.1.7:
     resolution: {integrity: sha512-mnIlAEMu4OyEvUNdzco9xpuB9YVcPkQec+QsgycBCtPZvEqWPCDPfbAE4OJMdBBWpZWtpCn1xw9jJYlwjWI5zQ==}
@@ -10408,6 +10416,10 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
+  rdf-canonize@3.4.0:
+    resolution: {integrity: sha512-fUeWjrkOO0t1rg7B2fdyDTvngj+9RlUyL92vOdiB7c0FPguWVsniIMjEtHH+meLBO9rzkUlUzBVXgWrjI8P9LA==}
+    engines: {node: '>=12'}
+
   react-app-polyfill@3.0.0:
     resolution: {integrity: sha512-sZ41cxiU5llIB003yxxQBYrARBqe0repqPTTYBTmMqTz9szeBbE37BehCE891NZsmdZqqP+xWKdT3eo3vOzN8w==}
     engines: {node: '>=14'}
@@ -10914,6 +10926,9 @@ packages:
   set-proto@1.0.0:
     resolution: {integrity: sha512-RJRdvCo6IAnPdsvP/7m6bsQqNnn1FCBX5ZNtFL98MmFF/4xAIJTIg1YbHW5DC2W5SKZanrC6i4HsJqlajw/dZw==}
     engines: {node: '>= 0.4'}
+
+  setimmediate@1.0.5:
+    resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
 
   setprototypeof@1.1.0:
     resolution: {integrity: sha512-BvE/TwpZX4FXExxOxZyRGQQv651MSwmWKZGqvmPcRIjDqWub67kTKuIMx43cZZrS/cBBzwBcNDWoFxt2XEFIpQ==}
@@ -12155,10 +12170,12 @@ packages:
 
   whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
@@ -12499,7 +12516,7 @@ snapshots:
       jsonpointer: 5.0.1
       leven: 3.1.0
 
-  '@aviarytech/did-peer@0.0.22':
+  '@aviarytech/did-peer@1.1.2':
     dependencies:
       buffer: 6.0.3
 
@@ -12740,12 +12757,6 @@ snapshots:
       '@babel/helper-plugin-utils': 7.27.1
     optional: true
 
-  '@babel/plugin-proposal-export-namespace-from@7.18.9(@babel/core@7.28.4)':
-    dependencies:
-      '@babel/core': 7.28.4
-      '@babel/helper-plugin-utils': 7.27.1
-      '@babel/plugin-syntax-export-namespace-from': 7.8.3(@babel/core@7.28.4)
-
   '@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.28.4)':
     dependencies:
       '@babel/core': 7.28.4
@@ -12825,11 +12836,6 @@ snapshots:
       '@babel/core': 7.28.4
       '@babel/helper-plugin-utils': 7.27.1
     optional: true
-
-  '@babel/plugin-syntax-export-namespace-from@7.8.3(@babel/core@7.28.4)':
-    dependencies:
-      '@babel/core': 7.28.4
-      '@babel/helper-plugin-utils': 7.27.1
 
   '@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.4)':
     dependencies:
@@ -13571,22 +13577,23 @@ snapshots:
 
   '@digitalcredentials/base58-universal@1.0.1': {}
 
-  '@digitalcredentials/ed25519-signature-2020@4.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
+  '@digitalcredentials/credentials-v2-context@0.0.1-beta.0': {}
+
+  '@digitalcredentials/ed25519-multikey@1.4.0':
+    dependencies:
+      '@noble/ed25519': 1.7.5
+      '@stablelib/ed25519': 2.0.2
+      base58-universal: 2.0.0
+      base64url-universal: 2.0.0
+
+  '@digitalcredentials/ed25519-signature-2020@7.0.0':
     dependencies:
       '@digitalcredentials/base58-universal': 1.0.1
+      '@digitalcredentials/ed25519-multikey': 1.4.0
       '@digitalcredentials/ed25519-verification-key-2020': 3.2.2
-      '@digitalcredentials/jsonld-signatures': 10.1.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+      '@digitalcredentials/jsonld-signatures': 12.0.1
       ed25519-signature-2018-context: 1.1.0
       ed25519-signature-2020-context: 1.1.0
-    transitivePeerDependencies:
-      - domexception
-      - expo
-      - expo-crypto
-      - msrcrypt
-      - msrcrypto
-      - react-native
-      - react-native-securerandom
-      - web-streams-polyfill
 
   '@digitalcredentials/ed25519-verification-key-2020@3.2.2':
     dependencies:
@@ -13595,9 +13602,10 @@ snapshots:
       base64url-universal: 1.1.0
       crypto-ld: 6.0.0
 
-  '@digitalcredentials/ed25519-verification-key-2020@4.0.0':
+  '@digitalcredentials/ed25519-verification-key-2020@5.0.0':
     dependencies:
-      '@digitalcredentials/keypair': 1.0.5
+      '@digitalcredentials/keypair': 3.0.0
+      '@digitalcredentials/ssi': 5.4.2
       '@noble/ed25519': 1.7.5
       base-x: 4.0.1
 
@@ -13609,22 +13617,17 @@ snapshots:
       - domexception
       - web-streams-polyfill
 
-  '@digitalcredentials/jsonld-signatures@10.1.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
+  '@digitalcredentials/http-client@5.0.4':
+    dependencies:
+      ky: 1.14.2
+      undici: 6.21.3
+
+  '@digitalcredentials/jsonld-signatures@12.0.1':
     dependencies:
       '@digitalbazaar/security-context': 1.0.1
-      '@sphereon/isomorphic-webcrypto': 2.5.0-unstable.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)
+      '@digitalcredentials/jsonld': 9.0.0
       fast-text-encoding: 1.0.6
-      jsonld: '@digitalcredentials/jsonld@6.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)'
       serialize-error: 8.1.0
-    transitivePeerDependencies:
-      - domexception
-      - expo
-      - expo-crypto
-      - msrcrypt
-      - msrcrypto
-      - react-native
-      - react-native-securerandom
-      - web-streams-polyfill
 
   '@digitalcredentials/jsonld-signatures@9.4.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
     dependencies:
@@ -13663,7 +13666,16 @@ snapshots:
       - react-native
       - web-streams-polyfill
 
-  '@digitalcredentials/keypair@1.0.5': {}
+  '@digitalcredentials/jsonld@9.0.0':
+    dependencies:
+      '@digitalcredentials/http-client': 5.0.4
+      canonicalize: 1.0.8
+      lru-cache: 6.0.0
+      rdf-canonize: 3.4.0
+
+  '@digitalcredentials/keypair@3.0.0':
+    dependencies:
+      '@digitalcredentials/ssi': 5.4.2
 
   '@digitalcredentials/open-badges-context@2.1.0': {}
 
@@ -13675,24 +13687,16 @@ snapshots:
       - expo
       - react-native
 
-  '@digitalcredentials/vc@7.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
+  '@digitalcredentials/ssi@5.4.2': {}
+
+  '@digitalcredentials/vc@10.0.2':
     dependencies:
-      '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
-      '@digitalcredentials/jsonld-signatures': 10.1.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+      '@digitalcredentials/credentials-v2-context': 0.0.1-beta.0
+      '@digitalcredentials/jsonld': 9.0.0
+      '@digitalcredentials/jsonld-signatures': 12.0.1
       '@digitalcredentials/open-badges-context': 2.1.0
       credentials-context: 2.0.0
-      fix-esm: 1.0.1
-      jsonld: '@digitalcredentials/jsonld@6.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)'
-    transitivePeerDependencies:
-      - domexception
-      - expo
-      - expo-crypto
-      - msrcrypt
-      - msrcrypto
-      - react-native
-      - react-native-securerandom
-      - supports-color
-      - web-streams-polyfill
+      ed25519-signature-2018-context: 1.1.0
 
   '@eslint-community/eslint-utils@4.9.0(eslint@8.57.1)':
     dependencies:
@@ -15591,25 +15595,6 @@ snapshots:
       react-native: 0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7)
       uint8arrays: 3.1.1
 
-  '@sphereon/isomorphic-webcrypto@2.5.0-unstable.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(msrcrypto@1.5.8)':
-    dependencies:
-      '@peculiar/webcrypto': 1.5.0
-      asmcrypto.js: 2.3.2
-      b64-lite: 1.4.0
-      b64u-lite: 1.1.0
-      cipher-base: 1.0.6
-      create-hash: 1.2.0
-      inherits: 2.0.4
-      md5.js: 1.3.5
-      msrcrypto: 1.5.8
-      randomfill: 1.0.4
-      ripemd160: 2.0.2
-      sha.js: 2.4.12
-      str2buf: 1.3.0
-      webcrypto-shim: 0.1.7
-    optionalDependencies:
-      expo: 54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7)
-
   '@sphereon/react-native-argon2@2.0.9(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))':
     dependencies:
       react-native: 0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7)
@@ -15684,7 +15669,15 @@ snapshots:
       '@stablelib/sha512': 1.0.1
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/ed25519@2.0.2':
+    dependencies:
+      '@stablelib/random': 2.0.1
+      '@stablelib/sha512': 2.0.1
+      '@stablelib/wipe': 2.0.1
+
   '@stablelib/hash@1.0.1': {}
+
+  '@stablelib/hash@2.0.0': {}
 
   '@stablelib/int@1.0.1': {}
 
@@ -15712,6 +15705,11 @@ snapshots:
       '@stablelib/binary': 1.0.1
       '@stablelib/wipe': 1.0.1
 
+  '@stablelib/random@2.0.1':
+    dependencies:
+      '@stablelib/binary': 2.0.1
+      '@stablelib/wipe': 2.0.1
+
   '@stablelib/salsa20@1.0.2':
     dependencies:
       '@stablelib/binary': 1.0.1
@@ -15723,6 +15721,12 @@ snapshots:
       '@stablelib/binary': 1.0.1
       '@stablelib/hash': 1.0.1
       '@stablelib/wipe': 1.0.1
+
+  '@stablelib/sha512@2.0.1':
+    dependencies:
+      '@stablelib/binary': 2.0.1
+      '@stablelib/hash': 2.0.0
+      '@stablelib/wipe': 2.0.1
 
   '@stablelib/wipe@1.0.1': {}
 
@@ -15848,18 +15852,13 @@ snapshots:
       '@transmute/ld-key-pair': 0.7.0-unstable.82
       '@transmute/x25519-key-pair': 0.7.0-unstable.82
 
-  '@transmute/ed25519-signature-2018@0.7.0-unstable.82(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
+  '@transmute/ed25519-signature-2018@0.7.0-unstable.82':
     dependencies:
       '@transmute/credentials-context': 0.7.0-unstable.82
       '@transmute/ed25519-key-pair': 0.7.0-unstable.2
       '@transmute/jose-ld': 0.7.0-unstable.82
-      '@transmute/jsonld': 0.0.4(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+      '@transmute/jsonld': 0.0.4
       '@transmute/security-context': 0.7.0-unstable.82
-    transitivePeerDependencies:
-      - domexception
-      - expo
-      - react-native
-      - web-streams-polyfill
 
   '@transmute/jose-ld@0.7.0-unstable.82':
     dependencies:
@@ -15870,29 +15869,19 @@ snapshots:
       jose: 4.15.9
       web-streams-polyfill: 3.3.3
 
-  '@transmute/json-web-signature@0.7.0-unstable.82(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
+  '@transmute/json-web-signature@0.7.0-unstable.82':
     dependencies:
       '@transmute/ed25519-key-pair': 0.7.0-unstable.82
       '@transmute/jose-ld': 0.7.0-unstable.82
-      '@transmute/jsonld': 0.0.4(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)
+      '@transmute/jsonld': 0.0.4
       '@transmute/secp256k1-key-pair': 0.7.0-unstable.82
       '@transmute/security-context': 0.7.0-unstable.82
       '@transmute/web-crypto-key-pair': 0.7.0-unstable.82
-    transitivePeerDependencies:
-      - domexception
-      - expo
-      - react-native
-      - web-streams-polyfill
 
-  '@transmute/jsonld@0.0.4(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)':
+  '@transmute/jsonld@0.0.4':
     dependencies:
       json-pointer: 0.6.2
-      jsonld: '@digitalcredentials/jsonld@6.0.0(expo@54.0.2(@babel/core@7.28.4)(bufferutil@4.0.7)(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(react@19.0.0)(utf-8-validate@5.0.7))(react-native@0.81.4(@babel/core@7.28.4)(bufferutil@4.0.7)(react@19.0.0)(utf-8-validate@5.0.7))(web-streams-polyfill@3.3.3)'
-    transitivePeerDependencies:
-      - domexception
-      - expo
-      - react-native
-      - web-streams-polyfill
+      jsonld: '@digitalcredentials/jsonld@9.0.0'
 
   '@transmute/ld-key-pair@0.7.0-unstable.82': {}
 
@@ -16828,8 +16817,6 @@ snapshots:
 
   asmcrypto.js@0.22.0: {}
 
-  asmcrypto.js@2.3.2: {}
-
   asn1.js@4.10.1:
     dependencies:
       bn.js: 4.12.2
@@ -17163,9 +17150,15 @@ snapshots:
 
   base-x@4.0.1: {}
 
+  base58-universal@2.0.0: {}
+
   base64-js@1.5.1: {}
 
   base64url-universal@1.1.0:
+    dependencies:
+      base64url: 3.0.1
+
+  base64url-universal@2.0.0:
     dependencies:
       base64url: 3.0.1
 
@@ -18421,7 +18414,7 @@ snapshots:
 
   dotenv-expand@11.0.7:
     dependencies:
-      dotenv: 16.4.7
+      dotenv: 16.6.1
     optional: true
 
   dotenv-expand@5.1.0: {}
@@ -19397,14 +19390,6 @@ snapshots:
     dependencies:
       semver-regex: 4.0.5
       super-regex: 1.0.0
-
-  fix-esm@1.0.1:
-    dependencies:
-      '@babel/core': 7.28.4
-      '@babel/plugin-proposal-export-namespace-from': 7.18.9(@babel/core@7.28.4)
-      '@babel/plugin-transform-modules-commonjs': 7.27.1(@babel/core@7.28.4)
-    transitivePeerDependencies:
-      - supports-color
 
   flat-cache@3.2.0:
     dependencies:
@@ -21567,6 +21552,8 @@ snapshots:
       - domexception
 
   ky@0.25.1: {}
+
+  ky@1.14.2: {}
 
   lan-network@0.1.7:
     optional: true
@@ -23925,6 +23912,10 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
+  rdf-canonize@3.4.0:
+    dependencies:
+      setimmediate: 1.0.5
+
   react-app-polyfill@3.0.0:
     dependencies:
       core-js: 3.45.1
@@ -24664,6 +24655,8 @@ snapshots:
       dunder-proto: 1.0.1
       es-errors: 1.3.0
       es-object-atoms: 1.1.1
+
+  setimmediate@1.0.5: {}
 
   setprototypeof@1.1.0: {}
 
@@ -25742,8 +25735,7 @@ snapshots:
 
   undici-types@6.19.8: {}
 
-  undici@6.21.3:
-    optional: true
+  undici@6.21.3: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
