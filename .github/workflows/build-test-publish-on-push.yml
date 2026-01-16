@@ -152,8 +152,8 @@ jobs:
       contents: write
     needs:
       - build
-#      - test-integration
-#      - test-browser
+      - test-integration
+      - test-browser
       - lint-and-docs
     env:
       NPM_TOKEN: ${{secrets.NPM_TOKEN}}
