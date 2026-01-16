@@ -1,4 +1,5 @@
 import {
+  ALLOWED_COLUMNS,
   AuthorizedDIDContext,
   FindArgs,
   IAgentPlugin,
@@ -587,6 +588,8 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
     })
   }
 
+  const allowedColumns = Object.values(ALLOWED_COLUMNS).flat()
+
   if (input.order && input.order.length > 0) {
     filteredCollection.sort((a: T, b: T) => {
       let result = 0
@@ -596,6 +599,9 @@ function buildQuery<T extends Partial<Record<PossibleColumns, any>>>(
         const col: PossibleColumns = input.order?.[orderIndex]?.column
         if (!col) {
           break
+        }
+        if (!allowedColumns.includes(col)) {
+          throw new Error(`Invalid column name: ${col}`)
         }
         const colA = a[col]
         const colB = b[col]

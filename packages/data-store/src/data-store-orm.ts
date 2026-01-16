@@ -1,4 +1,5 @@
 import {
+  ALLOWED_COLUMNS,
   AuthorizedDIDContext,
   FindArgs,
   IAgentPlugin,
@@ -422,7 +423,11 @@ function decorateQB(
   if (input?.take) qb = qb.limit(input.take)
 
   if (input?.order) {
+    const allowedColumns = getAllowedColumnsForTable(tableName)
     for (const item of input.order) {
+      if (!allowedColumns.includes(item.column)) {
+        throw new Error(`Invalid column name: ${item.column}`)
+      }
       qb = qb.addSelect(
         qb.connection.driver.escape(tableName) + '.' + qb.connection.driver.escape(item.column),
         item.column,
@@ -431,4 +436,8 @@ function decorateQB(
     }
   }
   return qb
+}
+
+function getAllowedColumnsForTable(tableName: string): readonly string[] {
+  return ALLOWED_COLUMNS[tableName as keyof typeof ALLOWED_COLUMNS] || []
 }

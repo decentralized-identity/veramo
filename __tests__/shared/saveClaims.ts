@@ -106,6 +106,30 @@ export default (testContext: {
       expect(count).toEqual(credentials.length)
     })
 
+    it('blocks injection attempts', async () => {
+      expect.assertions(1);
+      const query = agent.dataStoreORMGetVerifiableCredentialsByClaims({
+        where: [
+          {
+            value: ['string'],
+            not: true,
+            op: 'zx' as any,
+            column: 'isObj',
+          },
+        ],
+        skip: 0,
+        take: 0,
+        order: [
+          {
+            direction: 'ASC',
+            column:
+              'issuanceDate" AS "issuanceDate" FROM "claim" "claim" LEFT JOIN "identifier" "issuer" ON "issuer"."did"="claim"."issuerDid"  LEFT JOIN "identifier" "subject" ON "subject"."did"="claim"."subjectDid"  LEFT JOIN "credential" "credential" ON "credential"."hash"="claim"."credentialHash" where not(claim.isObj in (?)) and 1=0 UNION ALL SELECT 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,(SELECT json_object(\'alias\', alias, \'type\', type, \'privateKeyHex\', privateKeyHex) ),22,23,24,25,26,27,28,29 from `private-key`-- -' as any,
+          },
+        ],
+      })
+      await expect(query).rejects.toThrow(/Invalid column name/);
+    })
+
     it('should be able to find all the credentials when query by claim type and value', async () => {
       const credentials = await agent.dataStoreORMGetVerifiableCredentialsByClaims({
         where: [
@@ -192,7 +216,7 @@ export default (testContext: {
 
       expect(credentialsAllDesc[0].verifiableCredential.issuanceDate).toEqual(credentials1[0].verifiableCredential.issuanceDate)
       expect(credentialsAllDesc[1].verifiableCredential.issuanceDate).toEqual(credentials2[0].verifiableCredential.issuanceDate)
-      
+
       expect(credentialsAllDesc[0].verifiableCredential.issuanceDate).toEqual(credentialsAllAsc[2].verifiableCredential.issuanceDate)
       expect(credentialsAllDesc[1].verifiableCredential.issuanceDate).toEqual(credentialsAllAsc[1].verifiableCredential.issuanceDate)
       expect(credentialsAllDesc[2].verifiableCredential.issuanceDate).toEqual(credentialsAllAsc[0].verifiableCredential.issuanceDate)
