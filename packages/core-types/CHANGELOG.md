@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
+
+
+### Bug Fixes
+
+* **data-store:** validate sorted queries in data store ([#1482](https://github.com/decentralized-identity/veramo/issues/1482)) ([0807612](https://github.com/decentralized-identity/veramo/commit/080761254fba065c30989793dc14aec68eb5e677))
+
+
+
+
+
 ## [6.0.1](https://github.com/decentralized-identity/veramo/compare/v6.0.0...v6.0.1) (2026-01-16)
 
 **Note:** Version bump only for package @veramo/core-types

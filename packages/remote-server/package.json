@@ -1,7 +1,7 @@
 {
   "name": "@veramo/remote-server",
   "description": "Express.js module that can expose some agent methods and messaging endpoints",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "main": "build/index.js",
   "exports": "./build/index.js",
   "types": "build/index.d.ts",
