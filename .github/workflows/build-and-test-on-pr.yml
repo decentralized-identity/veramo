@@ -13,7 +13,7 @@ jobs:
         with:
           version: 10
       - name: 'Setup Node.js with pnpm cache'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: 'pnpm'
@@ -53,7 +53,7 @@ jobs:
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
       - name: 'Setup Node.js with pnpm cache'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: 'pnpm'
@@ -107,7 +107,7 @@ jobs:
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
       - name: 'Setup Node.js with pnpm cache'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: 'pnpm'
@@ -131,7 +131,7 @@ jobs:
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
       - name: 'Setup Node.js with pnpm cache'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: 'pnpm'
