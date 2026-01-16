@@ -18,8 +18,8 @@
     "uuid": "^11.0.0"
   },
   "devDependencies": {
-    "eslint": "8.57.1",
-    "eslint-plugin-promise": "6.6.0",
+    "eslint": "9.39.2",
+    "eslint-plugin-promise": "7.2.1",
     "timekeeper": "2.3.1",
     "typescript": "5.7.3"
   },
