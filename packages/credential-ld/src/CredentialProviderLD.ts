@@ -1,8 +1,6 @@
 import {
   CredentialPayload,
   IAgentContext,
-  ICanIssueCredentialTypeArgs,
-  ICanVerifyDocumentTypeArgs,
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
   IIdentifier,
@@ -39,14 +37,17 @@ import { LdSuiteLoader } from './ld-suite-loader.js'
 import { ContextDoc } from './types.js'
 import { DIDResolutionOptions } from 'did-resolver'
 
-import { ICredentialProvider } from '@veramo/credential-w3c'
+import { ICredentialProvider, ProofFormatQuery, TentativeVerificationQuery } from '@veramo/credential-w3c'
 
 const debug = Debug('veramo:credential-ld:action-handler')
 
 /**
- * A handler that implements the {@link ICredentialProvider} methods.
+ * A Veramo Credential sub-plugin that implements
+ * a {@link @veramo/credential-w3c#ICredentialProvider | ICredentialProvider} with support for
+ * Verifiable Credentials and Presentations using JSON-LD proofs.
  *
- * @public
+ * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link https://www.w3.org/TR/vc-data-model-1.1/ | VC 1.1 data model}.
  */
 export class CredentialProviderLD implements ICredentialProvider {
   private ldCredentialModule: LdCredentialModule
@@ -58,7 +59,7 @@ export class CredentialProviderLD implements ICredentialProvider {
     })
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getProofFormatsSupportedForKey} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
   getProofFormatsSupportedForKey(key: IKey): string[] {
     if (this.matchKeyForLDSuite(key)) {
       return [PROOF_FORMAT.LD_SIGNATURE]
@@ -66,14 +67,14 @@ export class CredentialProviderLD implements ICredentialProvider {
     return []
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs): Promise<boolean> {
-    return args.proofFormat === PROOF_FORMAT.LD_SIGNATURE
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canIssueCredentialType} */
+  canIssueProofFormat(query: ProofFormatQuery): boolean {
+    return query.proofFormat === PROOF_FORMAT.LD_SIGNATURE
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
-    const { document } = args
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canVerifyDocumentType} */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+    const { document } = query
 
     for (const suite of this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()) {
       if (suite.getSupportedProofType() === (<VerifiableCredential>document)?.proof?.type || '') {
@@ -84,7 +85,7 @@ export class CredentialProviderLD implements ICredentialProvider {
     return false
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -155,7 +156,7 @@ export class CredentialProviderLD implements ICredentialProvider {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiableCredentialLD} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -209,7 +210,7 @@ export class CredentialProviderLD implements ICredentialProvider {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyCredentialLD} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     args.credential = args.credential as VerifiableCredential
     const credential = args.credential
@@ -223,7 +224,7 @@ export class CredentialProviderLD implements ICredentialProvider {
     return this.ldCredentialModule.verifyCredential(credential, { ...args, now }, context)
   }
 
-  /** {@inheritdoc ICredentialVerifier.verifyPresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,
@@ -248,7 +249,7 @@ export class CredentialProviderLD implements ICredentialProvider {
    *
    * @internal
    */
-  matchKeyForLDSuite(k: IKey): boolean {
+  private matchKeyForLDSuite(k: IKey): boolean {
     // prefilter based on key algorithms
     switch (k.type) {
       case 'Ed25519':

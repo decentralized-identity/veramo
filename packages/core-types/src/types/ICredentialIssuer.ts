@@ -9,7 +9,7 @@ import { IResolver } from './IResolver.js'
 import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
-import { IIdentifier, IKey } from './IIdentifier.js'
+import { IIdentifier } from './IIdentifier.js'
 import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
 /**
@@ -24,7 +24,7 @@ export const PROOF_FORMAT = {
   BBS_PLUS: 'bbs+',
 } as const
 
-/*
+/**
  * Represents a format for a particular type of verifiable data.
  * This is an extensible union of several known formats implemented by Veramo
  * @public
@@ -162,22 +162,6 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
 }
 
 /**
- * Encapsulates the response object to verifyPresentation method after verifying a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-
-/**
- * Encapsulates the parameters required to check if a credential type can be issued
- *
- * @public
- */
-export interface ICanIssueCredentialTypeArgs {
-  proofFormat: ProofFormat
-}
-
-/**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
  *
  * @see {@link @veramo/credential-w3c#CredentialPlugin} for an implementation.
@@ -222,7 +206,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
   ): Promise<VerifiableCredential>
 
   /**
-   * Returns a list of supported proof formats.
+   * Returns a list of supported proof formats for verifiable data that this plugin can generate based on the specified issuer.
    * @param identifier - The identifier that may be used to sign a credential or presentation
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *

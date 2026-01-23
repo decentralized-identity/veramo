@@ -91,8 +91,6 @@ describe('Issue and Verify Flow EIP712', () => {
       credential: verifiableCredential,
     })
 
-    console.log(result)
-
     expect(result.verified).toBe(false)
     expect(result.error).toEqual({
       errorCode: 'invalid_signature',

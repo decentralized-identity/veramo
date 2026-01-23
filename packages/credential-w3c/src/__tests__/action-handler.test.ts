@@ -1,7 +1,5 @@
 import {
   CredentialPayload,
-  ICanIssueCredentialTypeArgs,
-  ICanVerifyDocumentTypeArgs,
   ICredentialPlugin,
   IDIDManager,
   IIdentifier,
@@ -21,7 +19,11 @@ import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-import { ICredentialProvider } from '../abstract-credential-provider'
+import {
+  ICredentialProvider,
+  ProofFormatQuery,
+  TentativeVerificationQuery,
+} from '../abstract-credential-provider'
 import {
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
@@ -84,7 +86,7 @@ describe('@veramo/credential-w3c', () => {
     verifyPresentation(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
       throw new Error('Method not implemented.')
     }
-    canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
+    canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
       return false
     }
 
@@ -92,7 +94,7 @@ describe('@veramo/credential-w3c', () => {
       return ['dummy', 'proofs']
     }
 
-    async canIssueCredentialType(args: ICanIssueCredentialTypeArgs): Promise<boolean> {
+    canIssueProofFormat(query: ProofFormatQuery): boolean {
       return false
     }
   }

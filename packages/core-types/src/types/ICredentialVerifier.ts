@@ -28,7 +28,8 @@ export interface UsingResolutionOptions {
 export interface IVerifyCredentialArgs extends UsingResolutionOptions {
   /**
    * The Verifiable Credential object according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or the JWT representation.
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or
+   * the {@link https://www.w3.org/TR/vc-data-model-1.1/#json-web-token | JWT representation}.
    *
    * The signer of the Credential is verified based on the `issuer.id` property
    * of the `credential` or the `iss` property of the JWT payload respectively
@@ -39,7 +40,7 @@ export interface IVerifyCredentialArgs extends UsingResolutionOptions {
   /**
    * When dealing with JSON-LD you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   * The context definitions SHOULD rather be provided at application startup instead of being fetched.
    *
    * Defaults to `false`
    */
@@ -142,18 +143,6 @@ export interface VerificationPolicies {
    * They will be forwarded to the lower level modules that perform the checks
    */
   [x: string]: any
-}
-
-/**
- * Encapsulates the parameters required to check if a document can be verified
- * 
- * @public
- */
-export interface ICanVerifyDocumentTypeArgs {
-  /**
-   * The document to check against the verifier
-   */
-  document: W3CVerifiableCredential | W3CVerifiablePresentation
 }
 
 /**

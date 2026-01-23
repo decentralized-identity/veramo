@@ -56,6 +56,7 @@ export class CredentialPlugin implements IAgentPlugin {
     }
   }
 
+  /** {@inheritdoc @veramo/core-types#ICredentialIssuer.listUsableProofFormats} */
   async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {
     const signingOptions: string[] = []
     const keys = did.keys
@@ -105,7 +106,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
       async function tryToIssueCredential(issuers: ICredentialProvider[]) {
         for (const issuer of issuers) {
-          if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
+          if (issuer.canIssueProofFormat({ proofFormat })) {
             return await issuer.createVerifiableCredential(args, context)
           }
         }
@@ -129,9 +130,7 @@ export class CredentialPlugin implements IAgentPlugin {
 
   /** {@inheritdoc @veramo/core-types#ICredentialVerifier.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
-    let { credential, policies, ...otherOptions } = args
-    let verifiedCredential: VerifiableCredential
-    let verificationResult: IVerifyResult | undefined = { verified: false }
+    let { credential, policies } = args
 
     async function getVerificationResult(issuers: ICredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
@@ -140,11 +139,11 @@ export class CredentialPlugin implements IAgentPlugin {
         }
       }
     }
-    verificationResult = await getVerificationResult(this.issuers)
+    let verificationResult = await getVerificationResult(this.issuers)
     if (!verificationResult) {
       throw new Error('invalid_setup: No verifier found for the provided credential')
     }
-    verifiedCredential = <VerifiableCredential>credential
+    const verifiedCredential = <VerifiableCredential>credential
 
     if (policies?.credentialStatus !== false && (await isRevoked(verifiedCredential, context as any))) {
       verificationResult = {
@@ -164,17 +163,7 @@ export class CredentialPlugin implements IAgentPlugin {
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
-    let {
-      presentation,
-      proofFormat,
-      domain,
-      challenge,
-      removeOriginalFields,
-      keyRef,
-      save,
-      now,
-      ...otherOptions
-    } = args
+    let { presentation, proofFormat, save } = args
     const presentationContext: string[] = processEntryToArray(
       args?.presentation?.['@context'],
       MANDATORY_CREDENTIAL_CONTEXT,
@@ -201,17 +190,15 @@ export class CredentialPlugin implements IAgentPlugin {
       })
     }
 
-    let verifiablePresentation: VerifiablePresentation | undefined
-
     async function tryToCreatePresentation(issuers: ICredentialProvider[]) {
       for (const issuer of issuers) {
-        if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
+        if (issuer.canIssueProofFormat({ proofFormat })) {
           return await issuer.createVerifiablePresentation(args, context)
         }
       }
     }
 
-    verifiablePresentation = await tryToCreatePresentation(this.issuers)
+    let verifiablePresentation = await tryToCreatePresentation(this.issuers)
 
     if (!verifiablePresentation) {
       throw new Error('invalid_setup: No issuer found for the requested proof format')
@@ -228,16 +215,14 @@ export class CredentialPlugin implements IAgentPlugin {
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,
   ): Promise<IVerifyResult> {
-    let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
-    let result: IVerifyResult | undefined = { verified: false }
-    async function getVerificationResult(issuers: ICredentialProvider[]): Promise<IVerifyResult | undefined> {
+    async function tryVerification(issuers: ICredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
-        if (issuer.canVerifyDocumentType({ document: presentation })) {
+        if (issuer.canVerifyDocumentType({ document: args.presentation })) {
           return issuer.verifyPresentation(args, context)
         }
       }
     }
-    result = await getVerificationResult(this.issuers)
+    let result = await tryVerification(this.issuers)
     if (!result) {
       throw new Error('invalid_setup: No verifier found for the provided presentation')
     }

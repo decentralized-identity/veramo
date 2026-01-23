@@ -227,7 +227,6 @@ describe('credential-w3c full flow', () => {
         issuanceDate: false,
       },
     })
-    console.log(response)
 
     expect(response.verified).toBe(true)
   })

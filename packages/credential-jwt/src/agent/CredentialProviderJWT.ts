@@ -1,20 +1,19 @@
 import {
   CredentialPayload,
+  IAgentContext,
   ICreateVerifiableCredentialArgs,
-  ICanIssueCredentialTypeArgs,
+  ICreateVerifiablePresentationArgs,
   IIdentifier,
   IKey,
+  IKeyManager,
   IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
+  PROOF_FORMAT,
   VerifiableCredential,
   VerifiablePresentation,
-  IAgentContext,
-  IKeyManager,
-  ICreateVerifiablePresentationArgs,
-  IVerifyCredentialArgs,
-  IVerifyResult,
-  IVerifyPresentationArgs,
-  ICanVerifyDocumentTypeArgs,
-  VerifierAgentContext, PROOF_FORMAT,
+  VerifierAgentContext,
 } from '@veramo/core-types'
 import {
   asArray,
@@ -26,7 +25,7 @@ import {
   processEntryToArray,
   removeDIDParameters,
 } from '@veramo/utils'
-import { ICredentialProvider } from '@veramo/credential-w3c'
+import { ICredentialProvider, ProofFormatQuery, TentativeVerificationQuery } from '@veramo/credential-w3c'
 
 import canonicalize from 'canonicalize'
 
@@ -43,12 +42,16 @@ import { Resolvable } from 'did-resolver'
 import { decodeJWT } from 'did-jwt'
 
 import Debug from 'debug'
+
 const debug = Debug('veramo:credential-jwt:agent')
 
 /**
- * A handler that implements the {@link ICredentialProvider} methods.
+ * A Veramo Credential sub-plugin that implements
+ * a {@link @veramo/credential-w3c#ICredentialProvider | ICredentialProvider} with support for
+ * Verifiable Credentials and Presentations with the JWT format.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link https://www.w3.org/TR/vc-data-model-1.1/ | VC 1.1 data model}.
  */
 export class CredentialProviderJWT implements ICredentialProvider {
   /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getProofFormatsSupportedForKey} */
@@ -59,21 +62,21 @@ export class CredentialProviderJWT implements ICredentialProvider {
     return []
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs): Promise<boolean> {
-    return args.proofFormat === PROOF_FORMAT.JWT
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canIssueCredentialType} */
+  canIssueProofFormat(query: ProofFormatQuery): boolean {
+    return query.proofFormat === PROOF_FORMAT.JWT
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
-    const { document } = args
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canVerifyDocumentType} */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+    const { document } = query
     return (
       typeof document === 'string' ||
       (typeof document === 'object' && (<VerifiableCredential>document)?.proof?.jwt)
     )
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiableCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -124,7 +127,7 @@ export class CredentialProviderJWT implements ICredentialProvider {
     return normalizeCredential(jwt)
   }
 
-  /** {@inheritdoc ICredentialVerifier.verifyCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     let { credential, policies, ...otherOptions } = args
     let verifiedCredential: VerifiableCredential
@@ -183,7 +186,7 @@ export class CredentialProviderJWT implements ICredentialProvider {
     }
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiablePresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -259,7 +262,7 @@ export class CredentialProviderJWT implements ICredentialProvider {
     return normalizePresentation(jwt)
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyPresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,
@@ -331,7 +334,7 @@ export class CredentialProviderJWT implements ICredentialProvider {
    * Checks if a key is suitable for signing JWT payloads.
    * @param key - the key to check
    *
-   * @beta
+   * @internal
    */
   matchKeyForJWT(key: IKey): boolean {
     switch (key.type) {
@@ -347,8 +350,7 @@ export class CredentialProviderJWT implements ICredentialProvider {
 
   wrapSigner(context: IAgentContext<Pick<IKeyManager, 'keyManagerSign'>>, key: IKey, algorithm?: string) {
     return async (data: string | Uint8Array): Promise<string> => {
-      const result = await context.agent.keyManagerSign({ keyRef: key.kid, data: <string>data, algorithm })
-      return result
+      return context.agent.keyManagerSign({ keyRef: key.kid, data: <string>data, algorithm })
     }
   }
 }

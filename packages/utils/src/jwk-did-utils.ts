@@ -5,6 +5,14 @@ import { p256 } from '@noble/curves/p256'
 import { bytesToBase64url, hexToBytes } from 'did-jwt'
 import { extractPublicKeyHex } from './did-utils.js'
 
+/**
+ * Determine the key use based on the type of key and an optional passed key use param.
+ * @param keyType - The type of key (e.g., 'Ed25519', 'X25519', 'Secp256k1', 'Secp256r1').
+ * @param passedKeyUse - Optional key use parameter ('sig' for signature, 'enc' for encryption).
+ *
+ * @returns The determined key use ('sig' or 'enc').
+ * @internal
+ */
 export function getKeyUse(keyType: JwkDidSupportedKeyTypes, passedKeyUse?: KeyUse): KeyUse {
   if (passedKeyUse) {
     if (passedKeyUse !== 'sig' && passedKeyUse !== 'enc') {
@@ -30,6 +38,12 @@ export function getKeyUse(keyType: JwkDidSupportedKeyTypes, passedKeyUse?: KeyUs
   }
 }
 
+/**
+ * Check if the provided data is a valid JSON Web Key (JWK).
+ * @param data - The data to be checked.
+ *
+ * @internal
+ */
 export function isJWK(data: unknown): data is JsonWebKey {
   if (
     typeof data === 'object' &&
@@ -47,6 +61,16 @@ export function isJWK(data: unknown): data is JsonWebKey {
   return false
 }
 
+/**
+ * Create a JSON Web Key (JWK) from the given public key material and key type.
+ *
+ * @param keyType - The type of key (e.g., 'Ed25519', 'X25519', 'Secp256k1', 'Secp256r1').
+ * @param pubKey - The public key material as a hex string or Uint8Array.
+ * @param passedKeyUse - Optional key use parameter ('sig' for signature, 'enc' for encryption).
+ * @returns The generated JWK or undefined if the key type is not supported.
+ *
+ * @internal
+ */
 export function createJWK(
   keyType: JwkDidSupportedKeyTypes,
   pubKey: string | Uint8Array,
@@ -104,11 +128,21 @@ export function createJWK(
   }
 }
 
+/**
+ * Generate a JSON Web Key (JWK) from a given verification method.
+ *
+ * @param keyType - The type of key (e.g., 'Ed25519', 'X25519', 'Secp256k1', 'Secp256r1').
+ * @param key - The verification method containing the public key information.
+ * @param keyUse - Optional key use parameter ('sig' for signature, 'enc' for encryption).
+ * @returns The generated JWK.
+ *
+ * @internal
+ */
 export function generateJwkFromVerificationMethod(
   keyType: JwkDidSupportedKeyTypes,
   key: VerificationMethod,
   keyUse?: KeyUse,
 ) {
-  const { publicKeyHex, keyType: extractedType } = extractPublicKeyHex(key)
+  const { publicKeyHex } = extractPublicKeyHex(key)
   return createJWK(keyType, publicKeyHex, keyUse)
 }

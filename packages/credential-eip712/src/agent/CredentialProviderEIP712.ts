@@ -1,7 +1,5 @@
 import {
   CredentialPayload,
-  ICanIssueCredentialTypeArgs,
-  ICanVerifyDocumentTypeArgs,
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
   IIdentifier,
@@ -28,19 +26,23 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { ICredentialProvider } from '@veramo/credential-w3c'
+import { ICredentialProvider, ProofFormatQuery, TentativeVerificationQuery } from '@veramo/credential-w3c'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
 /**
- * A Veramo Credential sub-plugin that implements the {@link ICredentialProvider} methods.
+ * A Veramo Credential sub-plugin that implements
+ * a {@link @veramo/credential-w3c#ICredentialProvider | ICredentialProvider} with support for
+ * EthereumEIP712Signature2021 proofs.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEIP712Signature2021 spec }
+ * @see {@link https://www.w3.org/TR/vc-data-model-1.1/ | VC 1.1 data model}.
  */
 export class CredentialProviderEIP712 implements ICredentialProvider {
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getProofFormatsSupportedForKey} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
   getProofFormatsSupportedForKey(key: IKey): string[] {
     if (this.matchKeyForEIP712(key)) {
       return [PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021]
@@ -48,18 +50,18 @@ export class CredentialProviderEIP712 implements ICredentialProvider {
     return []
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
-  async canIssueCredentialType(args: ICanIssueCredentialTypeArgs): Promise<boolean> {
-    return args.proofFormat === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canIssueCredentialType} */
+  canIssueProofFormat(query: ProofFormatQuery): boolean {
+    return query.proofFormat === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
-    const { document } = args
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canVerifyDocumentType} */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+    const { document } = query
     return (<VerifiableCredential>document)?.proof?.type === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiableCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -147,7 +149,7 @@ export class CredentialProviderEIP712 implements ICredentialProvider {
     return credential as VerifiableCredential
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     const credential = args.credential as VerifiableCredential
     if (!credential.proof || !credential.proof.proofValue)
@@ -211,7 +213,7 @@ export class CredentialProviderEIP712 implements ICredentialProvider {
     }
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiablePresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -322,7 +324,7 @@ export class CredentialProviderEIP712 implements ICredentialProvider {
     return presentation as VerifiablePresentation
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyPresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,

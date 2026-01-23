@@ -110,6 +110,7 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
  *
  * @returns the compressed public key hex string without 0x prefix, or an empty string if no input was provided.
  * @param publicKeyHex - the (un)compressed public key hex string
+ * @internal
  */
 export function compressSecp256k1PublicKeyHex(publicKeyHex?: string): string {
   if (typeof publicKeyHex !== 'string') {
@@ -378,6 +379,14 @@ export function extractPublicKeyHex(
   return { publicKeyHex, keyType }
 }
 
+/**
+ * Picks a signing key from a managed identifier.
+ * If a keyRef is provided, it tries to find the key with that kid. Otherwise, it picks the first available
+ * signing key based on known key types and algorithms.
+ * @param identifier - the identifier to pick the signing key from
+ * @param keyRef - optional key reference (kid) to select a specific key
+ * @internal
+ */
 export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   let key: IKey | undefined
 
@@ -394,6 +403,13 @@ export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
   return key as IKey
 }
 
+/**
+ * Imports a key if privateKeyHex is provided, otherwise creates a new key.
+ *
+ * @param args - The arguments for importing or creating the key.
+ * @param context - The agent context containing the key manager.
+ * @internal
+ */
 export async function importOrCreateKey<K extends TKeyType = TKeyType>(
   args: {
     kms: string
