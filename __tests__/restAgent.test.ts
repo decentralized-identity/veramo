@@ -240,7 +240,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       // intentionally use the deprecated name to test compatibility
-      new CredentialIssuer({ issuers: [eip712, jwt, ld] }),
+      new CredentialIssuer([eip712, jwt, ld]),
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [

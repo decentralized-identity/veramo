@@ -19,7 +19,6 @@ import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
 
-
 let didKeyIdentifier: IIdentifier
 let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
@@ -46,7 +45,7 @@ describe('@veramo/credential-w3c', () => {
             ...getDidKeyResolver(),
           }),
         }),
-        new CredentialPlugin({ issuers: [jwt] }),
+        new CredentialPlugin([jwt]),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

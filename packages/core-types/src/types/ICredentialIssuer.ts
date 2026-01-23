@@ -9,14 +9,27 @@ import { IResolver } from './IResolver.js'
 import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
-import { IIdentifier, IKey } from "./IIdentifier.js";
+import { IIdentifier, IKey } from './IIdentifier.js'
 import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
+/**
+ * Constants representing internally supported proof formats.
+ *
+ * @internal
+ */
+export const PROOF_FORMAT = {
+  ETHEREUM_EIP712_SIGNATURE_2021: 'EthereumEip712Signature2021',
+  JWT: 'jwt',
+  LD_SIGNATURE: 'lds',
+  BBS_PLUS: 'bbs+',
+} as const
+
 /*
-*
-* @public
-*/
-export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021' | 'bbs' | string
+ * Represents a format for a particular type of verifiable data.
+ * This is an extensible union of several known formats implemented by Veramo
+ * @public
+ */
+export type ProofFormat = (typeof PROOF_FORMAT)[keyof typeof PROOF_FORMAT] | (string & {})
 
 /**
  * Encapsulates the parameters required to create a
@@ -59,7 +72,7 @@ export interface ICreateVerifiablePresentationArgs extends UsingResolutionOption
   /**
    * The desired format for the VerifiablePresentation to be created.
    */
-  proofFormat: string
+  proofFormat: ProofFormat
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -74,7 +87,7 @@ export interface ICreateVerifiablePresentationArgs extends UsingResolutionOption
   keyRef?: string
 
   /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * When dealing with JSON-LD, you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
    *
@@ -119,7 +132,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   /**
    * The desired format for the VerifiableCredential to be created.
    */
-  proofFormat: string
+  proofFormat: ProofFormat
 
   /**
    * Remove payload members during JWT-JSON transformation. Defaults to `true`.
@@ -134,7 +147,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   keyRef?: string
 
   /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * When dealing with JSON-LD, you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
    *
@@ -157,11 +170,11 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
 
 /**
  * Encapsulates the parameters required to check if a credential type can be issued
- * 
+ *
  * @public
  */
 export interface ICanIssueCredentialTypeArgs {
-  proofFormat: string
+  proofFormat: ProofFormat
 }
 
 /**
@@ -193,7 +206,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
 
   /**
    * Creates a Verifiable Credential.
-   * The payload, signer and format are chosen based on the `args` parameter.
+   * The payload, signer, and format are chosen based on the `args` parameter.
    *
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -215,21 +228,20 @@ export interface ICredentialIssuer extends IPluginMethodMap {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<string>>
-
+  listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<ProofFormat>>
 }
 
 /**
  * Represents the requirements that this plugin has.
- * The agent that is using this plugin is expected to provide these methods.
+ * The agent using this plugin is expected to provide these methods.
  *
- * This interface can be used for static type checks, to make sure your application is properly initialized.
+ * This interface can be used for static type checks to make sure your application is properly initialized.
  *
  * @beta
  */
 export type IssuerAgentContext = IAgentContext<
   IResolver &
-  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >

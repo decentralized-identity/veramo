@@ -74,7 +74,7 @@ describe('credential-jwt full flow', () => {
             }),
           }),
         }),
-        new CredentialPlugin({ issuers: [jwt] }),
+        new CredentialPlugin([jwt]),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

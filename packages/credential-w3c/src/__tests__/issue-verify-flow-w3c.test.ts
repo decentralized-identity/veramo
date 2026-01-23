@@ -67,7 +67,7 @@ describe('credential-w3c full flow', () => {
             ...getDidKeyResolver(),
           }),
         }),
-        new CredentialIssuer({ issuers: [jwt, ld] }),
+        new CredentialIssuer([jwt, ld]),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

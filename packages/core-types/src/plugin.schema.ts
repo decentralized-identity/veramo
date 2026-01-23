@@ -4249,7 +4249,7 @@ export const schema = {
               "deprecated": "Please call\n{@link @veramo/core-types#IDataStore.dataStoreSaveVerifiableCredential | dataStoreSaveVerifiableCredential()} to\nsave the credential after creating it."
             },
             "proofFormat": {
-              "type": "string",
+              "$ref": "#/components/schemas/ProofFormat",
               "description": "The desired format for the VerifiableCredential to be created."
             },
             "removeOriginalFields": {
@@ -4262,7 +4262,7 @@ export const schema = {
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD, you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -4390,6 +4390,9 @@ export const schema = {
           ],
           "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
+        "ProofFormat": {
+          "type": "string"
+        },
         "VerifiableCredential": {
           "type": "object",
           "properties": {
@@ -4485,7 +4488,7 @@ export const schema = {
               "description": "Optional string domain parameter to add to the verifiable presentation."
             },
             "proofFormat": {
-              "type": "string",
+              "$ref": "#/components/schemas/ProofFormat",
               "description": "The desired format for the VerifiablePresentation to be created."
             },
             "removeOriginalFields": {
@@ -4498,7 +4501,7 @@ export const schema = {
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD, you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -4777,7 +4780,7 @@ export const schema = {
       },
       "methods": {
         "createVerifiableCredential": {
-          "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
+          "description": "Creates a Verifiable Credential. The payload, signer, and format are chosen based on the ",
           "arguments": {
             "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
           },
@@ -4802,7 +4805,7 @@ export const schema = {
           "returnType": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/ProofFormat"
             }
           }
         }

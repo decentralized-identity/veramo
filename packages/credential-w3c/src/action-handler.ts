@@ -11,12 +11,13 @@ import {
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
   IVerifyResult,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
 } from '@veramo/core-types'
 
-import { AbstractCredentialProvider } from './abstract-credential-provider.js'
+import { ICredentialProvider } from './abstract-credential-provider.js'
 
 import { schema } from '@veramo/core-types'
 
@@ -50,10 +51,10 @@ export class CredentialPlugin implements IAgentPlugin {
       },
     },
   }
-  private issuers: AbstractCredentialProvider[]
+  private issuers: ICredentialProvider[]
 
-  constructor(options: { issuers: AbstractCredentialProvider[] }) {
-    this.issuers = options.issuers
+  constructor(issuers: ICredentialProvider[]) {
+    this.issuers = issuers
     this.methods = {
       listUsableProofFormats: this.listUsableProofFormats.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
@@ -63,14 +64,12 @@ export class CredentialPlugin implements IAgentPlugin {
     }
   }
 
-  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<string[]> {
+  async listUsableProofFormats(did: IIdentifier, context: IssuerAgentContext): Promise<ProofFormat[]> {
     const signingOptions: string[] = []
     const keys = did.keys
     for (const key of keys) {
       for (const issuer of this.issuers) {
-        if (issuer.matchKeyForType(key)) {
-          signingOptions.push(issuer.getTypeProofFormat())
-        }
+        signingOptions.push(...issuer.getProofFormatsSupportedForKey(key))
       }
     }
     return signingOptions
@@ -112,14 +111,14 @@ export class CredentialPlugin implements IAgentPlugin {
     try {
       let verifiableCredential: VerifiableCredential | undefined
 
-      async function getCredential(issuers: AbstractCredentialProvider[]) {
+      async function tryToIssueCredential(issuers: ICredentialProvider[]) {
         for (const issuer of issuers) {
-          if (issuer.canIssueCredentialType({ proofFormat })) {
+          if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
             return await issuer.createVerifiableCredential(args, context)
           }
         }
       }
-      verifiableCredential = await getCredential(this.issuers)
+      verifiableCredential = await tryToIssueCredential(this.issuers)
 
       if (!verifiableCredential) {
         throw new Error('invalid_setup: No issuer found for the requested proof format')
@@ -142,7 +141,7 @@ export class CredentialPlugin implements IAgentPlugin {
     let verifiedCredential: VerifiableCredential
     let verificationResult: IVerifyResult | undefined = { verified: false }
 
-    async function getVerificationResult(issuers: AbstractCredentialProvider[]): Promise<IVerifyResult | undefined> {
+    async function getVerificationResult(issuers: ICredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
         if (issuer.canVerifyDocumentType({ document: credential })) {
           return issuer.verifyCredential(args, context)
@@ -212,15 +211,15 @@ export class CredentialPlugin implements IAgentPlugin {
 
     let verifiablePresentation: VerifiablePresentation | undefined
 
-    async function getPresentation(issuers: AbstractCredentialProvider[]) {
+    async function tryToCreatePresentation(issuers: ICredentialProvider[]) {
       for (const issuer of issuers) {
-        if (issuer.canIssueCredentialType({ proofFormat })) {
+        if (await issuer.canIssueCredentialType({ proofFormat }, context)) {
           return await issuer.createVerifiablePresentation(args, context)
         }
       }
     }
 
-    verifiablePresentation = await getPresentation(this.issuers)
+    verifiablePresentation = await tryToCreatePresentation(this.issuers)
 
     if (!verifiablePresentation) {
       throw new Error('invalid_setup: No issuer found for the requested proof format')
@@ -239,7 +238,7 @@ export class CredentialPlugin implements IAgentPlugin {
   ): Promise<IVerifyResult> {
     let { presentation, domain, challenge, fetchRemoteContexts, policies, ...otherOptions } = args
     let result: IVerifyResult | undefined = { verified: false }
-    async function getVerificationResult(issuers: AbstractCredentialProvider[]): Promise<IVerifyResult | undefined> {
+    async function getVerificationResult(issuers: ICredentialProvider[]): Promise<IVerifyResult | undefined> {
       for (const issuer of issuers) {
         if (issuer.canVerifyDocumentType({ document: presentation })) {
           return issuer.verifyPresentation(args, context)

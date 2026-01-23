@@ -78,17 +78,19 @@ describe('credential-LD full flow', () => {
         new DIDResolverPlugin({
           resolver: new Resolver({
             ...getDidKeyResolver(),
-            ...ethrDidResolver({ networks: [
+            ...ethrDidResolver({
+              networks: [
                 {
                   chainId: 1337,
                   name: 'ganache',
                   provider,
                   registry,
                 },
-              ], }),
+              ],
+            }),
           }),
         }),
-        new CredentialPlugin({ issuers: [ld] }),
+        new CredentialPlugin([ld]),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()

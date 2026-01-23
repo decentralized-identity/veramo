@@ -200,21 +200,19 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin({
-        issuers: [
-          new CredentialProviderEIP712(),
-          new CredentialProviderJWT(),
-          new CredentialProviderLD({
-            contextMaps: [LdDefaultContexts, credential_contexts as any],
-            suites: [
-              new VeramoEcdsaSecp256k1RecoverySignature2020(),
-              new VeramoEd25519Signature2018(),
-              new VeramoJsonWebSignature2020(),
-              new VeramoEd25519Signature2020(),
-            ],
-          }),
-        ],
-      }),
+      new CredentialPlugin([
+        new CredentialProviderEIP712(),
+        new CredentialProviderJWT(),
+        new CredentialProviderLD({
+          contextMaps: [LdDefaultContexts, credential_contexts as any],
+          suites: [
+            new VeramoEcdsaSecp256k1RecoverySignature2020(),
+            new VeramoEd25519Signature2018(),
+            new VeramoJsonWebSignature2020(),
+            new VeramoEd25519Signature2020(),
+          ],
+        }),
+      ]),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

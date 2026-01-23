@@ -7,7 +7,7 @@
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
-import { createAgent } from '../packages/core/src'
+import { createAgent, ProofFormat } from '../packages/core/src'
 import {
   IAgentOptions,
   ICredentialPlugin,
@@ -233,7 +233,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-      new CredentialPlugin({ issuers: [eip712, jwt, ld] }),
+      new CredentialPlugin([eip712, jwt, ld]),
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [
