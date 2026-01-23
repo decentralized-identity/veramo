@@ -6,12 +6,12 @@ import {
   ICredentialPlugin,
   ICredentialStatusVerifier,
   IIdentifier,
-  IKey,
   IssuerAgentContext,
   IVerifyCredentialArgs,
   IVerifyPresentationArgs,
   IVerifyResult,
   ProofFormat,
+  schema,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -19,15 +19,7 @@ import {
 
 import { ICredentialProvider } from './abstract-credential-provider.js'
 
-import { schema } from '@veramo/core-types'
-
-import {
-  extractIssuer,
-  removeDIDParameters,
-  isDefined,
-  MANDATORY_CREDENTIAL_CONTEXT,
-  processEntryToArray,
-} from '@veramo/utils'
+import { extractIssuer, isDefined, MANDATORY_CREDENTIAL_CONTEXT, processEntryToArray } from '@veramo/utils'
 import Debug from 'debug'
 
 const debug = Debug('veramo:w3c:action-handler')
@@ -251,22 +243,6 @@ export class CredentialPlugin implements IAgentPlugin {
     }
     return result
   }
-}
-
-function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
-  let key: IKey | undefined
-
-  if (!keyRef) {
-    key = identifier.keys.find(
-      (k) => k.type === 'Secp256k1' || k.type === 'Ed25519' || k.type === 'Secp256r1',
-    )
-    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did)
-  } else {
-    key = identifier.keys.find((k) => k.kid === keyRef)
-    if (!key) throw Error('key_not_found: No signing key for ' + identifier.did + ' with kid ' + keyRef)
-  }
-
-  return key as IKey
 }
 
 async function isRevoked(

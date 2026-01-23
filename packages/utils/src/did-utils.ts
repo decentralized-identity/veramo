@@ -1,5 +1,13 @@
 import { computeAddress, SigningKey } from 'ethers'
-import { DIDDocumentSection, IAgentContext, IIdentifier, IKey, IKeyManager, IResolver, KeyMetadata, IKeyManagerCreateArgs, MinimalImportableKey, RequireOnly, TKeyType } from '@veramo/core-types'
+import {
+  DIDDocumentSection,
+  IAgentContext,
+  IIdentifier,
+  IKey,
+  IKeyManager,
+  IResolver,
+  TKeyType,
+} from '@veramo/core-types'
 import { DIDDocument, DIDResolutionOptions, VerificationMethod } from 'did-resolver'
 import { extractPublicKeyBytes } from 'did-jwt'
 import {
@@ -95,6 +103,20 @@ export function compressIdentifierSecp256k1Keys(identifier: IIdentifier): IKey[]
       return key
     })
     .filter(isDefined)
+}
+
+/**
+ * Compresses a Secp256k1 public key in hex format.
+ *
+ * @returns the compressed public key hex string without 0x prefix, or an empty string if no input was provided.
+ * @param publicKeyHex - the (un)compressed public key hex string
+ */
+export function compressSecp256k1PublicKeyHex(publicKeyHex?: string): string {
+  if (typeof publicKeyHex !== 'string') {
+    return ''
+  }
+  const publicBytes = hexToBytes(publicKeyHex)
+  return SigningKey.computePublicKey(publicBytes, true).substring(2)
 }
 
 /**
@@ -202,7 +224,7 @@ export async function mapIdentifierKeysToDoc(
   resolutionOptions?: DIDResolutionOptions,
 ): Promise<_ExtendedIKey[]> {
   const didDocument = await resolveDidOrThrow(identifier.did, context, resolutionOptions)
-  // dereference all key agreement keys from DID document and normalize
+  // dereference all key agreement keys from the DID document and normalize
   const documentKeys: _NormalizedVerificationMethod[] = await dereferenceDidKeys(
     didDocument,
     section,
@@ -215,8 +237,8 @@ export async function mapIdentifierKeysToDoc(
   } else {
     localKeys = compressIdentifierSecp256k1Keys(identifier)
   }
-  // finally map the didDocument keys to the identifier keys by comparing `publicKeyHex`
-  const extendedKeys: _ExtendedIKey[] = documentKeys
+  // finally, map the didDocument keys to the identifier keys by comparing `publicKeyHex`
+  return documentKeys
     .map((verificationMethod) => {
       const localKey = localKeys.find(
         (localKey: IKey) =>
@@ -231,8 +253,6 @@ export async function mapIdentifierKeysToDoc(
       }
     })
     .filter(isDefined)
-
-  return extendedKeys
 }
 
 /**
@@ -330,7 +350,8 @@ export async function dereferenceDidKeys(
 }
 
 /**
- * Converts the publicKey of a VerificationMethod to hex encoding (publicKeyHex)
+ * Converts the publicKey of a VerificationMethod to hex encoding (publicKeyHex), with no 0x prefix.
+ * Secp256k1 public keys are compressed.
  *
  * @param pk - the VerificationMethod to be converted
  * @param convert - when this flag is set to true, Ed25519 keys are converted to their X25519 pairs
@@ -352,7 +373,9 @@ export function extractPublicKeyHex(
       keyType = 'X25519'
     }
   }
-  return { publicKeyHex: bytesToHex(keyBytes), keyType }
+  const publicKeyHex =
+    keyType === 'Secp256k1' ? compressSecp256k1PublicKeyHex(bytesToHex(keyBytes)) : bytesToHex(keyBytes)
+  return { publicKeyHex, keyType }
 }
 
 export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
@@ -373,7 +396,7 @@ export function pickSigningKey(identifier: IIdentifier, keyRef?: string): IKey {
 
 export async function importOrCreateKey<K extends TKeyType = TKeyType>(
   args: {
-    kms: string,
+    kms: string
     options: ImportOrCreateKeyOptions<K>
   },
   context: IAgentContext<IKeyManager>,

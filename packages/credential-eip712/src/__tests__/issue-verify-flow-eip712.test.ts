@@ -14,11 +14,9 @@ import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-
 import { KeyManagementSystem } from '../../../kms-local/src/index.js'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src/index.js'
 import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
-import { Resolver } from 'did-resolver'
+import { CredentialProviderEIP712 } from '../agent/CredentialProviderEIP712.js'
 
-import { CredentialProviderJWT } from '../agent/CredentialProviderJWT.js'
-
-describe('credential-jwt full flow', () => {
+describe('Issue and Verify Flow EIP712', () => {
   let didKeyIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
@@ -39,30 +37,25 @@ describe('credential-jwt full flow', () => {
           defaultProvider: 'did:key',
         }),
         new DIDResolverPlugin({
-          resolver: new Resolver({
-            ...getDidKeyResolver(),
-          }),
+          ...getDidKeyResolver(),
         }),
-        new CredentialPlugin([new CredentialProviderJWT()]),
+        new CredentialPlugin([new CredentialProviderEIP712()]),
       ],
     })
-    didKeyIdentifier = await agent.didManagerCreate()
+    didKeyIdentifier = await agent.didManagerCreate({ options: { key: { type: 'Secp256k1' } } })
   })
 
-  it('issues and verifies JWT credential', async () => {
+  it('issues and verifies EIP712 credential', async () => {
     const credential: CredentialPayload = {
       issuer: { id: didKeyIdentifier.did },
-      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://example.com/1/2/3'],
-      type: ['VerifiableCredential', 'Custom'],
-      issuanceDate: new Date().toISOString(),
+      type: ['VerifiableCredential'],
       credentialSubject: {
-        id: 'did:web:example.com',
-        you: 'Rock',
+        id: 'hello',
       },
     }
     const verifiableCredential = await agent.createVerifiableCredential({
       credential,
-      proofFormat: 'jwt',
+      proofFormat: 'EthereumEip712Signature2021',
     })
 
     expect(verifiableCredential).toBeDefined()
@@ -74,38 +67,65 @@ describe('credential-jwt full flow', () => {
     expect(result.verified).toBe(true)
   })
 
-  it('issues credential and verifies presentation', async () => {
+  it('fails to verify a tampered EIP712 credential', async () => {
     const credential: CredentialPayload = {
       issuer: { id: didKeyIdentifier.did },
-      '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
-      type: ['VerifiableCredential', 'Profile'],
-      issuanceDate: new Date().toISOString(),
+      type: ['VerifiableCredential'],
       credentialSubject: {
-        id: didKeyIdentifier.did,
-        name: 'Martin, the great',
+        id: 'hello',
+      },
+    }
+    const verifiableCredential = await agent.createVerifiableCredential({
+      credential,
+      proofFormat: 'EthereumEip712Signature2021',
+    })
+
+    expect(verifiableCredential).toBeDefined()
+
+    // Tamper with the credential
+    if (typeof verifiableCredential === 'object' && 'credentialSubject' in verifiableCredential) {
+      verifiableCredential.credentialSubject['id'] = 'tampered'
+    }
+
+    const result = await agent.verifyCredential({
+      credential: verifiableCredential,
+    })
+
+    console.log(result)
+
+    expect(result.verified).toBe(false)
+    expect(result.error).toEqual({
+      errorCode: 'invalid_signature',
+      message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+    })
+  })
+
+  it('issues and verifies EIP712 presentation', async () => {
+    const credential: CredentialPayload = {
+      issuer: { id: didKeyIdentifier.did },
+      type: ['VerifiableCredential'],
+      credentialSubject: {
+        id: 'hello',
       },
     }
     const verifiableCredential1 = await agent.createVerifiableCredential({
       credential,
-      proofFormat: 'jwt',
+      proofFormat: 'EthereumEip712Signature2021',
     })
-
     const verifiablePresentation = await agent.createVerifiablePresentation({
       presentation: {
         verifiableCredential: [verifiableCredential1],
         holder: didKeyIdentifier.did,
       },
       challenge: 'VERAMO',
-      proofFormat: 'jwt',
+      proofFormat: 'EthereumEip712Signature2021',
     })
-
     expect(verifiablePresentation).toBeDefined()
 
     const result = await agent.verifyPresentation({
       presentation: verifiablePresentation,
       challenge: 'VERAMO',
     })
-
     expect(result.verified).toBe(true)
   })
 })

@@ -149,6 +149,7 @@ describe('credential-LD full flow', () => {
 
   it('works with EcdsaSecp256k1RecoveryMethod2020 credentials', async () => {
     const credential: CredentialPayload = {
+      // use did:ethr issuer to have a EcdsaSecp256k1RecoveryMethod2020 as a verification method in the DID document
       issuer: didEthrIdentifier.did,
       '@context': ['custom:example.context'],
       credentialSubject: {
@@ -161,6 +162,7 @@ describe('credential-LD full flow', () => {
     })
 
     expect(verifiableCredential).toBeDefined()
+    expect((verifiableCredential as any).proof.type).toBe('EcdsaSecp256k1RecoverySignature2020')
 
     const result = await agent.verifyCredential({
       credential: verifiableCredential,
