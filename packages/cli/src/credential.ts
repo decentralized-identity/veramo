@@ -38,7 +38,8 @@ credential
           value: item.did,
         })),
         message: 'Issuer DID',
-      },])
+      },
+    ])
     const issuer = await agent.didManagerGet({ did: issuersQuery.iss })
     const usableProofFormats = await agent.listUsableProofFormats(issuer)
     const answers = await inquirer.prompt([
@@ -128,7 +129,7 @@ credential
     } else if (options.filename) {
       raw = await fs.promises.readFile(options.filename, 'utf-8')
     } else {
-      console.log('Please provide the credential as a JWT or JSON string. Press Ctrl+D to finish.');
+      console.log('Please provide the credential as a JWT or JSON string. Press Ctrl+D to finish.')
       raw = await readStdin()
     }
     let parsedCredential: any

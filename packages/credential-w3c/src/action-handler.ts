@@ -114,7 +114,7 @@ export class CredentialPlugin implements IAgentPlugin {
       verifiableCredential = await tryToIssueCredential(this.providers)
 
       if (!verifiableCredential) {
-        throw new Error('invalid_setup: No issuer found for the requested proof format')
+        throw new Error('invalid_setup: No provider found for the requested proof format')
       }
 
       if (save) {
@@ -201,7 +201,7 @@ export class CredentialPlugin implements IAgentPlugin {
     let verifiablePresentation = await tryToCreatePresentation(this.providers)
 
     if (!verifiablePresentation) {
-      throw new Error('invalid_setup: No issuer found for the requested proof format')
+      throw new Error('invalid_setup: No provider found for the requested proof format')
     }
 
     if (save) {

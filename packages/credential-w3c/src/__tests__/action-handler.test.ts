@@ -192,7 +192,7 @@ describe('@veramo/credential-w3c', () => {
         credential: { dummy: 'data', issuer: { id: didKeyIdentifier.did } },
         proofFormat: 'unknown',
       }),
-    ).rejects.toThrow(/invalid_setup: No issuer found for the requested proof format/)
+    ).rejects.toThrow(/invalid_setup: No provider found for the requested proof format/)
   })
 
   it('fails to create presentation with unknown proof format', async () => {
@@ -202,6 +202,6 @@ describe('@veramo/credential-w3c', () => {
         presentation: { dummy: 'data', holder: didKeyIdentifier.did },
         proofFormat: 'unknown',
       }),
-    ).rejects.toThrow(/invalid_setup: No issuer found for the requested proof format/)
+    ).rejects.toThrow(/invalid_setup: No provider found for the requested proof format/)
   })
 })
