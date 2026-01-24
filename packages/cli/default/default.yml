@@ -292,9 +292,8 @@ CredentialProviderJWT:
 credentialPlugin:
   $require: "@veramo/credential-w3c#CredentialPlugin"
   $args:
-    - issuers:
-        - $ref: /CredentialProviderLD
-        - $ref: /CredentialProviderJWT
+    - - $ref: /CredentialProviderLD
+      - $ref: /CredentialProviderJWT
 
 # Agent
 agent:
