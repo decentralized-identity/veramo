@@ -43,10 +43,10 @@ export class CredentialPlugin implements IAgentPlugin {
       },
     },
   }
-  private issuers: ICredentialProvider[]
+  private providers: ICredentialProvider[]
 
-  constructor(issuers: ICredentialProvider[]) {
-    this.issuers = issuers
+  constructor(providers: ICredentialProvider[]) {
+    this.providers = providers
     this.methods = {
       listUsableProofFormats: this.listUsableProofFormats.bind(this),
       createVerifiableCredential: this.createVerifiableCredential.bind(this),
@@ -61,8 +61,8 @@ export class CredentialPlugin implements IAgentPlugin {
     const signingOptions: string[] = []
     const keys = did.keys
     for (const key of keys) {
-      for (const issuer of this.issuers) {
-        signingOptions.push(...issuer.getProofFormatsSupportedForKey(key))
+      for (const provider of this.providers) {
+        signingOptions.push(...provider.getProofFormatsSupportedForKey(key))
       }
     }
     return signingOptions
@@ -104,14 +104,14 @@ export class CredentialPlugin implements IAgentPlugin {
     try {
       let verifiableCredential: VerifiableCredential | undefined
 
-      async function tryToIssueCredential(issuers: ICredentialProvider[]) {
-        for (const issuer of issuers) {
-          if (issuer.canIssueProofFormat({ proofFormat })) {
-            return await issuer.createVerifiableCredential(args, context)
+      async function tryToIssueCredential(providers: ICredentialProvider[]) {
+        for (const provider of providers) {
+          if (provider.canIssueProofFormat({ proofFormat })) {
+            return await provider.createVerifiableCredential(args, context)
           }
         }
       }
-      verifiableCredential = await tryToIssueCredential(this.issuers)
+      verifiableCredential = await tryToIssueCredential(this.providers)
 
       if (!verifiableCredential) {
         throw new Error('invalid_setup: No issuer found for the requested proof format')
@@ -139,7 +139,7 @@ export class CredentialPlugin implements IAgentPlugin {
         }
       }
     }
-    let verificationResult = await getVerificationResult(this.issuers)
+    let verificationResult = await getVerificationResult(this.providers)
     if (!verificationResult) {
       throw new Error('invalid_setup: No verifier found for the provided credential')
     }
@@ -198,7 +198,7 @@ export class CredentialPlugin implements IAgentPlugin {
       }
     }
 
-    let verifiablePresentation = await tryToCreatePresentation(this.issuers)
+    let verifiablePresentation = await tryToCreatePresentation(this.providers)
 
     if (!verifiablePresentation) {
       throw new Error('invalid_setup: No issuer found for the requested proof format')
@@ -222,7 +222,7 @@ export class CredentialPlugin implements IAgentPlugin {
         }
       }
     }
-    let result = await tryVerification(this.issuers)
+    let result = await tryVerification(this.providers)
     if (!result) {
       throw new Error('invalid_setup: No verifier found for the provided presentation')
     }
