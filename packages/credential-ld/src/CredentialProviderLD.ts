@@ -1,8 +1,6 @@
 import {
   CredentialPayload,
   IAgentContext,
-  IAgentPlugin,
-  ICanIssueCredentialTypeArgs,
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,
   IIdentifier,
@@ -13,10 +11,11 @@ import {
   IVerifyPresentationArgs,
   IVerifyResult,
   PresentationPayload,
+  PROOF_FORMAT,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
-  ICanVerifyDocumentTypeArgs,
 } from '@veramo/core-types'
 import { VeramoLdSignature } from './index.js'
 import Debug from 'debug'
@@ -36,22 +35,22 @@ import {
 
 import { LdCredentialModule } from './ld-credential-module.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'
-import {
-  ContextDoc,
-} from './types.js'
+import { ContextDoc } from './types.js'
 import { DIDResolutionOptions } from 'did-resolver'
 
-import { AbstractCredentialProvider } from '@veramo/credential-w3c'
+import { ICredentialProvider, ProofFormatQuery, TentativeVerificationQuery } from '@veramo/credential-w3c'
 
 const debug = Debug('veramo:credential-ld:action-handler')
 
 /**
- * A handler that implements the {@link AbstractCredentialProvider} methods.
+ * A Veramo Credential sub-plugin that implements
+ * a {@link @veramo/credential-w3c#ICredentialProvider | ICredentialProvider} with support for
+ * Verifiable Credentials and Presentations using JSON-LD proofs.
  *
- * @public
+ * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link https://www.w3.org/TR/vc-data-model-1.1/ | VC 1.1 data model}.
  */
-export class CredentialProviderLD implements AbstractCredentialProvider {
-
+export class CredentialProviderLD implements ICredentialProvider {
   private ldCredentialModule: LdCredentialModule
 
   constructor(options: { contextMaps: RecordLike<OrPromise<ContextDoc>>[]; suites: VeramoLdSignature[] }) {
@@ -61,24 +60,22 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     })
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.matchKeyForType} */
-  matchKeyForType(key: IKey): boolean {
-    return this.matchKeyForLDSuite(key)
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[] {
+    if (this.matchKeyForLDSuite(key)) {
+      return [PROOF_FORMAT.LD_SIGNATURE]
+    }
+    return []
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getTypeProofFormat} */
-  getTypeProofFormat(): string {
-    return 'lds'
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canIssueCredentialType} */
+  canIssueProofFormat(query: ProofFormatQuery): boolean {
+    return query.proofFormat === PROOF_FORMAT.LD_SIGNATURE
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
-  canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
-    return (args.proofFormat === 'lds')
-  }
-
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
-    const { document } = args
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canVerifyDocumentType} */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+    const { document } = query
 
     for (const suite of this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()) {
       if (suite.getSupportedProofType() === (<VerifiableCredential>document)?.proof?.type || '') {
@@ -89,7 +86,7 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     return false
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiablePresentationLD} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -111,14 +108,13 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     }
 
     if (args.presentation.verifiableCredential) {
-      const credentials = args.presentation.verifiableCredential.map((cred) => {
+      presentation.verifiableCredential = args.presentation.verifiableCredential.map((cred) => {
         if (typeof cred !== 'string' && cred.proof.jwt) {
           return cred.proof.jwt
         } else {
           return cred
         }
       })
-      presentation.verifiableCredential = credentials
     }
 
     //issuanceDate must not be present for presentations because it is not defined in a @context
@@ -161,7 +157,7 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.createVerifiableCredentialLD} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -215,7 +211,7 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     }
   }
 
-  /** {@inheritdoc ICredentialIssuer.verifyCredentialLD} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyCredential} */
   async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     args.credential = args.credential as VerifiableCredential
     const credential = args.credential
@@ -229,7 +225,7 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     return this.ldCredentialModule.verifyCredential(credential, { ...args, now }, context)
   }
 
-  /** {@inheritdoc ICredentialVerifier.verifyPresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,
@@ -246,6 +242,30 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
       { ...args, now },
       context,
     )
+  }
+
+  /**
+   * Returns true if the key is supported by any of the installed LD Signature suites
+   * @param k - the key to match
+   *
+   * @internal
+   */
+  private matchKeyForLDSuite(k: IKey): boolean {
+    // prefilter based on key algorithms
+    switch (k.type) {
+      case 'Ed25519':
+        if (!k.meta?.algorithms?.includes('EdDSA')) return false
+        break
+      case 'Secp256k1':
+        if (intersect(k.meta?.algorithms ?? [], ['ES256K-R', 'ES256K']).length == 0) return false
+        break
+    }
+
+    // TODO: this should return a list of supported suites, not just a boolean
+    const suites = this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()
+    return suites
+      .map((suite: VeramoLdSignature) => suite.getSupportedVeramoKeyType().includes(k.type))
+      .some((supportsThisKey: boolean) => supportsThisKey)
   }
 
   private async findSigningKeyWithId(
@@ -284,29 +304,5 @@ export class CredentialProviderLD implements AbstractCredentialProvider {
     if (!signingKey) throw Error(`key_not_found: No suitable signing key found for ${identifier.did}`)
     verificationMethodId = signingKey.meta.verificationMethod.id
     return { signingKey, verificationMethodId }
-  }
-
-  /**
-   * Returns true if the key is supported by any of the installed LD Signature suites
-   * @param k - the key to match
-   *
-   * @internal
-   */
-  matchKeyForLDSuite(k: IKey): boolean {
-    // prefilter based on key algorithms
-    switch (k.type) {
-      case 'Ed25519':
-        if (!k.meta?.algorithms?.includes('EdDSA')) return false
-        break
-      case 'Secp256k1':
-        if (intersect(k.meta?.algorithms ?? [], ['ES256K-R', 'ES256K']).length == 0) return false
-        break
-    }
-
-    // TODO: this should return a list of supported suites, not just a boolean
-    const suites = this.ldCredentialModule.ldSuiteLoader.getAllSignatureSuites()
-    return suites
-      .map((suite: VeramoLdSignature) => suite.getSupportedVeramoKeyType().includes(k.type))
-      .some((supportsThisKey: boolean) => supportsThisKey)
   }
 }

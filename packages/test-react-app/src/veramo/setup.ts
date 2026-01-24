@@ -158,7 +158,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin({ issuers: [jwt, ld] }),
+      new CredentialPlugin([jwt, ld]),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

@@ -233,7 +233,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-      new CredentialPlugin({ issuers: [eip712, jwt, ld] }),
+      new CredentialPlugin([eip712, jwt, ld]),
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [

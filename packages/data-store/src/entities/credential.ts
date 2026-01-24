@@ -54,7 +54,7 @@ export class Credential extends BaseEntity {
   // @ts-ignore
   issuer: Relation<Identifier>
 
-  // Subject can be null https://w3c.github.io/vc-data-model/#credential-uniquely-identifies-a-subject
+  // Subject can be null https://www.w3.org/TR/vc-data-model-1.1/#credential-uniquely-identifies-a-subject
   @ManyToOne((type) => Identifier, (identifier) => identifier?.receivedCredentials, {
     cascade: ['insert'],
     eager: true,

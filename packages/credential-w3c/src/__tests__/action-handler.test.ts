@@ -3,6 +3,7 @@ import {
   ICredentialPlugin,
   IDIDManager,
   IIdentifier,
+  IKey,
   IKeyManager,
   IResolver,
   PresentationPayload,
@@ -18,14 +19,28 @@ import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { Resolver } from 'did-resolver'
-
+import {
+  ICredentialProvider,
+  ProofFormatQuery,
+  TentativeVerificationQuery,
+} from '../abstract-credential-provider'
+import {
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
+  IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
+  VerifiableCredential,
+  VerifiablePresentation,
+  VerifierAgentContext,
+} from '@veramo/core-types'
 
 let didKeyIdentifier: IIdentifier
 let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
 describe('@veramo/credential-w3c', () => {
   beforeAll(async () => {
-    const jwt = new CredentialProviderJWT()
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
@@ -46,13 +61,58 @@ describe('@veramo/credential-w3c', () => {
             ...getDidKeyResolver(),
           }),
         }),
-        new CredentialPlugin({ issuers: [jwt] }),
+        new CredentialPlugin([new CredentialProviderJWT()]),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
   })
 
-  test('handles createVerifiableCredential', async () => {
+  class DummyProofProvider implements ICredentialProvider {
+    createVerifiableCredential(
+      args: ICreateVerifiableCredentialArgs,
+      context: IssuerAgentContext,
+    ): Promise<VerifiableCredential> {
+      throw new Error('Method not implemented.')
+    }
+    createVerifiablePresentation(
+      args: ICreateVerifiablePresentationArgs,
+      context: IssuerAgentContext,
+    ): Promise<VerifiablePresentation> {
+      throw new Error('Method not implemented.')
+    }
+    verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+      throw new Error('Method not implemented.')
+    }
+    verifyPresentation(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+      throw new Error('Method not implemented.')
+    }
+    canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+      return false
+    }
+
+    getProofFormatsSupportedForKey(key: IKey): string[] {
+      return ['dummy', 'proofs']
+    }
+
+    canIssueProofFormat(query: ProofFormatQuery): boolean {
+      return false
+    }
+  }
+
+  it('lists usable proof formats', async () => {
+    expect.assertions(2)
+
+    const proofFormats = await agent.listUsableProofFormats(didKeyIdentifier)
+    expect(proofFormats).toEqual(['jwt'])
+
+    const newAgent = createAgent<ICredentialPlugin>({
+      plugins: [new CredentialPlugin([new DummyProofProvider()])],
+    })
+    const proofFormats2 = await newAgent.listUsableProofFormats(didKeyIdentifier)
+    expect(proofFormats2).toEqual(['dummy', 'proofs'])
+  })
+
+  it('handles createVerifiableCredential', async () => {
     expect.assertions(1)
 
     const issuerId = didKeyIdentifier.did
@@ -82,7 +142,7 @@ describe('@veramo/credential-w3c', () => {
     expect(vc.id).toEqual('vc1')
   })
 
-  test('handles createVerifiablePresentation', async () => {
+  it('handles createVerifiablePresentation', async () => {
     expect.assertions(1)
 
     const issuerId = didKeyIdentifier.did
@@ -123,5 +183,25 @@ describe('@veramo/credential-w3c', () => {
     })
 
     expect(vp.holder).toEqual(issuerId)
+  })
+
+  it('fails to create credential with unknown proof format', async () => {
+    expect.assertions(1)
+    await expect(() =>
+      agent.createVerifiableCredential({
+        credential: { dummy: 'data', issuer: { id: didKeyIdentifier.did } },
+        proofFormat: 'unknown',
+      }),
+    ).rejects.toThrow(/invalid_setup: No issuer found for the requested proof format/)
+  })
+
+  it('fails to create presentation with unknown proof format', async () => {
+    expect.assertions(1)
+    await expect(() =>
+      agent.createVerifiablePresentation({
+        presentation: { dummy: 'data', holder: didKeyIdentifier.did },
+        proofFormat: 'unknown',
+      }),
+    ).rejects.toThrow(/invalid_setup: No issuer found for the requested proof format/)
   })
 })

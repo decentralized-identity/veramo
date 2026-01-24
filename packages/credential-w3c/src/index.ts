@@ -21,4 +21,8 @@ export { CredentialIssuer, CredentialPlugin }
 // For backward compatibility, re-export the plugin types that were moved to core in v4
 export type { ICredentialIssuer, ICredentialVerifier } from '@veramo/core-types'
 
-export { AbstractCredentialProvider } from './abstract-credential-provider.js'
+export type {
+  ICredentialProvider,
+  ProofFormatQuery,
+  TentativeVerificationQuery,
+} from './abstract-credential-provider.js'

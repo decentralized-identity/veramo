@@ -1,116 +1,77 @@
-import { IAgentContext, ICanIssueCredentialTypeArgs, ICanVerifyDocumentTypeArgs, ICreateVerifiableCredentialArgs, ICreateVerifiablePresentationArgs, IIdentifier, IKey, IssuerAgentContext, IVerifyCredentialArgs, IVerifyPresentationArgs, IVerifyResult, VerifiableCredential, VerifiablePresentation, VerifierAgentContext } from "@veramo/core-types";
+import {
+  ICredentialIssuer,
+  ICredentialVerifier,
+  IKey,
+  ProofFormat,
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
+} from '@veramo/core-types'
 
 /**
- * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
+ * Subset of issuer methods implemented by Credential Providers
  *
- * @see {@link @veramo/credential-w3c#CredentialPlugin} for an implementation.
+ * @internal
+ */
+export type IssuerMethods = Pick<
+  ICredentialIssuer,
+  'createVerifiableCredential' | 'createVerifiablePresentation'
+>
+
+/**
+ * Subset of verifier methods implemented by Credential Providers
+ *
+ * @internal
+ */
+export type VerifierMethods = Pick<ICredentialVerifier, 'verifyCredential' | 'verifyPresentation'>
+
+/**
+ * Query a {@link ICredentialProvider} if a verification attempt can be made using the provided document
+ *
+ * @see {@link ICredentialProvider.canVerifyDocumentType}
+ * @public
+ */
+export type TentativeVerificationQuery = { document: W3CVerifiableCredential | W3CVerifiablePresentation }
+
+/**
+ * Query a {@link ICredentialProvider} for a particular proof format
+ *
+ * @see {@link ICredentialProvider.canIssueProofFormat}
+ * @public
+ */
+export type ProofFormatQuery = { proofFormat: ProofFormat }
+
+/**
+ * The interface definition for a sub-plugin that can issue and verify Verifiable Data
+ * (e.g. Verifiable Credentials and Presentations)
+ *
+ * @see {@link @veramo/credential-jwt#CredentialProviderJWT} for an implementation.
  * @remarks Please see {@link https://www.w3.org/TR/vc-data-model | W3C Verifiable Credentials data model}
  *
  * @public
  */
-export abstract class AbstractCredentialProvider {
-    /**
-     * Creates a Verifiable Presentation.
-     * The payload, signer and format are chosen based on the `args` parameter.
-     *
-     * @param args - Arguments necessary to create the Presentation.
-     * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-     *
-     * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or
-     *   rejects with an error if there was a problem with the input or while getting the key to sign
-     *
-     * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
-     *   }
-     */
-    abstract createVerifiablePresentation(
-        args: ICreateVerifiablePresentationArgs,
-        context: IssuerAgentContext,
-    ): Promise<VerifiablePresentation>
+export interface ICredentialProvider extends IssuerMethods, VerifierMethods {
+  /**
+   * Lists the proof formats supported by this provider for a given key
+   * @param key - The key to check supported proof formats for
+   *
+   * @returns An array of supported proof format strings
+   */
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[]
 
-    /**
-     * Creates a Verifiable Presentation.
-     * The payload, signer and format are chosen based on the `args` parameter.
-     *
-     * @param args - Arguments necessary to create the Presentation.
-     * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-     *
-     * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiablePresentation} that was requested or
-     *   rejects with an error if there was a problem with the input or while getting the key to sign
-     *
-     * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Presentation data model
-    *   }
-    */
-    abstract canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean
+  /**
+   * Checks if this provider can attempt to verify a document.
+   *
+   * @param query - contains the document to check
+   *
+   * @returns a boolean indicating if a verification attempt can be made
+   */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean
 
-
-    /**
-     * Matches a key against the type of proof supported by this issuer
-     * 
-     * @param key - The key to match against the proof type(s) supported by this issuer
-     * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-     * 
-     * @returns - a promise that resolves to a boolean indicating if the key can be used to sign a credential with this issuer
-     */
-    abstract matchKeyForType(key: IKey): boolean
-
-    /**
-     * Gets the proof type supported by this issuer
-     * 
-     * @returns - a promise that resolves to a string of the proof format supported by this issuer
-     */
-    abstract getTypeProofFormat(): string
-
-    /**
-     * Creates a Verifiable Credential.
-     * The payload, signer and format are chosen based on the `args` parameter.
-     *
-     * @param args - Arguments necessary to create the Presentation.
-     * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-     *
-     * @returns - a promise that resolves to the {@link @veramo/core-types#VerifiableCredential} that was requested or
-     *   rejects with an error if there was a problem with the input or while getting the key to sign
-     *
-     * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
-     */
-    abstract createVerifiableCredential(
-        args: ICreateVerifiableCredentialArgs,
-        context: IssuerAgentContext,
-    ): Promise<VerifiableCredential>
-
-    /**
-     * Verifies a Verifiable Credential
-     *
-     * @param args - Arguments necessary to verify a VerifiableCredential
-     * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-     *
-     * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
-     *   for details
-     *
-     * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#credentials | Verifiable Credential data model}
-     */
-    abstract verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult>
-
-
-    /**
-     * 
-     * @param args - Arguments necessary to verify a document
-     * @param context  - This reserved param is automatically added and handled by the framework, *do not override*
-     * 
-     * @returns a promise that resolves to a boolean indicating if the document can be verified
-     */
-    abstract canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean
-
-    /**
-     * Verifies a Verifiable Presentation JWT or LDS Format.
-     *
-     * @param args - Arguments necessary to verify a VerifiableCredential
-     * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-     *
-     * @returns - a promise that resolves to an object containing a `verified` boolean property and an optional `error`
-     *   for details
-     *
-     * @remarks Please see {@link https://www.w3.org/TR/vc-data-model/#presentations | Verifiable Credential data model}
-     */
-    abstract verifyPresentation(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult>
-
+  /**
+   * Checks if this provider can issue a credential or presentation in a particular format.
+   * @param query - The proof format to check
+   *
+   * @returns a boolean indicating if the credential or presentation can be issued in that format
+   */
+  canIssueProofFormat(query: ProofFormatQuery): boolean
 }

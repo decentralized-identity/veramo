@@ -1,6 +1,9 @@
-import { RequireOnly, KeyMetadata } from '@veramo/core-types'
-import { JwkDidSupportedKeyTypes, KeyUse, CreateIdentifierBaseOptions } from '@veramo/utils'
+import { CreateIdentifierBaseOptions, JwkDidSupportedKeyTypes, KeyUse } from '@veramo/utils'
 
+/**
+ * Options for creating a JWK DID identifier
+ * @internal
+ */
 export type JwkCreateIdentifierOptions = CreateIdentifierBaseOptions<JwkDidSupportedKeyTypes> & {
   /**
    * @deprecated use key.type instead

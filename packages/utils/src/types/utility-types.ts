@@ -1,4 +1,4 @@
-import { IKey, KeyMetadata, TKeyType, IKeyManagerCreateArgs, MinimalImportableKey, RequireOnly } from '@veramo/core-types'
+import { IKey, IKeyManagerCreateArgs, KeyMetadata, MinimalImportableKey, TKeyType, } from '@veramo/core-types'
 
 import { VerificationMethod } from 'did-resolver'
 
@@ -47,23 +47,44 @@ export type OrPromise<T> = T | Promise<T>
  */
 export type RecordLike<T> = Map<string, T> | Record<string, T>
 
-export enum SupportedKeyTypes {
-  Secp256r1 = 'Secp256r1',
-  Secp256k1 = 'Secp256k1',
-  Ed25519 = 'Ed25519',
-  X25519 = 'X25519',
-}
+/**
+ * Supported key types for JWK DID method
+ * @internal
+ */
+export const SupportedKeyTypes = {
+  Secp256r1: 'Secp256r1',
+  Secp256k1: 'Secp256k1',
+  Ed25519: 'Ed25519',
+  X25519: 'X25519',
+} as const
 
+/**
+ * Key usage types as per JWK spec
+ * @see https://datatracker.ietf.org/doc/html/rfc7517#section-4.2
+ * @internal
+ */
 export type KeyUse = 'sig' | 'enc'
 
+/**
+ * Supported key types for JWK DID method
+ * @internal
+ */
 export type JwkDidSupportedKeyTypes = keyof typeof SupportedKeyTypes
 
+/**
+ * Options for importing or creating a key
+ * @internal
+ */
 export type ImportOrCreateKeyOptions<TKey extends TKeyType = TKeyType> = Omit<
   Partial<IKeyManagerCreateArgs & MinimalImportableKey>,
   'kms'
 > & { type: TKey }
 
+/**
+ * Basic options for creating an identifier
+ * @internal
+ */
 export type CreateIdentifierBaseOptions<T extends TKeyType = TKeyType> = {
-  keyRef?: string;
-  key?: ImportOrCreateKeyOptions<T>;
+  keyRef?: string
+  key?: ImportOrCreateKeyOptions<T>
 }

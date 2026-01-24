@@ -1,21 +1,19 @@
 import {
   CredentialPayload,
-  IAgentPlugin,
   ICreateVerifiableCredentialArgs,
-  ICanIssueCredentialTypeArgs,
+  ICreateVerifiablePresentationArgs,
   IIdentifier,
   IKey,
   IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
   PresentationPayload,
+  PROOF_FORMAT,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
-  ICreateVerifiablePresentationArgs,
-  IVerifyCredentialArgs,
-  IVerifyResult,
-  IVerifyPresentationArgs,
   VerifierAgentContext,
-  IAgentContext,
-  ICanVerifyDocumentTypeArgs,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -29,41 +27,42 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { AbstractCredentialProvider } from '@veramo/credential-w3c'
+import { ICredentialProvider, ProofFormatQuery, TentativeVerificationQuery } from '@veramo/credential-w3c'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
 /**
- * A Veramo plugin that implements the {@link ICredentialProviderEIP712} methods.
+ * A Veramo Credential sub-plugin that implements
+ * a {@link @veramo/credential-w3c#ICredentialProvider | ICredentialProvider} with support for
+ * EthereumEIP712Signature2021 proofs.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEIP712Signature2021 spec }
+ * @see {@link https://www.w3.org/TR/vc-data-model-1.1/ | VC 1.1 data model}.
  */
-export class CredentialProviderEIP712 implements AbstractCredentialProvider {
-
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.matchKeyForType} */
-  matchKeyForType(key: IKey): boolean {
-    return this.matchKeyForEIP712(key)
+export class CredentialProviderEIP712 implements ICredentialProvider {
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[] {
+    if (this.matchKeyForEIP712(key)) {
+      return [PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021]
+    }
+    return []
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getTypeProofFormat} */
-  getTypeProofFormat(): string {
-    return 'EthereumEip712Signature2021'
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canIssueCredentialType} */
+  canIssueProofFormat(query: ProofFormatQuery): boolean {
+    return query.proofFormat === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canIssueCredentialType} */
-  canIssueCredentialType(args: ICanIssueCredentialTypeArgs): boolean {
-    return (args.proofFormat === 'EthereumEip712Signature2021')
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canVerifyDocumentType} */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+    const { document } = query
+    return (<VerifiableCredential>document)?.proof?.type === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.canVerifyDocumentType */
-  canVerifyDocumentType(args: ICanVerifyDocumentTypeArgs): boolean {
-    const { document } = args
-    return ((<VerifiableCredential>document)?.proof?.type === 'EthereumEip712Signature2021')
-  }
-
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiableCredential} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiableCredential} */
   async createVerifiableCredential(
     args: ICreateVerifiableCredentialArgs,
     context: IssuerAgentContext,
@@ -120,7 +119,7 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
         verificationMethod: extendedKey.meta.verificationMethod.id,
         created: issuanceDate,
         proofPurpose: 'assertionMethod',
-        type: 'EthereumEip712Signature2021',
+        type: PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021,
       },
     }
 
@@ -137,9 +136,11 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
 
     const data = JSON.stringify({ domain, types, message, primaryType })
 
-    const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
-
-    credential['proof']['proofValue'] = signature
+    credential['proof']['proofValue'] = await context.agent.keyManagerSign({
+      keyRef,
+      data,
+      algorithm: 'eth_signTypedData',
+    })
     credential['proof']['eip712'] = {
       domain,
       types: allTypes,
@@ -149,11 +150,8 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
     return credential as VerifiableCredential
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyCredential} */
-  async verifyCredential(
-    args: IVerifyCredentialArgs,
-    context: VerifierAgentContext,
-  ): Promise<IVerifyResult> {
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyCredential} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
     const credential = args.credential as VerifiableCredential
     if (!credential.proof || !credential.proof.proofValue)
       throw new Error('invalid_argument: proof is undefined')
@@ -212,11 +210,11 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
       error: {
         message: 'invalid_signature: The signature does not match any of the issuer signing keys',
         errorCode: 'invalid_signature',
-      }
+      },
     }
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.createVerifiablePresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiablePresentation} */
   async createVerifiablePresentation(
     args: ICreateVerifiablePresentationArgs,
     context: IssuerAgentContext,
@@ -296,7 +294,7 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
       verificationMethod: extendedKey.meta.verificationMethod.id,
       created: issuanceDate,
       proofPurpose: 'assertionMethod',
-      type: 'EthereumEip712Signature2021',
+      type: PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021,
     }
 
     const message = presentation
@@ -312,9 +310,11 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
 
     const data = JSON.stringify({ domain, types, message })
 
-    const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
-
-    presentation.proof.proofValue = signature
+    presentation.proof.proofValue = await context.agent.keyManagerSign({
+      keyRef,
+      data,
+      algorithm: 'eth_signTypedData',
+    })
 
     presentation.proof.eip712 = {
       domain,
@@ -325,7 +325,7 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
     return presentation as VerifiablePresentation
   }
 
-  /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.verifyPresentation} */
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyPresentation} */
   async verifyPresentation(
     args: IVerifyPresentationArgs,
     context: VerifierAgentContext,
@@ -387,7 +387,7 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
       error: {
         message: 'invalid_signature: The signature does not match any of the holder signing keys',
         errorCode: 'invalid_signature',
-      }
+      },
     }
   }
 
@@ -401,7 +401,8 @@ export class CredentialProviderEIP712 implements AbstractCredentialProvider {
    */
   matchKeyForEIP712(k: IKey): boolean {
     return (
-      intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
+      intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021])
+        .length > 0
     )
   }
 }
