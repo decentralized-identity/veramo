@@ -56,7 +56,7 @@ export interface ICredentialProvider extends IssuerMethods, VerifierMethods {
    *
    * @returns An array of supported proof format strings
    */
-  getProofFormatsSupportedForKey(key: IKey): string[]
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[]
 
   /**
    * Checks if this provider can attempt to verify a document.

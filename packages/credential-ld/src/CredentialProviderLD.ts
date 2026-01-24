@@ -12,6 +12,7 @@ import {
   IVerifyResult,
   PresentationPayload,
   PROOF_FORMAT,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -60,7 +61,7 @@ export class CredentialProviderLD implements ICredentialProvider {
   }
 
   /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
-  getProofFormatsSupportedForKey(key: IKey): string[] {
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[] {
     if (this.matchKeyForLDSuite(key)) {
       return [PROOF_FORMAT.LD_SIGNATURE]
     }

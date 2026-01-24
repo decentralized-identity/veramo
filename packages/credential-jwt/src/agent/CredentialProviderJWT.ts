@@ -11,6 +11,7 @@ import {
   IVerifyPresentationArgs,
   IVerifyResult,
   PROOF_FORMAT,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -55,7 +56,7 @@ const debug = Debug('veramo:credential-jwt:agent')
  */
 export class CredentialProviderJWT implements ICredentialProvider {
   /** {@inheritdoc @veramo/credential-w3c#AbstractCredentialProvider.getProofFormatsSupportedForKey} */
-  getProofFormatsSupportedForKey(key: IKey): string[] {
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[] {
     if (this.matchKeyForJWT(key)) {
       return [PROOF_FORMAT.JWT]
     }

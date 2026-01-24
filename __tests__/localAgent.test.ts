@@ -7,7 +7,7 @@
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
-import { createAgent, ProofFormat } from '../packages/core/src'
+import { createAgent } from '../packages/core/src'
 import {
   IAgentOptions,
   ICredentialPlugin,

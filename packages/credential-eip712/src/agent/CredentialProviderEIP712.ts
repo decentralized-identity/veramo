@@ -10,6 +10,7 @@ import {
   IVerifyResult,
   PresentationPayload,
   PROOF_FORMAT,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
   VerifierAgentContext,
@@ -43,7 +44,7 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
  */
 export class CredentialProviderEIP712 implements ICredentialProvider {
   /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
-  getProofFormatsSupportedForKey(key: IKey): string[] {
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[] {
     if (this.matchKeyForEIP712(key)) {
       return [PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021]
     }
