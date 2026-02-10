@@ -1,6 +1,6 @@
 import { DIDDocument } from 'did-resolver'
-import { IPluginMethodMap, IAgentContext } from './IAgent.js'
-import { IIdentifier, IService, IKey, MinimalImportableIdentifier } from './IIdentifier.js'
+import { IAgentContext, IPluginMethodMap } from './IAgent.js'
+import { IIdentifier, IKey, IService, MinimalImportableIdentifier } from './IIdentifier.js'
 import { IKeyManager } from './IKeyManager.js'
 
 /**
@@ -78,7 +78,7 @@ export interface IDIDManagerCreateArgs {
   kms?: string
 
   /**
-   * Optional. Identifier provider specific options
+   * Optional. Identifier-provider specific options
    */
   options?: object
 }
@@ -120,7 +120,7 @@ export interface IDIDManagerGetOrCreateArgs {
   kms?: string
 
   /**
-   * Optional. Identifier provider specific options
+   * Optional. Identifier-provider specific options
    */
   options?: object
 }
@@ -149,6 +149,12 @@ export interface IDIDManagerUpdateArgs {
    * @see {@link @veramo/did-manager#AbstractIdentifierProvider | AbstractIdentifierProvider}
    */
   options?: {
+    /**
+     * Optional flag to indicate that the changes will only be applied to the local DIDStore tracking and this update will not be published to any underlying registries
+     * AbstractIdentifierProvider implementations must respect this flag where applicable. Defaults to false.
+     * @default false
+     */
+    localOnly?: boolean
     [x: string]: any
   }
 }
@@ -169,10 +175,14 @@ export interface IDIDManagerAddKeyArgs {
   key: IKey
 
   /**
-   * Optional. Identifier provider specific options
+   * Optional. Identifier-provider specific options
    */
   options?: {
-    isLocal?: boolean
+    /**
+     * Optional flag to indicate that the key should only be added to the local DIDStore tracking and this update will not be published to any underlying registries
+     * @default false
+     */
+    localOnly?: boolean
     [key: string]: any
   }
 }
@@ -193,10 +203,14 @@ export interface IDIDManagerRemoveKeyArgs {
   kid: string
 
   /**
-   * Optional. Identifier provider specific options
+   * Optional. Identifier-provider specific options
    */
   options?: {
-    isLocal?: boolean
+    /**
+     * Optional flag to indicate that the key should only be removed from the local DIDStore tracking and this update will not be published to any underlying registries
+     * @default false
+     */
+    localOnly?: boolean
     [key: string]: any
   }
 }
@@ -217,10 +231,14 @@ export interface IDIDManagerAddServiceArgs {
   service: IService
 
   /**
-   * Optional. Identifier provider specific options
+   * Optional. Identifier-provider specific options
    */
   options?: {
-    isLocal?: boolean
+    /**
+     * Optional flag to indicate that the service should only be added to the local DIDStore tracking and this update will not be published to any underlying registries
+     * @default false
+     */
+    localOnly?: boolean
     [key: string]: any
   }
 }
@@ -241,10 +259,14 @@ export interface IDIDManagerRemoveServiceArgs {
   id: string
 
   /**
-   * Optional. Identifier provider specific options
+   * Optional. Identifier-provider specific options
    */
   options?: {
-    isLocal?: boolean
+    /**
+     * Optional flag to indicate that the service should only be removed from the local DIDStore tracking and this update will not be published to any underlying registries
+     * @default false
+     */
+    localOnly?: boolean
     [key: string]: any
   }
 }
