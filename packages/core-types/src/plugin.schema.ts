@@ -794,7 +794,7 @@ export const schema = {
               "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
           },
-          "description": "Represents an object type where a subset of keys are required and everything else is optional."
+          "description": "Represents an object type where a subset of keys is required and everything else is optional."
         },
         "IKeyManagerSharedSecretArgs": {
           "type": "object",
@@ -1067,11 +1067,13 @@ export const schema = {
             "options": {
               "type": "object",
               "properties": {
-                "isLocal": {
-                  "type": "boolean"
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the key should only be added to the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
                 }
               },
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1157,11 +1159,13 @@ export const schema = {
             "options": {
               "type": "object",
               "properties": {
-                "isLocal": {
-                  "type": "boolean"
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the service should only be added to the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
                 }
               },
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1235,7 +1239,7 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "description": "Input arguments for  {@link IDIDManager.didManagerCreate | didManagerCreate }"
@@ -1356,7 +1360,7 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1442,7 +1446,7 @@ export const schema = {
               "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
           },
-          "description": "Represents an object type where a subset of keys are required and everything else is optional."
+          "description": "Represents an object type where a subset of keys is required and everything else is optional."
         },
         "IDIDManagerRemoveKeyArgs": {
           "type": "object",
@@ -1458,11 +1462,13 @@ export const schema = {
             "options": {
               "type": "object",
               "properties": {
-                "isLocal": {
-                  "type": "boolean"
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the key should only be removed from the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
                 }
               },
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1485,11 +1491,13 @@ export const schema = {
             "options": {
               "type": "object",
               "properties": {
-                "isLocal": {
-                  "type": "boolean"
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the service should only be removed from the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
                 }
               },
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1742,6 +1750,13 @@ export const schema = {
             },
             "options": {
               "type": "object",
+              "properties": {
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the changes will only be applied to the local DIDStore tracking and this update will not be published to any underlying registries AbstractIdentifierProvider implementations must respect this flag where applicable. Defaults to false.",
+                  "default": false
+                }
+              },
               "description": "Identifier provider specific options."
             }
           },

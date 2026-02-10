@@ -441,7 +441,7 @@ export default (testContext: {
       const result = await agent.didManagerAddKey({
         did: webIdentifier.did,
         key: localKey,
-        options: { isLocal: true },
+        options: { localOnly: true },
       })
 
       expect(result).toEqual(true)
@@ -458,7 +458,7 @@ export default (testContext: {
       const result = await agent.didManagerRemoveKey({
         did: webIdentifier.did,
         kid: localKey.kid,
-        options: { isLocal: true },
+        options: { localOnly: true },
       })
 
       expect(result).toEqual(true)
@@ -482,7 +482,7 @@ export default (testContext: {
       const result = await agent.didManagerAddService({
         did: webIdentifier.did,
         service: mockService,
-        options: { isLocal: true },
+        options: { localOnly: true },
       })
 
       expect(result).toEqual(true)
@@ -491,7 +491,7 @@ export default (testContext: {
       expect(updatedIdentifier.services.some((service: any) => service.id === mockService.id)).toBe(true)
     })
 
-    it('should remove service from identifier with isLocal=true', async () => {
+    it('should remove service from identifier with localOnly=true', async () => {
       const webIdentifier = await agent.didManagerGet({
         did: 'did:web:did.example.com',
       })
@@ -502,7 +502,7 @@ export default (testContext: {
       const result = await agent.didManagerRemoveService({
         did: webIdentifier.did,
         id: mockService.id,
-        options: { isLocal: true },
+        options: { localOnly: true },
       })
 
       expect(result).toEqual(true)

@@ -1,4 +1,16 @@
-import { IIdentifier, IKey, IService, IAgentContext, IKeyManager, DIDDocument } from '@veramo/core-types'
+import {
+  IIdentifier,
+  IKey,
+  IService,
+  IAgentContext,
+  IKeyManager,
+  DIDDocument,
+  IDIDManagerUpdateArgs,
+  IDIDManagerAddKeyArgs,
+  IDIDManagerRemoveKeyArgs,
+  IDIDManagerAddServiceArgs,
+  IDIDManagerRemoveServiceArgs,
+} from '@veramo/core-types'
 
 /**
  * An abstract class for the {@link @veramo/did-manager#DIDManager} identifier providers
@@ -11,29 +23,29 @@ export abstract class AbstractIdentifierProvider {
   ): Promise<Omit<IIdentifier, 'provider'>>
 
   abstract updateIdentifier?(
-    args: { did: string, document: Partial<DIDDocument>, options?: { [x: string]: any } },
+    args: { did: string, document: Partial<DIDDocument>, options?: IDIDManagerUpdateArgs['options'] },
     context: IAgentContext<IKeyManager>,
   ): Promise<IIdentifier>
 
   abstract deleteIdentifier(args: IIdentifier, context: IAgentContext<IKeyManager>): Promise<boolean>
 
   abstract addKey(
-    args: { identifier: IIdentifier; key: IKey; options?: any },
+    args: { identifier: IIdentifier; key: IKey; options?: IDIDManagerAddKeyArgs['options'] },
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
 
   abstract removeKey(
-    args: { identifier: IIdentifier; kid: string; options?: any },
+    args: { identifier: IIdentifier; kid: string; options?: IDIDManagerRemoveKeyArgs['options'] },
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
 
   abstract addService(
-    args: { identifier: IIdentifier; service: IService; options?: any },
+    args: { identifier: IIdentifier; service: IService; options?: IDIDManagerAddServiceArgs['options'] },
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
 
   abstract removeService(
-    args: { identifier: IIdentifier; id: string; options?: any },
+    args: { identifier: IIdentifier; id: string; options?: IDIDManagerRemoveServiceArgs['options'] },
     context: IAgentContext<IKeyManager>,
   ): Promise<any>
 
