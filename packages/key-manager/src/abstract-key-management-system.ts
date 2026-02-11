@@ -12,7 +12,7 @@ export abstract class AbstractKeyManagementSystem {
 
   abstract listKeys(): Promise<Array<ManagedKeyInfo>>
 
-  abstract createKey(args: { type: TKeyType; meta?: any }): Promise<ManagedKeyInfo>
+  abstract createKey(args: { type: TKeyType; meta?: any; kid?: string }): Promise<ManagedKeyInfo>
 
   abstract deleteKey(args: { kid: string }): Promise<boolean>
 

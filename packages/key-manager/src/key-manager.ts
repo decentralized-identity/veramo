@@ -15,14 +15,14 @@ import {
   IKeyManagerSignJWTArgs,
   ManagedKeyInfo,
   MinimalImportableKey,
+  schema,
   TKeyType,
 } from '@veramo/core-types'
-import { schema } from '@veramo/core-types'
 import * as u8a from 'uint8arrays'
 import { createAnonDecrypter, createAnonEncrypter, createJWE, decryptJWE, type ECDH, type JWE } from 'did-jwt'
 import { convertEd25519PublicKeyToX25519 } from '@veramo/utils'
 import Debug from 'debug'
-import { getBytes, hexlify, toUtf8Bytes, toUtf8String, computeAddress, Transaction } from 'ethers'
+import { computeAddress, getBytes, hexlify, toUtf8Bytes, toUtf8String, Transaction } from 'ethers'
 
 const debug = Debug('veramo:key-manager')
 
@@ -70,14 +70,6 @@ export class KeyManager implements IAgentPlugin {
     }
   }
 
-  private getKms(name: string): AbstractKeyManagementSystem {
-    const kms = this.kms[name]
-    if (!kms) {
-      throw Error(`invalid_argument: This agent has no registered KeyManagementSystem with name='${name}'`)
-    }
-    return kms
-  }
-
   /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerGetKeyManagementSystems} */
   async keyManagerGetKeyManagementSystems(): Promise<Array<string>> {
     return Object.keys(this.kms)
@@ -86,12 +78,8 @@ export class KeyManager implements IAgentPlugin {
   /** {@inheritDoc @veramo/core-types#IKeyManager.keyManagerCreate} */
   async keyManagerCreate(args: IKeyManagerCreateArgs): Promise<ManagedKeyInfo> {
     const kms = this.getKms(args.kms)
-    const partialKey = await kms.createKey({ type: args.type, meta: args.meta })
-    const key: IKey = {
-      ...partialKey,
-      kms: args.kms,
-      kid: args.kid ?? partialKey.kid
-    }
+    const partialKey = await kms.createKey({ type: args.type, meta: args.meta, kid: args.kid })
+    const key: IKey = { ...partialKey, kms: args.kms }
     if (args.meta || key.meta) {
       key.meta = { ...args.meta, ...key.meta }
     }
@@ -235,5 +223,13 @@ export class KeyManager implements IAgentPlugin {
       const shared = await this.keyManagerSharedSecret({ secretKeyRef, publicKey })
       return getBytes('0x' + shared)
     }
+  }
+
+  private getKms(name: string): AbstractKeyManagementSystem {
+    const kms = this.kms[name]
+    if (!kms) {
+      throw Error(`invalid_argument: This agent has no registered KeyManagementSystem with name='${name}'`)
+    }
+    return kms
   }
 }
