@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "outDir": "./build",
     "rootDir": ".",
-    "types": ["node", "jest"],
+    "types": ["node", "jest"]
   },
   "include": [
     "scripts/**/*",
