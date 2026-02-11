@@ -1,11 +1,19 @@
 import {
   CredentialPayload,
-  IAgentPlugin,
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
   IIdentifier,
   IKey,
+  IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
   PresentationPayload,
+  PROOF_FORMAT,
+  ProofFormat,
   VerifiableCredential,
   VerifiablePresentation,
+  VerifierAgentContext,
 } from '@veramo/core-types'
 import {
   extractIssuer,
@@ -19,43 +27,45 @@ import {
   removeDIDParameters,
   resolveDidOrThrow,
 } from '@veramo/utils'
-import { schema } from '../plugin.schema.js'
+import { ICredentialProvider, ProofFormatQuery, TentativeVerificationQuery } from '@veramo/credential-w3c'
 
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
-import {
-  ICreateVerifiableCredentialEIP712Args,
-  ICreateVerifiablePresentationEIP712Args,
-  ICredentialIssuerEIP712,
-  IRequiredContext,
-  IVerifyCredentialEIP712Args,
-  IVerifyPresentationEIP712Args,
-} from '../types/ICredentialEIP712.js'
 
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation'
 
 /**
- * A Veramo plugin that implements the {@link ICredentialIssuerEIP712} methods.
+ * A Veramo Credential sub-plugin that implements
+ * a {@link @veramo/credential-w3c#ICredentialProvider | ICredentialProvider} with support for
+ * EthereumEIP712Signature2021 proofs.
  *
  * @beta This API may change without a BREAKING CHANGE notice.
+ * @see {@link https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/ | EthereumEIP712Signature2021 spec }
+ * @see {@link https://www.w3.org/TR/vc-data-model-1.1/ | VC 1.1 data model}.
  */
-export class CredentialIssuerEIP712 implements IAgentPlugin {
-  readonly methods: ICredentialIssuerEIP712
-  readonly schema = schema.ICredentialIssuerEIP712
-
-  constructor() {
-    this.methods = {
-      createVerifiableCredentialEIP712: this.createVerifiableCredentialEIP712.bind(this),
-      createVerifiablePresentationEIP712: this.createVerifiablePresentationEIP712.bind(this),
-      verifyCredentialEIP712: this.verifyCredentialEIP712.bind(this),
-      verifyPresentationEIP712: this.verifyPresentationEIP712.bind(this),
-      matchKeyForEIP712: this.matchKeyForEIP712.bind(this),
+export class CredentialProviderEIP712 implements ICredentialProvider {
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.getProofFormatsSupportedForKey} */
+  getProofFormatsSupportedForKey(key: IKey): ProofFormat[] {
+    if (this.matchKeyForEIP712(key)) {
+      return [PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021]
     }
+    return []
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.createVerifiableCredentialEIP712} */
-  public async createVerifiableCredentialEIP712(
-    args: ICreateVerifiableCredentialEIP712Args,
-    context: IRequiredContext,
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canIssueCredentialType} */
+  canIssueProofFormat(query: ProofFormatQuery): boolean {
+    return query.proofFormat === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
+  }
+
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.canVerifyDocumentType} */
+  canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+    const { document } = query
+    return (<VerifiableCredential>document)?.proof?.type === PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021
+  }
+
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiableCredential} */
+  async createVerifiableCredential(
+    args: ICreateVerifiableCredentialArgs,
+    context: IssuerAgentContext,
   ): Promise<VerifiableCredential> {
     const credentialContext = processEntryToArray(
       args?.credential?.['@context'],
@@ -109,7 +119,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
         verificationMethod: extendedKey.meta.verificationMethod.id,
         created: issuanceDate,
         proofPurpose: 'assertionMethod',
-        type: 'EthereumEip712Signature2021',
+        type: PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021,
       },
     }
 
@@ -126,9 +136,11 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const data = JSON.stringify({ domain, types, message, primaryType })
 
-    const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
-
-    credential['proof']['proofValue'] = signature
+    credential['proof']['proofValue'] = await context.agent.keyManagerSign({
+      keyRef,
+      data,
+      algorithm: 'eth_signTypedData',
+    })
     credential['proof']['eip712'] = {
       domain,
       types: allTypes,
@@ -138,12 +150,9 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     return credential as VerifiableCredential
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.verifyCredentialEIP712} */
-  private async verifyCredentialEIP712(
-    args: IVerifyCredentialEIP712Args,
-    context: IRequiredContext,
-  ): Promise<boolean> {
-    const { credential } = args
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyCredential} */
+  async verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+    const credential = args.credential as VerifiableCredential
     if (!credential.proof || !credential.proof.proofValue)
       throw new Error('invalid_argument: proof is undefined')
 
@@ -173,7 +182,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const recovered = recoverTypedSignature({
       data: objectToVerify,
-      signature: proofValue,
+      signature: proofValue!,
       version: SignTypedDataVersion.V4,
     })
 
@@ -187,20 +196,28 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
         if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
-          return true
+          return {
+            verified: true,
+          }
         }
       }
     } else {
       throw new Error('resolver_error: issuer DIDDocument does not contain any verificationMethods')
     }
 
-    return false
+    return {
+      verified: false,
+      error: {
+        message: 'invalid_signature: The signature does not match any of the issuer signing keys',
+        errorCode: 'invalid_signature',
+      },
+    }
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.createVerifiablePresentationEIP712} */
-  async createVerifiablePresentationEIP712(
-    args: ICreateVerifiablePresentationEIP712Args,
-    context: IRequiredContext,
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.createVerifiablePresentation} */
+  async createVerifiablePresentation(
+    args: ICreateVerifiablePresentationArgs,
+    context: IssuerAgentContext,
   ): Promise<VerifiablePresentation> {
     const presentationContext = processEntryToArray(
       args?.presentation?.['@context'],
@@ -277,7 +294,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
       verificationMethod: extendedKey.meta.verificationMethod.id,
       created: issuanceDate,
       proofPurpose: 'assertionMethod',
-      type: 'EthereumEip712Signature2021',
+      type: PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021,
     }
 
     const message = presentation
@@ -293,9 +310,11 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const data = JSON.stringify({ domain, types, message })
 
-    const signature = await context.agent.keyManagerSign({ keyRef, data, algorithm: 'eth_signTypedData' })
-
-    presentation.proof.proofValue = signature
+    presentation.proof.proofValue = await context.agent.keyManagerSign({
+      keyRef,
+      data,
+      algorithm: 'eth_signTypedData',
+    })
 
     presentation.proof.eip712 = {
       domain,
@@ -306,12 +325,12 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     return presentation as VerifiablePresentation
   }
 
-  /** {@inheritdoc ICredentialIssuerEIP712.verifyPresentationEIP712} */
-  private async verifyPresentationEIP712(
-    args: IVerifyPresentationEIP712Args,
-    context: IRequiredContext,
-  ): Promise<boolean> {
-    const { presentation } = args
+  /** {@inheritdoc @veramo/credential-w3c#ICredentialProvider.verifyPresentation} */
+  async verifyPresentation(
+    args: IVerifyPresentationArgs,
+    context: VerifierAgentContext,
+  ): Promise<IVerifyResult> {
+    const presentation = args.presentation as VerifiablePresentation
     if (!presentation.proof || !presentation.proof.proofValue) throw new Error('Proof is undefined')
 
     const { proof, ...signingInput } = presentation
@@ -340,7 +359,7 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
 
     const recovered = recoverTypedSignature({
       data: objectToVerify,
-      signature: proofValue,
+      signature: proofValue!,
       version: SignTypedDataVersion.V4,
     })
 
@@ -354,14 +373,22 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
     if (didDocument.verificationMethod) {
       for (const verificationMethod of didDocument.verificationMethod) {
         if (getEthereumAddress(verificationMethod)?.toLowerCase() === recovered.toLowerCase()) {
-          return true
+          return {
+            verified: true,
+          }
         }
       }
     } else {
       throw new Error('resolver_error: holder DIDDocument does not contain any verificationMethods')
     }
 
-    return false
+    return {
+      verified: false,
+      error: {
+        message: 'invalid_signature: The signature does not match any of the holder signing keys',
+        errorCode: 'invalid_signature',
+      },
+    }
   }
 
   /**
@@ -372,9 +399,10 @@ export class CredentialIssuerEIP712 implements IAgentPlugin {
    *
    * @internal
    */
-  async matchKeyForEIP712(k: IKey): Promise<boolean> {
+  matchKeyForEIP712(k: IKey): boolean {
     return (
-      intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', 'EthereumEip712Signature2021']).length > 0
+      intersect(k.meta?.algorithms ?? [], ['eth_signTypedData', PROOF_FORMAT.ETHEREUM_EIP712_SIGNATURE_2021])
+        .length > 0
     )
   }
 }

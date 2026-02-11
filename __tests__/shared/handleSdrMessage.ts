@@ -108,7 +108,7 @@ export default (testContext: {
 
     it('should create and handle an SDR message with Secp256k1', async () => {
       const sdrIssuer = await agent.didManagerCreate({
-        provider: 'did:ethr',
+        provider: 'did:ethr:ganache',
       })
       const req = await agent.createSelectiveDisclosureRequest({
         data: {
@@ -137,7 +137,7 @@ export default (testContext: {
         provider: 'did:jwk',
         options: {
           keyType: 'Secp256r1',
-        }
+        },
       })
       const req = await agent.createSelectiveDisclosureRequest({
         data: {

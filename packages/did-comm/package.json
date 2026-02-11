@@ -17,11 +17,9 @@
     }
   },
   "dependencies": {
-    "@noble/curves": "^1.1.0",
-    "@stablelib/aes": "^1.0.1",
-    "@stablelib/aes-kw": "^1.0.1",
-    "@stablelib/gcm": "^1.0.2",
-    "@stablelib/xchacha20poly1305": "^1.0.1",
+    "@noble/curves": "^1.4.2",
+    "@noble/ciphers": "^1.0.0",
+    "@stablelib/aes-kw": "^2.0.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/kv-store": "workspace:^",
     "@veramo/mediation-manager": "workspace:^",
@@ -31,13 +29,13 @@
     "debug": "^4.3.3",
     "did-jwt": "^8.0.0",
     "did-resolver": "^4.1.0",
-    "isomorphic-webcrypto": "^2.3.8",
-    "uuid": "^9.0.0"
+    "uuid": "^11.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
-    "typescript": "5.3.3"
+    "sqlite3": "5.1.7",
+    "typescript": "5.7.3"
   },
   "files": [
     "build/**/*",

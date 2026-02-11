@@ -10,10 +10,9 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '../../packages/core-types/src'
-import { ICredentialIssuerEIP712 } from '../../packages/credential-eip712/src'
 
 type ConfiguredAgent = TAgent<
-  IDIDManager & ICredentialPlugin & ICredentialIssuerEIP712 & IDataStore & IDataStoreORM
+  IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM
 >
 
 export default (testContext: {
@@ -72,11 +71,11 @@ export default (testContext: {
     })
 
     it('should verify credential with EthereumEip712Signature2021 proof type', async () => {
-      const result = await agent.verifyCredentialEIP712({
+      const result = await agent.verifyCredential({
         credential: verifiableCredential,
       })
 
-      expect(result).toEqual(true)
+      expect(result.verified).toEqual(true)
     })
 
     it('should create verifiable presentation with EthereumEip712Signature2021 proof type', async () => {
@@ -111,11 +110,11 @@ export default (testContext: {
     it.todo('should throw error when trying to sign presentation with unsuported attributes')
 
     it('should verify presentation with EthereumEip712Signature2021 proof type', async () => {
-      const result = await agent.verifyPresentationEIP712({
+      const result = await agent.verifyPresentation({
         presentation: verifiablePresentation,
       })
 
-      expect(result).toEqual(true)
+      expect(result.verified).toEqual(true)
     })
   })
 }

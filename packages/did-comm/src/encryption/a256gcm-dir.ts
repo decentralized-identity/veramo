@@ -1,6 +1,5 @@
 import type { Decrypter, Encrypter, EncryptionResult, ProtectedHeader } from 'did-jwt'
-import { AES } from '@stablelib/aes'
-import { GCM } from '@stablelib/gcm'
+import { gcm } from '@noble/ciphers/aes'
 import { randomBytes } from '@noble/hashes/utils'
 import { bytesToBase64url, encodeBase64url } from '@veramo/utils'
 import { fromString } from 'uint8arrays/from-string'
@@ -8,14 +7,12 @@ import { fromString } from 'uint8arrays/from-string'
 function createA256GCMEncrypter(
   key: Uint8Array,
 ): (cleartext: Uint8Array, aad?: Uint8Array) => EncryptionResult {
-  const blockcipher = new AES(key)
-  const cipher = new GCM(blockcipher)
   return (cleartext: Uint8Array, aad?: Uint8Array) => {
-    const iv = randomBytes(cipher.nonceLength)
-    const sealed = cipher.seal(iv, cleartext, aad)
+    const iv = randomBytes(gcm.nonceLength)
+    const sealed = gcm(key, iv, aad).encrypt(cleartext)
     return {
-      ciphertext: sealed.subarray(0, sealed.length - cipher.tagLength),
-      tag: sealed.subarray(sealed.length - cipher.tagLength),
+      ciphertext: sealed.subarray(0, sealed.length - gcm.tagLength),
+      tag: sealed.subarray(sealed.length - gcm.tagLength),
       iv,
     }
   }
@@ -42,10 +39,9 @@ export function a256gcmDirEncrypter(key: Uint8Array): Encrypter {
 }
 
 export function a256gcmDirDecrypter(key: Uint8Array): Decrypter {
-  const cipher = new GCM(new AES(key))
 
   async function decrypt(sealed: Uint8Array, iv: Uint8Array, aad?: Uint8Array): Promise<Uint8Array | null> {
-    return cipher.open(iv, sealed, aad)
+    return gcm(key, iv, aad).decrypt(sealed)
   }
 
   return { alg: 'dir', enc: 'A256GCM', decrypt }

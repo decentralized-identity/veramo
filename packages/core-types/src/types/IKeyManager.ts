@@ -2,7 +2,7 @@ import { IPluginMethodMap } from './IAgent.js'
 import { TKeyType, IKey, KeyMetadata } from './IIdentifier.js'
 
 /**
- * Represents an object type where a subset of keys are required and everything else is optional.
+ * Represents an object type where a subset of keys is required and everything else is optional.
  *
  * @public
  */
@@ -42,6 +42,11 @@ export interface IKeyManagerCreateArgs {
    * Optional. Key meta data
    */
   meta?: KeyMetadata
+
+  /**
+   * Optional. Key ID
+   */
+  kid?: string;
 }
 
 /**

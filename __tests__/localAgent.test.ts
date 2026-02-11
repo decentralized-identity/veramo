@@ -25,10 +25,10 @@ import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
 import { DIDResolverPlugin } from '../packages/did-resolver/src'
 import { JwtMessageHandler } from '../packages/did-jwt/src'
 import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -64,8 +64,8 @@ import {
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
 
 import { DataSource } from 'typeorm'
-import { createGanacheProvider } from './utils/ganache-provider'
-import { createEthersProvider } from './utils/ethers-provider'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
+import { createEthersProvider } from '../packages/test-react-app/src/test-utils/ethers-provider'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
@@ -97,7 +97,6 @@ import credentialPluginTests from './shared/credentialPluginTests.js'
 
 jest.setTimeout(120000)
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 
 let agent: TAgent<
@@ -109,12 +108,11 @@ let agent: TAgent<
     IMessageHandler &
     IDIDComm &
     ICredentialPlugin &
-    ICredentialIssuerLD &
-    ICredentialIssuerEIP712 &
     ISelectiveDisclosure &
     IDIDDiscovery
 >
-let dbConnection: Promise<DataSource>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 let databaseFile: string
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
@@ -135,6 +133,17 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const { provider, registry } = await createGanacheProvider()
   const ethersProvider = createEthersProvider()
 
+  const eip712 = new CredentialProviderEIP712()
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts, credential_contexts as any],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoJsonWebSignature2020(),
+      new VeramoEd25519Signature2020(),
+    ],
+  })
   agent = createAgent<
     IDIDManager &
       IKeyManager &
@@ -144,8 +153,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IMessageHandler &
       IDIDComm &
       ICredentialPlugin &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
       IDIDDiscovery
   >({
@@ -171,22 +178,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             defaultKms: 'local',
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
-              {
-                name: 'mainnet',
-                chainId: 1,
-                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
-              },
               {
                 chainId: 1337,
                 name: 'ganache',
@@ -215,7 +206,6 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         ...ethrDidResolver({
-          infuraProjectId,
           networks: [
             {
               name: 'ganache',
@@ -243,17 +233,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         ],
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
-      new CredentialPlugin(),
-      new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoJsonWebSignature2020(),
-          new VeramoEd25519Signature2020(),
-        ],
-      }),
+      new CredentialPlugin([eip712, jwt, ld]),
       new SelectiveDisclosure(),
       new DIDDiscovery({
         providers: [

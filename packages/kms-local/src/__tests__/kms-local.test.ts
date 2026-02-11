@@ -8,7 +8,7 @@ import {
   hexToBytes,
   stringToUtf8Bytes,
 } from '../../../utils/src'
-import { randomBytes } from '@stablelib/random'
+import { randomBytes } from 'ethers'
 import {
   convertPublicKeyToX25519,
   convertSecretKeyToX25519,
@@ -16,7 +16,7 @@ import {
 } from '@stablelib/ed25519'
 
 describe('@veramo/kms-local', () => {
-  it('should import and convert ed25519 key', async () => {
+  it('imports and convert ed25519 key', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const privateBytes = randomBytes(32)
     const key = await kms.importKey({
@@ -35,7 +35,38 @@ describe('@veramo/kms-local', () => {
     expect(bytesToHex(xpubNoble)).toEqual(bytesToHex(xpubStable))
   })
 
-  it('should compute a shared secret Ed+Ed', async () => {
+  it('creates a key with user-provided kid and signs with it', async () => {
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
+    const kid = 'my-custom-kid'
+    const key = await kms.createKey({ type: 'Ed25519', kid })
+    expect(key.type).toEqual('Ed25519')
+    expect(key.kid).toEqual(kid)
+    expect(key.publicKeyHex).toHaveLength(64)
+    expect(key.meta?.algorithms).toContain('EdDSA')
+
+    const data = stringToUtf8Bytes('test data for custom kid')
+    const signature = await kms.sign({ keyRef: key, data, algorithm: 'EdDSA' })
+    expect(signature).toBeDefined()
+    expect(typeof signature).toBe('string')
+  })
+
+  it('imports an Ed25519 key with custom kid and signs with it', async () => {
+    const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
+    const privateKeyHex = 'ed3991fa33d4df22c88b78249e4d73c509c640a873a66808ad5dce774334ce94ee5072bc20355b4cd5499e04ee70853591bffa1874b1b5467dedd648d5b89ecb'
+    const kid = 'custom-ed25519-kid'
+    const key = await kms.importKey({ kid, privateKeyHex, type: 'Ed25519' })
+    expect(key.type).toEqual('Ed25519')
+    expect(key.kid).toEqual(kid)
+    expect(key.publicKeyHex).toHaveLength(64)
+    expect(key.meta?.algorithms).toContain('EdDSA')
+
+    const data = stringToUtf8Bytes('test data for imported Ed25519')
+    const signature = await kms.sign({ keyRef: key, data, algorithm: 'EdDSA' })
+    expect(signature).toBeDefined()
+    expect(typeof signature).toBe('string')
+  })
+
+  it('computes a shared secret Ed+Ed', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'Ed25519',
@@ -51,7 +82,7 @@ describe('@veramo/kms-local', () => {
     expect(secret).toEqual('2f1d171ad32fdbd10d1b06600d70223f7298809d4a3690fa03d6b4688c7b116a')
   })
 
-  it('should compute a shared secret Ed+X', async () => {
+  it('computes a shared secret Ed+X', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'Ed25519',
@@ -67,7 +98,7 @@ describe('@veramo/kms-local', () => {
     expect(secret).toEqual('2f1d171ad32fdbd10d1b06600d70223f7298809d4a3690fa03d6b4688c7b116a')
   })
 
-  it('should compute a shared secret X+Ed', async () => {
+  it('computes a shared secret X+Ed', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'X25519',
@@ -83,7 +114,7 @@ describe('@veramo/kms-local', () => {
     expect(secret).toEqual('2f1d171ad32fdbd10d1b06600d70223f7298809d4a3690fa03d6b4688c7b116a')
   })
 
-  it('should compute a shared secret X+X', async () => {
+  it('computes a shared secret X+X', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
       type: <TKeyType>'X25519',
@@ -99,7 +130,7 @@ describe('@veramo/kms-local', () => {
     expect(secret).toEqual('2f1d171ad32fdbd10d1b06600d70223f7298809d4a3690fa03d6b4688c7b116a')
   })
 
-  it('should throw on invalid myKey type', async () => {
+  it('throws on invalid myKey type', async () => {
     expect.assertions(1)
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
@@ -115,7 +146,7 @@ describe('@veramo/kms-local', () => {
     expect(kms.sharedSecret({ myKeyRef, theirKey })).rejects.toThrow('not_supported')
   })
 
-  it('should throw on invalid theirKey type', async () => {
+  it('throws on invalid theirKey type', async () => {
     expect.assertions(1)
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const myKey = {
@@ -133,7 +164,7 @@ describe('@veramo/kms-local', () => {
 })
 
 describe('@veramo/kms-local Secp256r1 support', () => {
-  it('should generate a managed key', async () => {
+  it('generates a managed key', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const key = await kms.createKey({ type: 'Secp256r1' })
     expect(key.type).toEqual('Secp256r1')
@@ -144,7 +175,7 @@ describe('@veramo/kms-local Secp256r1 support', () => {
     })
   })
 
-  it('should import a private key', async () => {
+  it('imports a private key', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
     const key = await kms.importKey({ kid: 'test', privateKeyHex, type: 'Secp256r1' })
@@ -156,7 +187,7 @@ describe('@veramo/kms-local Secp256r1 support', () => {
     })
   })
 
-  it('should sign input data', async () => {
+  it('signs input data', async () => {
     const kms = new KeyManagementSystem(new MemoryPrivateKeyStore())
     const privateKeyHex = '96fe4d2b4a5d3abc4679fe39aa5d4b76990ff416e6ff403a58bd722cf8352f94'
     const data = stringToUtf8Bytes('test')

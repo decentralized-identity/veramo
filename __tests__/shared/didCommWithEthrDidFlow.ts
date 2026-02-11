@@ -572,7 +572,7 @@ export default (testContext: {
           packing: 'anoncrypt',
           message,
         }),
-      ).rejects.toThrowError(/^key_not_found: no key agreement keys found for recipient/)
+      ).rejects.toThrow(/^key_not_found: no key agreement keys found for recipient/)
     })
 
     it('should add encryption key to receiver DID', async () => {
@@ -659,7 +659,7 @@ export default (testContext: {
           packedMessage,
           recipientDidUrl: bob.did,
         }),
-      ).rejects.toThrowError(/^not_found: could not find DIDComm Messaging service in DID document for/)
+      ).rejects.toThrow(/^not_found: could not find DIDComm Messaging service in DID document for/)
     })
 
     it('should fail to pack an authcrypt message from bob to alice (no skid)', async () => {
@@ -677,7 +677,7 @@ export default (testContext: {
           packing: 'authcrypt',
           message,
         }),
-      ).rejects.toThrowError(/^key_not_found: could not map an agent key to an skid for/)
+      ).rejects.toThrow(/^key_not_found: could not map an agent key to an skid for/)
     })
 
     it('should add encryption key to sender DID', async () => {

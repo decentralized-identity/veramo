@@ -170,6 +170,7 @@ export class DIDManager implements IAgentPlugin {
         `not_supported: ${identifier?.provider} provider does not implement full document updates`,
       )
     }
+    // the localOnly Flag must be interpreted by the identifierProvider
     const updatedIdentifier = await identifierProvider.updateIdentifier({ did, document, options }, context)
     await this.store.importDID(updatedIdentifier)
     return updatedIdentifier
@@ -223,7 +224,10 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<any> {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
-    const result = await provider.addKey({ identifier, key, options }, context)
+    let result = true
+    if (!options?.localOnly) {
+      result = await provider.addKey({ identifier, key, options }, context)
+    }
     identifier.keys.push(key)
     await this.store.importDID(identifier)
     return result
@@ -236,7 +240,10 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<any> {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
-    const result = await provider.removeKey({ identifier, kid, options }, context)
+    let result = true
+    if (!options?.localOnly) {
+      result = await provider.removeKey({ identifier, kid, options }, context)
+    }
     identifier.keys = identifier.keys.filter((k) => k.kid !== kid)
     await this.store.importDID(identifier)
     return result
@@ -249,7 +256,10 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<any> {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
-    const result = await provider.addService({ identifier, service, options }, context)
+    let result = true
+    if (!options?.localOnly) {
+      result = await provider.addService({ identifier, service, options }, context)
+    }
     identifier.services.push(service)
     await this.store.importDID(identifier)
     return result
@@ -262,7 +272,10 @@ export class DIDManager implements IAgentPlugin {
   ): Promise<any> {
     const identifier = await this.store.getDID({ did })
     const provider = this.getProvider(identifier.provider)
-    const result = await provider.removeService({ identifier, id, options }, context)
+    let result = true
+    if (!options?.localOnly) {
+      result = await provider.removeService({ identifier, id, options }, context)
+    }
     identifier.services = identifier.services.filter((s) => s.id !== id)
     await this.store.importDID(identifier)
     return result

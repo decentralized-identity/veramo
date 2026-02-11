@@ -1,4 +1,9 @@
-import { extractPublicKeyHex, getChainId, getEthereumAddress } from '../did-utils.js'
+import {
+  compressSecp256k1PublicKeyHex,
+  extractPublicKeyHex,
+  getChainId,
+  getEthereumAddress,
+} from '../did-utils.js'
 import { bytesToMultibase, hexToBytes } from '../encodings.js'
 
 describe('@veramo/utils did utils', () => {
@@ -40,27 +45,25 @@ describe('@veramo/utils did utils', () => {
   it('should return correct chainId for did:pkh', () => {
     expect(
       getChainId({
-        "id": "did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b#blockchainAccountId",
-        "type": "EcdsaSecp256k1RecoveryMethod2020",
-        "controller": "did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b",
-        "blockchainAccountId": "eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b"
+        id: 'did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b#blockchainAccountId',
+        type: 'EcdsaSecp256k1RecoveryMethod2020',
+        controller: 'did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b',
+        blockchainAccountId: 'eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b',
       }),
     ).toEqual(59144)
   })
 
-  
   it('should throw on invalid chainId', () => {
-    expect( () => {
+    expect(() => {
       getChainId({
-        "id": "did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b#blockchainAccountId",
-        "type": "EcdsaSecp256k1RecoveryMethod2020",
-        "controller": "did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b",
-        "blockchainAccountId": "eip155:linea:0x19711CD19e609FEBdBF607960220898268B7E24b"
+        id: 'did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b#blockchainAccountId',
+        type: 'EcdsaSecp256k1RecoveryMethod2020',
+        controller: 'did:pkh:eip155:59144:0x19711CD19e609FEBdBF607960220898268B7E24b',
+        blockchainAccountId: 'eip155:linea:0x19711CD19e609FEBdBF607960220898268B7E24b',
       })
-    }).toThrowError("chainId is not a number")
+    }).toThrow('chainId is not a number')
   })
 
-  
   it('should return blockchainAccountId for did:ethr', () => {
     const verificationMethod = {
       id: 'did:ethr:0x1B54DaD834f2017ab66C1a1ffF74425889141e51#controller',
@@ -135,5 +138,13 @@ describe('@veramo/utils did utils', () => {
     })
 
     expect(computed).toEqual({ publicKeyHex, keyType: 'Ed25519' })
+  })
+
+  it('compresses a secp256k1 public key', async () => {
+    const uncompressedPubKeyHex =
+      '04a5c9734922890f0e76cce0bb2645925a9712fe89eb00eb2d9c480208a5de48cbaded6443a8668e0eef5205d08e7614374d659a1aa1beb0ef9ffec810988f2da3'
+    const compressedPubKeyHex = '03a5c9734922890f0e76cce0bb2645925a9712fe89eb00eb2d9c480208a5de48cb'
+    expect(compressSecp256k1PublicKeyHex(uncompressedPubKeyHex)).toEqual(compressedPubKeyHex)
+    expect(compressSecp256k1PublicKeyHex(compressedPubKeyHex)).toEqual(compressedPubKeyHex) // no change
   })
 })

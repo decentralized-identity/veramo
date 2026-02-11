@@ -17,13 +17,13 @@
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "did-jwt-vc": "^4.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^11.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/ungap__structured-clone": "1.2.0",
     "@types/uuid": "9.0.2",
-    "typescript": "5.3.3"
+    "typescript": "5.7.3"
   },
   "files": [
     "build/**/*",

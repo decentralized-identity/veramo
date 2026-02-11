@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
-    "declarationDir": "build",
+    "declarationDir": "build"
   },
   "references": [{ "path": "../core-types" }],
   "include": ["./**/*.ts"]

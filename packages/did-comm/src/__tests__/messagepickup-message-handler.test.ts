@@ -61,7 +61,8 @@ describe('messagepickup-message-handler', () => {
     let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
     let didCommEndpointServer: Server
     let listeningPort = Math.round(Math.random() * 32000 + 2048)
-    let dbConnection: DataSource
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 
     let messageToQueue: Message
     let messageToQueue1: Message
@@ -232,7 +233,7 @@ describe('messagepickup-message-handler', () => {
 
     afterAll(async () => {
       try {
-        await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+        await new Promise((resolve) => didCommEndpointServer?.close(resolve))
       } catch (e: any) {
         // nop
       }
@@ -806,7 +807,8 @@ describe('messagepickup-message-handler', () => {
     let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
     let didCommEndpointServer: Server
     let listeningPort = Math.round(Math.random() * 32000 + 2048)
-    let dbConnection: DataSource
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 
     let messageToQueue: Message
     let messageToQueue1: Message
@@ -977,7 +979,7 @@ describe('messagepickup-message-handler', () => {
 
     afterAll(async () => {
       try {
-        await new Promise((resolve, reject) => didCommEndpointServer?.close(resolve))
+        await new Promise((resolve) => didCommEndpointServer?.close(resolve))
       } catch (e: any) {
         // nop
       }

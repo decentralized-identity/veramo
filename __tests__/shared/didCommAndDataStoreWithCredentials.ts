@@ -144,7 +144,10 @@ export default (testContext: {
 
     it('should save LDS credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
+      const creator = await agent.didManagerGetOrCreate({
+        alias: 'messageCreator1',
+        provider: 'did:ethr:ganache',
+      })
 
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
@@ -165,7 +168,10 @@ export default (testContext: {
 
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
+      const creator = await agent.didManagerGetOrCreate({
+        alias: 'messageCreator1',
+        provider: 'did:ethr:ganache',
+      })
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 
@@ -185,7 +191,10 @@ export default (testContext: {
 
     it('should save JWT credential found inside DIDCommMessage', async () => {
       expect.assertions(2)
-      const creator = await agent.didManagerGetOrCreate({ alias: 'messageCreator1', provider: 'did:ethr' })
+      const creator = await agent.didManagerGetOrCreate({
+        alias: 'messageCreator1',
+        provider: 'did:ethr:ganache',
+      })
       const numMessagesBefore = await agent.dataStoreORMGetMessagesCount({})
       const numVCsBefore = await agent.dataStoreORMGetVerifiableCredentialsCount({})
 

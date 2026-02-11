@@ -38,8 +38,8 @@ describe('@veramo/credential-status', () => {
     })
 
     expect(result).toStrictEqual(expectedResult)
-    expect(checkStatus).toBeCalledTimes(1)
-    expect(checkStatus).toBeCalledWith(referenceCredential, referenceDoc)
+    expect(checkStatus).toHaveBeenCalledTimes(1)
+    expect(checkStatus).toHaveBeenCalledWith(referenceCredential, referenceDoc)
   })
 
   it('should check the credential status using DID resolver to get the issuer doc', async () => {
@@ -71,9 +71,9 @@ describe('@veramo/credential-status', () => {
     })
 
     expect(result).toStrictEqual(expectedResult)
-    expect(checkStatus).toBeCalledTimes(1)
-    expect(checkStatus).toBeCalledWith(referenceCredential, referenceDoc)
-    expect(fakeResolver.resolve).toBeCalledTimes(1)
+    expect(checkStatus).toHaveBeenCalledTimes(1)
+    expect(checkStatus).toHaveBeenCalledWith(referenceCredential, referenceDoc)
+    expect(fakeResolver.resolve).toHaveBeenCalledTimes(1)
   })
 
   it('should not perform status check if no `credentialStatus` present', async () => {
@@ -97,7 +97,7 @@ describe('@veramo/credential-status', () => {
       message: 'credentialStatus property was not set on the original credential',
       revoked: false,
     })
-    expect(checkStatus).toBeCalledTimes(0)
+    expect(checkStatus).toHaveBeenCalledTimes(0)
   })
 
   it('should throw if unknown status check was provided', async () => {

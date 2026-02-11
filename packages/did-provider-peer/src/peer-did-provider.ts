@@ -1,6 +1,6 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { bytesToBase64url, bytesToMultibase, hexToBytes, stringToUtf8Bytes } from '@veramo/utils'
+import { bytesToBase64url, bytesToMultibase, hexToBytes, stringToUtf8Bytes, importOrCreateKey, CreateIdentifierBaseOptions, ImportOrCreateKeyOptions } from '@veramo/utils'
 
 import Debug from 'debug'
 
@@ -24,12 +24,24 @@ const encodeService = (service: IService): string => {
   return bytesToBase64url(stringToUtf8Bytes(encoded))
 }
 
-type CreatePeerDidOptions = {
+type CreatePeerDidOptions = CreateIdentifierBaseOptions<'Ed25519'> & {
   num_algo: number
   // keyType?: keyof typeof keyCodecs // defaulting to Ed25519 keys only in this implementation
+  
+  /**
+   * @deprecated use key.privateKeyHex instead
+   */
   authPrivateKeyHex?: string
+
+  /**
+   * @deprecated use agreementKey.privateKeyHex instead
+   */
   agreementPrivateKeyHex?: string
+
   service?: IService
+
+  agreementKeyRef?: string;
+  agreementKey?: ImportOrCreateKeyOptions<'X25519'>
 }
 
 /**
@@ -53,78 +65,92 @@ export class PeerDIDProvider extends AbstractIdentifierProvider {
     if (options.service) {
       options.num_algo = 2
     }
-    if (options.num_algo == 0) {
-      let key: IKey
-      if (options.authPrivateKeyHex) {
-        key = await context.agent.keyManagerImport({
-          privateKeyHex: options.authPrivateKeyHex,
-          type: 'Ed25519',
-          kms: kms ?? this.defaultKms,
-        })
-      } else {
-        key = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
-      }
-      const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
 
-      const identifier: Omit<IIdentifier, 'provider'> = {
-        did: 'did:peer:0' + methodSpecificId,
-        controllerKeyId: key.kid,
-        keys: [key],
-        services: [],
-      }
-      debug('Created', identifier.did)
-      return identifier
-    } else if (options.num_algo == 1) {
-      throw new Error(`'PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
-    } else if (options.num_algo == 2) {
-      let authKey: IKey
-      let agreementKey: IKey
-      if (options.authPrivateKeyHex) {
-        authKey = await context.agent.keyManagerImport({
-          kms: kms ?? this.defaultKms,
-          type: 'Ed25519',
-          privateKeyHex: options.authPrivateKeyHex,
-        })
-      } else {
-        authKey = await context.agent.keyManagerCreate({ kms: kms || this.defaultKms, type: 'Ed25519' })
-      }
-      if (options.agreementPrivateKeyHex) {
-        agreementKey = await context.agent.keyManagerImport({
-          kms: kms ?? this.defaultKms,
-          type: 'X25519',
-          privateKeyHex: options.agreementPrivateKeyHex,
-        })
-      } else {
-        agreementKey = await context.agent.keyManagerCreate({
-          kms: kms ?? this.defaultKms,
-          type: 'X25519',
-        })
-      }
+    const authPrivateKeyHex = options?.key?.privateKeyHex || options?.authPrivateKeyHex
+    const agreementPrivateKeyHex = options?.agreementKey?.privateKeyHex || options?.agreementPrivateKeyHex
+    
+    let key: IKey
+    let agreementKey: IKey | undefined
 
-      const authKeyText = bytesToMultibase(hexToBytes(authKey.publicKeyHex), 'base58btc', 'ed25519-pub')
+    // Exit early so we don't create a key if we can't continue
+    if (![0, 2].includes(options.num_algo)) {
+      throw new Error(`not_supported: PeerDIDProvider num algo ${options.num_algo} not supported yet.`)
+    }
 
-      const agreementKeyText = bytesToMultibase(
-        hexToBytes(agreementKey.publicKeyHex),
-        'base58btc',
-        'x25519-pub',
-      )
-
-      let serviceString = ''
-
-      if (options.service) {
-        serviceString = `.S${encodeService(options.service)}`
+    if (options.agreementKeyRef) {
+      agreementKey = await context.agent.keyManagerGet({ kid: options.agreementKeyRef })
+      if (agreementKey.type !== 'X25519') {
+        throw new Error('not_supported: Key type must be X25519')
       }
+    }
 
-      const identifier: Omit<IIdentifier, 'provider'> = {
-        did: `did:peer:2.E${agreementKeyText}.V${authKeyText}${serviceString}`,
-        controllerKeyId: authKey.kid,
-        keys: [authKey, agreementKey],
-        services: options.service ? [options.service] : [],
+    if (options.keyRef) {
+      key = await context.agent.keyManagerGet({ kid: options.keyRef })
+      if (key.type !== 'Ed25519') {
+        throw new Error('not_supported: Key type must be Ed25519')
       }
-      debug('Created', identifier.did)
-      return identifier
     } else {
-      throw new Error(`'not_supported: PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
+      key = await importOrCreateKey({
+        kms: kms || this.defaultKms,
+        options: {
+          ...(options?.key ?? {}),
+          type: 'Ed25519',
+          privateKeyHex: authPrivateKeyHex,
+        }
+      }, context)
+    }
+
+    switch (options.num_algo) {
+      case 0: {
+        const methodSpecificId = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
+        const identifier: Omit<IIdentifier, 'provider'> = {
+          did: 'did:peer:0' + methodSpecificId,
+          controllerKeyId: key.kid,
+          keys: [key],
+          services: [],
+        }
+        debug('Created', identifier.did)
+        return identifier
+      }
+
+      case 2: {
+        if (!agreementKey) {
+          agreementKey = await importOrCreateKey({
+            kms: kms || this.defaultKms,
+            options: {
+              ...(options?.agreementKey ?? {}),
+              type: 'X25519',
+              privateKeyHex: agreementPrivateKeyHex,
+            }
+          }, context)
+        }
+
+        const authKeyText = bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub')
+
+        const agreementKeyText = bytesToMultibase(
+          hexToBytes(agreementKey.publicKeyHex),
+          'base58btc',
+          'x25519-pub',
+        )
+
+        let serviceString = ''
+
+        if (options.service) {
+          serviceString = `.S${encodeService(options.service)}`
+        }
+
+        const identifier: Omit<IIdentifier, 'provider'> = {
+          did: `did:peer:2.E${agreementKeyText}.V${authKeyText}${serviceString}`,
+          controllerKeyId: key.kid,
+          keys: [key, agreementKey],
+          services: options.service ? [options.service] : [],
+        }
+        debug('Created', identifier.did)
+        return identifier
+      }
+
+      default:
+        throw new Error(`'not_supported: PeerDIDProvider num algo ${options.num_algo} not supported yet.'`)
     }
   }
 

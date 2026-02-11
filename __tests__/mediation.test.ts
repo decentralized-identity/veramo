@@ -86,9 +86,7 @@ function createMediatorAgent(options?: IAgentOptions): TAgent<MediatorPlugins> {
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          [defaultKms]: new KeyManagementSystem(
-            new MemoryPrivateKeyStore(),
-          ),
+          [defaultKms]: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
       new DIDManager({
@@ -117,7 +115,6 @@ function createMediatorAgent(options?: IAgentOptions): TAgent<MediatorPlugins> {
 }
 
 function createUserAgent(options?: IAgentOptions): TAgent<UserAgentPlugins> {
-
   return createAgent<UserAgentPlugins>({
     ...options,
     plugins: [
@@ -180,7 +177,6 @@ describe('did-comm mediation', () => {
       },
     })
     mediatorDID = mediatorIdentifier.did
-    console.log(`mediator DID: ${mediatorDID}`)
 
     // start a mediator service
     await new Promise((resolve) => {
@@ -197,7 +193,6 @@ describe('did-comm mediation', () => {
         }),
       )
       didCommEndpointServer = app.listen(MEDIATOR_PORT, () => {
-        console.log(`Mediator listening on port ${MEDIATOR_PORT}`)
         resolve(true)
       })
     })

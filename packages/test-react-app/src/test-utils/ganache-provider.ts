@@ -17,7 +17,9 @@ export class GanacheProvider extends JsonRpcApiProvider {
 
   constructor(providerOrOptions?: EthereumProvider | GanacheConfig) {
     let provider: EthereumProvider
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (providerOrOptions == null || typeof (<any>providerOrOptions).getOptions !== 'function') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       provider = ganache.provider(<any>providerOrOptions)
     } else {
       provider = <EthereumProvider>providerOrOptions
@@ -40,6 +42,7 @@ export class GanacheProvider extends JsonRpcApiProvider {
       info: { payload },
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await this.ganache.request(<any>payload)
     return [{ id: payload.id, result }]
   }
@@ -95,6 +98,7 @@ export async function createGanacheProvider(): Promise<{ provider: JsonRpcApiPro
         balance: `0x1000000000000000000000`,
       },
     ],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any) // type error here due to mismatched constructor types in ethers and ganache
   await provider.ready
   const factory = ContractFactory.fromSolidity(EthereumDIDRegistry).connect(await provider.getSigner(0))

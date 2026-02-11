@@ -34,6 +34,38 @@ describe('create did:jwk', () => {
   it('Secp256k1', async () => {
     const id = await agent.didManagerCreate({
       options: {
+        key: {
+          type: 'Secp256k1',
+          privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+        }
+      },
+    })
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJVNV85NlJMQWxMeEl0a3llNXhzcnJzNGt4eEM4clN4N3JNN1dGZllLNVRrIiwieSI6IlNjM0pVM25yVUZWdEVjc0stckRscHNxTXRIWFVFN0x4SXdmTUxYOVVPTjQifQ',
+    )
+  })
+
+  it('Secp256k1 with keyRef', async () => {
+    const key = await agent.keyManagerImport({
+      kms: defaultKms,
+      type: 'Secp256k1',
+      privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+    })
+
+    const id = await agent.didManagerCreate({
+      options: {
+        keyRef: key.kid
+      },
+    })
+
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJVNV85NlJMQWxMeEl0a3llNXhzcnJzNGt4eEM4clN4N3JNN1dGZllLNVRrIiwieSI6IlNjM0pVM25yVUZWdEVjc0stckRscHNxTXRIWFVFN0x4SXdmTUxYOVVPTjQifQ',
+    )
+  })
+
+  it('Secp256k1 deprecated config', async () => {
+    const id = await agent.didManagerCreate({
+      options: {
         keyType: 'Secp256k1',
         privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
       },
@@ -44,6 +76,38 @@ describe('create did:jwk', () => {
   })
 
   it('Ed25519', async () => {
+    const id = await agent.didManagerCreate({
+      options: {
+        key: {
+          type: 'Ed25519',
+          privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+        }
+      },
+    })
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFZERTQSIsImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ1c2UiOiJzaWciLCJ4IjoiTTNodVJCZnJpU3lHemlJS3pUSE5nS1djSVhuX3IxUzYxRnZBcUQyVmhSUSJ9',
+    )
+  })
+
+  it('Ed25519 with keyRef', async () => {
+    const key = await agent.keyManagerImport({
+      kms: defaultKms,
+      type: 'Ed25519',
+      privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+    })
+
+    const id = await agent.didManagerCreate({
+      options: {
+        keyRef: key.kid
+      },
+    })
+
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFZERTQSIsImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ1c2UiOiJzaWciLCJ4IjoiTTNodVJCZnJpU3lHemlJS3pUSE5nS1djSVhuX3IxUzYxRnZBcUQyVmhSUSJ9',
+    )
+  })
+
+  it('Ed25519 deprecated config', async () => {
     const id = await agent.didManagerCreate({
       options: {
         keyType: 'Ed25519',
@@ -58,6 +122,38 @@ describe('create did:jwk', () => {
   it('X25519', async () => {
     const id = await agent.didManagerCreate({
       options: {
+        key: {
+          type: 'X25519',
+          privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+        }
+      },
+    })
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFQ0RILUVTIiwiY3J2IjoiWDI1NTE5Iiwia3R5IjoiT0tQIiwidXNlIjoiZW5jIiwieCI6IlVuNFNEWk12R2dReENiZkRBOWpwNjlyNDdvVWdsSF93eU1aRjU2THAwbU0ifQ',
+    )
+  })
+
+  it('X25519 with keyRef', async () => {
+    const key = await agent.keyManagerImport({
+      kms: defaultKms,
+      type: 'X25519',
+      privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+    })
+
+    const id = await agent.didManagerCreate({
+      options: {
+        keyRef: key.kid
+      },
+    })
+
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFQ0RILUVTIiwiY3J2IjoiWDI1NTE5Iiwia3R5IjoiT0tQIiwidXNlIjoiZW5jIiwieCI6IlVuNFNEWk12R2dReENiZkRBOWpwNjlyNDdvVWdsSF93eU1aRjU2THAwbU0ifQ',
+    )
+  })
+
+  it('X25519 deprecated config', async () => {
+    const id = await agent.didManagerCreate({
+      options: {
         keyType: 'X25519',
         privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
       },
@@ -68,6 +164,38 @@ describe('create did:jwk', () => {
   })
 
   it('Secp256r1', async () => {
+    const id = await agent.didManagerCreate({
+      options: {
+        key: {
+          type: 'Secp256r1',
+          privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+        }
+      },
+    })
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFUzI1NiIsImNydiI6IlAtMjU2Iiwia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJ4IjoiejhTTlNYTVgxUjZlVEt6SkdtLUE3ZWpBZkZsdURsaUhKdW9nT2FQc0REUSIsInkiOiJLUUtBTWVwTU56dHJseTB6ODI3MTg0dDRQdkFuU0lULW1MMFFsaUg1enU0In0',
+    )
+  })
+
+  it('Secp256r1 with keyRef', async () => {
+    const key = await agent.keyManagerImport({
+      kms: defaultKms,
+      type: 'Secp256r1',
+      privateKeyHex: 'a5e81a8cd50cf5c31d5b87db3e153e2817f86de350a60edc2335f76d5c3b4e0d',
+    })
+
+    const id = await agent.didManagerCreate({
+      options: {
+        keyRef: key.kid
+      },
+    })
+
+    expect(id.did).toEqual(
+      'did:jwk:eyJhbGciOiJFUzI1NiIsImNydiI6IlAtMjU2Iiwia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJ4IjoiejhTTlNYTVgxUjZlVEt6SkdtLUE3ZWpBZkZsdURsaUhKdW9nT2FQc0REUSIsInkiOiJLUUtBTWVwTU56dHJseTB6ODI3MTg0dDRQdkFuU0lULW1MMFFsaUg1enU0In0',
+    )
+  })
+
+  it('Secp256r1 deprecated config', async () => {
     const id = await agent.didManagerCreate({
       options: {
         keyType: 'Secp256r1',

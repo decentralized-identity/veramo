@@ -110,7 +110,7 @@ describe('@veramo/did-jwt', () => {
 
     const message = new Message({ raw: vcJwt, metaData: [{ type: 'test' }] })
     await handler.handle(message, context)
-    expect(mockNextHandler.handle).toBeCalledWith(
+    expect(mockNextHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         raw: vcJwt,
         data: vcPayload,
@@ -132,7 +132,7 @@ describe('@veramo/did-jwt', () => {
 
     const message = new Message({ raw: vpJwt, metaData: [{ type: 'test' }] })
     await handler.handle(message, context)
-    expect(mockNextHandler.handle).toBeCalledWith(
+    expect(mockNextHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         raw: vpJwt,
         data: vpPayload,
@@ -153,7 +153,7 @@ describe('@veramo/did-jwt', () => {
 
     const message = new Message({ raw: vpMultiAudJwt, metaData: [{ type: 'test' }] })
     await handler.handle(message, context)
-    expect(mockNextHandler.handle).toBeCalledWith(
+    expect(mockNextHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         raw: vpMultiAudJwt,
         data: vpMultiAudPayload,

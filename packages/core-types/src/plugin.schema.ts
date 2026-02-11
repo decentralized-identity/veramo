@@ -540,6 +540,10 @@ export const schema = {
             "meta": {
               "$ref": "#/components/schemas/KeyMetadata",
               "description": "Optional. Key meta data"
+            },
+            "kid": {
+              "type": "string",
+              "description": "Optional. Key ID"
             }
           },
           "required": [
@@ -550,14 +554,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -798,7 +794,7 @@ export const schema = {
               "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
           },
-          "description": "Represents an object type where a subset of keys are required and everything else is optional."
+          "description": "Represents an object type where a subset of keys is required and everything else is optional."
         },
         "IKeyManagerSharedSecretArgs": {
           "type": "object",
@@ -1070,7 +1066,14 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "properties": {
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the key should only be added to the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
+                }
+              },
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1124,14 +1127,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -1163,7 +1158,14 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "properties": {
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the service should only be added to the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
+                }
+              },
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1237,7 +1239,7 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "description": "Input arguments for  {@link IDIDManager.didManagerCreate | didManagerCreate }"
@@ -1358,7 +1360,7 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1444,7 +1446,7 @@ export const schema = {
               "description": "Optional. Key metadata. This should be used to determine which algorithms are supported."
             }
           },
-          "description": "Represents an object type where a subset of keys are required and everything else is optional."
+          "description": "Represents an object type where a subset of keys is required and everything else is optional."
         },
         "IDIDManagerRemoveKeyArgs": {
           "type": "object",
@@ -1459,7 +1461,14 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "properties": {
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the key should only be removed from the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
+                }
+              },
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1481,7 +1490,14 @@ export const schema = {
             },
             "options": {
               "type": "object",
-              "description": "Optional. Identifier provider specific options"
+              "properties": {
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the service should only be removed from the local DIDStore tracking and this update will not be published to any underlying registries",
+                  "default": false
+                }
+              },
+              "description": "Optional. Identifier-provider specific options"
             }
           },
           "required": [
@@ -1734,6 +1750,13 @@ export const schema = {
             },
             "options": {
               "type": "object",
+              "properties": {
+                "localOnly": {
+                  "type": "boolean",
+                  "description": "Optional flag to indicate that the changes will only be applied to the local DIDStore tracking and this update will not be published to any underlying registries AbstractIdentifierProvider implementations must respect this flag where applicable. Defaults to false.",
+                  "default": false
+                }
+              },
               "description": "Identifier provider specific options."
             }
           },
@@ -2287,6 +2310,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -2357,7 +2383,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -2422,7 +2448,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -2805,14 +2831,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -3158,6 +3176,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -3228,7 +3249,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -3293,7 +3314,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -4004,6 +4025,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4074,7 +4098,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "VerifiablePresentation": {
           "type": "object",
@@ -4139,7 +4163,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -4253,7 +4277,7 @@ export const schema = {
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD, you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -4354,7 +4378,15 @@ export const schema = {
           "description": "The data type for `@context` properties of credentials, presentations, etc."
         },
         "DateType": {
-          "type": "string",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ],
           "description": "Represents an issuance or expiration date for Credentials / Presentations. This is used as input when creating them."
         },
         "CredentialStatusReference": {
@@ -4371,16 +4403,11 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "ProofFormat": {
           "type": "string",
-          "enum": [
-            "jwt",
-            "lds",
-            "EthereumEip712Signature2021"
-          ],
-          "description": "The type of encoding to be used for the Verifiable Credential or Presentation to be generated.\n\nOnly `jwt` and `lds` is supported at the moment."
+          "description": "Represents a format for a particular type of verifiable data. This is an extensible union of several known formats implemented by Veramo"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -4437,6 +4464,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -4475,7 +4505,7 @@ export const schema = {
             },
             "proofFormat": {
               "$ref": "#/components/schemas/ProofFormat",
-              "description": "The desired format for the VerifiablePresentation to be created. Currently, only JWT is supported"
+              "description": "The desired format for the VerifiablePresentation to be created."
             },
             "removeOriginalFields": {
               "type": "boolean",
@@ -4487,7 +4517,7 @@ export const schema = {
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD, you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
             }
           },
           "required": [
@@ -4550,7 +4580,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
         "CompactJWT": {
           "type": "string",
@@ -4697,14 +4727,6 @@ export const schema = {
         },
         "TKeyType": {
           "type": "string",
-          "enum": [
-            "Ed25519",
-            "Secp256k1",
-            "Secp256r1",
-            "X25519",
-            "Bls12381G1",
-            "Bls12381G2"
-          ],
           "description": "Cryptographic key type."
         },
         "KeyMetadata": {
@@ -4774,7 +4796,7 @@ export const schema = {
       },
       "methods": {
         "createVerifiableCredential": {
-          "description": "Creates a Verifiable Credential. The payload, signer and format are chosen based on the ",
+          "description": "Creates a Verifiable Credential. The payload, signer, and format are chosen based on the ",
           "arguments": {
             "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
           },
@@ -4792,7 +4814,7 @@ export const schema = {
           }
         },
         "listUsableProofFormats": {
-          "description": "Returns a list of supported proof formats.",
+          "description": "Returns a list of supported proof formats for verifiable data that this plugin can generate based on the specified issuer.",
           "arguments": {
             "$ref": "#/components/schemas/IIdentifier"
           },
@@ -4826,11 +4848,11 @@ export const schema = {
             },
             "credential": {
               "$ref": "#/components/schemas/W3CVerifiableCredential",
-              "description": "The Verifiable Credential object according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the JWT representation.\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
+              "description": "The Verifiable Credential object according to the  {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model }  or the  {@link https://www.w3.org/TR/vc-data-model-1.1/#json-web-token | JWT representation } .\n\nThe signer of the Credential is verified based on the `issuer.id` property of the `credential` or the `iss` property of the JWT payload respectively"
             },
             "fetchRemoteContexts": {
               "type": "boolean",
-              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at startup instead of being fetched.\n\nDefaults to `false`"
+              "description": "When dealing with JSON-LD you also MUST provide the proper contexts. Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded. The context definitions SHOULD rather be provided at application startup instead of being fetched.\n\nDefaults to `false`"
             },
             "policies": {
               "$ref": "#/components/schemas/VerificationPolicies",
@@ -4854,7 +4876,7 @@ export const schema = {
               "$ref": "#/components/schemas/CompactJWT"
             }
           ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats }"
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -4910,6 +4932,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },
@@ -4981,7 +5006,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "CompactJWT": {
           "type": "string",
@@ -5162,7 +5187,7 @@ export const schema = {
       },
       "methods": {
         "verifyCredential": {
-          "description": "Verifies a Verifiable Credential JWT, LDS Format or EIP712.",
+          "description": "Verifies a Verifiable Credential",
           "arguments": {
             "$ref": "#/components/schemas/IVerifyCredentialArgs"
           },
@@ -5281,6 +5306,9 @@ export const schema = {
           "properties": {
             "type": {
               "type": "string"
+            },
+            "proofValue": {
+              "type": "string"
             }
           },
           "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
@@ -5351,7 +5379,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "DIDDocument": {
           "type": "object",
@@ -5685,7 +5713,7 @@ export const schema = {
           "required": [
             "revoked"
           ],
-          "description": "Represents the result of a status check.\n\nImplementations MUST populate the `revoked` boolean property, but they can return additional metadata that is method specific."
+          "description": "Represents the result of a status check.\n\nImplementations MUST populate the `revoked` boolean property, but they can return additional metadata that is method-specific."
         }
       },
       "methods": {
@@ -5734,7 +5762,7 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information is determined by the specific `credentialStatus` type definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
         },
         "CredentialStatusUpdateArgs": {
           "type": "object",
@@ -5807,6 +5835,9 @@ export const schema = {
           "type": "object",
           "properties": {
             "type": {
+              "type": "string"
+            },
+            "proofValue": {
               "type": "string"
             }
           },

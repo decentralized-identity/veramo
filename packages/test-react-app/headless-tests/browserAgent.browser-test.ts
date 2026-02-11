@@ -44,7 +44,7 @@ describe('Browser integration tests', () => {
       /**
        * this is a test case snapshot, provided by documentation on
        * https://veramo.io/docs/react_tutorials/react_setup_resolver,
-       * to check if the app is returning same results as expected.
+       * to check if the app is returning the same results as expected.
        */
       let resultSnapshot = {
         didDocumentMetadata: {},
@@ -53,24 +53,24 @@ describe('Browser integration tests', () => {
         },
         didDocument: {
           '@context': expect.anything(),
-          id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+          id: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
           verificationMethod: [
             {
-              id: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
+              id: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller',
               type: 'EcdsaSecp256k1RecoveryMethod2020',
-              controller: 'did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
-              blockchainAccountId: 'eip155:1:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
+              controller: 'did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730',
+              blockchainAccountId: 'eip155:1337:0x6AcF3bB1eF0eE84559De2bC2Bd9D91532062a730',
             },
           ],
-          authentication: ['did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
-          assertionMethod: ['did:ethr:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          authentication: ['did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
+          assertionMethod: ['did:ethr:ganache:0x6acf3bb1ef0ee84559de2bc2bd9d91532062a730#controller'],
         },
       }
 
       await page.waitForSelector('#result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
-        await expect(parsedResult).toMatchObject(resultSnapshot)
+        expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
 
@@ -79,7 +79,7 @@ describe('Browser integration tests', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Not a valid did:ethr: sepolia:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
+          message: 'Not a valid did:ethr: ganache:0x16acf3bb1ef0ee8459de2bc2bd9d91532062a7',
         },
         didDocument: null,
       }
@@ -87,7 +87,7 @@ describe('Browser integration tests', () => {
       await page.waitForSelector('#invalid-result', { timeout: JEST_TIMEOUT }).then(async (element) => {
         let result = await element!.evaluate((el) => el.textContent)
         let parsedResult = JSON.parse(result!)
-        await expect(parsedResult).toMatchObject(resultSnapshot)
+        expect(parsedResult).toMatchObject(resultSnapshot)
       })
     })
   })

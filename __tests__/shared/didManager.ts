@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { IDIDManager, IIdentifier, IKeyManager, TAgent } from '../../packages/core-types/src'
+import { IDIDManager, IIdentifier, IKeyManager, ManagedKeyInfo, TAgent } from '../../packages/core-types/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 
@@ -20,6 +20,7 @@ export default (testContext: {
     afterAll(testContext.tearDown)
 
     let identifier: IIdentifier
+    let localKey: ManagedKeyInfo
     it('should create identifier', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:web',
@@ -41,45 +42,6 @@ export default (testContext: {
       })
       expect(identifier.provider).toEqual('did:pkh')
       //expect(identifier.did).toMatch(/^did:pkh:eip155:*$/)
-      expect(identifier.keys.length).toEqual(1)
-      expect(identifier.services.length).toEqual(0)
-      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
-    })
-
-    it('should create identifier using did:ethr:arbitrum:goerli provider', async () => {
-      identifier = await agent.didManagerCreate({
-        // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
-        provider: 'did:ethr:arbitrum:goerli',
-      })
-      expect(identifier.provider).toEqual('did:ethr:arbitrum:goerli')
-      expect(identifier.did).toMatch(/^did:ethr:arbitrum:goerli:0x.*$/)
-      expect(identifier.keys.length).toEqual(1)
-      expect(identifier.services.length).toEqual(0)
-      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
-    })
-
-    it('should create identifier using did:ethr:sepolia provider', async () => {
-      identifier = await agent.didManagerCreate({
-        provider: 'did:ethr:sepolia',
-      })
-      expect(identifier.provider).toEqual('did:ethr:sepolia')
-      expect(identifier.did).toMatch(/^did:ethr:sepolia:0x.*$/)
-      expect(identifier.keys.length).toEqual(1)
-      expect(identifier.services.length).toEqual(0)
-      expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
-    })
-
-    it('should translate identifier using chainId 421613 to arbitrum', async () => {
-      identifier = await agent.didManagerCreate({
-        provider: 'did:ethr',
-        options: {
-          // this expects the `did:ethr` provider to matchPrefix and use the `arbitrum:goerli` network specifier
-          // because the configured network has that name
-          network: 421613,
-        },
-      })
-      expect(identifier.provider).toEqual('did:ethr')
-      expect(identifier.did).toMatch(/^did:ethr:arbitrum:goerli:0x.*$/)
       expect(identifier.keys.length).toEqual(1)
       expect(identifier.services.length).toEqual(0)
       expect(identifier.controllerKeyId).toEqual(identifier.keys[0].kid)
@@ -206,7 +168,7 @@ export default (testContext: {
     it('should get or create identifier', async () => {
       const identifier3 = await agent.didManagerGetOrCreate({
         alias: 'aliceDID11',
-        provider: 'did:ethr:mainnet',
+        provider: 'did:ethr:ganache',
       })
 
       const identifier4 = await agent.didManagerGetOrCreate({
@@ -251,15 +213,14 @@ export default (testContext: {
       expect(aliceIdentifiers.length).toEqual(1)
 
       const ethrIdentifiers = await agent.didManagerFind({
-        provider: 'did:ethr',
+        provider: 'did:ethr:ganache',
       })
       expect(ethrIdentifiers.length).toBeGreaterThanOrEqual(1)
 
-      // Default provider 'did:ethr:sepolia'
-      await agent.didManagerCreate({ provider: 'did:ethr' })
+      await agent.didManagerCreate({ provider: 'did:ethr:ganache' })
 
       const ethrIdentifiers2 = await agent.didManagerFind({
-        provider: 'did:ethr',
+        provider: 'did:ethr:ganache',
       })
       expect(ethrIdentifiers2.length).toEqual(ethrIdentifiers.length + 1)
     })
@@ -464,6 +425,90 @@ export default (testContext: {
       ).rejects.toThrow(
         /illegal_argument: Identifier with alias:.*already exists.*but was created with a different provider.*/,
       )
+    })
+
+    it('should add key only in DIDStore', async () => {
+      const webIdentifier = await agent.didManagerGetOrCreate({
+        alias: 'did.example.com',
+        provider: 'did:web',
+      })
+
+      localKey = await agent.keyManagerCreate({
+        kms: 'local',
+        type: 'Secp256k1',
+      })
+
+      const result = await agent.didManagerAddKey({
+        did: webIdentifier.did,
+        key: localKey,
+        options: { localOnly: true },
+      })
+
+      expect(result).toEqual(true)
+
+      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
+      expect(updatedIdentifier.keys.some((key: any) => key.kid === localKey.kid)).toBe(true)
+    })
+
+    it('should remove key from DIDStore', async () => {
+      const webIdentifier = await agent.didManagerGet({
+        did: 'did:web:did.example.com',
+      })
+
+      const result = await agent.didManagerRemoveKey({
+        did: webIdentifier.did,
+        kid: localKey.kid,
+        options: { localOnly: true },
+      })
+
+      expect(result).toEqual(true)
+
+      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
+      expect(updatedIdentifier.keys.some((key: any) => key.kid === localKey.kid)).toBe(false)
+    })
+
+    it('should add service only in DIDStore', async () => {
+      const webIdentifier = await agent.didManagerGet({
+        did: 'did:web:did.example.com',
+      })
+
+      const mockService = {
+        id: 'did.example.com#didcomm_service',
+        type: 'Messaging',
+        serviceEndpoint: 'https://did.example.com/messaging',
+        description: 'Handles incoming messages',
+      }
+
+      const result = await agent.didManagerAddService({
+        did: webIdentifier.did,
+        service: mockService,
+        options: { localOnly: true },
+      })
+
+      expect(result).toEqual(true)
+
+      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
+      expect(updatedIdentifier.services.some((service: any) => service.id === mockService.id)).toBe(true)
+    })
+
+    it('should remove service from identifier with localOnly=true', async () => {
+      const webIdentifier = await agent.didManagerGet({
+        did: 'did:web:did.example.com',
+      })
+      const mockService = {
+        id: 'did.example.com#didcomm_service',
+      }
+
+      const result = await agent.didManagerRemoveService({
+        did: webIdentifier.did,
+        id: mockService.id,
+        options: { localOnly: true },
+      })
+
+      expect(result).toEqual(true)
+
+      const updatedIdentifier = await agent.didManagerGet({ did: webIdentifier.did })
+      expect(updatedIdentifier.services.some((service: any) => service.id === mockService.id)).toBe(false)
     })
   })
 }

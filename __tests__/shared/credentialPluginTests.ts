@@ -41,7 +41,7 @@ export default (testContext: {
       })
 
       const options = await agent.listUsableProofFormats(iid)
-      expect(options).toEqual(['jwt', 'lds', 'EthereumEip712Signature2021'])
+      expect(options).toEqual(['EthereumEip712Signature2021', 'jwt', 'lds'])
     })
 
     it('should list signing options for did:key with X25519 key', async () => {

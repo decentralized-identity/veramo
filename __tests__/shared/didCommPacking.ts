@@ -197,7 +197,7 @@ export default (testContext: {
       await agent.didManagerDelete({ did: beneficiary1.did })
       await agent.didManagerDelete({ did: beneficiary2.did })
 
-      await expect(agent.unpackDIDCommMessage(packedMessage)).rejects.toThrowError(
+      await expect(agent.unpackDIDCommMessage(packedMessage)).rejects.toThrow(
         'unable to decrypt DIDComm message with any of the locally managed keys',
       )
     })

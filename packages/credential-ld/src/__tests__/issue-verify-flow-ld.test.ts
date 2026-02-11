@@ -16,7 +16,7 @@ import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src
 import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { EthrDIDProvider } from '../../../did-provider-ethr/src'
 import { ContextDoc } from '../types.js'
-import { CredentialIssuerLD } from '../action-handler.js'
+import { CredentialProviderLD } from '../CredentialProviderLD.js'
 import { LdDefaultContexts } from '../ld-default-contexts.js'
 import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
@@ -25,6 +25,7 @@ import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp25
 import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
+import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
 
 jest.setTimeout(300000)
 
@@ -36,14 +37,18 @@ const customContext: Record<string, ContextDoc> = {
   },
 }
 
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
-
 describe('credential-LD full flow', () => {
   let didKeyIdentifier: IIdentifier
   let didEthrIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts, customContext],
+    suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
+  })
+
   beforeAll(async () => {
+    const { provider, registry } = await createGanacheProvider()
     agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
       plugins: [
         new KeyManager({
@@ -57,7 +62,14 @@ describe('credential-LD full flow', () => {
             'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
             'did:ethr': new EthrDIDProvider({
               defaultKms: 'local',
-              network: 'mainnet',
+              networks: [
+                {
+                  chainId: 1337,
+                  name: 'ganache',
+                  provider,
+                  registry,
+                },
+              ],
             }),
           },
           store: new MemoryDIDStore(),
@@ -66,18 +78,23 @@ describe('credential-LD full flow', () => {
         new DIDResolverPlugin({
           resolver: new Resolver({
             ...getDidKeyResolver(),
-            ...ethrDidResolver({ infuraProjectId }),
+            ...ethrDidResolver({
+              networks: [
+                {
+                  chainId: 1337,
+                  name: 'ganache',
+                  provider,
+                  registry,
+                },
+              ],
+            }),
           }),
         }),
-        new CredentialPlugin(),
-        new CredentialIssuerLD({
-          contextMaps: [LdDefaultContexts, customContext],
-          suites: [new VeramoEd25519Signature2018(), new VeramoEcdsaSecp256k1RecoverySignature2020()],
-        }),
+        new CredentialPlugin([ld]),
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
-    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr' })
+    didEthrIdentifier = await agent.didManagerCreate({ provider: 'did:ethr:ganache' })
   })
 
   it('create credential with inline context', async () => {
@@ -132,6 +149,7 @@ describe('credential-LD full flow', () => {
 
   it('works with EcdsaSecp256k1RecoveryMethod2020 credentials', async () => {
     const credential: CredentialPayload = {
+      // use did:ethr issuer to have a EcdsaSecp256k1RecoveryMethod2020 as a verification method in the DID document
       issuer: didEthrIdentifier.did,
       '@context': ['custom:example.context'],
       credentialSubject: {
@@ -144,6 +162,7 @@ describe('credential-LD full flow', () => {
     })
 
     expect(verifiableCredential).toBeDefined()
+    expect((verifiableCredential as any).proof.type).toBe('EcdsaSecp256k1RecoverySignature2020')
 
     const result = await agent.verifyCredential({
       credential: verifiableCredential,

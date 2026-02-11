@@ -191,6 +191,6 @@ describe('DB entities test', () => {
     identifier2.did = 'did:test:456'
     identifier2.alias = 'test'
     identifier2.provider = 'testProvider'
-    await expect(identifier2.save()).rejects.toThrowError()
+    await expect(identifier2.save()).rejects.toThrow()
   })
 })

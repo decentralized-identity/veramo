@@ -31,7 +31,7 @@ describe('@veramo/credential-w3c', () => {
                   id: `${didEthr}#owner`,
                   type: 'EcdsaSecp256k1RecoveryMethod2020',
                   controller: args?.didUrl,
-                  blockchainAccountId: `eip155:1:${didEthr.slice(-42)}`,
+                  blockchainAccountId: `eip155:5:${didEthr.slice(-42)}`,
                 },
               ],
               authentication: [`${didEthr}#owner`],
@@ -64,6 +64,7 @@ describe('@veramo/credential-w3c', () => {
           }
         }
       },
+      canVerifyDocumentType: jest.fn(),
       verifyCredential: jest.fn(),
       verifyPresentation: jest.fn(),
       getDIDComponentById: jest.fn(),

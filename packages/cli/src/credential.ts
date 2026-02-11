@@ -29,13 +29,7 @@ credential
       console.error('No dids')
       process.exit()
     }
-    const answers = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'proofFormat',
-        choices: ['jwt', 'lds', 'EthereumEip712Signature2021'],
-        message: 'Credential proofFormat',
-      },
+    const issuersQuery = await inquirer.prompt([
       {
         type: 'list',
         name: 'iss',
@@ -44,6 +38,16 @@ credential
           value: item.did,
         })),
         message: 'Issuer DID',
+      },
+    ])
+    const issuer = await agent.didManagerGet({ did: issuersQuery.iss })
+    const usableProofFormats = await agent.listUsableProofFormats(issuer)
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'proofFormat',
+        choices: usableProofFormats,
+        message: 'Credential proofFormat',
       },
       {
         type: 'autocomplete',
@@ -83,7 +87,7 @@ credential
     credentialSubject[type] = answers.claimValue
 
     const credential: CredentialPayload = {
-      issuer: { id: answers.iss },
+      issuer: { id: issuersQuery.iss },
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
       type: answers.type.split(','),
       issuanceDate: new Date().toISOString(),
@@ -125,7 +129,7 @@ credential
     } else if (options.filename) {
       raw = await fs.promises.readFile(options.filename, 'utf-8')
     } else {
-      console.log('Please provide the credential as a JWT or JSON string. Press Ctrl+D to finish.');
+      console.log('Please provide the credential as a JWT or JSON string. Press Ctrl+D to finish.')
       raw = await readStdin()
     }
     let parsedCredential: any

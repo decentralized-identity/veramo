@@ -14,6 +14,11 @@ export class VeramoEd25519Signature2018 extends VeramoLdSignature {
     // TODO: add support for ['Ed25519VerificationKey2020', 'Multikey']
   }
 
+  getSupportedProofType(): string {
+    return 'Ed25519Signature2018'
+  }
+
+
   getSupportedVeramoKeyType(): TKeyType {
     return 'Ed25519'
   }

@@ -18,7 +18,7 @@ export type CompactJWT = string
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export type IssuerType = { id: string; [x: string]: any } | string
+export type IssuerType = { id: string;[x: string]: any } | string
 
 /**
  * The value of the credentialSubject property is defined as a set of objects that contain one or more properties that
@@ -37,8 +37,8 @@ export type CredentialSubject = {
 /**
  * Used for the discovery of information about the current status of a verifiable credential, such as whether it is
  * suspended or revoked.
- * The precise contents of the credential status information is determined by the specific `credentialStatus` type
- * definition, and varies depending on factors such as whether it is simple to implement or if it is privacy-enhancing.
+ * The precise contents of the credential status information are determined by the specific `credentialStatus` type
+ *  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.
  *
  * See {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status}
  *
@@ -54,7 +54,7 @@ export type CredentialStatusReference = {
  * Represents the result of a status check.
  *
  * Implementations MUST populate the `revoked` boolean property, but they can return additional metadata that is
- * method specific.
+ * method-specific.
  *
  * @see {@link credential-status#CredentialStatus | CredentialStatus}
  *
@@ -72,6 +72,8 @@ export type CredentialStatus = {
  */
 export interface ProofType {
   type?: string
+
+  proofValue?: string
 
   [x: string]: any
 }
@@ -113,7 +115,7 @@ export type VerifiableCredential = UnsignedCredential & { proof: ProofType }
 /**
  * Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format.
  * See {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model}
- * See {@link https://www.w3.org/TR/vc-data-model/#proof-formats | proof formats}
+ * See {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats}
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */

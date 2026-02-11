@@ -1,5 +1,8 @@
 name: Trigger veramo-website build
+permissions:
+  contents: read
 on:
+  workflow_dispatch:
   push:
     branches:
       - "main"
@@ -7,12 +10,12 @@ jobs:
   dispatch:
     permissions:
       contents: write
-      actions: write 
+      actions: write
     runs-on: ubuntu-latest
     steps:
       - run: |
           curl -X POST \
             -H 'Authorization: token ${{ secrets.GH_TOKEN }}' \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/uport-project/veramo-website/dispatches \
+            https://api.github.com/repos/veramolabs/veramo-website/dispatches \
             -d '{"event_type":"deploy_website"}'

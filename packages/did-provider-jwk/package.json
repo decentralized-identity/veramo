@@ -10,7 +10,7 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@noble/curves": "^1.1.0",
+    "@noble/curves": "^1.4.2",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
@@ -23,7 +23,7 @@
     "@veramo/did-resolver": "workspace:*",
     "@veramo/key-manager": "workspace:*",
     "@veramo/kms-local": "workspace:*",
-    "typescript": "5.3.3"
+    "typescript": "5.7.3"
   },
   "repository": {
     "type": "git",

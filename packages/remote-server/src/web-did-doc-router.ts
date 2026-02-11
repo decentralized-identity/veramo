@@ -122,7 +122,8 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
         const didDoc = didDocForIdentifier(serverIdentifier)
         res.json(didDoc)
       } catch (e) {
-        res.status(404).send(e)
+        console.error('Error resolving did:web:', e)
+        res.status(404).send('Unable to resolve DID document')
       }
     }
   })
@@ -136,7 +137,8 @@ export const WebDidDocRouter = (options: WebDidDocRouterOptions): Router => {
         const didDoc = didDocForIdentifier(identifier)
         res.json(didDoc)
       } catch (e) {
-        res.status(404).send(e)
+        console.error('Error resolving did:web:', e)
+        res.status(404).send('Unable to resolve DID document')
       }
     }
   })

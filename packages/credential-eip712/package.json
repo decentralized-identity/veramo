@@ -9,15 +9,11 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "node ../cli/bin/veramo.js dev generate-plugin-schema"
-  },
-  "veramo": {
-    "pluginInterfaces": {
-      "ICredentialIssuerEIP712": "./src/types/ICredentialEIP712.ts"
-    }
+    "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@metamask/eth-sig-util": "^7.0.0",
+    "@veramo/credential-w3c": "workspace:^",
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
@@ -25,7 +21,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "typescript": "5.3.3"
+    "typescript": "5.7.3"
   },
   "files": [
     "build/**/*",

@@ -32,7 +32,7 @@ export default (testContext: {
 
     it('should import ethers did', async () => {
       const account = `0x71CB05EE1b1F506fF321Da3dac38f25c0c9ce6E1`
-      const did = `did:ethr:${account}`
+      const did = `did:ethr:ganache:${account}`
       const controllerKeyId = `ethers-${account}`
       identifier = await agent.didManagerImport({
         did,

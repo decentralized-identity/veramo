@@ -41,6 +41,7 @@
     "@veramo/core": "workspace:^",
     "@veramo/core-types": "workspace:^",
     "@veramo/credential-eip712": "workspace:^",
+    "@veramo/credential-jwt": "workspace:^",
     "@veramo/credential-ld": "workspace:^",
     "@veramo/credential-w3c": "workspace:^",
     "@veramo/data-store": "workspace:^",
@@ -74,7 +75,7 @@
     "debug": "^4.3.4",
     "did-resolver": "^4.1.0",
     "dotenv": "^16.4.5",
-    "ethr-did-resolver": "^10.1.5",
+    "ethr-did-resolver": "^11.0.2",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "fuzzy": "^0.1.3",
@@ -91,8 +92,8 @@
     "qrcode-terminal": "^0.12.0",
     "sqlite3": "^5.1.7",
     "swagger-ui-express": "^5.0.0",
-    "ts-json-schema-generator": "^1.5.0",
-    "typeorm": "^0.3.17",
+    "ts-json-schema-generator": "^2.0.0",
+    "typeorm": "^0.3.20",
     "url-parse": "^1.5.10",
     "web-did-resolver": "^2.0.27",
     "ws": "^8.16.0",
@@ -108,7 +109,7 @@
     "@types/qrcode-terminal": "0.12.0",
     "@types/url-parse": "1.4.8",
     "@types/ws": "8.5.5",
-    "typescript": "5.3.3"
+    "typescript": "5.7.3"
   },
   "files": [
     "bin/**/*",

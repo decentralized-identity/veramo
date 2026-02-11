@@ -9,6 +9,6 @@
     { "path": "../core-types" },
     { "path": "../did-discovery" },
     { "path": "../did-manager" },
-    { "path": "../utils" },
+    { "path": "../utils" }
   ]
 }

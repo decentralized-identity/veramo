@@ -31,10 +31,10 @@ import {
   ICredentialVerifier,
   W3cMessageHandler,
 } from '../packages/credential-w3c/src'
-import { CredentialIssuerEIP712, ICredentialIssuerEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -99,16 +99,17 @@ import didDiscovery from './shared/didDiscovery'
 import utils from './shared/utils'
 import credentialStatus from './shared/credentialStatus'
 import credentialPluginTests from './shared/credentialPluginTests'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
 jest.setTimeout(120000)
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
-const infuraProjectId = '3586660d179141e3801c3895de1c2eba'
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 const port = 3002
 const basePath = '/agent'
 
-let dbConnection: Promise<DataSource>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 let serverAgent: IAgent
 let restServer: Server
 
@@ -123,8 +124,6 @@ const getAgent = (options?: IAgentOptions) =>
       IDIDComm &
       ICredentialIssuer & // import from old package to check compatibility
       ICredentialVerifier &
-      ICredentialIssuerLD &
-      ICredentialIssuerEIP712 &
       ISelectiveDisclosure &
       IDIDDiscovery
   >({
@@ -150,6 +149,20 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
     entities: Entities,
   }).initialize()
 
+  const eip712 = new CredentialProviderEIP712()
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts, credential_contexts as any],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoJsonWebSignature2020(),
+      new VeramoEd25519Signature2020(),
+    ],
+  })
+
+  const { provider, registry } = await createGanacheProvider()
+
   serverAgent = new Agent({
     ...options,
     plugins: [
@@ -169,19 +182,10 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
               {
-                name: 'mainnet',
-                rpcUrl: 'https://mainnet.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + infuraProjectId,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + infuraProjectId,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
+                chainId: 1337,
+                name: 'ganache',
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
+                registry,
               },
             ],
           }),
@@ -205,7 +209,16 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId }),
+          ...ethrDidResolver({
+            networks: [
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider: provider as any, // different versions of ethers complain about a type mismatch here
+                registry,
+              },
+            ],
+          }),
           ...webDidResolver(),
           // key: getUniversalResolver(), // resolve using remote resolver... when uniresolver becomes more stable,
           ...getDidKeyResolver(),
@@ -227,15 +240,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDComm({ transports: [new DIDCommHttpTransport()] }),
       // intentionally use the deprecated name to test compatibility
-      new CredentialIssuer(),
-      new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts, credential_contexts as any],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoJsonWebSignature2020(),
-          new VeramoEd25519Signature2020(),
+      new CredentialIssuer([eip712, jwt, ld]),
+      new SelectiveDisclosure(),
+      new DIDDiscovery({
+        providers: [
+          new AliasDiscoveryProvider(),
+          new DataStoreDiscoveryProvider(),
+          new BrokenDiscoveryProvider(),
         ],
       }),
       new SelectiveDisclosure(),
@@ -275,7 +286,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 }
 
 const tearDown = async (): Promise<boolean> => {
-  await new Promise((resolve, reject) => restServer.close(resolve))
+  await new Promise((resolve) => restServer.close(resolve))
   try {
     await (await dbConnection).dropDatabase()
     await (await dbConnection).close()

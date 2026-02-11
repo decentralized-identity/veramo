@@ -1,17 +1,17 @@
 import type { Decrypter, KeyWrapper, WrappingResult } from 'did-jwt'
 import { randomBytes } from '@noble/hashes/utils'
 import { concat } from '@veramo/utils'
-import { XChaCha20Poly1305 } from '@stablelib/xchacha20poly1305'
+import { xchacha20poly1305 } from '@noble/ciphers/chacha'
 
 export const xc20pKeyWrapper: KeyWrapper = {
   from: (wrappingKey: Uint8Array) => {
-    const cipher = new XChaCha20Poly1305(wrappingKey)
     const wrap = async (cek: Uint8Array): Promise<WrappingResult> => {
-      const iv = randomBytes(cipher.nonceLength)
-      const sealed = cipher.seal(iv, cek)
+      const iv = randomBytes(xchacha20poly1305.nonceLength)
+      const cipher = xchacha20poly1305(wrappingKey, iv)
+      const sealed = cipher.encrypt(cek)
       return {
-        ciphertext: sealed.subarray(0, sealed.length - cipher.tagLength),
-        tag: sealed.subarray(sealed.length - cipher.tagLength),
+        ciphertext: sealed.subarray(0, sealed.length - xchacha20poly1305.tagLength),
+        tag: sealed.subarray(sealed.length - xchacha20poly1305.tagLength),
         iv,
       }
     }
@@ -22,10 +22,10 @@ export const xc20pKeyWrapper: KeyWrapper = {
 }
 
 export function xc20pDecrypter(key: Uint8Array): Decrypter {
-  const cipher = new XChaCha20Poly1305(key)
 
   async function decrypt(sealed: Uint8Array, iv: Uint8Array, aad?: Uint8Array): Promise<Uint8Array | null> {
-    return cipher.open(iv, sealed, aad)
+    const cipher = xchacha20poly1305(key, iv, aad)
+    return cipher.decrypt(sealed)
   }
 
   return { alg: 'dir', enc: 'XC20P', decrypt }

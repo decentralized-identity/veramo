@@ -1,5 +1,4 @@
 import {
-  // IAgentOptions,
   ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
@@ -22,8 +21,7 @@ import { DIDManager } from '@veramo/did-manager'
 import { JwtMessageHandler } from '@veramo/did-jwt'
 import { CredentialPlugin, W3cMessageHandler } from '@veramo/credential-w3c'
 import {
-  CredentialIssuerLD,
-  ICredentialIssuerLD,
+  CredentialProviderLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
   VeramoEd25519Signature2018,
@@ -42,18 +40,24 @@ import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { WebDIDProvider } from '@veramo/did-provider-web'
 import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from '@veramo/data-store-json'
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
+import { CredentialProviderJWT } from '@veramo/credential-jwt'
+import { JsonRpcApiProvider } from 'ethers'
+import { createGanacheProvider } from '../test-utils/ganache-provider'
 
-const INFURA_PROJECT_ID = '33aab9e0334c44b0a2e0c57c15302608'
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
 
 let memoryJsonStore = {
   notifyUpdate: () => Promise.resolve(),
 }
 
+let provider: JsonRpcApiProvider
+let registry: string
+
 export async function setup() {
   memoryJsonStore = {
     notifyUpdate: () => Promise.resolve(),
   }
+  ;({ provider, registry } = await createGanacheProvider())
   return true
 }
 
@@ -61,7 +65,6 @@ type InstalledPlugins = IResolver &
   IKeyManager &
   IDIDManager &
   ICredentialPlugin &
-  ICredentialIssuerLD &
   IDataStoreORM &
   IDataStore &
   IMessageHandler &
@@ -69,12 +72,31 @@ type InstalledPlugins = IResolver &
   IDIDComm
 
 export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
+  const jwt = new CredentialProviderJWT()
+  const ld = new CredentialProviderLD({
+    contextMaps: [LdDefaultContexts],
+    suites: [
+      new VeramoEcdsaSecp256k1RecoverySignature2020(),
+      new VeramoEd25519Signature2018(),
+      new VeramoEd25519Signature2020(),
+      new VeramoJsonWebSignature2020(),
+    ],
+  })
   const agent: TAgent<InstalledPlugins> = createAgent<InstalledPlugins>({
     ...options,
     plugins: [
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
+          ...ethrDidResolver({
+            networks: [
+              {
+                chainId: 1337,
+                name: 'ganache',
+                provider,
+                registry,
+              },
+            ],
+          }),
           ...webDidResolver(),
           ...getDidKeyResolver(),
           ...getDidPeerResolver(),
@@ -101,19 +123,10 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
             ttl: 60 * 60 * 24 * 30 * 12 + 1,
             networks: [
               {
-                name: 'mainnet',
-                rpcUrl: 'https://mainnet.infura.io/v3/' + INFURA_PROJECT_ID,
-              },
-              {
-                name: 'sepolia',
-                chainId: 11155111,
-                rpcUrl: 'https://sepolia.infura.io/v3/' + INFURA_PROJECT_ID,
-              },
-              {
-                chainId: 421613,
-                name: 'arbitrum:goerli',
-                rpcUrl: 'https://arbitrum-goerli.infura.io/v3/' + INFURA_PROJECT_ID,
-                registry: '0x8FFfcD6a85D29E9C33517aaf60b16FE4548f517E',
+                chainId: 1337,
+                name: 'ganache',
+                provider,
+                registry,
               },
             ],
           }),
@@ -145,16 +158,7 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
         ],
       }),
       new DIDComm(),
-      new CredentialPlugin(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts],
-        suites: [
-          new VeramoEcdsaSecp256k1RecoverySignature2020(),
-          new VeramoEd25519Signature2018(),
-          new VeramoEd25519Signature2020(),
-          new VeramoJsonWebSignature2020(),
-        ],
-      }),
+      new CredentialPlugin([jwt, ld]),
       new SelectiveDisclosure(),
       ...(options?.plugins || []),
     ],

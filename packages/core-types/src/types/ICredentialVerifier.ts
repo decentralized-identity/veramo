@@ -28,7 +28,8 @@ export interface UsingResolutionOptions {
 export interface IVerifyCredentialArgs extends UsingResolutionOptions {
   /**
    * The Verifiable Credential object according to the
-   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or the JWT representation.
+   * {@link https://www.w3.org/TR/vc-data-model/#credentials | canonical model} or
+   * the {@link https://www.w3.org/TR/vc-data-model-1.1/#json-web-token | JWT representation}.
    *
    * The signer of the Credential is verified based on the `issuer.id` property
    * of the `credential` or the `iss` property of the JWT payload respectively
@@ -39,7 +40,7 @@ export interface IVerifyCredentialArgs extends UsingResolutionOptions {
   /**
    * When dealing with JSON-LD you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
-   * The context definitions SHOULD rather be provided at startup instead of being fetched.
+   * The context definitions SHOULD rather be provided at application startup instead of being fetched.
    *
    * Defaults to `false`
    */
@@ -145,13 +146,6 @@ export interface VerificationPolicies {
 }
 
 /**
- * Encapsulates the response object to verifyPresentation method after verifying a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
-
-/**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
  *
  * @see {@link @veramo/credential-w3c#CredentialPlugin} for an implementation.
@@ -161,7 +155,7 @@ export interface VerificationPolicies {
  */
 export interface ICredentialVerifier extends IPluginMethodMap {
   /**
-   * Verifies a Verifiable Credential JWT, LDS Format or EIP712.
+   * Verifies a Verifiable Credential
    *
    * @param args - Arguments necessary to verify a VerifiableCredential
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*

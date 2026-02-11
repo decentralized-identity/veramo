@@ -1,18 +1,6 @@
-import { jest } from '@jest/globals'
-
-// // Mock must come before imports with transitive dependency.
-// jest.unstable_mockModule('did-jwt-vc', () => ({
-//   createVerifiableCredentialJwt: jest.fn(() => Promise.resolve('mockVcJwt')),
-//   createVerifiablePresentationJwt: jest.fn(() => Promise.resolve('mockVcJwt')),
-//   verifyCredential: jest.fn(() => Promise.resolve({ payload: {} })),
-//   normalizeCredential: jest.fn(() => Promise.resolve('mockCredential')),
-//   normalizePresentation: jest.fn(() => Promise.resolve('mockPresentation')),
-// }))
-
 import {
   CredentialPayload,
   ICredentialPlugin,
-  IDataStore,
   IDIDManager,
   IIdentifier,
   IKey,
@@ -20,122 +8,114 @@ import {
   IResolver,
   PresentationPayload,
   TAgent,
-  VerifiableCredential,
 } from '../../../core-types/src'
 import { CredentialPlugin } from '../action-handler.js'
+import { CredentialProviderJWT } from '../../../credential-jwt/src'
+import { createAgent } from '../../../core/src/agent.js'
+import { KeyManager } from '../../../key-manager/src/key-manager.js'
+import { MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
+import { KeyManagementSystem } from '../../../kms-local/src'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
+import { DIDResolverPlugin } from '../../../did-resolver/src'
+import { Resolver } from 'did-resolver'
+import {
+  ICredentialProvider,
+  ProofFormatQuery,
+  TentativeVerificationQuery,
+} from '../abstract-credential-provider'
+import {
+  ICreateVerifiableCredentialArgs,
+  ICreateVerifiablePresentationArgs,
+  IssuerAgentContext,
+  IVerifyCredentialArgs,
+  IVerifyPresentationArgs,
+  IVerifyResult,
+  VerifiableCredential,
+  VerifiablePresentation,
+  VerifierAgentContext,
+} from '@veramo/core-types'
 
-const mockIdentifiers: IIdentifier[] = [
-  {
-    did: 'did:example:111',
-    provider: 'mock',
-    controllerKeyId: 'kid1',
-    keys: [
-      {
-        kid: 'kid1',
-        publicKeyHex: 'pub',
-        type: 'Secp256k1',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-  {
-    did: 'did:example:222',
-    provider: 'mock',
-    controllerKeyId: 'kid2',
-    keys: [
-      {
-        kid: 'kid2a',
-        publicKeyHex: 'pub',
-        type: 'Ed25519',
-        kms: 'mock',
-      },
-      {
-        kid: 'kid2b',
-        publicKeyHex: 'pub',
-        type: 'Secp256k1',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-  {
-    did: 'did:example:333',
-    provider: 'mock',
-    controllerKeyId: 'kid3',
-    keys: [
-      {
-        kid: 'kid3',
-        publicKeyHex: 'pub',
-        type: 'Ed25519',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-  {
-    did: 'did:example:444?versionTime=2023-01-01T00:00:00Z',
-    provider: 'mock',
-    controllerKeyId: 'kid4',
-    keys: [
-      {
-        kid: 'kid4',
-        publicKeyHex: 'pub',
-        type: 'Ed25519',
-        kms: 'mock',
-      },
-    ],
-    services: [],
-  },
-]
-
-const w3c = new CredentialPlugin()
-
-let agent = {
-  execute: jest.fn(),
-  availableMethods: jest.fn(),
-  resolveDid: jest.fn(),
-  getDIDComponentById: jest.fn(),
-  emit: jest.fn(),
-  keyManagerSign: jest.fn(async (args): Promise<string> => 'mockJWT'),
-  keyManagerGet: jest.fn(
-    async (args): Promise<IKey> => ({
-      kid: '',
-      kms: '',
-      type: 'Ed25519',
-      publicKeyHex: '',
-    }),
-  ),
-  dataStoreSaveVerifiableCredential: jest.fn(async (args): Promise<boolean> => true),
-  dataStoreSaveVerifiablePresentation: jest.fn(async (args): Promise<boolean> => true),
-  getSchema: jest.fn(),
-  didManagerGet: jest.fn(),
-  didManagerFind: jest.fn(),
-  createVerifiableCredentialLD: jest.fn(),
-  createVerifiablePresentationLD: jest.fn(),
-  verifyCredentialLD: jest.fn(),
-  verifyPresentationLD: jest.fn(),
-} as any as TAgent<IResolver & IDIDManager & IKeyManager & ICredentialPlugin & IDataStore>
+let didKeyIdentifier: IIdentifier
+let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
 
 describe('@veramo/credential-w3c', () => {
-  const keyManagerSign = agent.keyManagerSign as
-    | jest.Mock<(args: { algorithm: string; keyRef: string}) => Promise<string>>
+  beforeAll(async () => {
+    agent = createAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>({
+      plugins: [
+        new KeyManager({
+          store: new MemoryKeyStore(),
+          kms: {
+            local: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          },
+        }),
+        new DIDManager({
+          providers: {
+            'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
+          },
+          store: new MemoryDIDStore(),
+          defaultProvider: 'did:key',
+        }),
+        new DIDResolverPlugin({
+          resolver: new Resolver({
+            ...getDidKeyResolver(),
+          }),
+        }),
+        new CredentialPlugin([new CredentialProviderJWT()]),
+      ],
+    })
+    didKeyIdentifier = await agent.didManagerCreate()
+  })
 
-  beforeEach(() => {
-    keyManagerSign.mockClear()
-  });
+  class DummyProofProvider implements ICredentialProvider {
+    createVerifiableCredential(
+      args: ICreateVerifiableCredentialArgs,
+      context: IssuerAgentContext,
+    ): Promise<VerifiableCredential> {
+      throw new Error('Method not implemented.')
+    }
+    createVerifiablePresentation(
+      args: ICreateVerifiablePresentationArgs,
+      context: IssuerAgentContext,
+    ): Promise<VerifiablePresentation> {
+      throw new Error('Method not implemented.')
+    }
+    verifyCredential(args: IVerifyCredentialArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+      throw new Error('Method not implemented.')
+    }
+    verifyPresentation(args: IVerifyPresentationArgs, context: VerifierAgentContext): Promise<IVerifyResult> {
+      throw new Error('Method not implemented.')
+    }
+    canVerifyDocumentType(query: TentativeVerificationQuery): boolean {
+      return false
+    }
 
-  test.each(mockIdentifiers)('handles createVerifiableCredential', async (mockIdentifier) => {
-    expect.assertions(6)
+    getProofFormatsSupportedForKey(key: IKey): string[] {
+      return ['dummy', 'proofs']
+    }
 
-    const issuerId = mockIdentifier.did;
-    mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
+    canIssueProofFormat(query: ProofFormatQuery): boolean {
+      return false
+    }
+  }
 
-    const keyRef = mockIdentifier.keys[1]?.kid // Second key or undefined
-    const expectedKey = mockIdentifier.keys[mockIdentifier.keys.length - 1]
+  it('lists usable proof formats', async () => {
+    expect.assertions(2)
 
-    agent.didManagerGet = jest.fn(async (args): Promise<IIdentifier> => mockIdentifier)
-    const context = { agent }
+    const proofFormats = await agent.listUsableProofFormats(didKeyIdentifier)
+    expect(proofFormats).toEqual(['jwt'])
+
+    const newAgent = createAgent<ICredentialPlugin>({
+      plugins: [new CredentialPlugin([new DummyProofProvider()])],
+    })
+    const proofFormats2 = await newAgent.listUsableProofFormats(didKeyIdentifier)
+    expect(proofFormats2).toEqual(['dummy', 'proofs'])
+  })
+
+  it('handles createVerifiableCredential', async () => {
+    expect.assertions(1)
+
+    const issuerId = didKeyIdentifier.did
 
     const credential: CredentialPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1', 'https://www.w3.org/2020/demo/4342323'],
@@ -154,78 +134,74 @@ describe('@veramo/credential-w3c', () => {
       },
     }
 
-    const vc = await w3c.createVerifiableCredential(
-      {
-        credential,
-        save: false,
-        proofFormat: 'jwt',
-        keyRef,
-      },
-      context,
-    )
-    // TODO Update these after refactoring did-jwt-vc
-    expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
-    expect(context.agent.dataStoreSaveVerifiableCredential).not.toBeCalled()
+    const vc = await agent.createVerifiableCredential({
+      credential,
+      save: false,
+      proofFormat: 'jwt',
+    })
     expect(vc.id).toEqual('vc1')
-
-    expect(keyManagerSign).toBeCalled()
-    expect(keyManagerSign.mock.calls[0][0].keyRef).toEqual(expectedKey.kid)
-    expect(keyManagerSign.mock.calls[0][0].algorithm).toEqual(expectedKey.type === 'Ed25519' ? 'EdDSA' : 'ES256K')
   })
 
-  test.each(mockIdentifiers)('handles createVerifiablePresentation', async (mockIdentifier) => {
-    expect.assertions(4)
+  it('handles createVerifiablePresentation', async () => {
+    expect.assertions(1)
 
-    const issuerId = mockIdentifier.did;
-    mockIdentifier.did = mockIdentifier.did.replace(/\?.*$/, '')
+    const issuerId = didKeyIdentifier.did
 
-    agent.didManagerGet = jest.fn(async (args): Promise<IIdentifier> => mockIdentifier)
-    const context = { agent }
-
-    const credential = await w3c.createVerifiableCredential(
-      {
-        credential: {
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiableCredential', 'PublicProfile'],
-          issuer: { id: issuerId },
-          issuanceDate: new Date().toISOString(),
-          id: 'vc1',
-          credentialSubject: {
-            id: 'https://example.com/user/alice',
-            name: 'Alice',
-            profilePicture: 'https://example.com/a.png',
-            address: {
-              street: 'Some str.',
-              house: 1,
-            },
+    const credential = await agent.createVerifiableCredential({
+      credential: {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential', 'PublicProfile'],
+        issuer: { id: issuerId },
+        issuanceDate: new Date().toISOString(),
+        id: 'vc1',
+        credentialSubject: {
+          id: 'https://example.com/user/alice',
+          name: 'Alice',
+          profilePicture: 'https://example.com/a.png',
+          address: {
+            street: 'Some str.',
+            house: 1,
           },
         },
-        save: false,
-        proofFormat: 'jwt',
       },
-      context,
-    )
+      save: false,
+      proofFormat: 'jwt',
+    })
 
     const presentation: PresentationPayload = {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: ['VerifiablePresentation'],
-      holder: mockIdentifier.did + '?versionTime=2023-01-01T00:00:00Z',
+      holder: didKeyIdentifier.did,
       issuanceDate: new Date().toISOString(),
       verifiableCredential: [credential],
     }
 
-    const vp = await w3c.createVerifiablePresentation(
-      {
-        presentation,
-        save: false,
-        proofFormat: 'jwt',
-      },
-      context,
-    )
+    const vp = await agent.createVerifiablePresentation({
+      presentation,
+      save: false,
+      proofFormat: 'jwt',
+    })
 
-    expect(context.agent.didManagerGet).toBeCalledWith({ did: mockIdentifier.did })
-    expect(context.agent.didManagerGet).not.toBeCalledWith({ did: presentation.holder })
-    expect(context.agent.dataStoreSaveVerifiablePresentation).not.toBeCalled()
-    expect(vp.holder).toEqual(mockIdentifier.did)
+    expect(vp.holder).toEqual(issuerId)
+  })
+
+  it('fails to create credential with unknown proof format', async () => {
+    expect.assertions(1)
+    await expect(() =>
+      agent.createVerifiableCredential({
+        credential: { dummy: 'data', issuer: { id: didKeyIdentifier.did } },
+        proofFormat: 'unknown',
+      }),
+    ).rejects.toThrow(/invalid_setup: No provider found for the requested proof format/)
+  })
+
+  it('fails to create presentation with unknown proof format', async () => {
+    expect.assertions(1)
+    await expect(() =>
+      agent.createVerifiablePresentation({
+        presentation: { dummy: 'data', holder: didKeyIdentifier.did },
+        proofFormat: 'unknown',
+      }),
+    ).rejects.toThrow(/invalid_setup: No provider found for the requested proof format/)
   })
 })

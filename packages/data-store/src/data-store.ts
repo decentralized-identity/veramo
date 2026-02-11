@@ -63,7 +63,7 @@ export class DataStore implements IAgentPlugin {
   }
 
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
-    const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
+    const [messageEntity] = await (await getConnectedDb(this.dbConnection)).getRepository(Message).find({
       where: { id: args.id },
       relations: ['credentials', 'presentations'],
     })
@@ -73,7 +73,7 @@ export class DataStore implements IAgentPlugin {
   }
 
   async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
-    const messageEntity = await (await getConnectedDb(this.dbConnection)).getRepository(Message).findOne({
+    const [messageEntity] = await (await getConnectedDb(this.dbConnection)).getRepository(Message).find({
       where: { id: args.id },
       relations: ['credentials', 'presentations'],
     })

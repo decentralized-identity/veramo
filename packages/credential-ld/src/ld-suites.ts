@@ -25,6 +25,8 @@ export abstract class VeramoLdSignature {
 
   abstract getSupportedVerificationType(): string | string[]
 
+  abstract getSupportedProofType(): string
+
   abstract getSupportedVeramoKeyType(): TKeyType
 
   abstract getSuiteForSigning(

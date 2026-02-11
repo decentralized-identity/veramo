@@ -20,15 +20,12 @@
     "did-jwt": "^8.0.0",
     "did-jwt-vc": "^4.0.0",
     "did-resolver": "^4.1.0",
-    "uuid": "^9.0.0"
-  },
-  "optionalDependencies": {
-    "@veramo/credential-ld": "^6.0.2"
+    "uuid": "^11.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/uuid": "9.0.2",
-    "typescript": "5.3.3"
+    "typescript": "5.7.3"
   },
   "files": [
     "build/**/*",

@@ -9,17 +9,27 @@ import { IResolver } from './IResolver.js'
 import { IDIDManager } from './IDIDManager.js'
 import { IDataStore } from './IDataStore.js'
 import { IKeyManager } from './IKeyManager.js'
-import { IIdentifier, IKey } from "./IIdentifier.js";
+import { IIdentifier } from './IIdentifier.js'
 import { UsingResolutionOptions } from './ICredentialVerifier.js'
 
 /**
- * The type of encoding to be used for the Verifiable Credential or Presentation to be generated.
+ * Constants representing internally supported proof formats.
  *
- * Only `jwt` and `lds` is supported at the moment.
- *
+ * @internal
+ */
+export const PROOF_FORMAT = {
+  ETHEREUM_EIP712_SIGNATURE_2021: 'EthereumEip712Signature2021',
+  JWT: 'jwt',
+  LD_SIGNATURE: 'lds',
+  BBS_PLUS: 'bbs+',
+} as const
+
+/**
+ * Represents a format for a particular type of verifiable data.
+ * This is an extensible union of several known formats implemented by Veramo
  * @public
  */
-export type ProofFormat = 'jwt' | 'lds' | 'EthereumEip712Signature2021'
+export type ProofFormat = (typeof PROOF_FORMAT)[keyof typeof PROOF_FORMAT] | (string & {})
 
 /**
  * Encapsulates the parameters required to create a
@@ -61,7 +71,6 @@ export interface ICreateVerifiablePresentationArgs extends UsingResolutionOption
 
   /**
    * The desired format for the VerifiablePresentation to be created.
-   * Currently, only JWT is supported
    */
   proofFormat: ProofFormat
 
@@ -78,7 +87,7 @@ export interface ICreateVerifiablePresentationArgs extends UsingResolutionOption
   keyRef?: string
 
   /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * When dealing with JSON-LD, you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
    *
@@ -138,7 +147,7 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
   keyRef?: string
 
   /**
-   * When dealing with JSON-LD you also MUST provide the proper contexts.
+   * When dealing with JSON-LD, you also MUST provide the proper contexts.
    * Set this to `true` ONLY if you want the `@context` URLs to be fetched in case they are not preloaded.
    * The context definitions SHOULD rather be provided at startup instead of being fetched.
    *
@@ -151,13 +160,6 @@ export interface ICreateVerifiableCredentialArgs extends UsingResolutionOptions 
    */
   [x: string]: any
 }
-
-/**
- * Encapsulates the response object to verifyPresentation method after verifying a
- * {@link https://www.w3.org/TR/vc-data-model/#presentations | W3C Verifiable Presentation}
- *
- * @public
- */
 
 /**
  * The interface definition for a plugin that can generate Verifiable Credentials and Presentations
@@ -188,7 +190,7 @@ export interface ICredentialIssuer extends IPluginMethodMap {
 
   /**
    * Creates a Verifiable Credential.
-   * The payload, signer and format are chosen based on the `args` parameter.
+   * The payload, signer, and format are chosen based on the `args` parameter.
    *
    * @param args - Arguments necessary to create the Presentation.
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
@@ -204,35 +206,26 @@ export interface ICredentialIssuer extends IPluginMethodMap {
   ): Promise<VerifiableCredential>
 
   /**
-   * Returns a list of supported proof formats.
+   * Returns a list of supported proof formats for verifiable data that this plugin can generate based on the specified issuer.
    * @param identifier - The identifier that may be used to sign a credential or presentation
    * @param context - This reserved param is automatically added and handled by the framework, *do not override*
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
   listUsableProofFormats(identifier: IIdentifier, context: IAgentContext<{}>): Promise<Array<ProofFormat>>
-
-  /**
-   * Checks if a key is suitable for signing JWT payloads.
-   * @param key - the key to check for compatibility
-   * @param context - This reserved param is automatically added and handled by the framework, *do not override*
-   *
-   * @internal
-   */
-  matchKeyForJWT(key: IKey, context: IAgentContext<any>): Promise<boolean>
 }
 
 /**
  * Represents the requirements that this plugin has.
- * The agent that is using this plugin is expected to provide these methods.
+ * The agent using this plugin is expected to provide these methods.
  *
- * This interface can be used for static type checks, to make sure your application is properly initialized.
+ * This interface can be used for static type checks to make sure your application is properly initialized.
  *
  * @beta
  */
 export type IssuerAgentContext = IAgentContext<
   IResolver &
-  Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
-  Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
-  Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
+    Pick<IDIDManager, 'didManagerGet' | 'didManagerFind'> &
+    Pick<IDataStore, 'dataStoreSaveVerifiablePresentation' | 'dataStoreSaveVerifiableCredential'> &
+    Pick<IKeyManager, 'keyManagerGet' | 'keyManagerSign'>
 >
