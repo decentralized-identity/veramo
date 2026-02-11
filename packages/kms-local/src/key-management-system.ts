@@ -71,7 +71,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return managedKeys
   }
 
-  async createKey({ type }: { type: TKeyType }): Promise<ManagedKeyInfo> {
+  async createKey({ type, kid }: { type: TKeyType, kid?: string }): Promise<ManagedKeyInfo> {
     let key: ManagedKeyInfo
 
     switch (type) {
@@ -80,6 +80,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const publicKey = ed25519.utils.getExtendedPublicKey(ed25519SecretKey).pointBytes
         key = await this.importKey({
           type,
+          kid,
           privateKeyHex: bytesToHex(concat([ed25519SecretKey, publicKey])),
         })
         break
@@ -89,6 +90,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const privateBytes = randomBytes(32)
         key = await this.importKey({
           type,
+          kid,
           privateKeyHex: bytesToHex(privateBytes),
         })
         break
@@ -97,6 +99,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
         const secretX25519 = x25519.utils.randomPrivateKey()
         key = await this.importKey({
           type,
+          kid,
           privateKeyHex: bytesToHex(secretX25519),
         })
         break

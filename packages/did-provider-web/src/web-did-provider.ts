@@ -37,7 +37,6 @@ export class WebDIDProvider extends AbstractIdentifierProvider {
 
     if (options?.keyRef) {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
-      keyType = key.type;
     } else {
       key = await importOrCreateKey(
         {
