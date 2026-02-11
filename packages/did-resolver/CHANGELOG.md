@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/decentralized-identity/veramo/compare/v6.0.2...v7.0.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **deps:** bump ethr-did-resolver to v11 ([#1422](https://github.com/decentralized-identity/veramo/issues/1422)) ([2f0b06d](https://github.com/decentralized-identity/veramo/commit/2f0b06ddcce87dfeea1d5ab843eb33276dac071d))
+* **deps:** update devdeps and bump typeorm to 0.3.20 ([#1272](https://github.com/decentralized-identity/veramo/issues/1272)) ([7d17f37](https://github.com/decentralized-identity/veramo/commit/7d17f37ea7cc4e73a8cdae028681ae1be5c4d11c))
+* **deps:** Update did-vc-libraries ([cf45ff8](https://github.com/decentralized-identity/veramo/commit/cf45ff8c7e017bf1c1d3a223faded851fde2ae30))
+* **deps:** Update did-vc-libraries ([#1439](https://github.com/decentralized-identity/veramo/issues/1439)) ([0056388](https://github.com/decentralized-identity/veramo/commit/00563885b5086787d69ff6d289e93d5556f0c989))
+
+
+
+
+
 ## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
 
 **Note:** Version bump only for package @veramo/did-resolver

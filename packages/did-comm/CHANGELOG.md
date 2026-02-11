@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/decentralized-identity/veramo/compare/v6.0.2...v7.0.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @noble/ciphers to v1 ([#1419](https://github.com/decentralized-identity/veramo/issues/1419)) ([b6363a1](https://github.com/decentralized-identity/veramo/commit/b6363a169b66b71e5051ebe1029121e3e1ce8f76))
+* **deps:** update dependency @stablelib/aes to v2 ([018e189](https://github.com/decentralized-identity/veramo/commit/018e189f322e713984419666dc92b6cb470ef4a0))
+* **deps:** update dependency @stablelib/aes-kw to v2 ([02f2008](https://github.com/decentralized-identity/veramo/commit/02f200855c61237e724222f3430d20d3e0a878c4))
+* **deps:** update dependency uuid to v11 ([#1431](https://github.com/decentralized-identity/veramo/issues/1431)) ([6ad84d9](https://github.com/decentralized-identity/veramo/commit/6ad84d91f02794e741e4b770e29e1ee9a93edcfb))
+* **deps:** update devdeps and bump typeorm to 0.3.20 ([#1272](https://github.com/decentralized-identity/veramo/issues/1272)) ([7d17f37](https://github.com/decentralized-identity/veramo/commit/7d17f37ea7cc4e73a8cdae028681ae1be5c4d11c))
+* **did-comm:** remove isomorphic-webcrypto dependency ([#1401](https://github.com/decentralized-identity/veramo/issues/1401)) ([85cc1ce](https://github.com/decentralized-identity/veramo/commit/85cc1ce1d567afcbc42e0fd89eb2515505044c83)), closes [#1381](https://github.com/decentralized-identity/veramo/issues/1381) [#1387](https://github.com/decentralized-identity/veramo/issues/1387)
+
+
+### Features
+
+* **credential-w3c:** refactor the ICredentialProvider API ([#1488](https://github.com/decentralized-identity/veramo/issues/1488)) ([cbd848d](https://github.com/decentralized-identity/veramo/commit/cbd848d4ce2b52497d99d335f1c93bd8b005cdb2))
+* **credential-w3c:** remove hardcoded proof formats ([#1395](https://github.com/decentralized-identity/veramo/issues/1395)) ([5b7d3fa](https://github.com/decentralized-identity/veramo/commit/5b7d3fad7d2ada4954f8020a6474df13d9fe51dc))
+
+
+### BREAKING CHANGES
+
+* **credential-w3c:** This changeset, along with the previous changes in #1395 modify the CredentialPlugin to support extensibility without modifications to the veramo repository. This plugin now acts as an orchestrator for other ICredentialProvider implementations that provide the actual support for various verifiable data formats. ICredentialProvider implementations can be implemented externally and used with this plugin.
+* **credential-w3c:** The credential plugins specializing in JSON-LD / EIP712 are no longer top level veramo plugins but are now managed by the `@veramo/credential-w3c` plugin which will be able to use multiple proof formats and multiplex accordingly. The constructor for the `CredentialPlugin` has changed to accept different implementations of proof formats.
+
+
+
+
+
 ## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
 
 **Note:** Version bump only for package @veramo/did-comm

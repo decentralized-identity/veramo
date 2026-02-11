@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/decentralized-identity/veramo/compare/v6.0.2...v7.0.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **cli:** update @veramo/cli setup and credential example for ICredentialProvider refactor ([#1489](https://github.com/decentralized-identity/veramo/issues/1489)) ([0fa0bdc](https://github.com/decentralized-identity/veramo/commit/0fa0bdcb8baab0fa8097eb5fa8a112974c998e6b)), closes [#1488](https://github.com/decentralized-identity/veramo/issues/1488) [#1395](https://github.com/decentralized-identity/veramo/issues/1395)
+* **deps:** bump ethr-did-resolver to v11 ([#1422](https://github.com/decentralized-identity/veramo/issues/1422)) ([2f0b06d](https://github.com/decentralized-identity/veramo/commit/2f0b06ddcce87dfeea1d5ab843eb33276dac071d))
+* **deps:** update dependency ts-json-schema-generator to v2 ([e690f3c](https://github.com/decentralized-identity/veramo/commit/e690f3c44b6f8e07e64ae612f69c36931b638846))
+* **deps:** update devdeps and bump typeorm to 0.3.20 ([#1272](https://github.com/decentralized-identity/veramo/issues/1272)) ([7d17f37](https://github.com/decentralized-identity/veramo/commit/7d17f37ea7cc4e73a8cdae028681ae1be5c4d11c))
+
+
+### Features
+
+* **credential-w3c:** remove hardcoded proof formats ([#1395](https://github.com/decentralized-identity/veramo/issues/1395)) ([5b7d3fa](https://github.com/decentralized-identity/veramo/commit/5b7d3fad7d2ada4954f8020a6474df13d9fe51dc))
+
+
+### BREAKING CHANGES
+
+* **credential-w3c:** The credential plugins specializing in JSON-LD / EIP712 are no longer top level veramo plugins but are now managed by the `@veramo/credential-w3c` plugin which will be able to use multiple proof formats and multiplex accordingly. The constructor for the `CredentialPlugin` has changed to accept different implementations of proof formats.
+
+
+
+
+
 ## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
 
 **Note:** Version bump only for package @veramo/cli

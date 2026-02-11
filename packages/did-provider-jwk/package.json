@@ -1,6 +1,6 @@
 {
   "name": "@veramo/did-provider-jwk",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "description": "Veramo plugin that can enable creation and control of did:jwk identifiers.",
   "main": "build/index.js",
   "types": "build/index.d.ts",

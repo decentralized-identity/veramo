@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/decentralized-identity/veramo/compare/v6.0.2...v7.0.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency uuid to v11 ([#1431](https://github.com/decentralized-identity/veramo/issues/1431)) ([6ad84d9](https://github.com/decentralized-identity/veramo/commit/6ad84d91f02794e741e4b770e29e1ee9a93edcfb))
+* **deps:** update devdeps and bump typeorm to 0.3.20 ([#1272](https://github.com/decentralized-identity/veramo/issues/1272)) ([7d17f37](https://github.com/decentralized-identity/veramo/commit/7d17f37ea7cc4e73a8cdae028681ae1be5c4d11c))
+* **did-comm:** remove isomorphic-webcrypto dependency ([#1401](https://github.com/decentralized-identity/veramo/issues/1401)) ([85cc1ce](https://github.com/decentralized-identity/veramo/commit/85cc1ce1d567afcbc42e0fd89eb2515505044c83)), closes [#1381](https://github.com/decentralized-identity/veramo/issues/1381) [#1387](https://github.com/decentralized-identity/veramo/issues/1387)
+* **key-manager:** handling of `kid` param when creating keys ([#1492](https://github.com/decentralized-identity/veramo/issues/1492)) ([4c52549](https://github.com/decentralized-identity/veramo/commit/4c52549daa215fe3b791d56a156f88144d11733e))
+
+
+### Features
+
+* **key-manager:** allow user defined kid on keyManagerCreate ([#1426](https://github.com/decentralized-identity/veramo/issues/1426)) ([0784df0](https://github.com/decentralized-identity/veramo/commit/0784df09a38a10cd66a83485e047770b427d8648)), closes [#1353](https://github.com/decentralized-identity/veramo/issues/1353)
+
+
+
+
+
 ## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
 
 **Note:** Version bump only for package @veramo/key-manager

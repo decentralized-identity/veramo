@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/decentralized-identity/veramo/compare/v6.0.2...v7.0.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **deps:** update devdeps and bump typeorm to 0.3.20 ([#1272](https://github.com/decentralized-identity/veramo/issues/1272)) ([7d17f37](https://github.com/decentralized-identity/veramo/commit/7d17f37ea7cc4e73a8cdae028681ae1be5c4d11c))
+* **key-manager:** handling of `kid` param when creating keys ([#1492](https://github.com/decentralized-identity/veramo/issues/1492)) ([4c52549](https://github.com/decentralized-identity/veramo/commit/4c52549daa215fe3b791d56a156f88144d11733e))
+
+
+### Features
+
+* improve key creation/import options when creating identifiers ([#1423](https://github.com/decentralized-identity/veramo/issues/1423)) ([12aa854](https://github.com/decentralized-identity/veramo/commit/12aa854baa384805f4cae6360720f2e9a5a484aa))
+
+
+
+
+
 ## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
 
 **Note:** Version bump only for package @veramo/did-provider-web

@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/decentralized-identity/veramo/compare/v6.0.2...v7.0.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **data-store:** replace typeOrm findOne queries including relations with find ([#1400](https://github.com/decentralized-identity/veramo/issues/1400)) ([034afc4](https://github.com/decentralized-identity/veramo/commit/034afc430225aef98ecdf93214b75d049ebcb9d7))
+* **data-store:** validate sorted queries in data store ([#1482](https://github.com/decentralized-identity/veramo/issues/1482)) ([067e39d](https://github.com/decentralized-identity/veramo/commit/067e39dd76f11ee2d25b99c8361d4f02a4223e3b))
+* **deps:** update dependency uuid to v11 ([#1431](https://github.com/decentralized-identity/veramo/issues/1431)) ([6ad84d9](https://github.com/decentralized-identity/veramo/commit/6ad84d91f02794e741e4b770e29e1ee9a93edcfb))
+* **deps:** update devdeps and bump typeorm to 0.3.20 ([#1272](https://github.com/decentralized-identity/veramo/issues/1272)) ([7d17f37](https://github.com/decentralized-identity/veramo/commit/7d17f37ea7cc4e73a8cdae028681ae1be5c4d11c))
+
+
+### Features
+
+* **credential-w3c:** refactor the ICredentialProvider API ([#1488](https://github.com/decentralized-identity/veramo/issues/1488)) ([cbd848d](https://github.com/decentralized-identity/veramo/commit/cbd848d4ce2b52497d99d335f1c93bd8b005cdb2))
+
+
+### BREAKING CHANGES
+
+* **credential-w3c:** This changeset, along with the previous changes in #1395 modify the CredentialPlugin to support extensibility without modifications to the veramo repository. This plugin now acts as an orchestrator for other ICredentialProvider implementations that provide the actual support for various verifiable data formats. ICredentialProvider implementations can be implemented externally and used with this plugin.
+
+
+
+
+
 ## [6.0.2](https://github.com/decentralized-identity/veramo/compare/v6.0.1...v6.0.2) (2026-01-16)
 
 
