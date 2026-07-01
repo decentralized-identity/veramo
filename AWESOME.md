@@ -16,6 +16,9 @@ Please help us improve the contents or format of this list by creating a pull re
   * [RN app with credential signing](https://github.com/symfoni/identity-wallet)
   * [ID Pocket digital identity wallet](https://rktechworks.com/idpocket)
   * [Spherity Aries RFCs Veramo Plugin](https://github.com/spherity/aries-rfcs-veramo-plugin)
+  * [Multi-issuer BLS aggregate-signature credentials (MultiSignatureVeramo)](https://github.com/caltr98/MultiSignatureVeramo)
+  * [VC-based access framework for robotaxi services, multi-holder VP (SSI-RoboTaxi)](https://github.com/caltr98/SSI-RoboTaxi-VPMulti-Holder)
+  * [Credibility Assessment and Verification System (CAVS)](https://github.com/caltr98/CAVS)
   * add your own project here!
 
 ## Disclaimer
