@@ -4,6 +4,9 @@ module.exports = {
   babel: {
     plugins: ['@babel/plugin-syntax-import-assertions'],
   },
+  devServer: {
+    port: 4269,
+  },
   webpack: {
     configure: (webpackConfig) => {
       // Add ProvidePlugin for global process availability

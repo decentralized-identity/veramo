@@ -8,7 +8,7 @@ module.exports = {
   browserContext: 'default',
   server: {
     command: 'pnpm start',
-    port: 3000,
+    port: 4269,
     launchTimeout: 30000,
     debug: true,
   },

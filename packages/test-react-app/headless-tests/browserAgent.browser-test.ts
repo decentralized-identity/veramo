@@ -38,7 +38,7 @@ describe('Browser integration tests', () => {
   // // https://github.com/smooth-code/jest-puppeteer/issues/503 prevents us from using puppeteer currently
   describe('should initialize in the react app', () => {
     beforeAll(async () => {
-      await page.goto('http://localhost:3000')
+      await page.goto('http://localhost:4269')
     })
     it('should get didDoc data and match the snapshot', async () => {
       /**
