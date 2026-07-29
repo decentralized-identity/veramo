@@ -5,6 +5,7 @@ import { DIDResolutionOptions, parse as parseDidUrl } from 'did-resolver'
 import Debug from 'debug'
 import {
   _ExtendedVerificationMethod,
+  bytesToBase64url,
   bytesToHex,
   decodeJoseBlob,
   extractPublicKeyHex,
@@ -12,10 +13,24 @@ import {
   isDefined,
   mapIdentifierKeysToDoc,
   resolveDidOrThrow,
+  stringToUtf8Bytes,
 } from '@veramo/utils'
 import { x25519 } from '@noble/curves/ed25519'
+import { sha256 } from '@noble/hashes/sha256'
 
 const debug = Debug('veramo:did-comm:action-handler')
+
+/**
+ * Computes the `apv` JWE protected header value for a DIDComm v2 message.
+ *
+ * The DIDComm messaging spec defines it, for both ECDH-ES and ECDH-1PU, as the base64url (no padding)
+ * encoding of the SHA-256 hash of the alphanumerically sorted recipient `kid` list, concatenated with `.`.
+ *
+ * @param kids - the `kid` of every recipient of the message
+ */
+export function computeApv(kids: string[]): string {
+  return bytesToBase64url(sha256(stringToUtf8Bytes([...kids].sort().join('.'))))
+}
 
 export function createEcdhWrapper(secretKeyRef: string, context: IAgentContext<IKeyManager>): ECDH {
   return async (theirPublicKey: Uint8Array): Promise<Uint8Array> => {
