@@ -60,6 +60,7 @@ import { schema } from './plugin.schema.js'
 import { v4 as uuidv4 } from 'uuid'
 
 import {
+  computeApv,
   createEcdhWrapper,
   extractManagedRecipients,
   extractSenderEncryptionKey,
@@ -270,6 +271,7 @@ export class DIDComm implements IAgentPlugin {
     let protectedHeader: {
       skid?: string
       typ: string
+      apv?: string
     } = {
       typ: DIDCommMessageMediaType.ENCRYPTED,
     }
@@ -363,6 +365,12 @@ export class DIDComm implements IAgentPlugin {
       recipients.push(...(await computeRecipients(to)))
     }
 
+    // 2.4 compute the `apv` protected header, which the DIDComm v2 spec requires for both ECDH-ES and
+    // ECDH-1PU: base64url(sha256(<recipient kids, sorted, joined by '.'>)). It is also fed to the
+    // encrypters so that it participates in the Concat KDF as PartyVInfo.
+    const apv = computeApv(recipients.map((recipient) => recipient.kid))
+    protectedHeader = { ...protectedHeader, apv }
+
     // 3. create Encrypter for each recipient
     const encrypters: Encrypter[] = recipients
       .map((recipient) => {
@@ -375,6 +383,7 @@ export class DIDComm implements IAgentPlugin {
                 <ECDH>senderECDH,
                 {
                   kid: recipient.kid,
+                  apv,
                 },
               )
             } else if (options?.alg?.endsWith('+A256KW')) {
@@ -384,14 +393,15 @@ export class DIDComm implements IAgentPlugin {
                 <ECDH>senderECDH,
                 {
                   kid: recipient.kid,
+                  apv,
                 },
               )
             }
           } else if (args.packing === 'anoncrypt' && (!options.alg || options.alg?.startsWith('ECDH-ES'))) {
             if (options.alg?.endsWith('+XC20PKW')) {
-              return a256gcmAnonEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, recipient.kid)
+              return a256gcmAnonEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, recipient.kid, apv)
             } else if (options?.alg?.endsWith('+A256KW')) {
-              return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
+              return a256gcmAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid, apv)
             }
           }
         } else if (options.enc === 'A256CBC-HS512') {
@@ -400,18 +410,20 @@ export class DIDComm implements IAgentPlugin {
               // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
               return a256cbcHs512AuthEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, <ECDH>senderECDH, {
                 kid: recipient.kid,
+                apv,
               })
             } else if (options?.alg?.endsWith('+A256KW')) {
               // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
               return a256cbcHs512AuthEncrypterX25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
                 kid: recipient.kid,
+                apv,
               })
             }
           } else if (args.packing === 'anoncrypt' && (!options.alg || options.alg?.startsWith('ECDH-ES'))) {
             if (options.alg?.endsWith('+XC20PKW')) {
-              return a256cbcHs512AnonEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, recipient.kid)
+              return a256cbcHs512AnonEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, recipient.kid, apv)
             } else if (options?.alg?.endsWith('+A256KW')) {
-              return a256cbcHs512AnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
+              return a256cbcHs512AnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid, apv)
             }
           }
         } else if (options.enc === 'XC20P') {
@@ -421,19 +433,20 @@ export class DIDComm implements IAgentPlugin {
               return xc20pAuthEncrypterEcdh1PuV3x25519WithXC20PKW(
                 recipient.publicKeyBytes,
                 <ECDH>senderECDH,
-                { kid: recipient.kid },
+                { kid: recipient.kid, apv },
               )
             } else if (options?.alg?.endsWith('+A256KW')) {
               // FIXME: the didcomm spec actually links to ECDH-1PU(v4)
               return xc20pAuthEncrypterEcdh1PuV3x25519WithA256KW(recipient.publicKeyBytes, <ECDH>senderECDH, {
                 kid: recipient.kid,
+                apv,
               })
             }
           } else if (args.packing === 'anoncrypt' && (!options.alg || options.alg?.startsWith('ECDH-ES'))) {
             if (options.alg?.endsWith('+XC20PKW')) {
-              return xc20pAnonEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, recipient.kid)
+              return xc20pAnonEncrypterX25519WithXC20PKW(recipient.publicKeyBytes, recipient.kid, apv)
             } else if (options?.alg?.endsWith('+A256KW')) {
-              return xc20pAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid)
+              return xc20pAnonEncrypterX25519WithA256KW(recipient.publicKeyBytes, recipient.kid, apv)
             }
           }
         }

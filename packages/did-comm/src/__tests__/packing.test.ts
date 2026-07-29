@@ -9,6 +9,8 @@ import { DIDResolverPlugin } from '../../../did-resolver/src'
 import { type DIDDocument, Resolver } from 'did-resolver'
 import { type IDIDComm } from '../types/IDIDComm.js'
 import { base64ToBytes, bytesToUtf8String } from '@veramo/utils'
+import { createHash } from 'node:crypto'
+import { computeApv } from '../utils.js'
 
 const multiBaseDoc = {
   '@context': ['https://www.w3.org/ns/did/v1', 'https://w3id.org/security/suites/jws-2020/v1'],
@@ -391,6 +393,93 @@ describe('didComm', () => {
           },
         )
       })
+    })
+  })
+
+  describe('apv protected header', () => {
+    // independent implementation of the `apv` definition from
+    // https://identity.foundation/didcomm-messaging/spec/v2.0/#ecdh-es-key-wrapping-and-common-protected-headers
+    const referenceApv = (kids: string[]): string =>
+      createHash('sha256')
+        .update([...kids].sort().join('.'), 'utf8')
+        .digest('base64url')
+
+    const decodeProtectedHeader = (packedMessage: { message: string }) =>
+      JSON.parse(bytesToUtf8String(base64ToBytes(JSON.parse(packedMessage.message).protected)))
+
+    const recipientKids = (packedMessage: { message: string }): string[] =>
+      JSON.parse(packedMessage.message).recipients.map((recipient: any) => recipient.header.kid)
+
+    it('should compute apv as the base64url encoded sha256 of the sorted kid list', () => {
+      const kids = ['did:example:bob#key-2', 'did:example:alice#key-1']
+      expect(computeApv(kids)).toEqual(referenceApv(kids))
+      // sorting is part of the definition, so input order must not matter
+      expect(computeApv(kids)).toEqual(computeApv([...kids].reverse()))
+      // base64url without padding
+      expect(computeApv(kids)).toMatch(/^[A-Za-z0-9_-]+$/)
+    })
+
+    // Note: a successful round trip is itself an assertion that `apv` was also passed to the encrypters.
+    // The protected header is merged into every recipient header before the KEK is computed on decrypt, so
+    // an `apv` that did not participate in the Concat KDF at pack time would yield a different KEK here.
+    describe.each([
+      ['anoncrypt', ['ECDH-ES+A256KW', 'ECDH-ES+XC20PKW']],
+      ['authcrypt', ['ECDH-1PU+A256KW', 'ECDH-1PU+XC20PKW']],
+    ] as const)('%s packing', (packing, algs) => {
+      describe.each(['XC20P', 'A256GCM', 'A256CBC-HS512'])('%s enc', (enc) => {
+        it.each(algs)(`should set apv in the protected header for ${enc} enc and %s alg`, async (alg) => {
+          const message = createTestMessage(recipientDID.did)
+          const packedMessage = await agent.packDIDCommMessage({
+            message,
+            packing: packing as any,
+            options: { enc: enc as any, alg: alg as any },
+          })
+
+          const protectedHeader = decodeProtectedHeader(packedMessage)
+          expect(protectedHeader.apv).toEqual(referenceApv(recipientKids(packedMessage)))
+
+          const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+          expect(unpackedMessage.message).toEqual(message)
+        })
+      })
+    })
+
+    it('should compute apv over all recipients of a multi-recipient message', async () => {
+      const message = { ...createTestMessage(recipientDID.did), to: [recipientDID.did, senderDID.did] }
+      const packedMessage = await agent.packDIDCommMessage({ message, packing: 'anoncrypt' })
+
+      const kids = recipientKids(packedMessage)
+      expect(kids.length).toEqual(2)
+      expect(decodeProtectedHeader(packedMessage).apv).toEqual(referenceApv(kids))
+
+      const unpackedMessage = await agent.unpackDIDCommMessage(packedMessage)
+      expect(unpackedMessage.message).toEqual(message)
+    })
+
+    it('should compute the same apv regardless of the order the recipients are listed in', async () => {
+      const packedMessage = await agent.packDIDCommMessage({
+        message: { ...createTestMessage(recipientDID.did), to: [recipientDID.did, senderDID.did] },
+        packing: 'anoncrypt',
+      })
+      const reversedRecipients = await agent.packDIDCommMessage({
+        message: { ...createTestMessage(recipientDID.did), to: [senderDID.did, recipientDID.did] },
+        packing: 'anoncrypt',
+      })
+
+      expect(decodeProtectedHeader(packedMessage).apv).toEqual(decodeProtectedHeader(reversedRecipients).apv)
+    })
+
+    it('should compute apv over bcc recipients as well', async () => {
+      const message = createTestMessage(recipientDID.did)
+      const packedMessage = await agent.packDIDCommMessage({
+        message,
+        packing: 'anoncrypt',
+        options: { bcc: [senderDID.did] },
+      })
+
+      const kids = recipientKids(packedMessage)
+      expect(kids.length).toEqual(2)
+      expect(decodeProtectedHeader(packedMessage).apv).toEqual(referenceApv(kids))
     })
   })
 })
