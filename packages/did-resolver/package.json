@@ -14,7 +14,7 @@
     "@veramo/utils": "workspace:^",
     "cross-fetch": "^4.0.0",
     "debug": "^4.3.3",
-    "did-resolver": "^4.1.0"
+    "did-resolver": "^5.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
