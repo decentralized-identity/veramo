@@ -108,8 +108,8 @@
     "@types/passport-http-bearer": "1.0.37",
     "@types/qrcode-terminal": "0.12.0",
     "@types/url-parse": "1.4.8",
-    "@types/ws": "8.5.5",
-    "typescript": "5.7.3"
+    "@types/ws": "8.18.1",
+    "typescript": "5.9.3"
   },
   "files": [
     "bin/**/*",
