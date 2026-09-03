@@ -48,7 +48,8 @@
     "buildz": "craco build",
     "ejectz": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs pnpm jest -c jest-integration.config.cjs"
+    "test:browser": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-json-modules\" GENERATE_SOURCEMAP=false JEST_PUPPETEER_CONFIG=jest-puppeteer.config.cjs pnpm jest -c jest-integration.config.cjs",
+    "test:browser:vite": "vitest run"
   },
   "eslintConfig": {
     "extends": [
@@ -92,7 +93,13 @@
     "puppeteer": "24.19.0",
     "react-scripts": "5.0.1",
     "ts-jest": "29.4.1",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/browser": "^4.1.11",
+    "@vitest/browser-playwright": "^4.1.11",
+    "playwright": "^1.62.1",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
   "type": "module"
 }
