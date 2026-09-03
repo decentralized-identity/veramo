@@ -20,15 +20,7 @@ const require = createRequire(import.meta.url)
 
 function buildStdlibAliases(): Record<string, string> {
   const raw = nodeStdlib as Record<string, string>
-  // nock requires 'stream/consumers' — a subpath the stream shim does not
-  // provide. nock never actually intercepts in the browser (the LD-graph test
-  // fetches the mocked context over the real network instead), so an empty
-  // module is enough. These keys must come BEFORE 'stream' in insertion order,
-  // because rolldown matches alias keys in order.
-  const empty = require.resolve('node-stdlib-browser/mock/empty')
   const aliases: Record<string, string> = {
-    'stream/consumers': empty,
-    'node:stream/consumers': empty,
     ...raw,
   }
   // Use the static process mock (nextTick/platform/argv/env) instead of the
@@ -37,8 +29,9 @@ function buildStdlibAliases(): Record<string, string> {
   aliases['process'] = processMock
   aliases['node:process'] = processMock
   // nock's real implementation requires Node's http module at module scope and
-  // cannot even be evaluated in a browser. See
-  // headless-tests/shims/nock.browser.ts for the rationale.
+  // cannot even be evaluated in a browser. The shim intercepts globalThis.fetch
+  // (installed via setupFiles) and serves the mocked discord-kudos JSON-LD
+  // context locally; see headless-tests/shims/nock.browser.ts for the rationale.
   aliases['nock'] = new URL('./headless-tests/shims/nock.browser.ts', import.meta.url).pathname
   return aliases
 }
@@ -57,33 +50,17 @@ function transformNamespaceCallInterop(code: string, id: string): string | null 
   return code.replace(from, "import baseX from 'base-x'")
 }
 
-// CORS reachability rewrite (transform-time only, no file is modified on disk):
-// verifiableDataLD.ts fetches the remote JSON-LD context
-// https://veramo.io/contexts/discord-kudos/v1. veramo.io answers the fetch with
-// a 301 that carries no Access-Control-Allow-Origin header, so a browser fetch
-// fails (the redirect target veramolabs.github.io serves the identical
-// document with `access-control-allow-origin: *`). Under CRA/Jest the suites
-// run in Node where nock intercepts, so this is a browser-only concern.
-// The rewrite is scoped to the exact discord-kudos URL; other veramo.io context
-// URLs come from LdDefaultContexts (preloaded locally, never fetched) and their
-// literal strings are asserted against, so they must NOT be rewritten.
-const VERAMO_IO_KUDOS_URL = 'https://veramo.io/contexts/discord-kudos/v1'
-const CORS_OK_KUDOS_URL = 'https://veramolabs.github.io/ld-context/contexts/discord-kudos/v1'
-
-function transformSuiteSource(code: string, id: string): string | null {
-  if (!id.includes('__tests__') || !code.includes(VERAMO_IO_KUDOS_URL)) return null
-  return code.split(VERAMO_IO_KUDOS_URL).join(CORS_OK_KUDOS_URL)
-}
-
-function browserRewritesTransform(code: string, id: string): string | null {
-  return transformNamespaceCallInterop(code, id) ?? transformSuiteSource(code, id)
-}
+// Note: no test-source URL rewriting is needed anymore. verifiableDataLD.ts's
+// mocked context (https://veramo.io/contexts/discord-kudos/v1) is served
+// locally by the nock shim's fetch interceptor, so it never leaves the page and
+// no CORS mirror URL is required. Other veramo.io context URLs come from
+// LdDefaultContexts (preloaded locally, never fetched).
 
 const namespaceCallInteropVitePlugin = {
   name: 'veramo-browser-test-rewrites',
   enforce: 'pre' as const,
   transform(code: string, id: string) {
-    return browserRewritesTransform(code, id)
+    return transformNamespaceCallInterop(code, id)
   },
 }
 
