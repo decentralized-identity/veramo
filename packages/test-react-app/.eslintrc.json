@@ -1,14 +1,7 @@
 {
   "env": {
-    "jest": true,
     "node": true,
     "browser": true
-  },
-  "globals": {
-    "page": true,
-    "browser": true,
-    "context": true,
-    "jestPuppeteer": true
   },
   "parserOptions": {
     "sourceType": "module",
@@ -29,5 +22,5 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "ignorePatterns": ["**/*.browser-test.ts"]
+  "ignorePatterns": ["**/*.vite-test.ts"]
 }
