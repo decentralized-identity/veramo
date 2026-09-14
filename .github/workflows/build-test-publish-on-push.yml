@@ -122,6 +122,8 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
+      - name: 'Install Playwright chromium browser'
+        run: pnpm --filter @veramo/test-react-app exec playwright install --with-deps chromium
       - name: 'Run browser tests'
         run: pnpm test:browser
 

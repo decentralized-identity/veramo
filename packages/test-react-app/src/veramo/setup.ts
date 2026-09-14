@@ -42,7 +42,7 @@ import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from '
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
 import { CredentialProviderJWT } from '@veramo/credential-jwt'
 import { JsonRpcApiProvider } from 'ethers'
-import { createGanacheProvider } from '../test-utils/ganache-provider'
+import { createGanacheProvider, GanacheProvider } from '../test-utils/ganache-provider'
 
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
 
@@ -50,14 +50,54 @@ let memoryJsonStore = {
   notifyUpdate: () => Promise.resolve(),
 }
 
-let provider: JsonRpcApiProvider
-let registry: string
+let provider: JsonRpcApiProvider | undefined
+let registry: string | undefined
 
+/**
+ * The agent created by the most recent {@link setup} call. Returned by
+ * {@link getAgent} when called without options, so a suite that ran its own
+ * setup always gets the agent wired to ITS provider/registry/store (per-suite
+ * isolation) rather than a freshly-built agent bound to whatever module state
+ * happens to be current.
+ */
+let agent: TAgent<InstalledPlugins> | undefined
+
+/**
+ * Prepares a fresh world for one test suite: stops the previous ganache
+ * provider (if any), deploys a fresh ERC1056 registry, resets the in-memory
+ * store and builds the agent for this suite.
+ *
+ * Note: any argument is intentionally ignored (historical behavior — options
+ * only take effect when passed to `getAgent(options)`), so suites like
+ * `dbInitOptions` that call `setup(options)` keep their current semantics.
+ */
 export async function setup() {
+  await tearDown()
   memoryJsonStore = {
     notifyUpdate: () => Promise.resolve(),
   }
   ;({ provider, registry } = await createGanacheProvider())
+  agent = buildAgent()
+  return true
+}
+
+/**
+ * Minimal per-suite cleanup: stops the ganache provider of the previous
+ * suite (no leaked chains/servers) and resets the in-memory store. Deeper
+ * teardown remains out of scope (see CONTEXT.md / ticket 03).
+ */
+export async function tearDown(): Promise<boolean> {
+  const previousProvider = provider as GanacheProvider | undefined
+  agent = undefined
+  provider = undefined
+  registry = undefined
+  memoryJsonStore = {
+    notifyUpdate: () => Promise.resolve(),
+  }
+  if (previousProvider?.ganache) {
+    // Stops the underlying ganache blockchain instance.
+    await previousProvider.ganache.disconnect()
+  }
   return true
 }
 
@@ -71,7 +111,19 @@ type InstalledPlugins = IResolver &
   ISelectiveDisclosure &
   IDIDComm
 
+/**
+ * Returns the agent created by the most recent `setup()` call, unless options
+ * are given — then a fresh agent is built against the current module state
+ * (legacy behavior, used e.g. by resolveDid's `getAgent({ schemaValidation: true })`).
+ */
 export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
+  if (agent && !options) {
+    return agent
+  }
+  return buildAgent(options)
+}
+
+function buildAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
   const jwt = new CredentialProviderJWT()
   const ld = new CredentialProviderLD({
     contextMaps: [LdDefaultContexts],
@@ -92,8 +144,8 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
               {
                 chainId: 1337,
                 name: 'ganache',
-                provider,
-                registry,
+                provider: provider!,
+                registry: registry!,
               },
             ],
           }),
@@ -125,8 +177,8 @@ export function getAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
               {
                 chainId: 1337,
                 name: 'ganache',
-                provider,
-                registry,
+                provider: provider!,
+                registry: registry!,
               },
             ],
           }),

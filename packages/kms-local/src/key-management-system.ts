@@ -137,23 +137,30 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
       managedKey.type === 'Ed25519' &&
       (typeof algorithm === 'undefined' || ['Ed25519', 'EdDSA'].includes(algorithm))
     ) {
+      // returns a base64url encoded string of the EdDSA signature
       return await this.signEdDSA(managedKey.privateKeyHex, data)
     } else if (managedKey.type === 'Secp256k1') {
       if (typeof algorithm === 'undefined' || ['ES256K', 'ES256K-R'].includes(algorithm)) {
+        // returns base64url encoded JOSE signature (concatenation of r, s bytes)
         return await this.signES256K(managedKey.privateKeyHex, algorithm, data)
       } else if (['eth_signTransaction', 'signTransaction', 'signTx'].includes(algorithm)) {
+        // returns a 0x prefixed hex string of the signed transaction, ready for broadcast
         return await this.eth_signTransaction(managedKey.privateKeyHex, data)
       } else if (algorithm === 'eth_signMessage') {
+        // returns a 0x prefixed hex string of the signature (concat(r, s, v))
         return await this.eth_signMessage(managedKey.privateKeyHex, data)
       } else if (['eth_signTypedData', 'EthereumEip712Signature2021'].includes(algorithm)) {
+        // returns a 0x prefixed hex string of the signature (concat(r, s, v))
         return await this.eth_signTypedData(managedKey.privateKeyHex, data)
       } else if (['eth_rawSign'].includes(algorithm)) {
+        // returns a 0x prefixed hex string of the signature in compact format
         return this.eth_rawSign(managedKey.privateKeyHex, data)
       }
     } else if (
       managedKey.type === 'Secp256r1' &&
       (typeof algorithm === 'undefined' || algorithm === 'ES256')
     ) {
+      // returns base64url encoded JOSE signature (concatenation of r and s bytes)
       return await this.signES256(managedKey.privateKeyHex, data)
     }
 

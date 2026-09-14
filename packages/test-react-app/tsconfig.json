@@ -3,9 +3,7 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": [
-      "puppeteer",
-      "jest-environment-puppeteer",
-      "expect-puppeteer"
+      "vitest/globals"
     ],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
