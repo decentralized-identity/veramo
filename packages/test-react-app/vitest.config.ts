@@ -1,54 +1,19 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import { createRequire } from 'node:module'
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
-import nodeStdlib from 'node-stdlib-browser'
+import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared'
 
 // ---------------------------------------------------------------------------
-// Node polyfills for the browser (mirrors what the former webpack config
-// did: ProvidePlugin for `process` + npm: alias deps buffer/crypto/path/process/
-// stream/util). Under Vite 8 (rolldown) we alias Node builtins to the
-// node-stdlib-browser shims and define the free-variable globals
-// (process/Buffer/global) that browserify-style deps use.
-//
-// Alias values are kept as DIRECTORY paths (package roots): rolldown
-// prefix-matches alias keys (import 'buffer/index.js' hits key 'buffer' and
-// appends '/index.js' to the value), so the value must be a folder.
+// Test-runner config. The app-polyfill plumbing (Node builtin aliases,
+// free-variable globals, namespace-call interop) is shared with
+// vite.config.ts via vite.shared.ts so the runner and the dev server run the
+// app under the same contract.
 // ---------------------------------------------------------------------------
-const require = createRequire(import.meta.url)
-
-function buildStdlibAliases(): Record<string, string> {
-  const raw = nodeStdlib as Record<string, string>
-  const aliases: Record<string, string> = {
-    ...raw,
-  }
-  // Use the static process mock (nextTick/platform/argv/env) instead of the
-  // node-stdlib-browser proxy module, which expects special bundler handling.
-  const processMock = require.resolve('node-stdlib-browser/mock/process')
-  aliases['process'] = processMock
-  aliases['node:process'] = processMock
-  // nock's real implementation requires Node's http module at module scope and
-  // cannot even be evaluated in a browser. The shim intercepts globalThis.fetch
-  // (installed via setupFiles) and serves the mocked discord-kudos JSON-LD
-  // context locally; see headless-tests/shims/nock.browser.ts for the rationale.
-  aliases['nock'] = new URL('./headless-tests/shims/nock.browser.ts', import.meta.url).pathname
-  return aliases
-}
 
 const stdlibAliases = buildStdlibAliases()
 
-// Some browserified deps do `import * as ns from 'cjs-pkg'` and then CALL the
-// namespace (e.g. @digitalcredentials/ed25519-verification-key-2020's baseX.js
-// does `import * as baseX from 'base-x'; baseX(BASE58)`). That worked under the
-// former bundler/test-runner interop but not under native ESM namespace semantics. Rewrite
-// such imports to default imports in the affected files.
-function transformNamespaceCallInterop(code: string, id: string): string | null {
-  if (!id.includes('@digitalcredentials/ed25519-verification-key-2020')) return null
-  const from = "import * as baseX from 'base-x'"
-  if (!code.includes(from)) return null
-  return code.replace(from, "import baseX from 'base-x'")
-}
+const namespaceCallInteropVitePlugin = createNamespaceCallInteropVitePlugin('veramo-browser-test-rewrites')
+
+const namespaceCallInteropOptimizerPlugin = createNamespaceCallInteropVitePlugin('veramo-namespace-call-interop-optimizer')
 
 // Note: no test-source URL rewriting is needed anymore. verifiableDataLD.ts's
 // mocked context (https://veramo.io/contexts/discord-kudos/v1) is served
@@ -56,34 +21,12 @@ function transformNamespaceCallInterop(code: string, id: string): string | null 
 // no CORS mirror URL is required. Other veramo.io context URLs come from
 // LdDefaultContexts (preloaded locally, never fetched).
 
-const namespaceCallInteropVitePlugin = {
-  name: 'veramo-browser-test-rewrites',
-  enforce: 'pre' as const,
-  transform(code: string, id: string) {
-    return transformNamespaceCallInterop(code, id)
-  },
-}
-
-const namespaceCallInteropOptimizerPlugin = {
-  name: 'veramo-namespace-call-interop-optimizer',
-  transform(code: string, id: string) {
-    return transformNamespaceCallInterop(code, id)
-  },
-}
-
 export default defineConfig({
   plugins: [namespaceCallInteropVitePlugin],
   resolve: {
     alias: stdlibAliases,
   },
-  define: {
-    // Free-variable globals used by browserified deps in source-transformed
-    // modules. The dep optimizer gets the equivalent via
-    // optimizeDeps.rolldownOptions below.
-    global: 'globalThis',
-    process: 'globalThis.process',
-    Buffer: 'globalThis.Buffer',
-  },
+  define: browserGlobalsDefine,
   optimizeDeps: {
     // Vitest browser mode discovered these deps on the first run and reloaded
     // the test file mid-import ("optimized dependencies changed. reloading"),
@@ -114,9 +57,7 @@ export default defineConfig({
         define: {
           // browserify-style free variables inside optimized dep bundles
           // (e.g. ganache.min.js uses free `process`, randombytes uses `global`)
-          global: 'globalThis',
-          process: 'globalThis.process',
-          Buffer: 'globalThis.Buffer',
+          ...browserGlobalsDefine,
         },
       },
     },
