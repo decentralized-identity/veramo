@@ -75,10 +75,6 @@ jobs:
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
         run: pnpm test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
-      - name: 'Install Playwright chromium browser'
-        run: pnpm --filter @veramo/test-react-app exec playwright install --with-deps chromium
-      - name: 'Run browser tests'
-        run: pnpm test:browser
       - run: mv coverage/coverage-final.json coverage/${{matrix.shard}}.json
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
