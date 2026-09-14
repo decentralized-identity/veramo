@@ -6,7 +6,7 @@ import { playwright } from '@vitest/browser-playwright'
 import nodeStdlib from 'node-stdlib-browser'
 
 // ---------------------------------------------------------------------------
-// Node polyfills for the browser (mirrors what the former craco/webpack config
+// Node polyfills for the browser (mirrors what the former webpack config
 // did: ProvidePlugin for `process` + npm: alias deps buffer/crypto/path/process/
 // stream/util). Under Vite 8 (rolldown) we alias Node builtins to the
 // node-stdlib-browser shims and define the free-variable globals
@@ -41,7 +41,7 @@ const stdlibAliases = buildStdlibAliases()
 // Some browserified deps do `import * as ns from 'cjs-pkg'` and then CALL the
 // namespace (e.g. @digitalcredentials/ed25519-verification-key-2020's baseX.js
 // does `import * as baseX from 'base-x'; baseX(BASE58)`). That worked under the
-// former jest/webpack interop but not under native ESM namespace semantics. Rewrite
+// former bundler/test-runner interop but not under native ESM namespace semantics. Rewrite
 // such imports to default imports in the affected files.
 function transformNamespaceCallInterop(code: string, id: string): string | null {
   if (!id.includes('@digitalcredentials/ed25519-verification-key-2020')) return null
@@ -122,11 +122,11 @@ export default defineConfig({
     },
   },
   test: {
-    // The shared suites use Jest-style global describe/it/expect (they cannot be
-    // modified), so globals must be injected.
+    // The shared suites use global describe/it/expect without imports (they
+    // cannot be modified), so globals must be injected.
     globals: true,
     // Only pick up the "*.vite-test.ts" files; legacy "*.browser-test.ts" files
-    // (from the removed jest-puppeteer runner) are not picked up.
+    // (from the removed browser-driven runner) are not picked up.
     include: ['headless-tests/**/*.vite-test.ts'],
     // Installs globalThis.process / globalThis.Buffer in the browser before
     // test modules (and their optimized deps) are evaluated.

@@ -4,9 +4,10 @@
 // The dependency graph of the shared suites contains browserify-style packages
 // that reference `process` and `Buffer` as free variables (the ganache browser
 // build uses `process.nextTick`/`process.argv`/..., and webpack-era deps use
-// `Buffer`). Under CRA/webpack these were provided by craco's ProvidePlugin;
-// under Vite we install them on globalThis here, and the config maps free
-// identifiers to `globalThis.process` / `globalThis.Buffer` via `define`.
+// `Buffer`). The previous webpack-based build provided them via its
+// ProvidePlugin; under Vite they are installed on globalThis here, and the
+// config maps free identifiers to `globalThis.process` / `globalThis.Buffer`
+// via `define`.
 import processShim from 'process'
 import { Buffer as bufferShim } from 'buffer'
 
@@ -22,8 +23,10 @@ if (typeof globalThis.process !== 'object' || globalThis.process === null) {
   globalThis.process = processShim
 }
 if (typeof globalThis.Buffer !== 'function') {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ;(globalThis as any).Buffer = bufferShim
+  // Targeted augmentation instead of `globalThis as any`: only `Buffer` is
+  // being installed here, and the guard above keeps the assignment optional.
+  const globalScope = globalThis as typeof globalThis & { Buffer?: unknown }
+  globalScope.Buffer = bufferShim
 }
 
 export {}

@@ -1,10 +1,9 @@
 // Resurrection of the "React App Smoke Test" — the "13th suite". The two
-// jest-puppeteer snapshot tests that lived at the bottom of
-// browserAgent.browser-test.ts (the `// ...issues/503` comment above them was
-// stale — the tests themselves were live and passing under jest) have been
-// REMOVED from that jest runner and rewritten here as Vitest browser-mode
-// tests with Playwright selectors, so the smoke test now runs in the harness
-// that survives (see ticket 04).
+// snapshot tests that lived at the bottom of the legacy browserAgent runner
+// (the `// ...issues/503` comment above them was stale — the tests themselves
+// were live and passing) have been REMOVED from that runner and rewritten
+// here as Vitest browser-mode tests with Playwright selectors, so the smoke
+// test now runs in the harness that survives (see ticket 04).
 //
 // There is no dev-server coupling and no `page.goto`: the real, unmodified
 // <App /> component is mounted into the test iframe with react-dom/client, so
@@ -12,7 +11,7 @@
 // calls setup() from src/veramo/setup.ts, which spins up a fresh deterministic
 // ganache chain and deploys a fresh ERC1056 registry, then resolves the two
 // DIDs into `#result` and `#invalid-result`. The assertions are ported
-// verbatim from the removed jest block (same DID document structure, same
+// verbatim from the removed legacy test block (same DID document structure, same
 // `invalidDid` error result).
 //
 // Selector mechanism: `@vitest/browser/context` exposes no public
@@ -45,7 +44,7 @@ locators.extend({
   },
 })
 
-// The old puppeteer tests used a 3 minute wait for the app to render its
+// The old browser-driven tests used a 3 minute wait for the app to render its
 // results: App's setup() (ganache startup + ERC1056 registry deploy) plus its
 // issueCredential() call can take tens of seconds.
 const TEST_TIMEOUT = 3 * 60 * 1000

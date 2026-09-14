@@ -1,8 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Dev server config for the React app (port 4269, the same port the former
-// craco dev server used).
+// Dev server config for the React app (port 4269).
 export default defineConfig({
   plugins: [react()],
   server: {

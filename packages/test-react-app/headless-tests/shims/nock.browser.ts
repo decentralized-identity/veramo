@@ -30,8 +30,20 @@
 // The install is idempotent, so a second evaluation via the 'nock' alias (the
 // suite's own import) is a no-op.
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ReplyFunction = (...args: any[]) => [number, unknown, ...unknown[]]
+// Interceptor reply callbacks receive nock's (path, requestBody) pair and
+// return a [status, body, headers] triple.
+type ReplyFunction = (path: string, requestBody?: unknown) => [number, unknown, ...unknown[]]
+
+/** Coerces nock's accepted header forms (record or entry pairs) into a plain record. */
+function normalizeHeaders(headers: unknown): Record<string, string> {
+  const record: Record<string, string> = {}
+  if (Array.isArray(headers)) {
+    for (const [key, value] of headers) record[String(key).toLowerCase()] = String(value)
+  } else if (headers !== null && typeof headers === 'object') {
+    for (const [key, value] of Object.entries(headers)) record[key.toLowerCase()] = String(value)
+  }
+  return record
+}
 
 interface Route {
   origin: string
@@ -47,14 +59,21 @@ const routes: Route[] = []
 
 const INSTALL_FLAG = Symbol.for('veramo.test-react-app.nockBrowserShim')
 
+/**
+ * Targeted augmentation of the page global used by the fetch interceptor: the
+ * idempotency flag plus the `fetch` binding it patches. Avoids a blanket
+ * `globalThis as any` while keeping the symbol-keyed flag type-safe.
+ */
+type InterceptorGlobal = typeof globalThis & { [INSTALL_FLAG]?: boolean }
+
 function installFetchInterceptor(): void {
-  const globalAny = globalThis as any
-  if (globalAny[INSTALL_FLAG]) return
-  globalAny[INSTALL_FLAG] = true
+  const globalScope = globalThis as InterceptorGlobal
+  if (globalScope[INSTALL_FLAG]) return
+  globalScope[INSTALL_FLAG] = true
 
   // Capture the pristine browser fetch. At setupFiles time nothing has wrapped
   // or replaced it yet, so this is the native implementation.
-  const originalFetch = globalAny.fetch.bind(globalAny)
+  const originalFetch = globalScope.fetch.bind(globalScope)
 
   const patchedFetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     let url: string
@@ -102,7 +121,7 @@ function installFetchInterceptor(): void {
     return originalFetch(input, init)
   }
 
-  globalAny.fetch = patchedFetch
+  globalScope.fetch = patchedFetch
 }
 
 function rejectUnsupported(name: string): never {
@@ -113,8 +132,29 @@ function rejectUnsupported(name: string): never {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const nock: any = (origin: string, _options?: unknown) => {
+// Minimal typing of the implemented nock surface (see the header comment).
+// The default export is a Proxy that rejects everything outside this surface,
+// so the types only describe what is actually implemented.
+interface NockRoute {
+  reply: (statusOrFn: number | ReplyFunction, body?: unknown, headers?: unknown) => NockScope
+}
+
+interface NockScope {
+  persist: () => NockScope
+  get: (path: string) => NockRoute
+  post: (path: string) => NockRoute
+  put: (path: string) => NockRoute
+  patch: (path: string) => NockRoute
+  delete: (path: string) => NockRoute
+  head: (path: string) => NockRoute
+}
+
+interface NockShim {
+  (origin: string, options?: unknown): NockScope
+  cleanAll: () => void
+}
+
+const nockImpl = (origin: string, _options?: unknown): NockScope => {
   if (typeof origin !== 'string' || !/^https?:\/\//.test(origin)) {
     throw new Error(`nock.browser shim: expected an http(s) origin string, got: ${String(origin)}`)
   }
@@ -122,27 +162,20 @@ const nock: any = (origin: string, _options?: unknown) => {
 
   let scopePersistent = false
 
-  const register = (method: string, path: string) => ({
+  const register = (method: string, path: string): NockRoute => ({
     // reply(status, body[, headers]) or reply((path, requestBody) => [status, body, headers])
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    reply: (statusOrFn: number | ReplyFunction, body?: unknown, headers?: any): unknown => {
+    reply: (statusOrFn: number | ReplyFunction, body?: unknown, headers?: unknown): NockScope => {
       let status: number
       let routeBody: unknown
-      let routeHeaders: Record<string, string>
+      let routeHeaders: unknown
       if (typeof statusOrFn === 'function') {
-        const resolved = statusOrFn(path, undefined)
-        ;[status, routeBody, routeHeaders] = resolved
+        ;[status, routeBody, routeHeaders] = statusOrFn(path, undefined)
       } else {
         status = statusOrFn
         routeBody = body
         routeHeaders = headers
       }
-      const headerRecord: Record<string, string> = {}
-      if (Array.isArray(routeHeaders)) {
-        for (const [k, v] of routeHeaders) headerRecord[String(k).toLowerCase()] = String(v)
-      } else if (routeHeaders && typeof routeHeaders === 'object') {
-        for (const [k, v] of Object.entries(routeHeaders)) headerRecord[k.toLowerCase()] = String(v)
-      }
+      const headerRecord = normalizeHeaders(routeHeaders)
       routes.push({
         origin: normalizedOrigin,
         method: method.toUpperCase(),
@@ -156,7 +189,7 @@ const nock: any = (origin: string, _options?: unknown) => {
     },
   })
 
-  const scope = {
+  const scope: NockScope = {
     persist: () => {
       scopePersistent = true
       return scope
@@ -172,15 +205,16 @@ const nock: any = (origin: string, _options?: unknown) => {
   return scope
 }
 
-nock.cleanAll = (): void => {
-  routes.length = 0
-}
+const nock: NockShim = Object.assign(nockImpl, {
+  cleanAll: (): void => {
+    routes.length = 0
+  },
+})
 
 // Anything outside the implemented surface fails loudly instead of no-op'ing
 // vacuously. `then`/symbols are passed through so promise/bundler interop
 // probes don't trip the guard.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default new Proxy<any>(nock, {
+export default new Proxy(nock, {
   get(target, prop, receiver) {
     if (
       typeof prop === 'symbol' ||

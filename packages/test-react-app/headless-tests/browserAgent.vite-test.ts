@@ -1,6 +1,6 @@
 // Vitest browser-mode runner for the Shared Test Suite set.
-// Mirrors the structure of browserAgent.browser-test.ts (the legacy jest-puppeteer
-// runner), but executes the suites INSIDE the browser via Vitest browser mode.
+// Mirrors the structure of the legacy browserAgent runner it replaces, but
+// executes the suites INSIDE the browser via Vitest browser mode.
 //
 // Each suite runs in its own fresh world: every `describe` block below supplies
 // a testContext wired to the real setup()/tearDown() from src/veramo/setup.ts.
