@@ -22,5 +22,10 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "ignorePatterns": ["**/*.vite-test.ts"]
+  "ignorePatterns": ["**/*.vite-test.ts"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
