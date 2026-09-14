@@ -87,7 +87,7 @@ jobs:
           path: coverage
       - name: Merge Code Coverage
         run: npx nyc merge coverage/ coverage/coverage-final.json
-      - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+      - uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos but sometimes fails without :|
           fail_ci_if_error: true
