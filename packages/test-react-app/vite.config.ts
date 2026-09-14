@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Dev server config that mirrors the existing CRA/craco dev server (see craco.config.cjs:
-// port 4269). Kept alongside CRA so both runners can coexist on this package.
+// Dev server config for the React app (port 4269, the same port the former
+// craco dev server used).
 export default defineConfig({
   plugins: [react()],
   server: {
