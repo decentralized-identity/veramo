@@ -15,14 +15,15 @@ class MockWeb3Provider implements Eip1193Provider {
     
     switch(request.method) {
       case 'personal_sign':
-        // @ts-ignore
+        // @ts-expect-error wallet typing of params is any
         return this.wallet.signMessage(request.params[1])
         break
-      case 'eth_signTypedData_v4':
-        // @ts-ignore
+      case 'eth_signTypedData_v4': {
+        // @ts-expect-error wallet typing of params is any
         const {domain, types, message} = JSON.parse(request.params[1])
         delete(types.EIP712Domain)
         return this.wallet.signTypedData(domain, types, message)
+      }
       case 'eth_accounts':
         return [await this.wallet.getAddress()]
       case 'eth_chainId':

@@ -4,7 +4,13 @@ import { EthereumDIDRegistry } from 'ethr-did-resolver'
 import type { EthereumProvider } from 'ganache'
 import ganache from 'ganache'
 
-export type GanacheConfig = Parameters<typeof ganache.provider>[0]
+// Ganache's exported `ProviderOptions<F>` type collapses to `{ flavor?: F }`
+// under TS 5.x (its `Parameters<...["normalize"]>[0]` intersection fails to
+// instantiate), and the intended external options type
+// (`EthereumProviderOptions`) is not exported from the package at all. So the
+// config side of this union is intentionally loose: ganache itself validates
+// the options object at runtime.
+export type GanacheConfig = Record<string, unknown>
 
 /**
  * A JsonRpcApiProvider that connects to a local ganache instance.
@@ -17,8 +23,11 @@ export class GanacheProvider extends JsonRpcApiProvider {
 
   constructor(providerOrOptions?: EthereumProvider | GanacheConfig) {
     let provider: EthereumProvider
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (providerOrOptions == null || typeof (<any>providerOrOptions).getOptions !== 'function') {
+    if (providerOrOptions == null || !('getOptions' in providerOrOptions)) {
+      // `as any` is required: ganache's exported options type (see the
+      // GanacheConfig note above) does not accept the documented options, so
+      // the raw config object cannot be passed to `ganache.provider()` in a
+      // type-safe way; ganache validates it at runtime.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       provider = ganache.provider(<any>providerOrOptions)
     } else {
@@ -42,6 +51,10 @@ export class GanacheProvider extends JsonRpcApiProvider {
       info: { payload },
     })
 
+    // `as any` is required: ganache's `request()` keys its parameter on the
+    // closed union of JSON-RPC method names (`RequestParams<Method>`), while
+    // ethers' `JsonRpcPayload.method` is a plain `string`. There is no clean
+    // way to satisfy both; ganache handles arbitrary method strings at runtime.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await this.ganache.request(<any>payload)
     return [{ id: payload.id, result }]
@@ -98,8 +111,7 @@ export async function createGanacheProvider(): Promise<{ provider: JsonRpcApiPro
         balance: `0x1000000000000000000000`,
       },
     ],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } as any) // type error here due to mismatched constructor types in ethers and ganache
+  })
   await provider.ready
   const factory = ContractFactory.fromSolidity(EthereumDIDRegistry).connect(await provider.getSigner(0))
 

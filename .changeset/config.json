@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "decentralized-identity/veramo" }
+  ],
+  "commit": false,
+  "fixed": [["@veramo/*"]],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependents": "always",
+  "privatePackages": { "version": false, "tag": false },
+  "ignore": [],
+  "snapshot": { "useCalculatedVersion": true }
+}

@@ -51,7 +51,7 @@
       "groupName": "automation",
       "matchPackagePatterns": [
         "semantic",
-        "lerna"
+        "changesets"
       ],
       "matchUpdateTypes": [
         "major",
