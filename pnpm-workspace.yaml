@@ -9,9 +9,9 @@ ignoredBuiltDependencies:
   - nx
   - secp256k1
   - utf-8-validate
+  - esbuild
 
 onlyBuiltDependencies:
-  - puppeteer
   - sqlite3
 
 prefer-workspace-packages: true
