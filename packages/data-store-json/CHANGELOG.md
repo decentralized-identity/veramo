@@ -1,5 +1,15 @@
 # Change Log
 
+## 7.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`cc82482`](https://github.com/decentralized-identity/veramo/commit/cc824828518d65b4dfb81469275ff4e11e5685c9)]:
+  - @veramo/utils@7.0.1
+  - @veramo/core-types@7.0.1
+  - @veramo/did-manager@7.0.1
+  - @veramo/key-manager@7.0.1
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

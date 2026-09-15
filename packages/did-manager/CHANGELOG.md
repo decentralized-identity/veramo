@@ -315,6 +315,14 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.1
+  - @veramo/did-discovery@7.0.1
+
 ## 1.0.1 (2020-12-18)
 
 **Note:** Version bump only for package @veramo/did-manager
