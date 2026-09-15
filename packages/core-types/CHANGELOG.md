@@ -410,6 +410,10 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.1
+
+No changes in this release.
+
 ## 1.0.1 (2020-12-18)
 
 **Note:** Version bump only for package @veramo/core

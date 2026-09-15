@@ -688,6 +688,41 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.1
+
+### Patch Changes
+
+- [#1504](https://github.com/decentralized-identity/veramo/pull/1504) [`cc82482`](https://github.com/decentralized-identity/veramo/commit/cc824828518d65b4dfb81469275ff4e11e5685c9) Thanks [@mirceanis](https://github.com/mirceanis)! - trialing changesets release patterns
+- Updated dependencies [[`cc82482`](https://github.com/decentralized-identity/veramo/commit/cc824828518d65b4dfb81469275ff4e11e5685c9)]:
+  - @veramo/utils@7.0.1
+  - @veramo/kv-store@7.0.1
+  - @veramo/core@7.0.1
+  - @veramo/core-types@7.0.1
+  - @veramo/credential-eip712@7.0.1
+  - @veramo/credential-jwt@7.0.1
+  - @veramo/credential-ld@7.0.1
+  - @veramo/credential-w3c@7.0.1
+  - @veramo/data-store@7.0.1
+  - @veramo/did-comm@7.0.1
+  - @veramo/did-discovery@7.0.1
+  - @veramo/did-jwt@7.0.1
+  - @veramo/did-manager@7.0.1
+  - @veramo/did-provider-ethr@7.0.1
+  - @veramo/did-provider-jwk@7.0.1
+  - @veramo/did-provider-key@7.0.1
+  - @veramo/did-provider-peer@7.0.1
+  - @veramo/did-provider-pkh@7.0.1
+  - @veramo/did-provider-web@7.0.1
+  - @veramo/did-resolver@7.0.1
+  - @veramo/key-manager@7.0.1
+  - @veramo/kms-local@7.0.1
+  - @veramo/mediation-manager@7.0.1
+  - @veramo/message-handler@7.0.1
+  - @veramo/remote-client@7.0.1
+  - @veramo/remote-server@7.0.1
+  - @veramo/selective-disclosure@7.0.1
+  - @veramo/url-handler@7.0.1
+
 ## 1.0.1 (2020-12-18)
 
 **Note:** Version bump only for package @veramo/cli
