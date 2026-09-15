@@ -3,6 +3,18 @@ permissions:
   contents: read
 on:
   workflow_dispatch:
+    inputs:
+      preid:
+        description: 'npm dist-tag for snapshot pre-releases (used when not on main)'
+        type: choice
+        default: next
+        options:
+          - next
+          - unstable
+      ref:
+        description: 'Optional git ref to build and release from (defaults to the selected branch)'
+        required: false
+        type: string
   push:
     branches:
       - 'main'
@@ -17,6 +29,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ inputs.ref || github.ref }}
       - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
           version: 10
@@ -75,10 +88,6 @@ jobs:
           POSTGRES_PASSWORD: test123
           POSTGRES_PORT: 5432
         run: pnpm test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
-      - name: 'Install Playwright chromium browser'
-        run: pnpm --filter @veramo/test-react-app exec playwright install --with-deps chromium
-      - name: 'Run browser tests'
-        run: pnpm test:browser
       - run: mv coverage/coverage-final.json coverage/${{matrix.shard}}.json
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
@@ -169,6 +178,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ inputs.ref || github.ref }}
       - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
         with:
           version: 10
@@ -181,14 +191,25 @@ jobs:
 
       - run: pnpm run build
 
-      - name: 'Publish @latest when on main'
+      # Creates/updates a "chore(release): version packages" PR when there are
+      # pending changesets; publishes @latest, pushes git tags and creates
+      # GitHub releases when the version-packages PR is merged.
+      - name: 'Create release PR or publish @latest when on main'
         if: github.ref == 'refs/heads/main'
-        run: pnpm publish:latest
+        uses: changesets/action@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
+        with:
+          pr-title: 'chore(release): version packages'
+          commit-message: 'chore(release): version packages'
+          github-token: ${{ github.token }}
+          publish-script: 'pnpm run release:publish'
 
-      - name: 'Publish @next when on next'
-        if: github.ref == 'refs/heads/next'
-        run: pnpm publish:next
-
-      - name: 'Publish @unstable when on unstable branch'
-        if: github.ref == 'refs/heads/unstable'
-        run: pnpm publish:unstable
+      # Snapshot (canary-style) pre-release: publishes ALL packages in lockstep
+      # at '<next-version>-<preid>-<datetime>' under the given dist-tag, without
+      # git tags or version commits. Requires at least one pending changeset.
+      # PREID is passed via env (not direct interpolation) to avoid shell
+      # template injection from branch/tag names or the dispatch input.
+      - name: 'Publish snapshot pre-release when not on main'
+        if: github.ref != 'refs/heads/main'
+        env:
+          PREID: ${{ inputs.preid || github.ref_name }}
+        run: pnpm run release:snapshot "$PREID"

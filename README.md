@@ -61,7 +61,7 @@ fixes [there](https://github.com/uport-project/veramo-website) as well.
 
 ### Build Veramo locally
 
-This monorepo uses [pnpm@10](https://pnpm.io/) and [lerna](https://lerna.js.org/)
+This monorepo uses [pnpm@10](https://pnpm.io/) and [changesets](https://github.com/changesets/changesets)
 
 Install dependencies
 
