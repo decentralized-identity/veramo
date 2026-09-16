@@ -84,7 +84,7 @@ const policy = (policy: PreMediationRequestPolicy) => {
       if (fileJson && interactive) throw new Error('Please specify only one input method')
 
       if (fileJson) {
-        const jsonData = await import(fileJson, { assert: { type: 'json' } })
+        const jsonData = await import(fileJson, { with: { type: 'json' } })
         const dids = jsonData.default
         await updatePolicies({ dids, agent, policy })
       } else if (interactive) {
@@ -104,7 +104,7 @@ const policy = (policy: PreMediationRequestPolicy) => {
 const readPolicies: Action<Pick<Options, 'interactive' | 'fileJson'>> = async (options, cmd, agent) => {
   let dids: string[]
   if (options.interactive) dids = await promptForDids('read')
-  else if (options.fileJson) dids = (await import(options.fileJson, { assert: { type: 'json' } })).default
+  else if (options.fileJson) dids = (await import(options.fileJson, { with: { type: 'json' } })).default
   else dids = cmd.args
   if (!dids || !dids.length) throw new Error('No dids provided')
   const policies: Record<RequesterDid, RecipientDid | null> = {}
@@ -143,7 +143,7 @@ const listResponses: Action<Pick<Options, 'granted' | 'denied'>> = async (option
 const removePolicies: Action<Pick<Options, 'fileJson' | 'interactive'>> = async (options, cmd, agent) => {
   try {
     if (options.fileJson) {
-      const jsonData = await import(options.fileJson, { assert: { type: 'json' } })
+      const jsonData = await import(options.fileJson, { with: { type: 'json' } })
       const dids = jsonData.default
       await updatePolicies({ dids, remove: true, agent })
     } else if (options.interactive) {

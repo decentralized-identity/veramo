@@ -1,17 +1,35 @@
 packages:
   - packages/*
 
-ignoredBuiltDependencies:
-  - '@scarf/scarf'
-  - bufferutil
-  - core-js
-  - core-js-pure
-  - nx
-  - secp256k1
-  - utf-8-validate
-  - esbuild
+preferWorkspacePackages: true
 
-onlyBuiltDependencies:
-  - sqlite3
+# pnpm 11/12 no longer reads the "resolutions" field from package.json; the
+# canonical location is "overrides" in pnpm-workspace.yaml. These are carried
+# over from the old package.json resolutions so resolution does not regress
+# (notably node-gyp, an optional dep of sqlite3, was dropping from ^10 to 8).
+overrides:
+  '@types/eslint': ^9.0.0
+  jsonld: npm:@digitalcredentials/jsonld@^6.0.0
+  node-gyp: ^10.0.0
 
-prefer-workspace-packages: true
+# pnpm 11/12 replaced onlyBuiltDependencies / ignoredBuiltDependencies with a
+# single allowBuilds map. true => run build scripts, false => skip them.
+# strictDepBuilds (default true) errors on any package with a build script that
+# is not listed here, so every package that has one must be covered.
+allowBuilds:
+  sqlite3: true
+  '@scarf/scarf': false
+  bufferutil: false
+  core-js: false
+  core-js-pure: false
+  nx: false
+  secp256k1: false
+  utf-8-validate: false
+  esbuild: false
+
+# pnpm 11.25/12 added blockExoticSubdeps (default true), which rejects
+# git/tarball-resolved dependencies in sub-dependency position. This project has
+# a git-hosted dep (@veramo-community/lds-ecdsa-secp256k1-recovery2020 ->
+# uport-project/EcdsaSecp256k1RecoverySignature2020) that is not on npm, so we
+# restore the pre-11 behavior of allowing it.
+blockExoticSubdeps: false
