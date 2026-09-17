@@ -44,6 +44,7 @@
     "@types/jest": "29.5.12",
     "@types/node": "26.5.1",
     "@types/uuid": "9.0.8",
+    "@typescript/native": "npm:typescript@7.0.2",
     "caip": "1.1.0",
     "credential-status": "3.0.4",
     "cross-env": "7.0.3",
@@ -69,7 +70,7 @@
     "ts-json-schema-generator": "1.5.0",
     "ts-node": "10.9.2",
     "typeorm": "0.3.20",
-    "typescript": "5.7.3",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "uint8arrays": "5.1.0",
     "uuid": "9.0.1",
     "web-did-resolver": "2.0.29"
@@ -80,11 +81,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "resolutions": {
-    "@types/eslint": "^9.0.0",
-    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0",
-    "node-gyp": "^10.0.0"
   },
   "engines": {
     "node": ">= 22.0.0"
