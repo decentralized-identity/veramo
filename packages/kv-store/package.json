@@ -28,7 +28,7 @@
     "@types/debug": "4.1.8",
     "@types/events": "^3.0.0",
     "@types/json-buffer": "3.0.0",
-    "@types/node": "20.17.4",
+    "@types/node": "26.5.1",
     "eslint": "8.57.1",
     "eslint-plugin-promise": "6.6.0",
     "keyv": "4.5.3",
