@@ -31,11 +31,10 @@ jobs:
           persist-credentials: false
           ref: ${{ inputs.ref || github.ref }}
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
-      - name: 'Setup Node.js with pnpm cache'
+      - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: 'pnpm'
 
       - run: pnpm install
       - run: pnpm build
@@ -61,7 +60,6 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Restore build output'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -69,11 +67,11 @@ jobs:
           key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
-      - name: 'Setup Node.js with pnpm cache'
+      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
       - name: 'Run integration tests'
@@ -114,7 +112,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Restore build output'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -122,11 +119,11 @@ jobs:
           key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
-      - name: 'Setup Node.js with pnpm cache'
+      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: 'pnpm'
       - run: pnpm install
       - run: pnpm rebuild -r
       - name: 'Install Playwright chromium browser'
@@ -138,7 +135,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Restore build output'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -146,11 +142,11 @@ jobs:
           key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
-      - name: 'Setup Node.js with pnpm cache'
+      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: 'pnpm'
       - run: pnpm run lint
       - run: pnpm run docs
 
