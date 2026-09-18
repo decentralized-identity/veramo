@@ -83,7 +83,7 @@ describe('credential-LD full flow', () => {
                 {
                   chainId: 1337,
                   name: 'ganache',
-                  provider,
+                  provider: provider as any,
                   registry,
                 },
               ],
