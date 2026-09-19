@@ -28,14 +28,10 @@
     "debug": "^4.3.3",
     "did-resolver": "^4.1.0"
   },
-  "resolutions": {
-    "@types/react": "19.0.8",
-    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
-  },
   "devDependencies": {
     "@types/debug": "4.1.8",
     "borc": "3.0.0",
-    "typescript": "5.7.3"
+    "typescript": "7.0.2"
   },
   "files": [
     "build/**/*",

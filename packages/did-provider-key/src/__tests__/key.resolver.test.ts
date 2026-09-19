@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { Resolver } from 'did-resolver'
 import { getDidKeyResolver } from '../resolver.js'
 

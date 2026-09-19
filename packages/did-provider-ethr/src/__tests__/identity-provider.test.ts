@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 // import SignerProvider from 'ethjs-provider-signer'
 // import { DIDResolverPlugin } from '@veramo/did-resolver'
 // import { IdentifierProvider } from '../identifier-provider'

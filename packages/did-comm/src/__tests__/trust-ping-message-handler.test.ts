@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDComm } from '../didcomm.js'
 import {
   IDIDManager,
@@ -28,13 +30,12 @@ import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { DataSource } from 'typeorm'
 
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 import { asArray } from '../../../utils/src'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 

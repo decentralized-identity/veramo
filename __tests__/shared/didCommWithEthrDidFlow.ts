@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
+
 import {
   IAgentOptions,
   IDIDManager,
@@ -16,14 +18,13 @@ import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-s
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { jest } from '@jest/globals'
 import { bytesToBase58, hexToBytes } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {

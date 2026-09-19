@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+
 import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core-types/src'
 import { IDIDComm, IDIDCommMessage } from '../../packages/did-comm/src'
 

@@ -1,3 +1,5 @@
+import { describe, vi } from 'vitest'
+
 // noinspection ES6PreferShortImport
 
 /**
@@ -54,7 +56,7 @@ import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import { jest } from '@jest/globals'
+
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT.js'
@@ -75,7 +77,9 @@ import credentialInterop from './shared/credentialInterop.js'
 import credentialPluginTests from './shared/credentialPluginTests.js'
 import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
-jest.setTimeout(120000)
+vi.setConfig({
+  testTimeout: 120_000,
+})
 
 let agent: TAgent<
   IDIDManager &

@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, test, expect, beforeAll, afterAll } from 'vitest'
+
 import {
   ICredentialPlugin,
   IDataStore,

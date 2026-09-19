@@ -2,7 +2,7 @@ import path from 'node:path'
 import { createRequire } from 'node:module'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared'
+import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared.js'
 
 // Dev server / build config for the React app (port 4269). The app mounts the
 // full Veramo agent (see src/veramo/setup.ts), which bundles ganache for the

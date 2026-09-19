@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+
 import {
   IAgentOptions,
   ICredentialIssuer,

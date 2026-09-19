@@ -5,9 +5,8 @@
     "sourceMap": true,
     "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "downlevelIteration": true,
     "declarationMap": true,
     "declaration": true,
     "composite": true,
@@ -16,10 +15,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "types": [
-      "jest"
-    ]
+    "skipLibCheck": true
   },
   "ts-node": {
     "compilerOptions": {

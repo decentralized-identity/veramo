@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { JsonCanonicalizer } from '../src/json-canonicalizer.js'
 
 describe('canonicalizer result should be', () => {

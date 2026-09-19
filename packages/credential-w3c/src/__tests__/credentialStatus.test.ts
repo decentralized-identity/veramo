@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 describe('dummy', () => {
   const a = 100
   it('should run a dummy test', () => {

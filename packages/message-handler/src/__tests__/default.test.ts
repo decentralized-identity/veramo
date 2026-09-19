@@ -1,11 +1,13 @@
+import { describe, expect, it } from 'vitest'
+
 import { IAgentContext, IMessageHandler } from '../../../core-types/src'
 import { createAgent } from '../../../core/src'
 import { MessageHandler } from '../message-handler.js'
-import { jest } from '@jest/globals'
+
 import { AbstractMessageHandler } from "../abstract-message-handler.js";
 import { Message } from "../message.js";
 
-jest.setTimeout(60000)
+
 
 class DummyHandler extends AbstractMessageHandler {
   async handle(message: Message, context: IAgentContext<{}>): Promise<Message> {

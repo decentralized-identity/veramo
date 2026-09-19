@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDComm } from '../didcomm.js'
 import {
   KeyValueStore,
@@ -57,12 +59,11 @@ import { DataStore, DataStoreORM } from '../../../data-store/src'
 import { MediationManagerPlugin } from '../../../mediation-manager/src'
 import { DataSource } from 'typeorm'
 
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 describe('coordinate-mediation-message-handler', () => {
@@ -422,7 +423,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should only allow mediation for dids with a MediationPolicy of ALLOW where isMediateDefaultGrantAll === false', async () => {
-        agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+        agent.isMediateDefaultGrantAll = vi.fn(() => Promise.resolve(false))
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
@@ -441,7 +442,7 @@ describe('coordinate-mediation-message-handler', () => {
       })
 
       it('should deny mediation for dids with no MediationPolicy of ALLOW where isMediateDefaultGrantAll === false', async () => {
-        agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+        agent.isMediateDefaultGrantAll = vi.fn(() => Promise.resolve(false))
 
         expect(await agent.isMediateDefaultGrantAll()).toBeFalsy()
 
