@@ -19,6 +19,9 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
+    "@veramo/core": "workspace:^",
+    "@veramo/key-manager": "workspace:^",
+    "@veramo/kms-local": "workspace:^",
     "typescript": "7.0.2"
   },
   "files": [
