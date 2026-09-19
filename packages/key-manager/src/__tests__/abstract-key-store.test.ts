@@ -1,3 +1,4 @@
+import { describe, it } from 'vitest'
 import { AbstractKeyStore } from '../abstract-key-store.js'
 import { IKey, ManagedKeyInfo } from '@veramo/core-types'
 

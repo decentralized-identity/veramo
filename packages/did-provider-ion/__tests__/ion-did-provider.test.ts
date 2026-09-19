@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { IDIDManager, IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src'
 import { createAgent } from '../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
@@ -7,11 +9,12 @@ import { KeyManagementSystem } from '../../kms-local/src'
 import { IonDIDProvider } from '../src/ion-did-provider.js'
 import { ICreateIdentifierOpts } from '../src/types/ion-provider-types.js'
 
-import { jest } from '@jest/globals'
 // @ts-ignore
 import nock from 'nock'
 
-jest.setTimeout(30000)
+vi.setConfig({
+  testTimeout: 60_000,
+})
 
 // Disable PoW challenge in tests to avoid argon2 WASM fetches
 const ionDIDProvider = new IonDIDProvider({

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from 'vitest'
 import { base64ToBytes, createJWE, createX25519ECDH, Decrypter, decryptJWE, ECDH, Encrypter, JWE } from 'did-jwt'
 import { randomBytes } from '@noble/hashes/utils'
 import { generateX25519KeyPairFromSeed } from '../utils.js'
@@ -407,7 +408,7 @@ describe('didcomm encryption tests', () => {
           expect.assertions(1)
           const ecdh: ECDH = createX25519ECDH(randomBytes(32))
           const badPublicKey = randomBytes(64)
-          expect(ecdh(badPublicKey)).rejects.toThrow('invalid_argument')
+          await expect(ecdh(badPublicKey)).rejects.toThrow('invalid_argument')
         })
       })
     })

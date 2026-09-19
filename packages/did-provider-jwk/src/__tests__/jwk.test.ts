@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { JwkDIDProvider } from '../jwk-did-provider'
 import { getDidJwkResolver } from '../resolver'
 import { IDIDManager, IKeyManager, IResolver } from '@veramo/core-types'

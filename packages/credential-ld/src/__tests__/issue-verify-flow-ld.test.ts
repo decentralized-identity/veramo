@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+
 import {
   CredentialPayload,
   ICredentialPlugin,
@@ -22,12 +24,13 @@ import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
-import { jest } from '@jest/globals'
 
 import 'cross-fetch/polyfill'
 import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
 
-jest.setTimeout(300000)
+vi.setConfig({
+  testTimeout: 60_000,
+})
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

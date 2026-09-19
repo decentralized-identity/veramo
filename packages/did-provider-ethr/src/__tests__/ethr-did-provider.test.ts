@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it } from 'vitest'
 import { IDIDManager, IKeyManager, MinimalImportableKey, TAgent } from '@veramo/core-types'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
 import { EthrDIDProvider } from '../ethr-did-provider'

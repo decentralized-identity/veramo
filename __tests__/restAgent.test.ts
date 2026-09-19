@@ -8,6 +8,8 @@
  * This suite also runs a messaging server to run through some examples of DIDComm using did:fake identifiers.
  * See didWithFakeDidFlow() for more details.
  */
+import { describe, vi } from 'vitest'
+
 import {
   IAgent,
   IAgentOptions,
@@ -79,7 +81,7 @@ import express from 'express'
 import { Server } from 'http'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
-import { jest } from '@jest/globals'
+
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
@@ -101,7 +103,9 @@ import credentialStatus from './shared/credentialStatus'
 import credentialPluginTests from './shared/credentialPluginTests'
 import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
-jest.setTimeout(120000)
+vi.setConfig({
+  testTimeout: 120_000,
+})
 
 const databaseFile = `./tmp/rest-database-${Math.random().toPrecision(5)}.sqlite`
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'

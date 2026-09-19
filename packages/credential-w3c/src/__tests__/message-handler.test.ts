@@ -1,7 +1,8 @@
+import { describe, expect, it, vi } from 'vitest'
+
 import { DIDResolutionResult, IAgentContext, ICredentialVerifier, IResolver } from '../../../core-types/src'
 import { Message } from '../../../message-handler/src'
 import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
-import { jest } from '@jest/globals'
 import { computeEntryHash } from '../../../utils/src'
 
 describe('@veramo/credential-w3c', () => {
@@ -12,10 +13,10 @@ describe('@veramo/credential-w3c', () => {
 
   const context: IContext = {
     agent: {
-      getSchema: jest.fn(),
-      execute: jest.fn(),
-      availableMethods: jest.fn(),
-      emit: jest.fn(),
+      getSchema: vi.fn(),
+      execute: vi.fn(),
+      availableMethods: vi.fn(),
+      emit: vi.fn(),
       resolveDid: async (args?): Promise<DIDResolutionResult> => {
         if (!args?.didUrl) throw Error('DID required')
 
@@ -64,10 +65,10 @@ describe('@veramo/credential-w3c', () => {
           }
         }
       },
-      canVerifyDocumentType: jest.fn(),
-      verifyCredential: jest.fn(),
-      verifyPresentation: jest.fn(),
-      getDIDComponentById: jest.fn(),
+      canVerifyDocumentType: vi.fn(),
+      verifyCredential: vi.fn(),
+      verifyPresentation: vi.fn(),
+      getDIDComponentById: vi.fn(),
     },
   } as IAgentContext<IResolver & ICredentialVerifier>
 

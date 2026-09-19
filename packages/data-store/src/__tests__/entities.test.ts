@@ -1,3 +1,4 @@
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createCredentialEntity, Credential } from '../entities/credential.js'
 import { createPresentationEntity } from '../entities/presentation.js'
 import { Claim, Entities, Identifier, Message } from '../index.js'

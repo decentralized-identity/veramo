@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDComm } from '../didcomm.js'
 import {
   createAgent,
@@ -40,7 +42,6 @@ import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { Message } from '@veramo/message-handler'
 
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
@@ -50,7 +51,7 @@ const DIDCommEventSniffer: IEventListener = {
     'DIDCommV2Message-forwardMessageQueued',
     'DIDCommV2Message-forwardMessageDequeued',
   ],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 describe('messagepickup-message-handler', () => {

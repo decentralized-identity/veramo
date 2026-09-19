@@ -15,10 +15,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "types": [
-      "jest"
-    ]
+    "skipLibCheck": true
   },
   "ts-node": {
     "compilerOptions": {
