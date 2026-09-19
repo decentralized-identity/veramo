@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
-import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared'
+import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared.js'
 
 // ---------------------------------------------------------------------------
 // Test-runner config. The app-polyfill plumbing (Node builtin aliases,
