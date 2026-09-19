@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { KeyManagementSystem } from '../key-management-system.js'
 import { TKeyType } from '../../../core-types/src'
 import { MemoryPrivateKeyStore } from '../../../key-manager/src'
@@ -143,7 +144,7 @@ describe('@veramo/kms-local', () => {
       publicKeyHex: '09c99ad2fdb13247d97f4343d05cc20930db0808697e89f8f3d111a40cb6ee35',
     }
     const myKeyRef = await kms.importKey(myKey)
-    expect(kms.sharedSecret({ myKeyRef, theirKey })).rejects.toThrow('not_supported')
+    await expect(kms.sharedSecret({ myKeyRef, theirKey })).rejects.toThrow('not_supported')
   })
 
   it('throws on invalid theirKey type', async () => {
@@ -159,7 +160,7 @@ describe('@veramo/kms-local', () => {
       publicKeyHex: '09c99ad2fdb13247d97f4343d05cc20930db0808697e89f8f3d111a40cb6ee35',
     }
 
-    expect(kms.sharedSecret({ myKeyRef, theirKey })).rejects.toThrow('not_supported')
+    await expect(kms.sharedSecret({ myKeyRef, theirKey })).rejects.toThrow('not_supported')
   })
 })
 

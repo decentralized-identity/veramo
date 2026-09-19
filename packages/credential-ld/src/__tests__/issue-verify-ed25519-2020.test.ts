@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, it } from 'vitest'
+
 import {
   createAgent,
   CredentialPayload,
@@ -19,9 +21,8 @@ import { LdDefaultContexts } from '../ld-default-contexts'
 import { VeramoEd25519Signature2020 } from '../suites/Ed25519Signature2020'
 import { Resolver } from 'did-resolver'
 import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/fake-did'
-import { jest } from '@jest/globals'
 
-jest.setTimeout(300000)
+
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

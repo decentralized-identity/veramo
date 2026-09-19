@@ -1,4 +1,4 @@
-import { beforeAll, jest } from '@jest/globals'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
 // @ts-ignore
 import express from 'express'
@@ -50,7 +50,7 @@ import { Server } from 'http'
 import { DELIVERY_MESSAGE_TYPE } from '../packages/did-comm/src/protocols/messagepickup-message-handler'
 
 const MEDIATOR_PORT = 3333
-jest.fn(() => Promise.resolve())
+vi.fn(() => Promise.resolve())
 // minimum set of plugins for users
 type UserAgentPlugins = IResolver & IKeyManager & IDIDManager & IMessageHandler & IDIDComm
 

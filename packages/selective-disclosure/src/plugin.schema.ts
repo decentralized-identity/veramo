@@ -3,35 +3,35 @@ export const schema = {
     "components": {
       "schemas": {
         "ICreateProfileCredentialsArgs": {
-          "type": "object",
+          "description": "Profile data",
           "properties": {
             "holder": {
-              "type": "string",
-              "description": "Holder DID"
-            },
-            "verifier": {
-              "type": "string",
-              "description": "Optional. Verifier DID"
+              "description": "Holder DID",
+              "type": "string"
             },
             "name": {
-              "type": "string",
-              "description": "Optional. Name"
+              "description": "Optional. Name",
+              "type": "string"
             },
             "picture": {
-              "type": "string",
-              "description": "Optional. Picture URL"
-            },
-            "url": {
-              "type": "string",
-              "description": "Optional. URL"
+              "description": "Optional. Picture URL",
+              "type": "string"
             },
             "save": {
-              "type": "boolean",
-              "description": "Save presentation"
+              "description": "Save presentation",
+              "type": "boolean"
             },
             "send": {
-              "type": "boolean",
-              "description": "Send presentation"
+              "description": "Send presentation",
+              "type": "boolean"
+            },
+            "url": {
+              "description": "Optional. URL",
+              "type": "string"
+            },
+            "verifier": {
+              "description": "Optional. Verifier DID",
+              "type": "string"
             }
           },
           "required": [
@@ -39,162 +39,11 @@ export const schema = {
             "save",
             "send"
           ],
-          "description": "Profile data"
+          "type": "object"
         },
-        "VerifiablePresentation": {
-          "type": "object",
-          "properties": {
-            "proof": {
-              "$ref": "#/components/schemas/ProofType"
-            },
-            "holder": {
-              "type": "string"
-            },
-            "verifiableCredential": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/W3CVerifiableCredential"
-              }
-            },
-            "type": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "@context": {
-              "$ref": "#/components/schemas/ContextType"
-            },
-            "verifier": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "@context",
-            "holder",
-            "proof"
-          ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
-        },
-        "ProofType": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string"
-            },
-            "proofValue": {
-              "type": "string"
-            }
-          },
-          "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
-        },
-        "W3CVerifiableCredential": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/VerifiableCredential"
-            },
-            {
-              "$ref": "#/components/schemas/CompactJWT"
-            }
-          ],
-          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
-        },
-        "VerifiableCredential": {
-          "type": "object",
-          "properties": {
-            "proof": {
-              "$ref": "#/components/schemas/ProofType"
-            },
-            "issuer": {
-              "$ref": "#/components/schemas/IssuerType"
-            },
-            "credentialSubject": {
-              "$ref": "#/components/schemas/CredentialSubject"
-            },
-            "type": {
-              "anyOf": [
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "@context": {
-              "$ref": "#/components/schemas/ContextType"
-            },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "credentialStatus": {
-              "$ref": "#/components/schemas/CredentialStatusReference"
-            },
-            "id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "@context",
-            "credentialSubject",
-            "issuanceDate",
-            "issuer",
-            "proof"
-          ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
-        },
-        "IssuerType": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id"
-              ]
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
-        },
-        "CredentialSubject": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
+        "CompactJWT": {
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\"",
+          "type": "string"
         },
         "ContextType": {
           "anyOf": [
@@ -205,7 +54,6 @@ export const schema = {
               "type": "object"
             },
             {
-              "type": "array",
               "items": {
                 "anyOf": [
                   {
@@ -215,13 +63,14 @@ export const schema = {
                     "type": "object"
                   }
                 ]
-              }
+              },
+              "type": "array"
             }
           ],
           "description": "The data type for `@context` properties of credentials, presentations, etc."
         },
         "CredentialStatusReference": {
-          "type": "object",
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }",
           "properties": {
             "id": {
               "type": "string"
@@ -234,14 +83,165 @@ export const schema = {
             "id",
             "type"
           ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "type": "object"
         },
-        "CompactJWT": {
-          "type": "string",
-          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
+        "CredentialSubject": {
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "IssuerType": {
+          "anyOf": [
+            {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The issuer of a  {@link  VerifiableCredential  }  or the holder of a  {@link  VerifiablePresentation  } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+        },
+        "ProofType": {
+          "description": "A proof property of a  {@link  VerifiableCredential  }  or  {@link  VerifiablePresentation  }",
+          "properties": {
+            "proofValue": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "VerifiableCredential": {
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }",
+          "properties": {
+            "@context": {
+              "$ref": "#/components/schemas/ContextType"
+            },
+            "credentialStatus": {
+              "$ref": "#/components/schemas/CredentialStatusReference"
+            },
+            "credentialSubject": {
+              "$ref": "#/components/schemas/CredentialSubject"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
+            },
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "required": [
+            "@context",
+            "credentialSubject",
+            "issuanceDate",
+            "issuer",
+            "proof"
+          ],
+          "type": "object"
+        },
+        "VerifiablePresentation": {
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }",
+          "properties": {
+            "@context": {
+              "$ref": "#/components/schemas/ContextType"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "holder": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "verifiableCredential": {
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              },
+              "type": "array"
+            },
+            "verifier": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "@context",
+            "holder",
+            "proof"
+          ],
+          "type": "object"
+        },
+        "W3CVerifiableCredential": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "$ref": "#/components/schemas/CompactJWT"
+            }
+          ],
+          "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
         "ICreateSelectiveDisclosureRequestArgs": {
-          "type": "object",
+          "description": "Contains the parameters of a Selective Disclosure Request.",
           "properties": {
             "data": {
               "$ref": "#/components/schemas/ISelectiveDisclosureRequest"
@@ -250,201 +250,201 @@ export const schema = {
           "required": [
             "data"
           ],
-          "description": "Contains the parameters of a Selective Disclosure Request."
+          "type": "object"
         },
-        "ISelectiveDisclosureRequest": {
-          "type": "object",
+        "ICredentialRequestInput": {
+          "description": "Describes a particular credential that is being requested",
           "properties": {
-            "issuer": {
-              "type": "string",
-              "description": "The issuer of the request"
-            },
-            "subject": {
-              "type": "string",
-              "description": "The target of the request"
-            },
-            "replyUrl": {
-              "type": "string",
-              "description": "The URL where the response should be sent back"
-            },
-            "tag": {
+            "claimType": {
+              "description": "The name of the claim property that the credential should express.",
               "type": "string"
             },
+            "claimValue": {
+              "description": "The value of the claim that the credential should express.",
+              "type": "string"
+            },
+            "credentialContext": {
+              "description": "The credential context. See  {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context }",
+              "type": "string"
+            },
+            "credentialType": {
+              "description": "The credential type. See  {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types }",
+              "type": "string"
+            },
+            "essential": {
+              "description": "If it is essential. A response that does not include this credential is not sufficient.",
+              "type": "boolean"
+            },
+            "issuers": {
+              "description": "A list of accepted Issuers for this credential.",
+              "items": {
+                "$ref": "#/components/schemas/Issuer"
+              },
+              "type": "array"
+            },
+            "reason": {
+              "description": "Motive for requiring this credential.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "claimType"
+          ],
+          "type": "object"
+        },
+        "ISelectiveDisclosureRequest": {
+          "description": "Represents the Selective Disclosure request parameters.",
+          "properties": {
             "claims": {
-              "type": "array",
+              "description": "A list of claims that are being requested",
               "items": {
                 "$ref": "#/components/schemas/ICredentialRequestInput"
               },
-              "description": "A list of claims that are being requested"
+              "type": "array"
             },
             "credentials": {
-              "type": "array",
+              "description": "A list of issuer credentials that the target will use to establish trust",
               "items": {
                 "type": "string"
               },
-              "description": "A list of issuer credentials that the target will use to establish trust"
+              "type": "array"
+            },
+            "issuer": {
+              "description": "The issuer of the request",
+              "type": "string"
+            },
+            "replyUrl": {
+              "description": "The URL where the response should be sent back",
+              "type": "string"
+            },
+            "subject": {
+              "description": "The target of the request",
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
             }
           },
           "required": [
             "issuer",
             "claims"
           ],
-          "description": "Represents the Selective Disclosure request parameters."
-        },
-        "ICredentialRequestInput": {
-          "type": "object",
-          "properties": {
-            "reason": {
-              "type": "string",
-              "description": "Motive for requiring this credential."
-            },
-            "essential": {
-              "type": "boolean",
-              "description": "If it is essential. A response that does not include this credential is not sufficient."
-            },
-            "credentialType": {
-              "type": "string",
-              "description": "The credential type. See  {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types }"
-            },
-            "credentialContext": {
-              "type": "string",
-              "description": "The credential context. See  {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context }"
-            },
-            "claimType": {
-              "type": "string",
-              "description": "The name of the claim property that the credential should express."
-            },
-            "claimValue": {
-              "type": "string",
-              "description": "The value of the claim that the credential should express."
-            },
-            "issuers": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/Issuer"
-              },
-              "description": "A list of accepted Issuers for this credential."
-            }
-          },
-          "required": [
-            "claimType"
-          ],
-          "description": "Describes a particular credential that is being requested"
+          "type": "object"
         },
         "Issuer": {
-          "type": "object",
+          "description": "Used for requesting Credentials using Selective Disclosure. Represents an accepted issuer of a credential.",
           "properties": {
             "did": {
-              "type": "string",
-              "description": "The DID of the issuer of a requested credential."
+              "description": "The DID of the issuer of a requested credential.",
+              "type": "string"
             },
             "url": {
-              "type": "string",
-              "description": "A URL where a credential of that type can be obtained."
+              "description": "A URL where a credential of that type can be obtained.",
+              "type": "string"
             }
           },
           "required": [
             "did",
             "url"
           ],
-          "description": "Used for requesting Credentials using Selective Disclosure. Represents an accepted issuer of a credential."
+          "type": "object"
         },
         "IGetVerifiableCredentialsForSdrArgs": {
-          "type": "object",
+          "description": "Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request.",
           "properties": {
+            "did": {
+              "description": "The DID of the subject",
+              "type": "string"
+            },
             "sdr": {
-              "type": "object",
+              "description": "The Selective Disclosure Request (issuer is omitted)",
               "properties": {
-                "subject": {
-                  "type": "string",
-                  "description": "The target of the request"
-                },
-                "replyUrl": {
-                  "type": "string",
-                  "description": "The URL where the response should be sent back"
-                },
-                "tag": {
-                  "type": "string"
-                },
                 "claims": {
-                  "type": "array",
+                  "description": "A list of claims that are being requested",
                   "items": {
                     "$ref": "#/components/schemas/ICredentialRequestInput"
                   },
-                  "description": "A list of claims that are being requested"
+                  "type": "array"
                 },
                 "credentials": {
-                  "type": "array",
+                  "description": "A list of issuer credentials that the target will use to establish trust",
                   "items": {
                     "type": "string"
                   },
-                  "description": "A list of issuer credentials that the target will use to establish trust"
+                  "type": "array"
+                },
+                "replyUrl": {
+                  "description": "The URL where the response should be sent back",
+                  "type": "string"
+                },
+                "subject": {
+                  "description": "The target of the request",
+                  "type": "string"
+                },
+                "tag": {
+                  "type": "string"
                 }
               },
               "required": [
                 "claims"
               ],
-              "description": "The Selective Disclosure Request (issuer is omitted)"
-            },
-            "did": {
-              "type": "string",
-              "description": "The DID of the subject"
+              "type": "object"
             }
           },
           "required": [
             "sdr"
           ],
-          "description": "Encapsulates the params needed to gather credentials to fulfill a Selective disclosure request."
+          "type": "object"
         },
         "ICredentialsForSdr": {
-          "type": "object",
+          "description": "The credentials that make up a response of a Selective Disclosure",
           "properties": {
-            "reason": {
-              "type": "string",
-              "description": "Motive for requiring this credential."
-            },
-            "essential": {
-              "type": "boolean",
-              "description": "If it is essential. A response that does not include this credential is not sufficient."
-            },
-            "credentialType": {
-              "type": "string",
-              "description": "The credential type. See  {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types }"
-            },
-            "credentialContext": {
-              "type": "string",
-              "description": "The credential context. See  {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context }"
-            },
             "claimType": {
-              "type": "string",
-              "description": "The name of the claim property that the credential should express."
+              "description": "The name of the claim property that the credential should express.",
+              "type": "string"
             },
             "claimValue": {
-              "type": "string",
-              "description": "The value of the claim that the credential should express."
+              "description": "The value of the claim that the credential should express.",
+              "type": "string"
+            },
+            "credentialContext": {
+              "description": "The credential context. See  {@link https://www.w3.org/TR/vc-data-model/#contexts | W3C Credential Context }",
+              "type": "string"
+            },
+            "credentialType": {
+              "description": "The credential type. See  {@link https://www.w3.org/TR/vc-data-model/#types | W3C Credential Types }",
+              "type": "string"
+            },
+            "credentials": {
+              "items": {
+                "$ref": "#/components/schemas/UniqueVerifiableCredential"
+              },
+              "type": "array"
+            },
+            "essential": {
+              "description": "If it is essential. A response that does not include this credential is not sufficient.",
+              "type": "boolean"
             },
             "issuers": {
-              "type": "array",
+              "description": "A list of accepted Issuers for this credential.",
               "items": {
                 "$ref": "#/components/schemas/Issuer"
               },
-              "description": "A list of accepted Issuers for this credential."
+              "type": "array"
             },
-            "credentials": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/UniqueVerifiableCredential"
-              }
+            "reason": {
+              "description": "Motive for requiring this credential.",
+              "type": "string"
             }
           },
           "required": [
             "claimType",
             "credentials"
           ],
-          "description": "The credentials that make up a response of a Selective Disclosure"
+          "type": "object"
         },
         "UniqueVerifiableCredential": {
-          "type": "object",
+          "description": "Represents the result of a Query for  {@link  VerifiableCredential  } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials  }  See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims  }",
           "properties": {
             "hash": {
               "type": "string"
@@ -457,10 +457,10 @@ export const schema = {
             "hash",
             "verifiableCredential"
           ],
-          "description": "Represents the result of a Query for  {@link  VerifiableCredential } s\n\nSee  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentials }  See  {@link  IDataStoreORM.dataStoreORMGetVerifiableCredentialsByClaims }"
+          "type": "object"
         },
         "IValidatePresentationAgainstSdrArgs": {
-          "type": "object",
+          "description": "A tuple used to verify a Selective Disclosure Response. Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it.",
           "properties": {
             "presentation": {
               "$ref": "#/components/schemas/VerifiablePresentation"
@@ -473,26 +473,26 @@ export const schema = {
             "presentation",
             "sdr"
           ],
-          "description": "A tuple used to verify a Selective Disclosure Response. Encapsulates the response(`presentation`) and the corresponding request (`sdr`) that made it."
+          "type": "object"
         },
         "IPresentationValidationResult": {
-          "type": "object",
+          "description": "The result of a selective disclosure response validation.",
           "properties": {
-            "valid": {
-              "type": "boolean"
-            },
             "claims": {
-              "type": "array",
               "items": {
                 "$ref": "#/components/schemas/ICredentialsForSdr"
-              }
+              },
+              "type": "array"
+            },
+            "valid": {
+              "type": "boolean"
             }
           },
           "required": [
             "valid",
             "claims"
           ],
-          "description": "The result of a selective disclosure response validation."
+          "type": "object"
         }
       },
       "methods": {

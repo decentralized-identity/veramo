@@ -9,7 +9,7 @@ import { Command } from 'commander'
 import { writeFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
-import * as TJS from 'ts-json-schema-generator'
+import { generateSchemaSync } from 'ts-json-schema-generator'
 
 import module from 'module'
 
@@ -26,14 +26,20 @@ interface Method {
 
 const genericTypes = ['boolean', 'string', 'number', 'any', 'Array<string>']
 
-function createSchema(generator: TJS.SchemaGenerator, symbol: string) {
+function createSchema(entryFile: string, symbol: string) {
   if (genericTypes.includes(symbol)) {
     return { components: { schemas: {} } }
   }
 
   let fixedSymbol = symbol.replace(/Array\<(.*)\>/gm, '$1')
 
-  const schema = generator.createSchema(fixedSymbol)
+  const schema = generateSchemaSync({
+    path: entryFile,
+    type: fixedSymbol,
+    encodeRefs: false,
+    additionalProperties: true,
+    skipTypeCheck: true,
+  })
 
   const newSchema = {
     components: {
@@ -62,11 +68,7 @@ function getReference(response: string): OpenAPIV3.ReferenceObject | OpenAPIV3.S
 
   if (response.slice(0, 6) === 'Array<') {
     const symbol = response.replace('Array<', '').replace('>', '') as
-      | 'string'
-      | 'number'
-      | 'boolean'
-      | 'object'
-      | 'integer'
+      'string' | 'number' | 'boolean' | 'object' | 'integer'
     return {
       type: 'array',
       items: genericTypes.includes(symbol) ? { type: symbol } : { $ref: '#/components/schemas/' + symbol },
@@ -127,13 +129,6 @@ dev
         },
       }
 
-      const generator = TJS.createGenerator({
-        path: resolve(entryFile),
-        encodeRefs: false,
-        additionalProperties: true,
-        skipTypeCheck: true,
-      })
-
       const apiModel: ApiModel = new ApiModel()
       const apiPackage = apiModel.loadPackage(extractorConfig.apiJsonFilePath)
 
@@ -164,7 +159,7 @@ dev
           api.components.schemas = {
             // @ts-ignore
             ...api.components.schemas,
-            ...createSchema(generator, method.parameters).components.schemas,
+            ...createSchema(entryFile, method.parameters).components.schemas,
           }
         }
 
@@ -172,7 +167,7 @@ dev
         api.components.schemas = {
           // @ts-ignore
           ...api.components.schemas,
-          ...createSchema(generator, method.response).components.schemas,
+          ...createSchema(entryFile, method.response).components.schemas,
         }
 
         // @ts-ignore

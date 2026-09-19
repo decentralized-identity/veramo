@@ -25,13 +25,14 @@ We love your input! We want to make contributing to this project as easy and tra
 
 ### Commit messages
 
-We use github to host code, to track issues and feature requests, as well as accept pull requests.
-We Use [semantic-release](https://github.com/semantic-release/semantic-release) and
-[commitlint](https://github.com/conventional-changelog/commitlint) to automate our release process.
-Versioning, changelogs and publication is all covered by this automation.
-Please see some [commit message examples](https://github.com/semantic-release/semantic-release#commit-message-format)
+We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
+Commit messages must adhere to the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 
-Commit messages are really important in this process, and your PR will fail if your commit messages don't adhere to this convention.
+### Release process
+We use [changesets](https://github.com/changesets/changesets) to automate our release process.
+
+This automation covers versioning, changelogs and publication. Any change that should trigger a release MUST
+be accompanied by a corresponding changeset file. You MUST run `pnpm changeset` to create such a file and commit it.
 
 ### Submitting a fix
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { IDIDManager, IKeyManager, IResolver } from '../../core-types/src'
 import { createAgent } from '../../core/src'
 import { DIDManager, MemoryDIDStore } from '../../did-manager/src'

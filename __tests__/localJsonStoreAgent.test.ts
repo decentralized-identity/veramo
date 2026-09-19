@@ -5,6 +5,8 @@
  * using a JSON db for storage of credentials and an in-memory store for keys and DIDs.
  *
  */
+import { describe, vi } from 'vitest'
+
 import {
   IAgentOptions,
   ICredentialPlugin,
@@ -60,7 +62,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
-import { jest } from '@jest/globals'
+
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
@@ -82,7 +84,9 @@ import credentialPluginTests from './shared/credentialPluginTests'
 import dbInitOptions from './shared/dbInitOptions'
 import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
 
-jest.setTimeout(120000)
+vi.setConfig({
+  testTimeout: 120_000,
+})
 
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 

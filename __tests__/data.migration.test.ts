@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 // noinspection ES6PreferShortImport
 
 import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
@@ -7,7 +9,6 @@ import { PrivateKeyStoreJson } from '../packages/data-store-json/src'
 import { DataSource } from 'typeorm'
 import * as fs from 'fs'
 
-import { jest } from '@jest/globals'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 
@@ -15,7 +16,9 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-jest.setTimeout(60000)
+vi.setConfig({
+  testTimeout: 60_000
+})
 
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 

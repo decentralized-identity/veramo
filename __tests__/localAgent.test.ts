@@ -1,3 +1,5 @@
+import { describe, vi } from 'vitest'
+
 // noinspection ES6PreferShortImport
 
 /**
@@ -70,7 +72,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
-import { jest } from '@jest/globals'
+
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT'
@@ -95,7 +97,9 @@ import ethrDidFlowSigned from './shared/ethrDidFlowSigned'
 import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
 import credentialPluginTests from './shared/credentialPluginTests.js'
 
-jest.setTimeout(120000)
+vi.setConfig({
+  testTimeout: 120_000,
+})
 
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 

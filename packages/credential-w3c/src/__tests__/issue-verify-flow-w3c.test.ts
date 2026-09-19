@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+
 import {
   CredentialPayload,
   ICredentialPlugin,
@@ -23,10 +25,11 @@ import {
   VeramoEd25519Signature2018,
 } from '../../../credential-ld/src'
 import { Resolver } from 'did-resolver'
-import { jest } from '@jest/globals'
 import { CredentialProviderJWT } from '../../../credential-jwt/src'
 
-jest.setTimeout(300000)
+vi.setConfig({
+  testTimeout: 60_000,
+})
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

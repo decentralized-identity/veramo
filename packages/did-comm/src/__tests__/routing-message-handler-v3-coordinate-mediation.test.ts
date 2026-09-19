@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDComm } from '../didcomm.js'
 import { KeyValueStore } from '../../../kv-store/src'
 import {
@@ -50,12 +52,11 @@ import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { MediationManagerPlugin } from '../../../mediation-manager/src'
 
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Map() })
@@ -298,7 +299,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
   it('should save forward message in queue for recipient previously denied', async () => {
     // set up agent to deny mediation
-    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+    agent.isMediateDefaultGrantAll = vi.fn(() => Promise.resolve(false))
 
     expect.assertions(1)
     // 1. Request Mediation
@@ -373,7 +374,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
   it('should not save forward message in queue for recipient denied', async () => {
     // set up agent to deny mediation
-    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+    agent.isMediateDefaultGrantAll = vi.fn(() => Promise.resolve(false))
 
     expect.assertions(1)
     // 1. Request Mediation

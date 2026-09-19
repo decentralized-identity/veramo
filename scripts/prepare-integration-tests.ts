@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
-import * as TJS from 'ts-json-schema-generator'
 import { DocFencedCode } from '@microsoft/tsdoc'
 import {
   ApiMethodSignature,
@@ -70,13 +69,6 @@ interface RestMethod {
 let allMethods: Array<RestMethod> = []
 
 for (const packageName of Object.keys(agentPlugins)) {
-  const generator = TJS.createGenerator({
-    path: resolve('packages/' + packageName + '/src/index.ts'),
-    encodeRefs: false,
-    // TODO: https://github.com/transmute-industries/vc.js/issues/60
-    skipTypeCheck: true,
-  })
-
   const apiModel: ApiModel = new ApiModel()
   const apiPackage = apiModel.loadPackage(apiJsonFilePath.replace('<unscopedPackageName>', packageName))
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { AbstractKeyManagementSystem, KeyManager, MemoryKeyStore } from '../index.js'
 import { IKey, ManagedKeyInfo, MinimalImportableKey, TKeyType } from '../../../core-types/src'
 

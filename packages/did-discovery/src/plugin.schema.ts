@@ -3,91 +3,91 @@ export const schema = {
     "components": {
       "schemas": {
         "IDIDDiscoveryDiscoverDidArgs": {
-          "type": "object",
+          "description": "Contains the parameters of a DID Discovery Request.",
           "properties": {
-            "query": {
-              "type": "string",
-              "description": "Search string"
-            },
             "options": {
-              "type": "object",
-              "description": "Provider specific options"
+              "description": "Provider specific options",
+              "type": "object"
+            },
+            "query": {
+              "description": "Search string",
+              "type": "string"
             }
           },
           "required": [
             "query"
           ],
-          "description": "Contains the parameters of a DID Discovery Request."
-        },
-        "IDIDDiscoveryDiscoverDidResult": {
-          "type": "object",
-          "properties": {
-            "query": {
-              "type": "string",
-              "description": "Search string"
-            },
-            "options": {
-              "type": "object",
-              "description": "Provider specific options"
-            },
-            "results": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/IDIDDiscoveryProviderResult"
-              },
-              "description": "List of discovery results from different providers"
-            },
-            "errors": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              },
-              "description": "A record of encountered errors"
-            }
-          },
-          "required": [
-            "results"
-          ],
-          "description": "DID Discovery results."
-        },
-        "IDIDDiscoveryProviderResult": {
-          "type": "object",
-          "properties": {
-            "provider": {
-              "type": "string",
-              "description": "Provider name"
-            },
-            "matches": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/IDIDDiscoverMatch"
-              },
-              "description": "List of discovery matches"
-            }
-          },
-          "required": [
-            "provider",
-            "matches"
-          ],
-          "description": "Discovery results from one provider."
+          "type": "object"
         },
         "IDIDDiscoverMatch": {
-          "type": "object",
+          "description": "A single discovery match.",
           "properties": {
             "did": {
-              "type": "string",
-              "description": "DID"
+              "description": "DID",
+              "type": "string"
             },
             "metaData": {
-              "type": "object",
-              "description": "Provider specific related metadata about the match"
+              "description": "Provider specific related metadata about the match",
+              "type": "object"
             }
           },
           "required": [
             "did",
             "metaData"
           ],
-          "description": "A single discovery match."
+          "type": "object"
+        },
+        "IDIDDiscoveryDiscoverDidResult": {
+          "description": "DID Discovery results.",
+          "properties": {
+            "errors": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "A record of encountered errors",
+              "type": "object"
+            },
+            "options": {
+              "description": "Provider specific options",
+              "type": "object"
+            },
+            "query": {
+              "description": "Search string",
+              "type": "string"
+            },
+            "results": {
+              "description": "List of discovery results from different providers",
+              "items": {
+                "$ref": "#/components/schemas/IDIDDiscoveryProviderResult"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "results"
+          ],
+          "type": "object"
+        },
+        "IDIDDiscoveryProviderResult": {
+          "description": "Discovery results from one provider.",
+          "properties": {
+            "matches": {
+              "description": "List of discovery matches",
+              "items": {
+                "$ref": "#/components/schemas/IDIDDiscoverMatch"
+              },
+              "type": "array"
+            },
+            "provider": {
+              "description": "Provider name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "provider",
+            "matches"
+          ],
+          "type": "object"
         }
       },
       "methods": {

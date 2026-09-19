@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.settings.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
@@ -7,7 +7,9 @@
     "skipLibCheck": true
   },
   "references": [
+    { "path": "../core" },
     { "path": "../core-types" },
+    { "path": "../did-resolver" },
     { "path": "../utils" }
   ]
 }

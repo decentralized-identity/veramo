@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { bytesToHex, hexToBytes } from '../encodings.js'
 
 describe('@veramo/utils encoding utils', () => {
