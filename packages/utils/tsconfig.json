@@ -6,5 +6,7 @@
     "declarationDir": "build",
     "skipLibCheck": true
   },
-  "references": [{ "path": "../core-types" }]
+  "references": [{ "path": "../core-types" }],
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

@@ -5,6 +5,8 @@
     "outDir": "build",
     "declarationDir": "build"
   },
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [
     {
       "path": "../core-types"

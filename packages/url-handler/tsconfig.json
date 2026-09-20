@@ -12,5 +12,7 @@
   "references": [
     {"path": "../core-types"},
     {"path": "../message-handler"}
-  ]
+  ],
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

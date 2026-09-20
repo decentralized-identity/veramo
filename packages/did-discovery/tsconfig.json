@@ -6,5 +6,6 @@
     "declarationDir": "build"
   },
   "references": [{ "path": "../core-types" }],
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

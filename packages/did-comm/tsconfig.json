@@ -12,11 +12,18 @@
       "path": "../core-types"
     },
     {
+      "path": "../kv-store"
+    },
+    {
+      "path": "../mediation-manager"
+    },
+    {
       "path": "../message-handler"
     },
     {
       "path": "../utils"
     }
   ],
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

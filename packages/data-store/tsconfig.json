@@ -11,5 +11,7 @@
     { "path": "../did-manager" },
     { "path": "../key-manager" },
     { "path": "../utils" }
-  ]
+  ],
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }
