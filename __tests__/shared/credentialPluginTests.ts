@@ -2,7 +2,7 @@
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { IAgentOptions, ICredentialPlugin, MinimalImportableKey, TAgent } from '../../packages/core-types/src'
+import { IAgentOptions, ICredentialPlugin, MinimalImportableKey, TAgent } from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<ICredentialPlugin>
 export default (testContext: {

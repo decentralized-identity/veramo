@@ -9,7 +9,7 @@ import { describe, vi } from 'vitest'
  * This suite also runs a ganache local blockchain to run through some examples of DIDComm using did:ethr identifiers.
  */
 
-import { createAgent } from '../packages/core/src'
+import { createAgent } from '../packages/core/src/index.js'
 import {
   IAgentOptions,
   ICredentialPlugin,
@@ -20,15 +20,15 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core-types/src'
-import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
-import { CredentialProviderJWT } from '../packages/credential-jwt/src'
+} from '../packages/core-types/src/index.js'
+import { MessageHandler } from '../packages/message-handler/src/index.js'
+import { KeyManager } from '../packages/key-manager/src/index.js'
+import { AliasDiscoveryProvider, DIDManager } from '../packages/did-manager/src/index.js'
+import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
+import { JwtMessageHandler } from '../packages/did-jwt/src/index.js'
+import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src/index.js'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src/index.js'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src/index.js'
 import {
   CredentialProviderLD,
   LdDefaultContexts,
@@ -36,22 +36,22 @@ import {
   VeramoEd25519Signature2018,
   VeramoEd25519Signature2020,
   VeramoJsonWebSignature2020,
-} from '../packages/credential-ld/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
-import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
-import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+} from '../packages/credential-ld/src/index.js'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src/index.js'
+import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src/index.js'
+import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src/index.js'
+import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src/index.js'
+import { DIDComm, DIDCommHttpTransport, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src/index.js'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
   SelectiveDisclosure,
-} from '../packages/selective-disclosure/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
-import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src'
+} from '../packages/selective-disclosure/src/index.js'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src/index.js'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src/index.js'
+import { DIDDiscovery, IDIDDiscovery } from '../packages/did-discovery/src/index.js'
 
 import {
   DataStore,
@@ -62,12 +62,12 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src'
-import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+} from '../packages/data-store/src/index.js'
+import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { DataSource } from 'typeorm'
-import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
-import { createEthersProvider } from '../packages/test-react-app/src/test-utils/ethers-provider'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider.js'
+import { createEthersProvider } from '../packages/test-react-app/src/test-utils/ethers-provider.js'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
@@ -75,25 +75,25 @@ import * as fs from 'fs'
 
 
 // Shared tests
-import verifiableDataJWT from './shared/verifiableDataJWT'
-import verifiableDataLD from './shared/verifiableDataLD'
-import verifiableDataEIP712 from './shared/verifiableDataEIP712'
-import handleSdrMessage from './shared/handleSdrMessage'
-import resolveDid from './shared/resolveDid'
-import webDidFlow from './shared/webDidFlow'
-import saveClaims from './shared/saveClaims'
-import documentationExamples from './shared/documentationExamples'
-import keyManager from './shared/keyManager'
-import didManager from './shared/didManager'
-import didCommPacking from './shared/didCommPacking'
-import messageHandler from './shared/messageHandler'
-import didDiscovery from './shared/didDiscovery'
-import dbInitOptions from './shared/dbInitOptions'
-import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow'
-import utils from './shared/utils'
-import web3 from './shared/web3'
-import credentialStatus from './shared/credentialStatus'
-import ethrDidFlowSigned from './shared/ethrDidFlowSigned'
+import verifiableDataJWT from './shared/verifiableDataJWT.js'
+import verifiableDataLD from './shared/verifiableDataLD.js'
+import verifiableDataEIP712 from './shared/verifiableDataEIP712.js'
+import handleSdrMessage from './shared/handleSdrMessage.js'
+import resolveDid from './shared/resolveDid.js'
+import webDidFlow from './shared/webDidFlow.js'
+import saveClaims from './shared/saveClaims.js'
+import documentationExamples from './shared/documentationExamples.js'
+import keyManager from './shared/keyManager.js'
+import didManager from './shared/didManager.js'
+import didCommPacking from './shared/didCommPacking.js'
+import messageHandler from './shared/messageHandler.js'
+import didDiscovery from './shared/didDiscovery.js'
+import dbInitOptions from './shared/dbInitOptions.js'
+import didCommWithEthrDidFlow from './shared/didCommWithEthrDidFlow.js'
+import utils from './shared/utils.js'
+import web3 from './shared/web3.js'
+import credentialStatus from './shared/credentialStatus.js'
+import ethrDidFlowSigned from './shared/ethrDidFlowSigned.js'
 import didCommWithPeerDidFlow from './shared/didCommWithPeerDidFlow.js'
 import credentialPluginTests from './shared/credentialPluginTests.js'
 

@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
-import { createObjects } from '../lib/objectCreator'
-import { getConfig } from '../setup'
+import { createObjects } from '../lib/objectCreator.js'
+import { getConfig } from '../setup.js'
 
 describe('cli version', () => {
   const writeMock = vi.fn()

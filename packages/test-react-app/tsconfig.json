@@ -14,7 +14,7 @@
     "jsx": "react-jsx"
   },
   "include": ["./**/*.ts", "./**/*.tsx"],
-  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*", "headless-tests/**/*"],
   "references": [
     { "path": "../core" },
     { "path": "../core-types" },

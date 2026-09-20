@@ -7,10 +7,10 @@ import {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from '../../packages/data-store-json/src'
+} from '../../packages/data-store-json/src/index.js'
 import * as fs from 'fs'
-import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core-types/src'
-import { ManagedPrivateKey } from '../../packages/key-manager/src'
+import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core-types/src/index.js'
+import { ManagedPrivateKey } from '../../packages/key-manager/src/index.js'
 
 /**
  * A utility class that shows how a File based JSON storage system could work.

@@ -42,7 +42,7 @@ import { DataStoreJson, DIDStoreJson, KeyStoreJson, PrivateKeyStoreJson } from '
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
 import { CredentialProviderJWT } from '@veramo/credential-jwt'
 import { JsonRpcApiProvider } from 'ethers'
-import { createGanacheProvider, GanacheProvider } from '../test-utils/ganache-provider'
+import { createGanacheProvider, GanacheProvider } from '../test-utils/ganache-provider.js'
 
 const DB_SECRET_KEY = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa83'
 

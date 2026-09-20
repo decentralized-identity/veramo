@@ -14,9 +14,9 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../packages/core-types/src'
-import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
-import { extractIssuer } from '../../packages/utils/src'
+} from '../../packages/core-types/src/index.js'
+import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src/index.js'
+import { extractIssuer } from '../../packages/utils/src/index.js'
 
 type ConfiguredAgent = TAgent<
   IDataStoreORM &

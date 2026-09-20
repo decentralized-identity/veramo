@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { ICredentialStatusVerifier, VerifiableCredential } from '../../../core-types/src'
-import { createAgent } from '../../../core/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
+import { ICredentialStatusVerifier, VerifiableCredential } from '../../../core-types/src/index.js'
+import { createAgent } from '../../../core/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { CredentialStatusPlugin } from '../credential-status.js'
 import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, Resolvable } from 'did-resolver'
 import { StatusMethod } from 'credential-status'

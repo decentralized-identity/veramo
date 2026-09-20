@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { IAgentContext, VerifiableCredential, VerifiablePresentation } from '../../../core-types/src'
+import { IAgentContext, VerifiableCredential, VerifiablePresentation } from '../../../core-types/src/index.js'
 import { ISelectiveDisclosureRequest } from '../types.js'
 import { SelectiveDisclosure } from '../action-handler.js'
 

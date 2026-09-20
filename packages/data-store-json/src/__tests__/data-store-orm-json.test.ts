@@ -12,8 +12,8 @@ import {
   TPresentationColumns,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../../core-types/src'
-import { Agent } from '../../../core/src'
+} from '../../../core-types/src/index.js'
+import { Agent } from '../../../core/src/index.js'
 import { DataStoreJson } from '../data-store-json.js'
 import { VeramoJsonStore } from '../types.js'
 

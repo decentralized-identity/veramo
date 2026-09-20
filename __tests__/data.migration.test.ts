@@ -2,9 +2,9 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
 // noinspection ES6PreferShortImport
 
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
-import { Entities, KeyStore, migrations, PrivateKeyStore } from '../packages/data-store/src'
-import { PrivateKeyStoreJson } from '../packages/data-store-json/src'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src/index.js'
+import { Entities, KeyStore, migrations, PrivateKeyStore } from '../packages/data-store/src/index.js'
+import { PrivateKeyStoreJson } from '../packages/data-store-json/src/index.js'
 
 import { DataSource } from 'typeorm'
 import * as fs from 'fs'

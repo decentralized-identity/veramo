@@ -63,9 +63,7 @@ export default defineConfig({
     },
   },
   test: {
-    // The shared suites use global describe/it/expect without imports (they
-    // cannot be modified), so globals must be injected.
-    globals: true,
+    globals: false,
     // Only pick up the "*.vite-test.ts" files; legacy "*.browser-test.ts" files
     // (from the removed browser-driven runner) are not picked up.
     include: ['headless-tests/**/*.vite-test.ts'],

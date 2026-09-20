@@ -1,8 +1,8 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 
-import { Message } from '../../../message-handler/src'
+import { Message } from '../../../message-handler/src/index.js'
 import { UrlMessageHandler } from '../message-handler.js'
-import { IAgentContext } from "../../../core-types/src";
+import { IAgentContext } from "../../../core-types/src/index.js";
 
 // jest-fetch-mock replacement: use a vitest-native fetch mock.
 // The source (url-handler) calls the global `fetch(url)` and reads

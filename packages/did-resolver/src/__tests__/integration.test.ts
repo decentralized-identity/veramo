@@ -6,7 +6,7 @@ import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver.js'
 
-import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
+import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider.js'
 
 vi.setConfig({
   testTimeout: 60_000,

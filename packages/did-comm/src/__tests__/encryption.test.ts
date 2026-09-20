@@ -18,7 +18,7 @@ import {
 } from '../encryption/a256kw-encrypters.js'
 import { xc20pAnonDecrypterX25519WithXC20PKW } from '../encryption/xc20pkw-encrypters.js'
 
-import { decodeBase64url, encodeBase64url } from '../../../utils/src'
+import { decodeBase64url, encodeBase64url } from '../../../utils/src/index.js'
 
 import * as u8a from 'uint8arrays'
 import { bytesToUtf8String } from '@veramo/utils'

@@ -4,8 +4,8 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "declarationMap": true,
     "declaration": true,
@@ -20,6 +20,7 @@
   },
   "include": ["./**/*.ts"],
   "exclude": [
-    "**/build/**/*"
+    "**/build/**/*",
+    "**/test-react-app/**/*"
   ]
 }

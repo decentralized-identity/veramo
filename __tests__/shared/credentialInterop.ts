@@ -8,7 +8,7 @@ import {
   IDataStoreORM,
   IDIDManager,
   TAgent,
-} from '../../packages/core-types/src'
+} from '../../packages/core-types/src/index.js'
 
 import * as fs from 'node:fs'
 

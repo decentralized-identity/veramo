@@ -8,15 +8,15 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../../core-types/src'
-import { createAgent } from '../../../core/src'
-import { CredentialPlugin } from '../../../credential-w3c/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { EthrDIDProvider } from '../../../did-provider-ethr/src'
+} from '../../../core-types/src/index.js'
+import { createAgent } from '../../../core/src/index.js'
+import { CredentialPlugin } from '../../../credential-w3c/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
+import { EthrDIDProvider } from '../../../did-provider-ethr/src/index.js'
 import { ContextDoc } from '../types.js'
 import { CredentialProviderLD } from '../CredentialProviderLD.js'
 import { LdDefaultContexts } from '../ld-default-contexts.js'
@@ -26,7 +26,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 
 import 'cross-fetch/polyfill'
-import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
+import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider.js'
 
 vi.setConfig({
   testTimeout: 60_000,

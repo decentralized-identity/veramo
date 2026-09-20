@@ -9,8 +9,8 @@ import {
   IResolver,
   TAgent,
   TKeyType,
-} from '../../packages/core-types/src'
-import { mapIdentifierKeysToDoc } from '../../packages/utils/src'
+} from '../../packages/core-types/src/index.js'
+import { mapIdentifierKeysToDoc } from '../../packages/utils/src/index.js'
 import { recoverTypedSignature, SignTypedDataVersion } from '@metamask/eth-sig-util'
 import {computeAddress, Transaction} from "ethers";
 

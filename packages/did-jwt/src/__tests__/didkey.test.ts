@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { DIDResolutionResult, IAgentContext, IResolver } from '../../../core-types/src'
-import { Message } from '../../../message-handler/src'
+import { DIDResolutionResult, IAgentContext, IResolver } from '../../../core-types/src/index.js'
+import { Message } from '../../../message-handler/src/index.js'
 import { JwtMessageHandler, IContext } from '../message-handler.js'
 
 describe('@veramo/did-jwt', () => {

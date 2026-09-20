@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { JwkDIDProvider } from '../jwk-did-provider'
-import { getDidJwkResolver } from '../resolver'
+import { JwkDIDProvider } from '../jwk-did-provider.js'
+import { getDidJwkResolver } from '../resolver.js'
 import { IDIDManager, IKeyManager, IResolver } from '@veramo/core-types'
 import { createAgent } from '@veramo/core'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'

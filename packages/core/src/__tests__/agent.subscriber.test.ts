@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { Agent } from '../agent.js'
-import { CoreEvents, IEventListener } from '../../../core-types/src'
+import { CoreEvents, IEventListener } from '../../../core-types/src/index.js'
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))

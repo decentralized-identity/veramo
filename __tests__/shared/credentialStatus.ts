@@ -12,8 +12,8 @@ import {
   IDIDManager,
   IIdentifier,
   TAgent,
-} from '../../packages/core-types/src'
-import { CredentialStatusPlugin } from '../../packages/credential-status/src'
+} from '../../packages/core-types/src/index.js'
+import { CredentialStatusPlugin } from '../../packages/credential-status/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 

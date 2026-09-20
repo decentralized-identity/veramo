@@ -4,7 +4,7 @@ import { createPresentationEntity } from '../entities/presentation.js'
 import { Claim, Entities, Identifier, Message } from '../index.js'
 import { DataSource, In } from 'typeorm'
 import * as fs from 'fs'
-import { computeEntryHash } from '../../../utils/src'
+import { computeEntryHash } from '../../../utils/src/index.js'
 
 describe('DB entities test', () => {
   let connection: DataSource

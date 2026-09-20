@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { IAgentContext, IMessageHandler } from '../../../core-types/src'
-import { createAgent } from '../../../core/src'
+import { IAgentContext, IMessageHandler } from '../../../core-types/src/index.js'
+import { createAgent } from '../../../core/src/index.js'
 import { MessageHandler } from '../message-handler.js'
 
 import { AbstractMessageHandler } from "../abstract-message-handler.js";
