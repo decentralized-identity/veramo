@@ -144,7 +144,7 @@ function buildAgent(options?: IAgentOptions): TAgent<InstalledPlugins> {
               {
                 chainId: 1337,
                 name: 'ganache',
-                provider: provider!,
+                provider: provider! as any,
                 registry: registry!,
               },
             ],

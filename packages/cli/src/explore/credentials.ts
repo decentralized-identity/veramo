@@ -65,7 +65,7 @@ export const getCredentialsTable = async (agent: ConfiguredAgent, screen: Widget
       content: JSON.stringify(credential, null, 2),
     })
     credentialBox.key(['c'], function (ch, key) {
-      var messageBox = blessed.message({
+      const messageBox = blessed.message({
         parent: screen,
         top: 'center',
         left: 'center',

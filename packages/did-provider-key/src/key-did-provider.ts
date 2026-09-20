@@ -32,7 +32,7 @@ const keyCodecs = {
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class KeyDIDProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
+  private readonly defaultKms: string
 
   constructor(options: { defaultKms: string }) {
     super()

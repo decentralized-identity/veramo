@@ -14,7 +14,7 @@ import { IAgentPlugin, IPluginMethodMap, IAgentPluginSchema } from '@veramo/core
 export class AgentRestClient implements IAgentPlugin {
   readonly methods: IPluginMethodMap = {}
   readonly schema?: IAgentPluginSchema
-  private url: string
+  private readonly url: string
 
   constructor(options: {
     url: string

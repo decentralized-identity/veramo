@@ -55,7 +55,7 @@ export const getManagedIdentifiersTable = async (agent: ConfiguredAgent, screen:
       content: JSON.stringify(identifier, null, 2),
     })
     identifierBox.key(['c'], function (ch, key) {
-      var messageBox = blessed.message({
+      const messageBox = blessed.message({
         parent: screen,
         top: 'center',
         left: 'center',

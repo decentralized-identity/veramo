@@ -104,7 +104,6 @@ export class Web3KeyManagementSystem extends AbstractKeyManagementSystem {
         msg = message
         msgDomain = domain
         msgTypes = types
-        msgPrimaryType = primaryType
       } else {
         // next check will throw since the data couldn't be parsed
       }

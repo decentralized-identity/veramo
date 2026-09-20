@@ -53,7 +53,7 @@ export const toIonPrivateKeyJwk = (privateKeyHex: string): JwkEs256k => {
 
 /**
  * Create a JWK from a hex public Key
- * @param privateKeyHex The public key in hex form
+ * @param publicKeyHex The public key in hex form
  * @return The JWK
  */
 export const toIonPublicKeyJwk = (publicKeyHex: string): JwkEs256k => {

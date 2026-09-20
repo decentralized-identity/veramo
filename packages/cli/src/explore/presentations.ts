@@ -65,7 +65,7 @@ export const getPresentationsTable = async (agent: ConfiguredAgent, screen: Widg
       content: JSON.stringify(presentation, null, 2),
     })
     presentationBox.key(['c'], function (ch, key) {
-      var messageBox = blessed.message({
+      const messageBox = blessed.message({
         parent: screen,
         top: 'center',
         left: 'center',

@@ -67,7 +67,7 @@ export abstract class AbstractDIDCommTransport implements IDIDCommTransport {
    *
    * @beta This API may change without a BREAKING CHANGE notice.
    */
-  constructor(id?: string) {
+  protected constructor(id?: string) {
     this.id = id || uuidv4()
   }
 

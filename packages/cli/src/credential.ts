@@ -123,7 +123,7 @@ credential
   .option('-r, --raw <string>', 'Optional. Specify the credential as a parameter instead of file or stdin')
   .action(async (options: { raw: string; filename: string }, cmd: Command) => {
     const agent = await getAgent(cmd.optsWithGlobals().config)
-    let raw: string = ''
+    let raw: string
     if (options.raw) {
       raw = options.raw
     } else if (options.filename) {

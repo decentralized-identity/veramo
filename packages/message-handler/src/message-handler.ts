@@ -42,7 +42,7 @@ export class MessageHandler implements IAgentPlugin {
    */
   readonly methods: IMessageHandler
   readonly schema = schema.IMessageHandler
-  private messageHandler?: AbstractMessageHandler
+  private readonly messageHandler?: AbstractMessageHandler
 
   constructor(options: { messageHandlers: AbstractMessageHandler[] }) {
     for (const messageHandler of options.messageHandlers) {

@@ -1,28 +1,11 @@
-import {
-  IAgentContext,
-  IDIDManager,
-  IIdentifier,
-  IKey,
-  IKeyManager,
-  IService,
-  TAgent,
-} from '@veramo/core-types'
+import { IAgentContext, IIdentifier, IKey, IKeyManager, IService, } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
-import { _NormalizedVerificationMethod } from '@veramo/utils'
-import {
-  DIDResolutionOptions,
-  DIDResolutionResult,
-  DIDResolver,
-  ParsedDID,
-  Resolvable,
-  VerificationMethod,
-} from 'did-resolver'
 
 /**
  * A DID method that uses the information stored by the DID manager to resolve
  */
 export class ExampleDidProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
+  private readonly defaultKms: string
 
   constructor({ defaultKms }: { defaultKms: string } = { defaultKms: 'local' }) {
     super()

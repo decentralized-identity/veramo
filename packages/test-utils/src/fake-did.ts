@@ -22,7 +22,7 @@ import {
  * A DID method that uses the information stored by the DID manager to resolve
  */
 export class FakeDidProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
+  private readonly defaultKms: string
 
   constructor({ defaultKms }: { defaultKms: string } = { defaultKms: 'local' }) {
     super()
@@ -97,7 +97,7 @@ export class FakeDidProvider extends AbstractIdentifierProvider {
 
 export class FakeDidResolver {
   getAgent: () => TAgent<IDIDManager>
-  private force2020: boolean
+  private readonly force2020: boolean
 
   constructor(getAgent: () => TAgent<IDIDManager>, force2020: boolean = false) {
     this.getAgent = getAgent

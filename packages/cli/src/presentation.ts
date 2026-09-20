@@ -145,7 +145,7 @@ presentation
       })
 
       if (opts.send) {
-        for (var verifier in aud) {
+        for (const verifier in aud) {
           try {
             const message = await agent.sendMessageDIDCommAlpha1({
               save: true,
@@ -181,7 +181,7 @@ presentation
   .action(
     async (options: { challenge: string; domain: string; filename: string; raw: string }, cmd: Command) => {
       const agent = await getAgent(cmd.optsWithGlobals().config)
-      let raw: string = ''
+      let raw: string
       if (options.raw) {
         raw = options.raw
       } else if (options.filename) {

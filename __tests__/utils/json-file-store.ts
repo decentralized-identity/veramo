@@ -25,7 +25,7 @@ export class JsonFileStore implements VeramoJsonStore {
   claims: Record<string, ClaimTableEntry>
   presentations: Record<string, PresentationTableEntry>
   messages: Record<string, IMessage>
-  private file: fs.PathLike
+  private readonly file: fs.PathLike
 
   private constructor(file: fs.PathLike) {
     this.file = file

@@ -19,7 +19,7 @@ type CreateWebDidOptions = CreateIdentifierBaseOptions & {
  * @public
  */
 export class WebDIDProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
+  private readonly defaultKms: string
 
   constructor(options: { defaultKms: string }) {
     super()

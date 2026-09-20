@@ -114,10 +114,10 @@ export interface EthrNetworkConfiguration {
  * @public
  */
 export class EthrDIDProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
-  private networks: EthrNetworkConfiguration[]
-  private gas?: number
-  private ttl?: number
+  private readonly defaultKms: string
+  private readonly networks: EthrNetworkConfiguration[]
+  private readonly gas?: number
+  private readonly ttl?: number
 
   constructor(options: {
     defaultKms: string
