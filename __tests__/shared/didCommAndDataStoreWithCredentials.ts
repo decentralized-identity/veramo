@@ -10,10 +10,10 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../packages/core-types/src'
-import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
+} from '../../packages/core-types/src/index.js'
+import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src/index.js'
 import { v4 } from 'uuid'
-import { VerifiableCredential } from '../../packages/core-types/src'
+import { VerifiableCredential } from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 

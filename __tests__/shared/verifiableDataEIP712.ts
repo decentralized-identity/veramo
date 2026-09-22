@@ -11,7 +11,7 @@ import {
   TAgent,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../packages/core-types/src'
+} from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM

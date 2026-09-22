@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { KeyManagementSystem } from '../key-management-system.js'
-import { TKeyType } from '../../../core-types/src'
-import { MemoryPrivateKeyStore } from '../../../key-manager/src'
+import { TKeyType } from '../../../core-types/src/index.js'
+import { MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
 import {
   bytesToHex,
   convertEd25519PrivateKeyToX25519,
   convertEd25519PublicKeyToX25519,
   hexToBytes,
   stringToUtf8Bytes,
-} from '../../../utils/src'
+} from '../../../utils/src/index.js'
 import { randomBytes } from 'ethers'
 import {
   convertPublicKeyToX25519,

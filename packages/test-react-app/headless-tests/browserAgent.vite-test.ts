@@ -28,6 +28,8 @@ import didManager from '../../../__tests__/shared/didManager.js'
 import messageHandler from '../../../__tests__/shared/messageHandler.js'
 import utils from '../../../__tests__/shared/utils.js'
 
+import { describe } from 'vitest'
+
 const suites = [
   { name: 'verifiableDataJWT', fn: verifiableDataJWT },
   { name: 'verifiableDataLD', fn: verifiableDataLD },
@@ -43,10 +45,8 @@ const suites = [
   { name: 'didCommPacking', fn: didCommPacking },
 ]
 
-const orderedSuites = import.meta.env?.VITE_REVERSE_SUITES ? [...suites].reverse() : suites
-
 describe('Browser integration tests (Vitest)', () => {
-  for (const { name, fn } of orderedSuites) {
+  for (const { name, fn } of suites) {
     describe(name, () => {
       const testContext = { getAgent, setup, tearDown }
       fn(testContext)

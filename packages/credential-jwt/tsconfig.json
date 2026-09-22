@@ -12,5 +12,6 @@
     { "path": "../credential-w3c" },
     { "path": "../utils" }
   ],
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

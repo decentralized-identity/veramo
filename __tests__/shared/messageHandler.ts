@@ -2,7 +2,7 @@
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { IDataStore, IDataStoreORM, IMessage, IMessageHandler, TAgent } from '../../packages/core-types/src'
+import { IDataStore, IDataStoreORM, IMessage, IMessageHandler, TAgent } from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<IDataStore & IMessageHandler & IDataStoreORM>
 

@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { DIDResolutionResult, IAgentContext, ICredentialVerifier, IResolver } from '../../../core-types/src'
-import { Message } from '../../../message-handler/src'
+import { DIDResolutionResult, IAgentContext, ICredentialVerifier, IResolver } from '../../../core-types/src/index.js'
+import { Message } from '../../../message-handler/src/index.js'
 import { IContext, MessageTypes, W3cMessageHandler } from '../message-handler.js'
-import { computeEntryHash } from '../../../utils/src'
+import { computeEntryHash } from '../../../utils/src/index.js'
 
 describe('@veramo/credential-w3c', () => {
   const handler = new W3cMessageHandler()

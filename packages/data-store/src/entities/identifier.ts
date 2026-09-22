@@ -1,14 +1,14 @@
 import {
-  Entity,
-  Column,
-  Connection,
-  PrimaryColumn,
   BaseEntity,
-  OneToMany,
-  ManyToMany,
-  Index,
   BeforeInsert,
   BeforeUpdate,
+  Column,
+  DataSource,
+  Entity,
+  Index,
+  ManyToMany,
+  OneToMany,
+  PrimaryColumn,
 } from 'typeorm'
 import { Key } from './key.js'
 import { Service } from './service.js'
@@ -117,10 +117,11 @@ export class Identifier extends BaseEntity {
    * const name = await identifier.getLatestClaimValue({type: 'name'})
    * ```
    *
+   * @param dbConnection
    * @param where - The TypeORM `where` filter to use.
    */
   async getLatestClaimValue(
-    dbConnection: Promise<Connection>,
+    dbConnection: Promise<DataSource>,
     where: any,
   ): Promise<string | null | undefined> {
     const claim = await (await dbConnection).getRepository(Claim).findOne({

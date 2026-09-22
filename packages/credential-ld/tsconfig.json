@@ -8,7 +8,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.json", "src/**/*.ts"],
+  "include": ["./**/*.ts", "./**/*.json"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [
     { "path": "../core-types" },
     { "path": "../credential-w3c" },

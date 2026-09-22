@@ -36,8 +36,8 @@ export class DIDManager implements IAgentPlugin {
   readonly methods: IDIDManager
   readonly schema = schema.IDIDManager
 
-  private providers: Record<string, AbstractIdentifierProvider>
-  private defaultProvider: string
+  private readonly providers: Record<string, AbstractIdentifierProvider>
+  private readonly defaultProvider: string
   private store: AbstractDIDStore
 
   constructor(options: {

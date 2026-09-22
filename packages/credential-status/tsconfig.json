@@ -11,5 +11,7 @@
     { "path": "../core-types" },
     { "path": "../did-resolver" },
     { "path": "../utils" }
-  ]
+  ],
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

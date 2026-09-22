@@ -9,6 +9,8 @@
     "strictFunctionTypes": false,
     "types": ["node"]
   },
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [
     {
       "path": "../core-types"

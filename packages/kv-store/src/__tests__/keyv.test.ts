@@ -7,7 +7,7 @@ import { DataSource } from 'typeorm'
 import { KeyValueStoreEntity } from '../store-adapters/typeorm/entities/keyValueStoreEntity.js'
 import { KeyValueTieredStoreAdapter, KeyValueTypeORMStoreAdapter } from '../store-adapters/index.js'
 import { KeyvOptions } from '../keyv/keyv-types.js'
-import { kvStoreMigrations } from '../store-adapters/typeorm/migrations'
+import { kvStoreMigrations } from '../store-adapters/typeorm/migrations/index.js'
 
 let dbConnection: DataSource
 beforeEach(async () => {

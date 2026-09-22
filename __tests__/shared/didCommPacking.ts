@@ -2,8 +2,8 @@
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core-types/src'
-import { IDIDComm, IDIDCommMessage } from '../../packages/did-comm/src'
+import { IDIDManager, IIdentifier, IKeyManager, IResolver, TAgent } from '../../packages/core-types/src/index.js'
+import { IDIDComm, IDIDCommMessage } from '../../packages/did-comm/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 

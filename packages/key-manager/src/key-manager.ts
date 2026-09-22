@@ -50,7 +50,7 @@ export class KeyManager implements IAgentPlugin {
   readonly schema = schema.IKeyManager
 
   private store: AbstractKeyStore
-  private kms: Record<string, AbstractKeyManagementSystem>
+  private readonly kms: Record<string, AbstractKeyManagementSystem>
 
   constructor(options: { store: AbstractKeyStore; kms: Record<string, AbstractKeyManagementSystem> }) {
     this.store = options.store

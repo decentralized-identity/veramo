@@ -10,8 +10,8 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../packages/core-types/src'
-import { IDIDComm } from '../../packages/did-comm/src'
+} from '../../packages/core-types/src/index.js'
+import { IDIDComm } from '../../packages/did-comm/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 

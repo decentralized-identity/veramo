@@ -16,21 +16,21 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../../core/src'
+} from '../../../core/src/index.js'
 import {
   RequesterDid,
   IMediationManager,
   PreMediationRequestPolicy,
   MediationResponse,
-} from '../../../mediation-manager'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
+} from '../../../mediation-manager/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { MessageHandler } from '../../../message-handler/src'
+import { MessageHandler } from '../../../message-handler/src/index.js'
 import {
   CoordinateMediationV3MediatorMessageHandler,
   CoordinateMediationV3RecipientMessageHandler,
@@ -43,20 +43,20 @@ import {
   createV3RecipientQueryMessage,
 } from '../protocols/coordinate-mediation-v3-message-handler.js'
 import type { Update, UpdateResult } from '../protocols/coordinate-mediation-v3-message-handler.js'
-import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
-import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
+import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/index.js'
+import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src/index.js'
 import {
   Entities as DataStoreEntities,
   IDataStore,
   migrations as dataStoreMigrations,
-} from '../../../data-store/src'
+} from '../../../data-store/src/index.js'
 
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
-import { DataStore, DataStoreORM } from '../../../data-store/src'
-import { MediationManagerPlugin } from '../../../mediation-manager/src'
+import { DataStore, DataStoreORM } from '../../../data-store/src/index.js'
+import { MediationManagerPlugin } from '../../../mediation-manager/src/index.js'
 import { DataSource } from 'typeorm'
 
 import 'cross-fetch/polyfill'

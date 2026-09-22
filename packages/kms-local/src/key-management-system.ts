@@ -15,18 +15,8 @@ import {
 
 import { EdDSASigner, ES256KSigner, ES256Signer } from 'did-jwt'
 import { ed25519, x25519 } from '@noble/curves/ed25519'
-import { p256 } from '@noble/curves/p256'
-import {
-  TransactionRequest,
-  toUtf8String,
-  Wallet,
-  SigningKey,
-  randomBytes,
-  getBytes,
-  hexlify,
-  Transaction,
-  decodeRlp
-} from 'ethers'
+import { p256 } from '@noble/curves/nist.js'
+import { getBytes, hexlify, randomBytes, SigningKey, toUtf8String, Transaction, Wallet } from 'ethers'
 import Debug from 'debug'
 import {
   bytesToHex,
@@ -71,7 +61,7 @@ export class KeyManagementSystem extends AbstractKeyManagementSystem {
     return managedKeys
   }
 
-  async createKey({ type, kid }: { type: TKeyType, kid?: string }): Promise<ManagedKeyInfo> {
+  async createKey({ type, kid }: { type: TKeyType; kid?: string }): Promise<ManagedKeyInfo> {
     let key: ManagedKeyInfo
 
     switch (type) {

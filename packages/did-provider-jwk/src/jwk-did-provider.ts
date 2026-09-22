@@ -15,7 +15,7 @@ type IContext = IAgentContext<IKeyManager>
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class JwkDIDProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
+  private readonly defaultKms: string
 
   constructor(options: { defaultKms: string }) {
     super()

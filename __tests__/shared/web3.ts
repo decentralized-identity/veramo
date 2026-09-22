@@ -11,7 +11,7 @@ import {
   MinimalImportableKey,
   TAgent,
   VerifiableCredential,
-} from '../../packages/core-types/src'
+} from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager & IKeyManager>
 

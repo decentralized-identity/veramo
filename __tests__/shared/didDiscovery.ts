@@ -2,8 +2,8 @@
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { IDIDDiscovery } from '../../packages/did-discovery/src'
-import { IAgentOptions, ICredentialIssuer, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core-types/src'
+import { IDIDDiscovery } from '../../packages/did-discovery/src/index.js'
+import { IAgentOptions, ICredentialIssuer, IDataStoreORM, IDIDManager, TAgent } from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IDIDDiscovery & IDataStoreORM & ICredentialIssuer>
 

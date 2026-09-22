@@ -8,13 +8,24 @@
   },
   "references": [
     {
+      "path": "../core"
+    },
+    {
       "path": "../core-types"
     },
     {
       "path": "../did-manager"
     },
     {
+      "path": "../key-manager"
+    },
+    {
+      "path": "../kms-local"
+    },
+    {
       "path": "../utils"
     }
-  ]
+  ],
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

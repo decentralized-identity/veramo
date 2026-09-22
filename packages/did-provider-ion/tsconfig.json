@@ -22,5 +22,7 @@
     {
       "path": "../utils"
     }
-  ]
+  ],
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

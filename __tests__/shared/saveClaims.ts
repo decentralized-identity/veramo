@@ -11,8 +11,8 @@ import {
   IIdentifier,
   IMessageHandler,
   TAgent,
-} from '../../packages/core-types/src'
-import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
+} from '../../packages/core-types/src/index.js'
+import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src/index.js'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure

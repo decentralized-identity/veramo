@@ -5,7 +5,7 @@ import canonicalize from 'canonicalize'
 export class JsonCanonicalizer {
   /**
    * Canonicalizes the given content as a string
-   * @param The content to canonicalize
+   * @param content - The content to canonicalize
    * @return The canonicalized content
    */
   static asString(content: unknown): string {

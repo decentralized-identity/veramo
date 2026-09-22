@@ -2,7 +2,7 @@
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { IDIDManager, IIdentifier, IKeyManager, ManagedKeyInfo, TAgent } from '../../packages/core-types/src'
+import { IDIDManager, IIdentifier, IKeyManager, ManagedKeyInfo, TAgent } from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>
 

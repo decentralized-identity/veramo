@@ -8,8 +8,8 @@ import {
   IResolver,
   MinimalImportableKey,
   TAgent,
-} from '../../packages/core-types/src'
-import { getChainId, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src'
+} from '../../packages/core-types/src/index.js'
+import { getChainId, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src/index.js'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
 

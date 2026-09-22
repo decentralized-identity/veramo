@@ -1,11 +1,11 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 
-import { IDIDManager, IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src'
-import { createAgent } from '../../core/src'
-import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src'
+import { IDIDManager, IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src/index.js'
+import { createAgent } from '../../core/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src/index.js'
 import { IonPublicKeyPurpose } from '@decentralized-identity/ion-sdk'
-import { KeyManagementSystem } from '../../kms-local/src'
+import { KeyManagementSystem } from '../../kms-local/src/index.js'
 import { IonDIDProvider } from '../src/ion-did-provider.js'
 import { ICreateIdentifierOpts } from '../src/types/ion-provider-types.js'
 

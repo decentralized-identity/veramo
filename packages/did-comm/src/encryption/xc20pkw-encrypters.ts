@@ -15,7 +15,6 @@ import { base64ToBytes } from '@veramo/utils'
 import { xc20pDecrypter, xc20pKeyUnwrapper, xc20pKeyWrapper } from './xc20pkw.js'
 import { a256cbcHs512DirDecrypter, a256cbcHs512DirEncrypter } from './a256cbc-hs512-dir.js'
 import { a256gcmDirDecrypter, a256gcmDirEncrypter } from './a256gcm-dir.js'
-import { a256KeyWrapper } from './a256kw.js'
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // A256CBC-HS512

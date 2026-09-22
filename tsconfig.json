@@ -4,8 +4,8 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "declarationMap": true,
     "declaration": true,
@@ -15,10 +15,12 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDirs": ["packages/*", "__tests__"]
   },
+  "include": ["./**/*.ts"],
   "exclude": [
-    "**/__tests__/**/*",
-    "**/build/**/*"
+    "**/build/**/*",
+    "**/test-react-app/**/*"
   ]
 }

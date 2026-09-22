@@ -55,6 +55,7 @@ export interface IEventListener {
   readonly eventTypes?: string[]
   /**
    * Processes an event emitted by the agent.
+   * @param event - the event object containing the type and data of the event
    * @param context - Execution context. Requires agent with {@link @veramo/core-types#IDataStore} methods
    * @public
    */

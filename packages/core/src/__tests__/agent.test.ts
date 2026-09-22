@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { Agent, createAgent } from '../agent.js'
-import { IAgentPlugin, IResolver } from '../../../core-types/src'
+import { IAgentPlugin, IResolver } from '../../../core-types/src/index.js'
 
 describe('core agent', () => {
   it('should use plugin methods', async () => {

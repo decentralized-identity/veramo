@@ -12,7 +12,6 @@ export default tseslint.config(
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: react.configs.flat.recommended.plugins,
-    rules: react.configs.flat.recommended.rules,
     settings: {
       react: { version: 'detect' },
     },
@@ -21,7 +20,8 @@ export default tseslint.config(
       globals: { ...globals.browser, ...globals.node },
     },
     rules: {
-      // Preserve the v5-era baseline (0 errors / 7 warnings): these rules were
+      ...react.configs.flat.recommended.rules,
+      // Preservec the v5-era baseline (0 errors / 7 warnings): these rules were
       // warnings under @typescript-eslint v5, and v8 promotes no-explicit-any
       // to an error / drops no-non-null-assertion from recommended entirely.
       '@typescript-eslint/no-explicit-any': 'warn',

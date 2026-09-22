@@ -1,7 +1,7 @@
 import { JwkDidSupportedKeyTypes, KeyUse, SupportedKeyTypes } from './types/utility-types.js'
 import type { VerificationMethod, JsonWebKey } from 'did-resolver'
 import { secp256k1 } from '@noble/curves/secp256k1'
-import { p256 } from '@noble/curves/p256'
+import { p256 } from '@noble/curves/nist.js'
 import { bytesToBase64url, hexToBytes } from 'did-jwt'
 import { extractPublicKeyHex } from './did-utils.js'
 
@@ -80,7 +80,7 @@ export function createJWK(
     const keyUse = getKeyUse(keyType, passedKeyUse)
     switch (keyType) {
       case SupportedKeyTypes.Secp256k1: {
-        const point = secp256k1.ProjectivePoint.fromHex(pubKey).toAffine()
+        const point = secp256k1.Point.fromHex(pubKey).toAffine()
 
         return {
           alg: 'ES256K',
@@ -93,7 +93,7 @@ export function createJWK(
         } as JsonWebKey
       }
       case SupportedKeyTypes.Secp256r1: {
-        const point = p256.ProjectivePoint.fromHex(pubKey).toAffine()
+        const point = p256.Point.fromHex(pubKey).toAffine()
 
         return {
           alg: 'ES256',

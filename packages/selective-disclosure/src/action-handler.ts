@@ -108,7 +108,8 @@ export class SelectiveDisclosure implements IAgentPlugin {
           dataString = data
           encoding = undefined
         } else {
-          ;(dataString = bytesToBase64(data)), (encoding = 'base64')
+          dataString = bytesToBase64(data)
+          encoding = 'base64'
         }
         return context.agent.keyManagerSign({ keyRef: key.kid, data: dataString, encoding, algorithm })
       }
