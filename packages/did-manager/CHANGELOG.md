@@ -315,6 +315,14 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.2
+  - @veramo/did-discovery@7.0.2
+
 ## 7.0.1
 
 ### Patch Changes

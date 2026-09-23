@@ -688,6 +688,40 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`aec351f`](https://github.com/decentralized-identity/veramo/commit/aec351feeb964941c2e23a1b99f1e1f2cce425c2), [`385c215`](https://github.com/decentralized-identity/veramo/commit/385c215de98ed74bd680f934ce34ef4324e9e433)]:
+  - @veramo/did-comm@7.0.2
+  - @veramo/core@7.0.2
+  - @veramo/core-types@7.0.2
+  - @veramo/credential-eip712@7.0.2
+  - @veramo/credential-jwt@7.0.2
+  - @veramo/credential-ld@7.0.2
+  - @veramo/credential-w3c@7.0.2
+  - @veramo/data-store@7.0.2
+  - @veramo/did-discovery@7.0.2
+  - @veramo/did-jwt@7.0.2
+  - @veramo/did-manager@7.0.2
+  - @veramo/did-provider-ethr@7.0.2
+  - @veramo/did-provider-jwk@7.0.2
+  - @veramo/did-provider-key@7.0.2
+  - @veramo/did-provider-peer@7.0.2
+  - @veramo/did-provider-pkh@7.0.2
+  - @veramo/did-provider-web@7.0.2
+  - @veramo/did-resolver@7.0.2
+  - @veramo/key-manager@7.0.2
+  - @veramo/kms-local@7.0.2
+  - @veramo/kv-store@7.0.2
+  - @veramo/mediation-manager@7.0.2
+  - @veramo/message-handler@7.0.2
+  - @veramo/remote-client@7.0.2
+  - @veramo/remote-server@7.0.2
+  - @veramo/selective-disclosure@7.0.2
+  - @veramo/url-handler@7.0.2
+  - @veramo/utils@7.0.2
+
 ## 7.0.1
 
 ### Patch Changes

@@ -410,6 +410,10 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.2
+
+No changes in this release.
+
 ## 7.0.1
 
 No changes in this release.
