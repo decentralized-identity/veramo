@@ -1,5 +1,16 @@
 # Change Log
 
+## 7.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.2
+  - @veramo/did-manager@7.0.2
+  - @veramo/key-manager@7.0.2
+  - @veramo/kms-local@7.0.2
+  - @veramo/utils@7.0.2
+
 ## 7.0.1
 
 ### Patch Changes
