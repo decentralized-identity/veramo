@@ -399,6 +399,24 @@ fix: missing deps flagged by pnpm
 
 
 
+## 7.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.2
+  - @veramo/message-handler@7.0.2
+  - @veramo/utils@7.0.2
+
+## 7.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`cc82482`](https://github.com/decentralized-identity/veramo/commit/cc824828518d65b4dfb81469275ff4e11e5685c9)]:
+  - @veramo/utils@7.0.1
+  - @veramo/core-types@7.0.1
+  - @veramo/message-handler@7.0.1
+
 ## 1.0.1 (2020-12-18)
 
 **Note:** Version bump only for package @veramo/credential-w3c

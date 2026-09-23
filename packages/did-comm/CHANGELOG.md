@@ -445,6 +445,42 @@ The recommended way to do things is to use the `migrations` mechanism. It allows
 
 
 
+## 7.0.2
+
+### Patch Changes
+
+- [#1512](https://github.com/decentralized-identity/veramo/pull/1512) [`aec351f`](https://github.com/decentralized-identity/veramo/commit/aec351feeb964941c2e23a1b99f1e1f2cce425c2) Thanks [@mirceanis](https://github.com/mirceanis)! - fix(did-comm): emit DIDComm v2 `created_time`/`expires_time` as integer epoch seconds
+  
+  DIDComm v2 requires `created_time`/`expires_time` as UTC epoch seconds (an integer).
+  Veramo emitted `new Date().toISOString()`, which `didcomm-rust` (which models the
+  header as `Option<u64>`) rejected, failing to deserialize otherwise-valid messages.
+  
+  Producers now emit `Math.floor(Date.now() / 1000)`, and `IDIDCommMessage` accepts
+  `number | string` for a transition period. Values are normalized back to an ISO-8601
+  string at the internal message boundary so the internal pipeline and datastore are
+  unaffected, while legacy ISO-string messages continue to round-trip.
+  
+  fixes [#1499](https://github.com/decentralized-identity/veramo/issues/1499)
+
+- [#1511](https://github.com/decentralized-identity/veramo/pull/1511) [`385c215`](https://github.com/decentralized-identity/veramo/commit/385c215de98ed74bd680f934ce34ef4324e9e433) Thanks [@mirceanis](https://github.com/mirceanis)! - fix(did-comm): add required apv protected header when packing JWE messages ([#1501](https://github.com/decentralized-identity/veramo/issues/1501))
+- Updated dependencies []:
+  - @veramo/core-types@7.0.2
+  - @veramo/kv-store@7.0.2
+  - @veramo/mediation-manager@7.0.2
+  - @veramo/message-handler@7.0.2
+  - @veramo/utils@7.0.2
+
+## 7.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`cc82482`](https://github.com/decentralized-identity/veramo/commit/cc824828518d65b4dfb81469275ff4e11e5685c9)]:
+  - @veramo/utils@7.0.1
+  - @veramo/kv-store@7.0.1
+  - @veramo/core-types@7.0.1
+  - @veramo/mediation-manager@7.0.1
+  - @veramo/message-handler@7.0.1
+
 ## 1.0.1 (2020-12-18)
 
 **Note:** Version bump only for package @veramo/did-comm

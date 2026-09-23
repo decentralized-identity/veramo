@@ -1,7 +1,7 @@
 {
   "name": "@veramo/credential-jwt",
   "description": "Veramo plugin for working with JWT Verifiable Credentials & Presentations.",
-  "version": "7.0.0",
+  "version": "7.0.2",
   "main": "build/index.js",
   "exports": {
     ".": "./build/index.js"

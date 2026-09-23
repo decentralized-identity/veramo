@@ -271,6 +271,20 @@ fix: missing deps flagged by pnpm
 
 
 
+## 7.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.2
+
+## 7.0.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.1
+
 ## 1.0.1 (2020-12-18)
 
 **Note:** Version bump only for package @veramo/message-handler

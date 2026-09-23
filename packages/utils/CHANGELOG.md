@@ -1,5 +1,20 @@
 # Change Log
 
+## 7.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @veramo/core-types@7.0.2
+
+## 7.0.1
+
+### Patch Changes
+
+- [#1504](https://github.com/decentralized-identity/veramo/pull/1504) [`cc82482`](https://github.com/decentralized-identity/veramo/commit/cc824828518d65b4dfb81469275ff4e11e5685c9) Thanks [@mirceanis](https://github.com/mirceanis)! - trialing changesets release patterns
+- Updated dependencies []:
+  - @veramo/core-types@7.0.1
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
