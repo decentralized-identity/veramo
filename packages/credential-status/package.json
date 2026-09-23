@@ -17,8 +17,10 @@
     "did-resolver": "^4.1.0"
   },
   "devDependencies": {
+    "@veramo/core": "workspace:^",
+    "@veramo/did-resolver": "workspace:^",
     "@types/debug": "4.1.8",
-    "typescript": "5.7.3"
+    "typescript": "7.0.2"
   },
   "files": [
     "build/**/*",

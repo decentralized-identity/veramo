@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeEach, afterAll } from 'vitest'
+
 import {
   IAgentOptions,
   IDIDManager,
@@ -8,8 +10,8 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../packages/core-types/src'
-import {IDIDComm} from '../../packages/did-comm/src'
+} from '../../packages/core-types/src/index.js'
+import {IDIDComm} from '../../packages/did-comm/src/index.js'
 // @ts-ignore
 import express from 'express'
 import {Server} from 'http'

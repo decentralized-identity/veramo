@@ -1,5 +1,6 @@
+import { describe, expect, it } from 'vitest'
 import { AbstractKeyManagementSystem, KeyManager, MemoryKeyStore } from '../index.js'
-import { IKey, ManagedKeyInfo, MinimalImportableKey, TKeyType } from '../../../core-types/src'
+import { IKey, ManagedKeyInfo, MinimalImportableKey, TKeyType } from '../../../core-types/src/index.js'
 
 const TEST_KEY_TYPE = 'TEST_KEY_TYPE'
 const TEST_ALG = 'TEST_ALG'

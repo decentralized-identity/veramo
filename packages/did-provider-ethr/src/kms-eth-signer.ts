@@ -19,8 +19,8 @@ import {Addressable} from "ethers";
  * @internal This is exported for convenience, not meant to be supported as part of the public API
  */
 export class KmsEthereumSigner extends AbstractSigner {
-  private context: IRequiredContext
-  private controllerKey: IKey
+  private readonly context: IRequiredContext
+  private readonly controllerKey: IKey
   readonly provider: Provider | null
 
   constructor(controllerKey: IKey, context: IRequiredContext, provider?: Provider) {

@@ -1,4 +1,5 @@
-import { ManagedKeyInfo } from '../../core-types/src'
+import { describe, expect, it } from 'vitest'
+import { ManagedKeyInfo } from '../../core-types/src/index.js'
 import { generatePrivateKeyHex, tempMemoryKey, toIonPrivateKeyJwk } from '../src/functions.js'
 import { KeyIdentifierRelation, KeyType } from '../src/types/ion-provider-types.js'
 

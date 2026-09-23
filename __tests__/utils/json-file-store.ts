@@ -7,10 +7,10 @@ import {
   PresentationTableEntry,
   VeramoJsonCache,
   VeramoJsonStore,
-} from '../../packages/data-store-json/src'
+} from '../../packages/data-store-json/src/index.js'
 import * as fs from 'fs'
-import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core-types/src'
-import { ManagedPrivateKey } from '../../packages/key-manager/src'
+import { IIdentifier, IMessage, ManagedKeyInfo } from '../../packages/core-types/src/index.js'
+import { ManagedPrivateKey } from '../../packages/key-manager/src/index.js'
 
 /**
  * A utility class that shows how a File based JSON storage system could work.
@@ -25,7 +25,7 @@ export class JsonFileStore implements VeramoJsonStore {
   claims: Record<string, ClaimTableEntry>
   presentations: Record<string, PresentationTableEntry>
   messages: Record<string, IMessage>
-  private file: fs.PathLike
+  private readonly file: fs.PathLike
 
   private constructor(file: fs.PathLike) {
     this.file = file

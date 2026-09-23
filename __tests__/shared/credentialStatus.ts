@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, beforeEach, afterAll, vi } from 'vitest'
+
 import { CredentialStatus } from 'credential-status'
 import {
   CredentialPayload,
@@ -10,9 +12,8 @@ import {
   IDIDManager,
   IIdentifier,
   TAgent,
-} from '../../packages/core-types/src'
-import { CredentialStatusPlugin } from '../../packages/credential-status/src'
-import { jest } from '@jest/globals'
+} from '../../packages/core-types/src/index.js'
+import { CredentialStatusPlugin } from '../../packages/credential-status/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 
@@ -25,7 +26,7 @@ const simulateRevokedCredential = 'A_revoked_credential.'
 // Constant used to simulate revoked credentials
 const simulateNotRevokedCredential = 'A_NOT_revoked_credential.'
 
-const callsCounter = jest.fn()
+const callsCounter = vi.fn()
 
 const checkStatus = async (credential: any): Promise<CredentialStatus> => {
   callsCounter()

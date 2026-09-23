@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { ContextDoc } from '../types.js'
 import { LdContextLoader } from '../ld-context-loader.js'
 import { LdDefaultContexts } from '../ld-default-contexts.js'

@@ -43,7 +43,7 @@ export class CredentialPlugin implements IAgentPlugin {
       },
     },
   }
-  private providers: ICredentialProvider[]
+  private readonly providers: ICredentialProvider[]
 
   constructor(providers: ICredentialProvider[]) {
     this.providers = providers
@@ -95,9 +95,8 @@ export class CredentialPlugin implements IAgentPlugin {
       throw new Error('invalid_argument: credential.issuer must not be empty')
     }
 
-    let identifier: IIdentifier
     try {
-      identifier = await context.agent.didManagerGet({ did: issuer })
+      const identifier = await context.agent.didManagerGet({ did: issuer })
     } catch (e) {
       throw new Error(`invalid_argument: credential.issuer must be a DID managed by this agent. ${e}`)
     }

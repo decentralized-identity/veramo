@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { DIDResolverPlugin } from '../resolver.js'
 import { Resolver, VerificationMethod } from 'did-resolver'
 

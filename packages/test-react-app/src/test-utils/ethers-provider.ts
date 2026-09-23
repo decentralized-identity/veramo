@@ -17,7 +17,6 @@ class MockWeb3Provider implements Eip1193Provider {
       case 'personal_sign':
         // @ts-expect-error wallet typing of params is any
         return this.wallet.signMessage(request.params[1])
-        break
       case 'eth_signTypedData_v4': {
         // @ts-expect-error wallet typing of params is any
         const {domain, types, message} = JSON.parse(request.params[1])
@@ -28,7 +27,6 @@ class MockWeb3Provider implements Eip1193Provider {
         return [await this.wallet.getAddress()]
       case 'eth_chainId':
         return "1337"
-      break
       default:
         throw Error(`not_available: method ${request.method}`)
     }

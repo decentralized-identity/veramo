@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
+
 import {
   IAgentOptions,
   IDIDManager,
@@ -8,17 +10,16 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../packages/core-types/src'
-import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src'
+} from '../../packages/core-types/src/index.js'
+import { IDIDComm, IPackedDIDCommMessage } from '../../packages/did-comm/src/index.js'
 import { v4 } from 'uuid'
-import { VerifiableCredential } from '../../packages/core-types/src'
-import { jest } from '@jest/globals'
+import { VerifiableCredential } from '../../packages/core-types/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {

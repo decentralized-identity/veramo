@@ -29,7 +29,7 @@ export class Key extends BaseEntity {
   // @ts-ignore
   kms: string
 
-  @Column()
+  @Column({ type: 'varchar' })
   // @ts-ignore
   type: KeyType
 

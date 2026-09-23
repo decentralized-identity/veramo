@@ -1,4 +1,4 @@
-import { beforeAll, jest } from '@jest/globals'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
 // @ts-ignore
 import express from 'express'
@@ -11,16 +11,16 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core-types/src'
-import { MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src'
+} from '../packages/core-types/src/index.js'
+import { MessagingRouter, RequestWithAgentRouter } from '../packages/remote-server/src/index.js'
 
-import { createAgent, IAgentOptions } from '../packages/core/src'
+import { createAgent, IAgentOptions } from '../packages/core/src/index.js'
 
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
-import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
-import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src'
+import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
+import { MessageHandler } from '../packages/message-handler/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src/index.js'
+import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/did-provider-peer/src/index.js'
 import {
   CoordinateMediation,
   CoordinateMediationV3MediatorMessageHandler,
@@ -35,22 +35,22 @@ import {
   PickupRecipientMessageHandler,
   RoutingMessageHandler,
   UpdateAction,
-} from '../packages/did-comm/src'
+} from '../packages/did-comm/src/index.js'
 import {
   IMediationManager,
   MediationManagerPlugin,
   MediationResponse,
   PreMediationRequestPolicy,
   RequesterDid,
-} from '../packages/mediation-manager/src'
-import { KeyManagementSystem } from '../packages/kms-local/src'
-import { DataStoreJson } from '../packages/data-store-json/src'
-import { KeyValueStore } from '../packages/kv-store/src'
+} from '../packages/mediation-manager/src/index.js'
+import { KeyManagementSystem } from '../packages/kms-local/src/index.js'
+import { DataStoreJson } from '../packages/data-store-json/src/index.js'
+import { KeyValueStore } from '../packages/kv-store/src/index.js'
 import { Server } from 'http'
-import { DELIVERY_MESSAGE_TYPE } from '../packages/did-comm/src/protocols/messagepickup-message-handler'
+import { DELIVERY_MESSAGE_TYPE } from '../packages/did-comm/src/protocols/messagepickup-message-handler.js'
 
 const MEDIATOR_PORT = 3333
-jest.fn(() => Promise.resolve())
+vi.fn(() => Promise.resolve())
 // minimum set of plugins for users
 type UserAgentPlugins = IResolver & IKeyManager & IDIDManager & IMessageHandler & IDIDComm
 

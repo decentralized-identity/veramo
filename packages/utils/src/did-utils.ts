@@ -32,7 +32,7 @@ const debug = Debug('veramo:utils')
 export function convertEd25519PublicKeyToX25519(publicKey: Uint8Array): Uint8Array {
   // FIXME: Once https://github.com/paulmillr/noble-curves/issues/31 gets released, this code can be simplified
   const Fp = ed25519.CURVE.Fp
-  const { y } = ed25519.ExtendedPoint.fromHex(publicKey)
+  const { y } = ed25519.Point.fromHex(publicKey)
   const _1n = BigInt(1)
   return Fp.toBytes(Fp.create((_1n + y) * Fp.inv(_1n - y)))
 }

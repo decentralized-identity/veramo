@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import {
   compressSecp256k1PublicKeyHex,
   extractPublicKeyHex,

@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
+
 import {
   IAgentOptions,
   IDIDManager,
@@ -10,20 +12,19 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../packages/core-types/src'
-import { IDIDComm } from '../../packages/did-comm/src'
-import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-server/src'
+} from '../../packages/core-types/src/index.js'
+import { IDIDComm } from '../../packages/did-comm/src/index.js'
+import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-server/src/index.js'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { jest } from '@jest/globals'
-import { bytesToBase58, hexToBytes } from '../../packages/utils/src'
+import { bytesToBase58, hexToBytes } from '../../packages/utils/src/index.js'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 export default (testContext: {
@@ -112,7 +113,7 @@ export default (testContext: {
           description: 'this endpoint will be removed',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -127,7 +128,7 @@ export default (testContext: {
         id: 'localhost-useless-endpoint',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -145,7 +146,7 @@ export default (testContext: {
           description: 'this endpoint will be removed',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -160,7 +161,7 @@ export default (testContext: {
         id: 'localhost-useless-endpoint-2',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -178,7 +179,7 @@ export default (testContext: {
           description: 'this endpoint will be removed',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -193,7 +194,7 @@ export default (testContext: {
         id: 'localhost-useless-endpoint-3',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -211,7 +212,7 @@ export default (testContext: {
           description: 'this endpoint will be removed',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -226,7 +227,7 @@ export default (testContext: {
         id: 'localhost-useless-endpoint-4',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -247,7 +248,7 @@ export default (testContext: {
         key: dummyKey,
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: alice.did })
       expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyHex).toEqual(dummyKey.publicKeyHex)
     })
@@ -258,7 +259,7 @@ export default (testContext: {
         kid: dummyKey.kid,
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: alice.did })
       expect(resolution?.didDocument?.verificationMethod?.length).toEqual(2)
     })
@@ -273,7 +274,7 @@ export default (testContext: {
           description: 'handles DIDComm messages',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -332,7 +333,7 @@ export default (testContext: {
         id: 'alice-didcomm-endpoint',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -350,7 +351,7 @@ export default (testContext: {
           description: 'handles DIDComm messages',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -409,7 +410,7 @@ export default (testContext: {
         id: 'alice-didcomm-endpoint',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -427,7 +428,7 @@ export default (testContext: {
           description: 'handles DIDComm messages',
         },
       })
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -486,7 +487,7 @@ export default (testContext: {
         id: 'alice-didcomm-endpoint',
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
@@ -691,7 +692,7 @@ export default (testContext: {
         key: newKey,
       })
 
-      expect(result.substr(0, 2)).toEqual('0x')
+      expect(result.slice(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: bob.did })
       const expectedBase58Key = bytesToBase58(hexToBytes(newKey.publicKeyHex))
       expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)

@@ -50,7 +50,7 @@ type CreatePeerDidOptions = CreateIdentifierBaseOptions<'Ed25519'> & {
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class PeerDIDProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
+  private readonly defaultKms: string
 
   constructor(options: { defaultKms: string }) {
     super()

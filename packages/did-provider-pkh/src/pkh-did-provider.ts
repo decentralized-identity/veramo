@@ -49,8 +49,8 @@ export function toEthereumAddress(hexPublicKey: string): string {
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export class PkhDIDProvider extends AbstractIdentifierProvider {
-  private defaultKms: string
-  private chainId: string
+  private readonly defaultKms: string
+  private readonly chainId: string
 
   constructor(options: { defaultKms: string; chainId?: string }) {
     super()

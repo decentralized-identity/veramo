@@ -1,5 +1,7 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDComm } from '../didcomm.js'
-import { KeyValueStore } from '../../../kv-store/src'
+import { KeyValueStore } from '../../../kv-store/src/index.js'
 import {
   createAgent,
   IDIDManager,
@@ -9,21 +11,21 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../../core/src'
+} from '../../../core/src/index.js'
 import {
   RequesterDid,
   MediationResponse,
   IMediationManager,
   PreMediationRequestPolicy,
-} from '../../../mediation-manager'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
+} from '../../../mediation-manager/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { MessageHandler } from '../../../message-handler/src'
+import { MessageHandler } from '../../../message-handler/src/index.js'
 import {
   CoordinateMediationV3MediatorMessageHandler,
   CoordinateMediationV3RecipientMessageHandler,
@@ -39,23 +41,22 @@ import {
   FORWARD_MESSAGE_TYPE,
   QUEUE_MESSAGE_TYPE,
 } from '../protocols/routing-message-handler.js'
-import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
-import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
-import { Entities, IDataStore, migrations } from '../../../data-store/src'
+import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/index.js'
+import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src/index.js'
+import { Entities, IDataStore, migrations } from '../../../data-store/src/index.js'
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
-import { DataStore, DataStoreORM } from '../../../data-store/src'
+import { DataStore, DataStoreORM } from '../../../data-store/src/index.js'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
-import { MediationManagerPlugin } from '../../../mediation-manager/src'
+import { MediationManagerPlugin } from '../../../mediation-manager/src/index.js'
 
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 const policyStore = new KeyValueStore<PreMediationRequestPolicy>({ store: new Map() })
@@ -298,7 +299,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
   it('should save forward message in queue for recipient previously denied', async () => {
     // set up agent to deny mediation
-    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+    agent.isMediateDefaultGrantAll = vi.fn(() => Promise.resolve(false))
 
     expect.assertions(1)
     // 1. Request Mediation
@@ -373,7 +374,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
   it('should not save forward message in queue for recipient denied', async () => {
     // set up agent to deny mediation
-    agent.isMediateDefaultGrantAll = jest.fn(() => Promise.resolve(false))
+    agent.isMediateDefaultGrantAll = vi.fn(() => Promise.resolve(false))
 
     expect.assertions(1)
     // 1. Request Mediation

@@ -1,12 +1,16 @@
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDResolverPlugin } from '../resolver.js'
 import { Resolver } from 'did-resolver'
 import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 import { getResolver as getWebDidResolver } from 'web-did-resolver'
 import { getUniversalResolverFor } from '../universal-resolver.js'
-import { jest } from '@jest/globals'
-import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider'
 
-jest.setTimeout(60000)
+import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider.js'
+
+vi.setConfig({
+  testTimeout: 60_000,
+})
 
 describe('@veramo/did-resolver', () => {
   let resolverPluginDirect: DIDResolverPlugin

@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+
 /**
  * This test suite runs the examples from the documentation in various test contexts.
  *
@@ -15,8 +17,8 @@ import {
   IDIDManager,
   IMessageHandler,
   TAgent,
-} from '../../packages/core-types/src'
-import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src'
+} from '../../packages/core-types/src/index.js'
+import { ISelectiveDisclosure } from '../../packages/selective-disclosure/src/index.js'
 
 type ConfiguredAgent = TAgent<
   IDIDManager & ICredentialIssuer & IDataStoreORM & IDataStore & IMessageHandler & ISelectiveDisclosure

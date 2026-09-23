@@ -3,7 +3,7 @@ export const schema = {
     "components": {
       "schemas": {
         "IPackedDIDCommMessage": {
-          "type": "object",
+          "description": "The result of packing a DIDComm v2 message. The message is always serialized as string.",
           "properties": {
             "message": {
               "type": "string"
@@ -12,159 +12,19 @@ export const schema = {
           "required": [
             "message"
           ],
-          "description": "The result of packing a DIDComm v2 message. The message is always serialized as string."
+          "type": "object"
         },
         "DIDCommMessageMediaType": {
-          "type": "string",
+          "description": "Represents different DIDComm v2 message encapsulation.",
           "enum": [
             "application/didcomm-plain+json",
             "application/didcomm-signed+json",
             "application/didcomm-encrypted+json"
           ],
-          "description": "Represents different DIDComm v2 message encapsulation."
-        },
-        "IPackDIDCommMessageArgs": {
-          "type": "object",
-          "properties": {
-            "resolutionOptions": {
-              "type": "object",
-              "properties": {
-                "publicKeyFormat": {
-                  "type": "string"
-                },
-                "accept": {
-                  "type": "string"
-                }
-              },
-              "description": "Options to be passed to the DID resolver."
-            },
-            "message": {
-              "$ref": "#/components/schemas/IDIDCommMessage"
-            },
-            "packing": {
-              "$ref": "#/components/schemas/DIDCommMessagePacking"
-            },
-            "keyRef": {
-              "type": "string"
-            },
-            "options": {
-              "$ref": "#/components/schemas/IDIDCommOptions"
-            }
-          },
-          "required": [
-            "message",
-            "packing"
-          ],
-          "description": "The input to the  {@link  IDIDComm.packDIDCommMessage }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided."
-        },
-        "IDIDCommMessage": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string"
-            },
-            "from": {
-              "type": "string"
-            },
-            "to": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "thid": {
-              "type": "string"
-            },
-            "pthid": {
-              "type": "string"
-            },
-            "expires_time": {
-              "type": "string"
-            },
-            "created_time": {
-              "type": "string"
-            },
-            "next": {
-              "type": "string"
-            },
-            "from_prior": {
-              "type": "string"
-            },
-            "body": {},
-            "attachments": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/IDIDCommMessageAttachment"
-              }
-            },
-            "return_route": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "type"
-          ],
-          "description": "The DIDComm message structure. See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure"
-        },
-        "IDIDCommMessageAttachment": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "filename": {
-              "type": "string"
-            },
-            "media_type": {
-              "type": "string"
-            },
-            "format": {
-              "type": "string"
-            },
-            "lastmod_time": {
-              "type": "string"
-            },
-            "byte_count": {
-              "type": "number"
-            },
-            "data": {
-              "$ref": "#/components/schemas/IDIDCommMessageAttachmentData"
-            }
-          },
-          "required": [
-            "data"
-          ],
-          "description": "The DIDComm message structure for attachments. See https://identity.foundation/didcomm-messaging/spec/#attachments"
-        },
-        "IDIDCommMessageAttachmentData": {
-          "type": "object",
-          "properties": {
-            "jws": {},
-            "hash": {
-              "type": "string"
-            },
-            "links": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "base64": {
-              "type": "string"
-            },
-            "json": {}
-          },
-          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
+          "type": "string"
         },
         "DIDCommMessagePacking": {
-          "type": "string",
+          "description": "The possible types of message packing.\n\n`authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.\n\n`jws` will produce `DIDCommMessageMediaType.SIGNED` messages.\n\n`none` will produce `DIDCommMessageMediaType.PLAIN` messages.",
           "enum": [
             "authcrypt",
             "anoncrypt",
@@ -173,72 +33,218 @@ export const schema = {
             "anoncrypt+authcrypt",
             "anoncrypt+jws"
           ],
-          "description": "The possible types of message packing.\n\n`authcrypt`, `anoncrypt`, `anoncrypt+authcrypt`, and `anoncrypt+jws` will produce `DIDCommMessageMediaType.ENCRYPTED` messages.\n\n`jws` will produce `DIDCommMessageMediaType.SIGNED` messages.\n\n`none` will produce `DIDCommMessageMediaType.PLAIN` messages."
+          "type": "string"
+        },
+        "IDIDCommMessage": {
+          "description": "The DIDComm message structure. See https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure",
+          "properties": {
+            "attachments": {
+              "items": {
+                "$ref": "#/components/schemas/IDIDCommMessageAttachment"
+              },
+              "type": "array"
+            },
+            "body": {},
+            "created_time": {
+              "type": [
+                "number",
+                "string"
+              ]
+            },
+            "expires_time": {
+              "type": [
+                "number",
+                "string"
+              ]
+            },
+            "from": {
+              "type": "string"
+            },
+            "from_prior": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "next": {
+              "type": "string"
+            },
+            "pthid": {
+              "type": "string"
+            },
+            "return_route": {
+              "type": "string"
+            },
+            "thid": {
+              "type": "string"
+            },
+            "to": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object"
+        },
+        "IDIDCommMessageAttachment": {
+          "description": "The DIDComm message structure for attachments. See https://identity.foundation/didcomm-messaging/spec/#attachments",
+          "properties": {
+            "byte_count": {
+              "type": "number"
+            },
+            "data": {
+              "$ref": "#/components/schemas/IDIDCommMessageAttachmentData"
+            },
+            "description": {
+              "type": "string"
+            },
+            "filename": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "lastmod_time": {
+              "type": "string"
+            },
+            "media_type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        },
+        "IDIDCommMessageAttachmentData": {
+          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments",
+          "properties": {
+            "base64": {
+              "type": "string"
+            },
+            "hash": {
+              "type": "string"
+            },
+            "json": {},
+            "jws": {},
+            "links": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
         },
         "IDIDCommOptions": {
-          "type": "object",
+          "description": "Extra options when packing a DIDComm message.",
           "properties": {
-            "bcc": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "Add extra recipients for the packed message."
-            },
-            "recipientKids": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "Restrict to a set of kids for recipient"
-            },
-            "enc": {
-              "type": "string",
-              "enum": [
-                "XC20P",
-                "A256GCM",
-                "A256CBC-HS512"
-              ],
-              "description": "Optional content encryption algorithm to use. Defaults to 'A256GCM'"
-            },
             "alg": {
-              "type": "string",
+              "description": "Optional key wrapping algorithm to use. Defaults to 'ECDH-ES+A256KW'",
               "enum": [
                 "ECDH-ES+A256KW",
                 "ECDH-1PU+A256KW",
                 "ECDH-ES+XC20PKW",
                 "ECDH-1PU+XC20PKW"
               ],
-              "description": "Optional key wrapping algorithm to use. Defaults to 'ECDH-ES+A256KW'"
+              "type": "string"
+            },
+            "bcc": {
+              "description": "Add extra recipients for the packed message.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "enc": {
+              "description": "Optional content encryption algorithm to use. Defaults to 'A256GCM'",
+              "enum": [
+                "XC20P",
+                "A256GCM",
+                "A256CBC-HS512"
+              ],
+              "type": "string"
+            },
+            "recipientKids": {
+              "description": "Restrict to a set of kids for recipient",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             }
           },
-          "description": "Extra options when packing a DIDComm message."
+          "type": "object"
         },
-        "ISendDIDCommMessageArgs": {
-          "type": "object",
+        "IPackDIDCommMessageArgs": {
+          "description": "The input to the  {@link  IDIDComm.packDIDCommMessage  }  method. When `packing` is `authcrypt` or `jws`, a `keyRef` MUST be provided.",
           "properties": {
+            "keyRef": {
+              "type": "string"
+            },
+            "message": {
+              "$ref": "#/components/schemas/IDIDCommMessage"
+            },
+            "options": {
+              "$ref": "#/components/schemas/IDIDCommOptions"
+            },
+            "packing": {
+              "$ref": "#/components/schemas/DIDCommMessagePacking"
+            },
             "resolutionOptions": {
-              "type": "object",
+              "description": "Options to be passed to the DID resolver.",
               "properties": {
-                "publicKeyFormat": {
+                "accept": {
                   "type": "string"
                 },
-                "accept": {
+                "publicKeyFormat": {
                   "type": "string"
                 }
               },
-              "description": "Options to be passed to the DID resolver."
+              "type": "object"
+            }
+          },
+          "required": [
+            "message",
+            "packing"
+          ],
+          "type": "object"
+        },
+        "ISendDIDCommMessageArgs": {
+          "description": "The input to the  {@link  IDIDComm.sendDIDCommMessage  }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation.",
+          "properties": {
+            "messageId": {
+              "type": "string"
             },
             "packedMessage": {
               "$ref": "#/components/schemas/IPackedDIDCommMessage"
             },
-            "messageId": {
+            "recipientDidUrl": {
               "type": "string"
+            },
+            "resolutionOptions": {
+              "description": "Options to be passed to the DID resolver.",
+              "properties": {
+                "accept": {
+                  "type": "string"
+                },
+                "publicKeyFormat": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
             },
             "returnTransportId": {
-              "type": "string"
-            },
-            "recipientDidUrl": {
               "type": "string"
             }
           },
@@ -247,49 +253,81 @@ export const schema = {
             "messageId",
             "recipientDidUrl"
           ],
-          "description": "The input to the  {@link  IDIDComm.sendDIDCommMessage }  method. The provided `messageId` will be used in the emitted event to allow event/message correlation."
+          "type": "object"
         },
-        "ISendDIDCommMessageResponse": {
-          "type": "object",
-          "properties": {
-            "transportId": {
+        "CompactJWT": {
+          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\"",
+          "type": "string"
+        },
+        "ContextType": {
+          "anyOf": [
+            {
               "type": "string"
             },
-            "returnMessage": {
-              "$ref": "#/components/schemas/IMessage"
+            {
+              "type": "object"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "type": "array"
+            }
+          ],
+          "description": "The data type for `@context` properties of credentials, presentations, etc."
+        },
+        "CredentialStatusReference": {
+          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
             }
           },
           "required": [
-            "transportId"
+            "id",
+            "type"
           ],
-          "description": "The response from the  {@link  IDIDComm.sendDIDCommMessage }  method."
+          "type": "object"
         },
-        "IMessage": {
-          "type": "object",
+        "CredentialSubject": {
+          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }",
           "properties": {
             "id": {
-              "type": "string",
-              "description": "Unique message ID"
-            },
-            "type": {
-              "type": "string",
-              "description": "Message type"
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "IMessage": {
+          "description": "Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations.",
+          "properties": {
+            "attachments": {
+              "description": "Optional. Array of generic attachments",
+              "items": {
+                "$ref": "#/components/schemas/IMessageAttachment"
+              },
+              "type": "array"
             },
             "createdAt": {
-              "type": "string",
-              "description": "Optional. Creation date (ISO 8601)"
+              "description": "Optional. Creation date (ISO 8601)",
+              "type": "string"
             },
-            "expiresAt": {
-              "type": "string",
-              "description": "Optional. Expiration date (ISO 8601)"
-            },
-            "threadId": {
-              "type": "string",
-              "description": "Optional. Thread ID"
-            },
-            "raw": {
-              "type": "string",
-              "description": "Optional. Original message raw data"
+            "credentials": {
+              "description": "Optional. Array of attached verifiable credentials",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              },
+              "type": "array"
             },
             "data": {
               "anyOf": [
@@ -302,32 +340,25 @@ export const schema = {
               ],
               "description": "Optional. Parsed data"
             },
-            "replyTo": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "Optional. List of DIDs to reply to"
-            },
-            "replyUrl": {
-              "type": "string",
-              "description": "Optional. URL to post a reply message to"
+            "expiresAt": {
+              "description": "Optional. Expiration date (ISO 8601)",
+              "type": "string"
             },
             "from": {
-              "type": "string",
-              "description": "Optional. Sender DID"
+              "description": "Optional. Sender DID",
+              "type": "string"
             },
-            "to": {
-              "type": "string",
-              "description": "Optional. Recipient DID"
+            "id": {
+              "description": "Unique message ID",
+              "type": "string"
             },
             "metaData": {
               "anyOf": [
                 {
-                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/IMetaData"
-                  }
+                  },
+                  "type": "array"
                 },
                 {
                   "type": "null"
@@ -335,94 +366,206 @@ export const schema = {
               ],
               "description": "Optional. Array of message metadata"
             },
-            "credentials": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/VerifiableCredential"
-              },
-              "description": "Optional. Array of attached verifiable credentials"
-            },
             "presentations": {
-              "type": "array",
+              "description": "Optional. Array of attached verifiable presentations",
               "items": {
                 "$ref": "#/components/schemas/VerifiablePresentation"
               },
-              "description": "Optional. Array of attached verifiable presentations"
+              "type": "array"
             },
-            "attachments": {
-              "type": "array",
+            "raw": {
+              "description": "Optional. Original message raw data",
+              "type": "string"
+            },
+            "replyTo": {
+              "description": "Optional. List of DIDs to reply to",
               "items": {
-                "$ref": "#/components/schemas/IMessageAttachment"
+                "type": "string"
               },
-              "description": "Optional. Array of generic attachments"
+              "type": "array"
+            },
+            "replyUrl": {
+              "description": "Optional. URL to post a reply message to",
+              "type": "string"
             },
             "returnRoute": {
-              "type": "string",
-              "description": "Optional. Signal how to reuse transport for return messages"
+              "description": "Optional. Signal how to reuse transport for return messages",
+              "type": "string"
+            },
+            "threadId": {
+              "description": "Optional. Thread ID",
+              "type": "string"
+            },
+            "to": {
+              "description": "Optional. Recipient DID",
+              "type": "string"
+            },
+            "type": {
+              "description": "Message type",
+              "type": "string"
             }
           },
           "required": [
             "id",
             "type"
           ],
-          "description": "Represents a DIDComm v1 message payload, with optionally decoded credentials and presentations."
+          "type": "object"
+        },
+        "IMessageAttachment": {
+          "description": "Message attachment",
+          "properties": {
+            "byte_count": {
+              "type": "number"
+            },
+            "data": {
+              "$ref": "#/components/schemas/IMessageAttachmentData"
+            },
+            "description": {
+              "type": "string"
+            },
+            "filename": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "lastmod_time": {
+              "type": "string"
+            },
+            "media_type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        },
+        "IMessageAttachmentData": {
+          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments",
+          "properties": {
+            "base64": {
+              "type": "string"
+            },
+            "hash": {
+              "type": "string"
+            },
+            "json": {},
+            "jws": {},
+            "links": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
         },
         "IMetaData": {
-          "type": "object",
+          "description": "Message meta data",
           "properties": {
             "type": {
-              "type": "string",
-              "description": "Type"
+              "description": "Type",
+              "type": "string"
             },
             "value": {
-              "type": "string",
-              "description": "Optional. Value"
+              "description": "Optional. Value",
+              "type": "string"
             }
           },
           "required": [
             "type"
           ],
-          "description": "Message meta data"
+          "type": "object"
+        },
+        "ISendDIDCommMessageResponse": {
+          "description": "The response from the  {@link  IDIDComm.sendDIDCommMessage  }  method.",
+          "properties": {
+            "returnMessage": {
+              "$ref": "#/components/schemas/IMessage"
+            },
+            "transportId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "transportId"
+          ],
+          "type": "object"
+        },
+        "IssuerType": {
+          "anyOf": [
+            {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "The issuer of a  {@link  VerifiableCredential  }  or the holder of a  {@link  VerifiablePresentation  } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
+        },
+        "ProofType": {
+          "description": "A proof property of a  {@link  VerifiableCredential  }  or  {@link  VerifiablePresentation  }",
+          "properties": {
+            "proofValue": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "type": "object"
         },
         "VerifiableCredential": {
-          "type": "object",
+          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }",
           "properties": {
-            "proof": {
-              "$ref": "#/components/schemas/ProofType"
+            "@context": {
+              "$ref": "#/components/schemas/ContextType"
             },
-            "issuer": {
-              "$ref": "#/components/schemas/IssuerType"
+            "credentialStatus": {
+              "$ref": "#/components/schemas/CredentialStatusReference"
             },
             "credentialSubject": {
               "$ref": "#/components/schemas/CredentialSubject"
             },
+            "expirationDate": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "issuer": {
+              "$ref": "#/components/schemas/IssuerType"
+            },
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
+            },
             "type": {
               "anyOf": [
                 {
-                  "type": "array",
                   "items": {
                     "type": "string"
-                  }
+                  },
+                  "type": "array"
                 },
                 {
                   "type": "string"
                 }
               ]
-            },
-            "@context": {
-              "$ref": "#/components/schemas/ContextType"
-            },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "credentialStatus": {
-              "$ref": "#/components/schemas/CredentialStatusReference"
-            },
-            "id": {
-              "type": "string"
             }
           },
           "required": [
@@ -432,133 +575,53 @@ export const schema = {
             "issuer",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Credential payload (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }"
-        },
-        "ProofType": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string"
-            },
-            "proofValue": {
-              "type": "string"
-            }
-          },
-          "description": "A proof property of a  {@link  VerifiableCredential }  or  {@link  VerifiablePresentation }"
-        },
-        "IssuerType": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id"
-              ]
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "The issuer of a  {@link  VerifiableCredential }  or the holder of a  {@link  VerifiablePresentation } .\n\nThe value of the issuer property MUST be either a URI or an object containing an id property. It is RECOMMENDED that the URI in the issuer or its id be one which, if de-referenced, results in a document containing machine-readable information about the issuer that can be used to verify the information expressed in the credential.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#issuer | Issuer data model }"
-        },
-        "CredentialSubject": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            }
-          },
-          "description": "The value of the credentialSubject property is defined as a set of objects that contain one or more properties that are each related to a subject of the verifiable credential. Each object MAY contain an id.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#credential-subject | Credential Subject }"
-        },
-        "ContextType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object"
-                  }
-                ]
-              }
-            }
-          ],
-          "description": "The data type for `@context` properties of credentials, presentations, etc."
-        },
-        "CredentialStatusReference": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "type"
-          ],
-          "description": "Used for the discovery of information about the current status of a verifiable credential, such as whether it is suspended or revoked. The precise contents of the credential status information are determined by the specific `credentialStatus` type  definition and vary depending on factors such as whether it is simple to implement or if it is privacy-enhancing.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }"
+          "type": "object"
         },
         "VerifiablePresentation": {
-          "type": "object",
+          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }",
           "properties": {
-            "proof": {
-              "$ref": "#/components/schemas/ProofType"
+            "@context": {
+              "$ref": "#/components/schemas/ContextType"
+            },
+            "expirationDate": {
+              "type": "string"
             },
             "holder": {
               "type": "string"
             },
-            "verifiableCredential": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/W3CVerifiableCredential"
-              }
+            "id": {
+              "type": "string"
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "proof": {
+              "$ref": "#/components/schemas/ProofType"
             },
             "type": {
               "anyOf": [
                 {
-                  "type": "array",
                   "items": {
                     "type": "string"
-                  }
+                  },
+                  "type": "array"
                 },
                 {
                   "type": "string"
                 }
               ]
             },
-            "@context": {
-              "$ref": "#/components/schemas/ContextType"
+            "verifiableCredential": {
+              "items": {
+                "$ref": "#/components/schemas/W3CVerifiableCredential"
+              },
+              "type": "array"
             },
             "verifier": {
-              "type": "array",
               "items": {
                 "type": "string"
-              }
-            },
-            "issuanceDate": {
-              "type": "string"
-            },
-            "expirationDate": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
+              },
+              "type": "array"
             }
           },
           "required": [
@@ -566,7 +629,7 @@ export const schema = {
             "holder",
             "proof"
           ],
-          "description": "Represents a signed Verifiable Presentation (includes proof), using a JSON representation. See  {@link https://www.w3.org/TR/vc-data-model/#presentations | VP data model }"
+          "type": "object"
         },
         "W3CVerifiableCredential": {
           "anyOf": [
@@ -579,87 +642,11 @@ export const schema = {
           ],
           "description": "Represents a signed Verifiable Credential (includes proof), in either JSON or compact JWT format. See  {@link https://www.w3.org/TR/vc-data-model/#credentials | VC data model }  See  {@link https://www.w3.org/TR/vc-data-model-1.1/#proof-formats | proof formats }"
         },
-        "CompactJWT": {
-          "type": "string",
-          "description": "Represents a Json Web Token in compact form. \"header.payload.signature\""
-        },
-        "IMessageAttachment": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "filename": {
-              "type": "string"
-            },
-            "media_type": {
-              "type": "string"
-            },
-            "format": {
-              "type": "string"
-            },
-            "lastmod_time": {
-              "type": "string"
-            },
-            "byte_count": {
-              "type": "number"
-            },
-            "data": {
-              "$ref": "#/components/schemas/IMessageAttachmentData"
-            }
-          },
-          "required": [
-            "data"
-          ],
-          "description": "Message attachment"
-        },
-        "IMessageAttachmentData": {
-          "type": "object",
-          "properties": {
-            "jws": {},
-            "hash": {
-              "type": "string"
-            },
-            "links": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "base64": {
-              "type": "string"
-            },
-            "json": {}
-          },
-          "description": "The DIDComm message structure for data in an attachment. See https://identity.foundation/didcomm-messaging/spec/#attachments"
-        },
         "ISendMessageDIDCommAlpha1Args": {
-          "type": "object",
+          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage} instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1}",
           "properties": {
-            "url": {
-              "type": "string"
-            },
-            "save": {
-              "type": "boolean"
-            },
             "data": {
-              "type": "object",
               "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "from": {
-                  "type": "string"
-                },
-                "to": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
                 "body": {
                   "anyOf": [
                     {
@@ -669,6 +656,18 @@ export const schema = {
                       "type": "string"
                     }
                   ]
+                },
+                "from": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
                 }
               },
               "required": [
@@ -676,62 +675,53 @@ export const schema = {
                 "to",
                 "type",
                 "body"
-              ]
+              ],
+              "type": "object"
             },
             "headers": {
-              "type": "object",
               "additionalProperties": {
                 "type": "string"
-              }
+              },
+              "type": "object"
+            },
+            "save": {
+              "type": "boolean"
+            },
+            "url": {
+              "type": "string"
             }
           },
           "required": [
             "data"
           ],
-          "deprecated": "Please use {@link IDIDComm.sendDIDCommMessage } instead. This will be removed in Veramo 4.0.\nInput arguments for {@link IDIDComm.sendMessageDIDCommAlpha1 }"
+          "type": "object"
         },
         "IUnpackDIDCommMessageArgs": {
-          "type": "object",
+          "description": "The input to the  {@link  IDIDComm.unpackDIDCommMessage  }  method.",
           "properties": {
+            "message": {
+              "type": "string"
+            },
             "resolutionOptions": {
-              "type": "object",
+              "description": "Options to be passed to the DID resolver.",
               "properties": {
-                "publicKeyFormat": {
+                "accept": {
                   "type": "string"
                 },
-                "accept": {
+                "publicKeyFormat": {
                   "type": "string"
                 }
               },
-              "description": "Options to be passed to the DID resolver."
-            },
-            "message": {
-              "type": "string"
+              "type": "object"
             }
           },
           "required": [
             "message"
           ],
-          "description": "The input to the  {@link  IDIDComm.unpackDIDCommMessage }  method."
-        },
-        "IUnpackedDIDCommMessage": {
-          "type": "object",
-          "properties": {
-            "metaData": {
-              "$ref": "#/components/schemas/IDIDCommMessageMetaData"
-            },
-            "message": {
-              "$ref": "#/components/schemas/IDIDCommMessage"
-            }
-          },
-          "required": [
-            "metaData",
-            "message"
-          ],
-          "description": "The result of unpacking a DIDComm v2 message."
+          "type": "object"
         },
         "IDIDCommMessageMetaData": {
-          "type": "object",
+          "description": "Metadata resulting from unpacking a DIDComm v2 message.",
           "properties": {
             "packing": {
               "$ref": "#/components/schemas/DIDCommMessagePacking"
@@ -740,7 +730,23 @@ export const schema = {
           "required": [
             "packing"
           ],
-          "description": "Metadata resulting from unpacking a DIDComm v2 message."
+          "type": "object"
+        },
+        "IUnpackedDIDCommMessage": {
+          "description": "The result of unpacking a DIDComm v2 message.",
+          "properties": {
+            "message": {
+              "$ref": "#/components/schemas/IDIDCommMessage"
+            },
+            "metaData": {
+              "$ref": "#/components/schemas/IDIDCommMessageMetaData"
+            }
+          },
+          "required": [
+            "metaData",
+            "message"
+          ],
+          "type": "object"
         }
       },
       "methods": {

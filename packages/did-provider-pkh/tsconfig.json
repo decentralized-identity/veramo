@@ -1,11 +1,13 @@
 {
-  "extends": "../tsconfig.settings.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
     "declarationDir": "build",
     "skipLibCheck": true
   },
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"],
   "references": [
     { "path": "../core-types" },
     { "path": "../did-manager" },

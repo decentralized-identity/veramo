@@ -11,8 +11,8 @@ export interface IDIDCommMessage {
   to?: string[]
   thid?: string
   pthid?: string
-  expires_time?: string
-  created_time?: string
+  expires_time?: number | string
+  created_time?: number | string
   next?: string
   from_prior?: string
   body?: any

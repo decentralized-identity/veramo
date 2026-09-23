@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from 'vitest'
 import { base64ToBytes, createJWE, createX25519ECDH, Decrypter, decryptJWE, ECDH, Encrypter, JWE } from 'did-jwt'
 import { randomBytes } from '@noble/hashes/utils'
 import { generateX25519KeyPairFromSeed } from '../utils.js'
@@ -17,7 +18,7 @@ import {
 } from '../encryption/a256kw-encrypters.js'
 import { xc20pAnonDecrypterX25519WithXC20PKW } from '../encryption/xc20pkw-encrypters.js'
 
-import { decodeBase64url, encodeBase64url } from '../../../utils/src'
+import { decodeBase64url, encodeBase64url } from '../../../utils/src/index.js'
 
 import * as u8a from 'uint8arrays'
 import { bytesToUtf8String } from '@veramo/utils'
@@ -407,7 +408,7 @@ describe('didcomm encryption tests', () => {
           expect.assertions(1)
           const ecdh: ECDH = createX25519ECDH(randomBytes(32))
           const badPublicKey = randomBytes(64)
-          expect(ecdh(badPublicKey)).rejects.toThrow('invalid_argument')
+          await expect(ecdh(badPublicKey)).rejects.toThrow('invalid_argument')
         })
       })
     })

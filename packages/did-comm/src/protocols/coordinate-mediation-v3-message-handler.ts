@@ -7,6 +7,7 @@ import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { DIDCommMessageMediaType, IDIDCommMessage } from '../types/message-types.js'
 import { asArray } from '@veramo/utils'
+import { toIsoString } from '../utils.js'
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
@@ -137,7 +138,7 @@ export function createV3MediateGrantMessage(
     id: v4(),
     thid: thid,
     body: { routing_did: [mediatorDidUrl] },
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
   }
 }
 
@@ -155,7 +156,7 @@ export const createV3MediateDenyMessage = (
     to: [recipientDidUrl],
     id: v4(),
     thid: thid,
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
     body: null,
   }
 }
@@ -177,7 +178,7 @@ export function createV3RecipientUpdateResponseMessage(
     id: v4(),
     thid: thid,
     body: { updates },
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
   }
 }
 
@@ -198,7 +199,7 @@ export const createV3RecipientQueryResponseMessage = (
     id: v4(),
     thid: thid,
     body: { dids },
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
   }
 }
 
@@ -217,7 +218,7 @@ export function createV3MediateRequestMessage(
     from: recipientDidUrl,
     to: [mediatorDidUrl],
     id: v4(),
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
     body: {},
   }
 }
@@ -255,7 +256,7 @@ export const createV3RecipientUpdateMessage = (
     from: recipientDidUrl,
     to: [mediatorDidUrl],
     id: v4(),
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
     body: { updates },
     return_route: 'all',
   }
@@ -276,7 +277,7 @@ export const createV3RecipientQueryMessage = (
     from: recipientDidUrl,
     to: [mediatorDidUrl],
     id: v4(),
-    created_time: new Date().toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
     body: {},
   }
 }
@@ -378,7 +379,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
           id: response.id,
           threadId: response.thid,
           data: response.body,
-          createdAt: response.created_time,
+          createdAt: toIsoString(response.created_time),
         },
       })
     } catch (error) {
@@ -434,7 +435,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
           id: response.id,
           threadId: response.thid,
           data: response.body,
-          createdAt: response.created_time,
+          createdAt: toIsoString(response.created_time),
         },
       })
     } catch (error) {
@@ -474,7 +475,7 @@ export class CoordinateMediationV3MediatorMessageHandler extends AbstractMessage
           id: response.id,
           threadId: response.thid,
           data: response.body,
-          createdAt: response.created_time,
+          createdAt: toIsoString(response.created_time),
         },
       })
     } catch (error) {

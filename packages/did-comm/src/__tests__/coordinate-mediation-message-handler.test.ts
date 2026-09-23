@@ -1,3 +1,5 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import { DIDComm } from '../didcomm.js'
 import {
   createAgent,
@@ -8,38 +10,37 @@ import {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../../../core/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
+} from '../../../core/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { Resolver } from 'did-resolver'
 import { DIDCommHttpTransport } from '../transports/transports.js'
 import { IDIDComm } from '../types/IDIDComm.js'
-import { MessageHandler } from '../../../message-handler/src'
+import { MessageHandler } from '../../../message-handler/src/index.js'
 import {
   CoordinateMediationMediatorMessageHandler,
   CoordinateMediationRecipientMessageHandler,
   createMediateRequestMessage,
   createMediateGrantMessage,
 } from '../protocols/coordinate-mediation-message-handler.js'
-import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src'
-import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src'
-import { Entities, IDataStore, migrations } from '../../../data-store/src'
+import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/index.js'
+import { MessagingRouter, RequestWithAgentRouter } from '../../../remote-server/src/index.js'
+import { Entities, IDataStore, migrations } from '../../../data-store/src/index.js'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
 import { DIDCommMessageHandler } from '../message-handler.js'
-import { DataStore, DataStoreORM } from '../../../data-store/src'
+import { DataStore, DataStoreORM } from '../../../data-store/src/index.js'
 import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 
-import { jest } from '@jest/globals'
 import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],
-  onEvent: jest.fn(() => Promise.resolve()),
+  onEvent: vi.fn(() => Promise.resolve()),
 }
 
 describe('coordinate-mediation-message-handler', () => {

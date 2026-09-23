@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, it } from 'vitest'
 import {
   CredentialPayload,
   ICredentialPlugin,
@@ -8,22 +9,22 @@ import {
   IResolver,
   PresentationPayload,
   TAgent,
-} from '../../../core-types/src'
+} from '../../../core-types/src/index.js'
 import { CredentialPlugin } from '../action-handler.js'
-import { CredentialProviderJWT } from '../../../credential-jwt/src'
+import { CredentialProviderJWT } from '../../../credential-jwt/src/index.js'
 import { createAgent } from '../../../core/src/agent.js'
 import { KeyManager } from '../../../key-manager/src/key-manager.js'
-import { MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
+import { MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../../../did-provider-key/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { Resolver } from 'did-resolver'
 import {
   ICredentialProvider,
   ProofFormatQuery,
   TentativeVerificationQuery,
-} from '../abstract-credential-provider'
+} from '../abstract-credential-provider.js'
 import {
   ICreateVerifiableCredentialArgs,
   ICreateVerifiablePresentationArgs,

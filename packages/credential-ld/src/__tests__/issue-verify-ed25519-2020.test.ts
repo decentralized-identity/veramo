@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, it } from 'vitest'
+
 import {
   createAgent,
   CredentialPayload,
@@ -7,21 +9,20 @@ import {
   IKeyManager,
   IResolver,
   TAgent,
-} from '../../../core/src'
-import { CredentialPlugin } from '../../../credential-w3c/src'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src'
-import { KeyManagementSystem } from '../../../kms-local/src'
-import { DIDResolverPlugin } from '../../../did-resolver/src'
-import { ContextDoc } from '../types'
-import { CredentialProviderLD } from '../CredentialProviderLD'
-import { LdDefaultContexts } from '../ld-default-contexts'
-import { VeramoEd25519Signature2020 } from '../suites/Ed25519Signature2020'
+} from '../../../core/src/index.js'
+import { CredentialPlugin } from '../../../credential-w3c/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../../kms-local/src/index.js'
+import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
+import { ContextDoc } from '../types.js'
+import { CredentialProviderLD } from '../CredentialProviderLD.js'
+import { LdDefaultContexts } from '../ld-default-contexts.js'
+import { VeramoEd25519Signature2020 } from '../suites/Ed25519Signature2020.js'
 import { Resolver } from 'did-resolver'
-import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/fake-did'
-import { jest } from '@jest/globals'
+import { FakeDidProvider, FakeDidResolver } from '../../../test-utils/src/fake-did.js'
 
-jest.setTimeout(300000)
+
 
 const customContext: Record<string, ContextDoc> = {
   'custom:example.context': {

@@ -1,14 +1,16 @@
 // noinspection ES6PreferShortImport
 
+import { describe, test, expect, beforeAll, afterAll } from 'vitest'
+
 import {
   ICredentialPlugin,
   IDataStore,
   IDataStoreORM,
   IDIDManager,
   TAgent,
-} from '../../packages/core-types/src'
+} from '../../packages/core-types/src/index.js'
 
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 

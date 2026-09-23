@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+
 import {
   ICredentialPlugin,
   IDataStore,
@@ -10,7 +12,7 @@ import {
   TKeyType,
   VerifiableCredential,
   VerifiablePresentation,
-} from '../../packages/core-types/src'
+} from '../../packages/core-types/src/index.js'
 import { decodeJWT } from 'did-jwt'
 import { VC_JWT_ERROR } from 'did-jwt-vc'
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { asArray, intersect, isDefined } from '../type-utils.js'
 
 describe('@veramo/utils type utils', () => {

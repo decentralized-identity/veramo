@@ -1,11 +1,12 @@
-import { IDIDManager, IKeyManager, IResolver } from '../../core-types/src'
-import { createAgent } from '../../core/src'
-import { DIDManager, MemoryDIDStore } from '../../did-manager/src'
-import { DIDResolverPlugin } from '../../did-resolver/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src'
-import { KeyManagementSystem } from '../../kms-local/src'
+import { describe, expect, it } from 'vitest'
+import { IDIDManager, IKeyManager, IResolver } from '../../core-types/src/index.js'
+import { createAgent } from '../../core/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../../did-manager/src/index.js'
+import { DIDResolverPlugin } from '../../did-resolver/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src/index.js'
+import { KeyManagementSystem } from '../../kms-local/src/index.js'
 
-import { getDidKeyResolver, KeyDIDProvider } from '../src'
+import { getDidKeyResolver, KeyDIDProvider } from '../src/index.js'
 
 const defaultKms = 'mem'
 

@@ -42,8 +42,8 @@ export class Agent implements IAgent {
    */
   readonly methods: IPluginMethodMap = {}
 
-  private schema: IAgentPluginSchema
-  private schemaValidation: boolean
+  private readonly schema: IAgentPluginSchema
+  private readonly schemaValidation: boolean
   public readonly context?: Record<string, any>
   private protectedMethods = ['execute', 'availableMethods', 'emit']
 

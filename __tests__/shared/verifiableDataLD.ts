@@ -1,5 +1,7 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+
 import {
   ICredentialPlugin,
   IDataStore,
@@ -8,8 +10,8 @@ import {
   IIdentifier,
   IMessageHandler,
   TAgent,
-} from '../../packages/core-types/src'
-import { IDIDComm } from '../../packages/did-comm/src'
+} from '../../packages/core-types/src/index.js'
+import { IDIDComm } from '../../packages/did-comm/src/index.js'
 // @ts-ignore
 import nock from 'nock'
 

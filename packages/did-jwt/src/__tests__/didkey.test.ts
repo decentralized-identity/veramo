@@ -1,7 +1,8 @@
-import { DIDResolutionResult, IAgentContext, IResolver } from '../../../core-types/src'
-import { Message } from '../../../message-handler/src'
+import { describe, expect, it, vi } from 'vitest'
+
+import { DIDResolutionResult, IAgentContext, IResolver } from '../../../core-types/src/index.js'
+import { Message } from '../../../message-handler/src/index.js'
 import { JwtMessageHandler, IContext } from '../message-handler.js'
-import { jest } from '@jest/globals'
 
 describe('@veramo/did-jwt', () => {
   const vcJwt =
@@ -10,10 +11,10 @@ describe('@veramo/did-jwt', () => {
   const context: IContext = {
     // @ts-ignore
     agent: {
-      getSchema: jest.fn(),
-      execute: jest.fn(),
-      availableMethods: jest.fn(),
-      emit: jest.fn(),
+      getSchema: vi.fn(),
+      execute: vi.fn(),
+      availableMethods: vi.fn(),
+      emit: vi.fn(),
       resolveDid: async (args?): Promise<DIDResolutionResult> => {
         if (!args?.didUrl) throw Error('DID required')
 
@@ -44,15 +45,15 @@ describe('@veramo/did-jwt', () => {
           },
         }
       },
-      getDIDComponentById: jest.fn(),
+      getDIDComponentById: vi.fn(),
     },
   } as IAgentContext<IResolver>
 
   it('should handle EdDsa jwt', async () => {
     const mockNextHandler = {
-      setNext: jest.fn(),
+      setNext: vi.fn(),
       // @ts-ignore
-      handle: jest.fn().mockResolvedValue(true),
+      handle: vi.fn().mockResolvedValue(true),
     }
     const handler = new JwtMessageHandler()
     // @ts-ignore

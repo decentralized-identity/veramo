@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.settings.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "build",
@@ -8,6 +8,8 @@
   "references": [
     { "path": "../core" },
     { "path": "../core-types" },
+    { "path": "../credential-eip712" },
+    { "path": "../credential-jwt" },
     { "path": "../credential-ld" },
     { "path": "../credential-w3c" },
     { "path": "../data-store" },
@@ -24,12 +26,15 @@
     { "path": "../did-resolver" },
     { "path": "../key-manager" },
     { "path": "../kms-local" },
+    { "path": "../kv-store" },
+    { "path": "../mediation-manager" },
     { "path": "../message-handler" },
-    { "path": "../remote-server" },
     { "path": "../remote-client" },
+    { "path": "../remote-server" },
     { "path": "../selective-disclosure" },
     { "path": "../url-handler" },
     { "path": "../utils" }
   ],
-  "include": ["src/**/*"]
+  "include": ["./**/*.ts"],
+  "exclude": ["**/__tests__/**/*", "**/build/**/*"]
 }

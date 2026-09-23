@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './App.css'
-import { getAgent, setup } from './veramo/setup'
+import { getAgent, setup } from './veramo/setup.js'
 import { DIDResolutionResult } from 'did-resolver'
 import { VerifiableCredential } from '@veramo/core-types'
 import { TAgent } from '@veramo/core-types'

@@ -5,6 +5,8 @@
  * TypeORM migrations were available (before Veramo 3.0.0)
  */
 
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
 import {
   IDataStore,
   IDataStoreORM,
@@ -13,13 +15,13 @@ import {
   IResolver,
   TAgent,
   VerifiableCredential,
-} from '../packages/core-types/src'
-import { createAgent } from '../packages/core/src'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { DIDComm, IDIDComm } from '../packages/did-comm/src'
-import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src'
+} from '../packages/core-types/src/index.js'
+import { createAgent } from '../packages/core/src/index.js'
+import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
+import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src/index.js'
+import { DIDComm, IDIDComm } from '../packages/did-comm/src/index.js'
+import { KeyManagementSystem, SecretBox } from '../packages/kms-local/src/index.js'
 import {
   DataStore,
   DataStoreORM,
@@ -28,17 +30,16 @@ import {
   KeyStore,
   migrations,
   PrivateKeyStore,
-} from '../packages/data-store/src'
-import { KeyManager } from '../packages/key-manager/src'
-import { DIDManager } from '../packages/did-manager/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
+} from '../packages/data-store/src/index.js'
+import { KeyManager } from '../packages/key-manager/src/index.js'
+import { DIDManager } from '../packages/did-manager/src/index.js'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { Resolver } from 'did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import * as fs from 'fs'
 
-import { jest } from '@jest/globals'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 
@@ -46,7 +47,9 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-jest.setTimeout(60000)
+vi.setConfig({
+  testTimeout: 60_000
+})
 
 const dbEncryptionKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c'
 

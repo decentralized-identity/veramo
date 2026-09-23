@@ -17,7 +17,7 @@ export class PrivateKey extends BaseEntity {
     // @ts-ignore
   alias: string
 
-  @Column()
+  @Column({ type: 'varchar' })
     // @ts-ignore
   type: KeyType
 

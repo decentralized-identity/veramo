@@ -47,7 +47,7 @@ the [integration test suite](https://github.com/decentralized-identity/veramo/tr
 
 This repository contains
 the [Veramo core package](https://github.com/decentralized-identity/veramo/tree/next/packages/core),
-which only becomes relevant when you add plugins to it. These plugins can be developed by anyone and Veramo provides is
+which only becomes relevant when you add plugins to it. These plugins can be developed by anyone and Veramo provides
 the glue that can make them interoperate.
 
 We maintain some "core" plugins in this monorepo to provide some functionality "out of the box", but a lot more can be
@@ -61,12 +61,11 @@ fixes [there](https://github.com/uport-project/veramo-website) as well.
 
 ### Build Veramo locally
 
-This monorepo uses [pnpm@10](https://pnpm.io/) and [changesets](https://github.com/changesets/changesets)
+This monorepo uses [pnpm@12](https://pnpm.io/) and [changesets](https://github.com/changesets/changesets)
 
 Install dependencies
 
 ```bash
-npm -g i pnpm
 pnpm install
 ```
 

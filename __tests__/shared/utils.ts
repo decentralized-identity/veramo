@@ -1,13 +1,15 @@
 // noinspection ES6PreferShortImport
 
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+
 import {
   IAgentOptions,
   IDIDManager,
   IResolver,
   MinimalImportableKey,
   TAgent,
-} from '../../packages/core-types/src'
-import { getChainId, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src'
+} from '../../packages/core-types/src/index.js'
+import { getChainId, mapIdentifierKeysToDoc, resolveDidOrThrow } from '../../packages/utils/src/index.js'
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager>
 

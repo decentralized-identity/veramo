@@ -1,3 +1,4 @@
+import { ContextDoc } from './types.js'
 import contextCredentialV1 from './contexts/www.w3.org_2018_credentials_v1.json' with { type: 'json' }
 import contextCredentialExamplesV1 from './contexts/www.w3.org_2018_credentials_examples_v1.json' with { type: 'json' }
 import contextDidV1 from './contexts/www.w3.org_ns_did_v1.json' with { type: 'json' }
@@ -24,8 +25,7 @@ import schema_org from './contexts/schema.org.json' with { type: 'json' }
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-// @ts-ignore
-export const LdDefaultContexts = new Map([
+export const LdDefaultContexts = new Map<string, ContextDoc>([
   ['https://www.w3.org/2018/credentials/v1', contextCredentialV1],
   ['https://www.w3.org/2018/credentials/examples/v1', contextCredentialExamplesV1],
   ['https://www.w3.org/ns/did/v1', contextDidV1],

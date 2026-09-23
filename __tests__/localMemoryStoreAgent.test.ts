@@ -1,3 +1,5 @@
+import { describe, vi } from 'vitest'
+
 // noinspection ES6PreferShortImport
 
 /**
@@ -15,17 +17,17 @@ import type {
   IMessageHandler,
   IResolver,
   TAgent,
-} from '../packages/core-types/src'
-import { createAgent } from '../packages/core/src'
-import { MessageHandler } from '../packages/message-handler/src'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src'
-import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src'
+} from '../packages/core-types/src/index.js'
+import { createAgent } from '../packages/core/src/index.js'
+import { MessageHandler } from '../packages/message-handler/src/index.js'
+import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../packages/key-manager/src/index.js'
+import { DIDManager, MemoryDIDStore } from '../packages/did-manager/src/index.js'
 import { DataSource } from 'typeorm'
-import { DIDResolverPlugin } from '../packages/did-resolver/src'
-import { JwtMessageHandler } from '../packages/did-jwt/src'
-import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src'
-import { CredentialProviderEIP712 } from '../packages/credential-eip712/src'
-import { CredentialProviderJWT } from '../packages/credential-jwt/src'
+import { DIDResolverPlugin } from '../packages/did-resolver/src/index.js'
+import { JwtMessageHandler } from '../packages/did-jwt/src/index.js'
+import { CredentialPlugin, W3cMessageHandler } from '../packages/credential-w3c/src/index.js'
+import { CredentialProviderEIP712 } from '../packages/credential-eip712/src/index.js'
+import { CredentialProviderJWT } from '../packages/credential-jwt/src/index.js'
 import {
   CredentialProviderLD,
   LdDefaultContexts,
@@ -33,28 +35,28 @@ import {
   VeramoEd25519Signature2018,
   VeramoEd25519Signature2020,
   VeramoJsonWebSignature2020,
-} from '../packages/credential-ld/src'
-import { EthrDIDProvider } from '../packages/did-provider-ethr/src'
-import { WebDIDProvider } from '../packages/did-provider-web/src'
-import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src'
-import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src'
-import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src'
-import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src'
+} from '../packages/credential-ld/src/index.js'
+import { EthrDIDProvider } from '../packages/did-provider-ethr/src/index.js'
+import { WebDIDProvider } from '../packages/did-provider-web/src/index.js'
+import { getDidKeyResolver, KeyDIDProvider } from '../packages/did-provider-key/src/index.js'
+import { getDidPkhResolver, PkhDIDProvider } from '../packages/did-provider-pkh/src/index.js'
+import { getDidJwkResolver, JwkDIDProvider } from '../packages/did-provider-jwk/src/index.js'
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from '../packages/did-comm/src/index.js'
 import {
   ISelectiveDisclosure,
   SdrMessageHandler,
   SelectiveDisclosure,
-} from '../packages/selective-disclosure/src'
-import { KeyManagementSystem } from '../packages/kms-local/src'
-import { Web3KeyManagementSystem } from '../packages/kms-web3/src'
-import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src'
-import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src'
-import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src'
+} from '../packages/selective-disclosure/src/index.js'
+import { KeyManagementSystem } from '../packages/kms-local/src/index.js'
+import { Web3KeyManagementSystem } from '../packages/kms-web3/src/index.js'
+import { DataStore, DataStoreORM, Entities, migrations } from '../packages/data-store/src/index.js'
+import { FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
+import { PeerDIDProvider, getResolver as getDidPeerResolver } from '../packages/did-provider-peer/src/index.js'
 
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
 import { contexts as credential_contexts } from '@transmute/credentials-context'
-import { jest } from '@jest/globals'
+
 
 // Shared tests
 import verifiableDataJWT from './shared/verifiableDataJWT.js'
@@ -73,9 +75,11 @@ import utils from './shared/utils.js'
 import credentialStatus from './shared/credentialStatus.js'
 import credentialInterop from './shared/credentialInterop.js'
 import credentialPluginTests from './shared/credentialPluginTests.js'
-import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider'
+import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider.js'
 
-jest.setTimeout(120000)
+vi.setConfig({
+  testTimeout: 120_000,
+})
 
 let agent: TAgent<
   IDIDManager &

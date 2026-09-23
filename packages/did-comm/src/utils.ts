@@ -5,6 +5,7 @@ import { DIDResolutionOptions, parse as parseDidUrl } from 'did-resolver'
 import Debug from 'debug'
 import {
   _ExtendedVerificationMethod,
+  bytesToBase64url,
   bytesToHex,
   decodeJoseBlob,
   extractPublicKeyHex,
@@ -12,10 +13,24 @@ import {
   isDefined,
   mapIdentifierKeysToDoc,
   resolveDidOrThrow,
+  stringToUtf8Bytes,
 } from '@veramo/utils'
 import { x25519 } from '@noble/curves/ed25519'
+import { sha256 } from '@noble/hashes/sha256'
 
 const debug = Debug('veramo:did-comm:action-handler')
+
+/**
+ * Computes the `apv` JWE protected header value for a DIDComm v2 message.
+ *
+ * The DIDComm messaging spec defines it, for both ECDH-ES and ECDH-1PU, as the base64url (no padding)
+ * encoding of the SHA-256 hash of the alphanumerically sorted recipient `kid` list, concatenated with `.`.
+ *
+ * @param kids - the `kid` of every recipient of the message
+ */
+export function computeApv(kids: string[]): string {
+  return bytesToBase64url(sha256(stringToUtf8Bytes([...kids].sort().join('.'))))
+}
 
 export function createEcdhWrapper(secretKeyRef: string, context: IAgentContext<IKeyManager>): ECDH {
   return async (theirPublicKey: Uint8Array): Promise<Uint8Array> => {
@@ -131,4 +146,31 @@ export function generateX25519KeyPairFromSeed(seed: Uint8Array): {
     publicKey: x25519.getPublicKey(seed),
     secretKey: seed,
   }
+}
+
+
+/**
+ * Normalize a DIDComm v2 `created_time` / `expires_time` header value to an ISO-8601 string.
+ *
+ * The DIDComm v2 spec expresses these timestamps as integer UTC epoch seconds, but for a
+ * transition period the on-wire value may also be an ISO-8601 string (as emitted by older
+ * Veramo versions). The internal Message pipeline and the datastore expect ISO-8601 strings,
+ * so a numeric (epoch-seconds) value is converted here. Non-numeric values and `undefined`
+ * are returned unchanged.
+ *
+ * See https://github.com/decentralized-identity/veramo/issues/1499
+ */
+export function toIsoString(value: string | number | undefined): string | undefined {
+  if (value === undefined) {
+    return undefined
+  }
+  if (typeof value === 'string') {
+    // legacy representation (older Veramo) or any other string: keep as-is
+    return value
+  }
+  if (Number.isFinite(value)) {
+    // numeric value is interpreted as UTC epoch seconds (DIDComm v2 spec)
+    return new Date(value * 1000).toISOString()
+  }
+  return undefined
 }

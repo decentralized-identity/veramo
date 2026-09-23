@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { SecretBox } from '../secret-box.js'
 
 describe('@veramo/kms-local', () => {
