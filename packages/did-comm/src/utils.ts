@@ -147,3 +147,30 @@ export function generateX25519KeyPairFromSeed(seed: Uint8Array): {
     secretKey: seed,
   }
 }
+
+
+/**
+ * Normalize a DIDComm v2 `created_time` / `expires_time` header value to an ISO-8601 string.
+ *
+ * The DIDComm v2 spec expresses these timestamps as integer UTC epoch seconds, but for a
+ * transition period the on-wire value may also be an ISO-8601 string (as emitted by older
+ * Veramo versions). The internal Message pipeline and the datastore expect ISO-8601 strings,
+ * so a numeric (epoch-seconds) value is converted here. Non-numeric values and `undefined`
+ * are returned unchanged.
+ *
+ * See https://github.com/decentralized-identity/veramo/issues/1499
+ */
+export function toIsoString(value: string | number | undefined): string | undefined {
+  if (value === undefined) {
+    return undefined
+  }
+  if (typeof value === 'string') {
+    // legacy representation (older Veramo) or any other string: keep as-is
+    return value
+  }
+  if (Number.isFinite(value)) {
+    // numeric value is interpreted as UTC epoch seconds (DIDComm v2 spec)
+    return new Date(value * 1000).toISOString()
+  }
+  return undefined
+}

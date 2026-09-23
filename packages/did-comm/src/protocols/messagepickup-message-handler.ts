@@ -111,7 +111,7 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
             to: [from],
             id: v4(),
             thid: message.threadId ?? message.id,
-            created_time: new Date().toISOString(),
+            created_time: Math.floor(Date.now() / 1000),
             body: {
               ...replyRecipientKey,
             },
@@ -189,7 +189,7 @@ export class PickupMediatorMessageHandler extends AbstractMessageHandler {
         to: [from],
         id: v4(),
         thid: message.threadId ?? message.id,
-        created_time: new Date().toISOString(),
+        created_time: Math.floor(Date.now() / 1000),
         body: {
           message_count: queuedMessageCount,
           live_delivery: false,
@@ -260,7 +260,7 @@ export class PickupRecipientMessageHandler extends AbstractMessageHandler {
           to: [from],
           id: v4(),
           thid: message.threadId ?? message.id,
-          created_time: new Date().toISOString(),
+          created_time: Math.floor(Date.now() / 1000),
           return_route: 'all',
           body: {
             message_id_list: messageIds,
