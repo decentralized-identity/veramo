@@ -294,7 +294,10 @@ describe('routing-message-handler', () => {
         from: mediator.did,
         to: recipient.did,
         id: v4(),
-        createdAt: new Date().toISOString(),
+        // The deny is "previous": its createdAt is set in the past so the re-request's
+        // mediate-grant (step 3) is unambiguously the latest action. This mirrors the
+        // DIDComm v2 spec, which expresses timestamps at second granularity (not sub-second).
+        createdAt: new Date(Date.now() - 60_000).toISOString(),
         data: {},
       },
     })

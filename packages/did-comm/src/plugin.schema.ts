@@ -46,10 +46,16 @@ export const schema = {
             },
             "body": {},
             "created_time": {
-              "type": "string"
+              "type": [
+                "number",
+                "string"
+              ]
             },
             "expires_time": {
-              "type": "string"
+              "type": [
+                "number",
+                "string"
+              ]
             },
             "from": {
               "type": "string"

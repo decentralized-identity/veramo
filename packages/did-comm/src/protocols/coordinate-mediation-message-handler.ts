@@ -5,6 +5,7 @@ import { v4 } from 'uuid'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { IDIDCommMessage, DIDCommMessageMediaType } from '../types/message-types.js'
 import { asArray } from '@veramo/utils'
+import { toIsoString } from '../utils.js'
 
 const debug = Debug('veramo:did-comm:coordinate-mediation-message-handler')
 
@@ -48,7 +49,7 @@ export function createMediateRequestMessage(
     to: [mediatorDidUrl],
     id: v4(),
     return_route: 'all',
-    created_time: (new Date()).toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
     body: {},
   }
 }
@@ -67,7 +68,7 @@ export function createMediateGrantMessage(
     to: [recipientDidUrl],
     id: v4(),
     thid: thid,
-    created_time: (new Date()).toISOString(),
+    created_time: Math.floor(Date.now() / 1000),
     body: {
       routing_did: [mediatorDidUrl],
     },
@@ -156,7 +157,7 @@ export class CoordinateMediationMediatorMessageHandler extends AbstractMessageHa
               id: response.id,
               threadId: response.thid,
               data: response.body,
-              createdAt: response.created_time
+              createdAt: toIsoString(response.created_time)
             },
           })
         }
