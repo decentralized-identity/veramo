@@ -10,6 +10,11 @@ preferWorkspacePackages: true
 overrides:
   '@types/eslint': ^9.0.0
   jsonld: npm:@digitalcredentials/jsonld@^6.0.0
+  # Ticket 10c: the RN harness (packages/test-rn-app) measures the upstream
+  # digitalbazaar stack next to the DCC one, so the upstream packages must get
+  # upstream jsonld, not the DCC fork the global override above forces.
+  '@digitalbazaar/vc>jsonld': 9.0.0
+  'jsonld-signatures>jsonld': 9.0.0
   node-gyp: ^10.0.0
 
 # pnpm 11/12 replaced onlyBuiltDependencies / ignoredBuiltDependencies with a
