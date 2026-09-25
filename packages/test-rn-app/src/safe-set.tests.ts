@@ -8,13 +8,7 @@ import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
 import { SAFE_SET_TEST_COUNT } from './verdict.js'
-
-export type Failure = { name: string; error: string }
-export type Result = { passed: number; failed: number; failures: Failure[] }
-
-function assert(cond: unknown, msg: string): asserts cond {
-  if (!cond) throw new Error(msg)
-}
+import { assert, createTestRun, type Result } from './harness.ts'
 
 function makeAgent() {
   const agent: any = createAgent({
@@ -37,25 +31,7 @@ function makeAgent() {
 }
 
 export async function runSafeSet(): Promise<Result> {
-  const result: Result = { passed: 0, failed: 0, failures: [] }
-  const test = async (name: string, fn: () => Promise<void>) => {
-    try {
-      await fn()
-      result.passed++
-      console.log('ok     ' + name)
-    } catch (e: any) {
-      result.failed++
-      const error = String(e?.message ?? e)
-      result.failures.push({ name, error })
-      console.log(
-        'not ok ' +
-          name +
-          ' :: ' +
-          error +
-          (e?.stack ? '\n' + String(e.stack).split('\n').slice(1, 6).join('\n') : ''),
-      )
-    }
-  }
+  const { result, test } = createTestRun()
 
   let agent: any
   await test('create agent', async () => {

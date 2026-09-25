@@ -12,12 +12,11 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { isPass, SAFE_SET_TEST_COUNT } from '../src/verdict.js'
+import { isPass, LD_LIB_TEST_COUNT, SAFE_SET_TEST_COUNT } from '../src/verdict.js'
 
 const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const cacheDir = join(pkgDir, '.cache')
 const req = createRequire(join(pkgDir, 'package.json'))
-const BARE_EXPECTED = /Property 'TextDecoder' doesn't exist/
 // Host exit codes: 0 all good, 4 bundle evaluation threw, 5 errors reported
 // while running. Anything else (signal, crash, usage error) fails every mode.
 const HOST_EXIT_OK = [0, 4, 5]
@@ -25,18 +24,90 @@ const HOST_EXIT_OK = [0, 4, 5]
 const HERMES_SHA256 = {
   '250829098.0.17': '2967ee51b41bd433b3027dda875e96194354e2b4d715f9f186fd0c04ccef309d',
 }
+// Each hoop: its label, and the host flag that installs its native half (if any).
+const HOOP = {
+  textEncoding: { label: 'text-encoding: fast-text-encoding@1.0.6 (pure JS, fills TextDecoder)' },
+  getRandomValues: {
+    label:
+      'get-random-values: react-native-get-random-values@2.0.0 emulated (host arc4random_buf + JS installer)',
+    hostArg: '--hoop=get-random-values',
+  },
+  subtleDigest: {
+    label:
+      'subtle-digest: react-native-quick-crypto `crypto.subtle.digest` emulated (host CommonCrypto + JS installer)',
+    hostArg: '--hoop=subtle-digest',
+  },
+  importMeta: {
+    label:
+      'import-meta: Babel transform of `import.meta` (babel-preset-expo unstable_transformImportMeta shape) + registry',
+  },
+}
+// Packages that are only reachable through a sibling workspace package's
+// Node-stdlib aliases (test-react-app: "crypto": "npm:crypto-browserify", ...),
+// which pnpm hoists into node_modules/.pnpm/node_modules where Metro's
+// hierarchical lookup finds them. A real RN app has none of them, so any of
+// them in a bundle would be a false green: the run fails instead.
+const LEAKED =
+  /node_modules\/\.pnpm\/(crypto-browserify|stream-browserify|path-browserify|node-stdlib-browser|buffer|process|util)@/
 const MODES = [
-  { name: 'bare', entry: 'src/entry.bare.ts', hoops: [], hostArgs: [] },
+  // 10a: the safe set (no JSON-LD).
+  {
+    name: 'bare',
+    entry: 'src/entry.bare.ts',
+    hoops: [],
+    expect: { stage: 'run', error: /Property 'TextDecoder' doesn't exist/ },
+  },
   {
     name: 'hoops',
     entry: 'src/entry.hoops.ts',
-    hoops: [
-      'text-encoding: fast-text-encoding@1.0.6 (pure JS, fills TextDecoder)',
-      'get-random-values: react-native-get-random-values@2.0.0 emulated (host arc4random_buf + JS installer)',
-    ],
-    hostArgs: ['--hoop=get-random-values'],
+    hoops: [HOOP.textEncoding, HOOP.getRandomValues],
+    expect: { pass: SAFE_SET_TEST_COUNT },
+  },
+  // 10c: JSON-LD. Recorded dead-ends first, then the green candidate.
+  {
+    name: 'ld-veramo',
+    entry: 'src/entry.ld-veramo.ts',
+    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
+    expect: { stage: 'bundle', error: /Unable to resolve module zlib from .*jose@4\.15\.9/ },
+  },
+  {
+    name: 'ld-dcc',
+    entry: 'src/entry.ld-dcc.ts',
+    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
+    expect: { stage: 'run', error: /Cannot read property 'Ed25519Signature2020' of undefined/ },
+  },
+  {
+    // diagnostic: a resolver trick (exports off) to record the DCC stack's
+    // NEXT failure; even with the subtle-digest hoop, its own browser maps
+    // replace its WebCrypto provider with an empty module.
+    name: 'ld-dcc-no-exports',
+    entry: 'src/entry.ld-dcc.ts',
+    metroConfig: 'metro.no-exports.config.cjs',
+    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
+    expect: { stage: 'run', error: /^crypto\.subtle not found\.$/ },
+  },
+  {
+    name: 'ld-upstream-no-import-meta',
+    entry: 'src/entry.ld-upstream.ts',
+    hoops: [HOOP.getRandomValues, HOOP.subtleDigest],
+    expect: { stage: 'run', error: /'import\.meta' is currently unsupported/ },
+  },
+  {
+    name: 'ld-upstream',
+    entry: 'src/entry.ld-upstream.import-meta.ts',
+    metroConfig: 'metro.import-meta.config.cjs',
+    hoops: [HOOP.getRandomValues, HOOP.subtleDigest, HOOP.importMeta],
+    expect: { pass: LD_LIB_TEST_COUNT },
   },
 ]
+const only = process.argv.slice(2)
+for (const name of only)
+  if (!MODES.some((m) => m.name === name)) {
+    console.error(`rn-harness: unknown mode ${name}; modes: ${MODES.map((m) => m.name).join(', ')}`)
+    process.exit(2)
+  }
+const modes = only.length ? MODES.filter((m) => only.includes(m.name)) : MODES
+const hostArgs = (mode) => mode.hoops.flatMap((h) => (h.hostArg ? [h.hostArg] : []))
 
 const log = (m) => console.log(m)
 const fail = (m) => {
@@ -116,25 +187,48 @@ if (!existsSync(hostBin)) {
   sh('clang++', [...flags, '-o', hostBin, hostSrc], 300)
 }
 
-// 3. Metro bundles (Metro's JS API, config = metro.config.cjs).
+// 3. Metro bundles (Metro's JS API; config = the mode's metro config). A
+// bundle failure is recorded on the mode, not thrown: it may be the expectation.
 const Metro = req(req.resolve('metro'))
 log(`[metro] metro ${req('metro/package.json').version}, platform ios, dev=false`)
-const config = await Metro.loadConfig({ config: join(pkgDir, 'metro.config.cjs'), cwd: pkgDir })
+const configs = {}
 mkdirSync(join(cacheDir, 'bundles'), { recursive: true })
-for (const mode of MODES) {
+for (const mode of modes) {
+  const configFile = mode.metroConfig ?? 'metro.config.cjs'
+  configs[configFile] ??= await Metro.loadConfig({ config: join(pkgDir, configFile), cwd: pkgDir })
   mode.bundle = join(cacheDir, 'bundles', `${mode.name}.ios.js`)
-  const { code } = await withTimeout(
-    Metro.runBuild(config, { entry: mode.entry, platform: 'ios', dev: false, minify: false }),
-    600,
-    `metro ${mode.entry}`,
-  )
-  writeFileSync(mode.bundle, code)
-  log(`[metro] ${mode.entry} -> ${mode.bundle} (${(code.length / 1024).toFixed(0)} KiB)`)
+  let built
+  try {
+    built = await withTimeout(
+      Metro.runBuild(configs[configFile], {
+        entry: mode.entry,
+        platform: 'ios',
+        dev: false,
+        minify: false,
+        // an external (not inline) map: its `sources` feed the LEAKED check
+        sourceMap: true,
+        sourceMapUrl: `${mode.name}.ios.js.map`,
+      }),
+      600,
+      `metro ${mode.entry}`,
+    )
+  } catch (e) {
+    mode.bundleError = String(e?.message ?? e).split('\n')[0]
+    log(`[metro] ${mode.entry}: bundle FAILED: ${mode.bundleError}`)
+    continue
+  }
+  writeFileSync(mode.bundle, built.code)
+  log(`[metro] ${mode.entry} -> ${mode.bundle} (${(built.code.length / 1024).toFixed(0)} KiB)`)
+  const sources = JSON.parse(built.map).sections.flatMap((section) => section.map.sources)
+  mode.leaked = sources.filter((f) => LEAKED.test(f))
 }
 
 // 4. Run each bundle on Hermes.
 function run(mode) {
-  const r = spawnSync(hostBin, [mode.bundle, ...mode.hostArgs], { encoding: 'utf8', timeout: 120_000 })
+  const r = spawnSync(hostBin, [mode.bundle, ...hostArgs(mode)], {
+    encoding: 'utf8',
+    timeout: 120_000,
+  })
   const out = (r.stdout ?? '') + (r.stderr ?? '')
   const line = out.split('\n').find((l) => l.startsWith('RN_HARNESS_RESULT '))
   const result = line ? JSON.parse(line.slice('RN_HARNESS_RESULT '.length)) : null
@@ -147,38 +241,46 @@ function run(mode) {
     : r.signal || !HOST_EXIT_OK.includes(r.status)
       ? `host crashed: ${r.signal ? 'signal ' + r.signal : 'exit ' + r.status}`
       : null
-  const passed = r.status === 0 && !hostError && isPass(result)
-  return { out, result, firstError, crash, passed }
+  // ran to the end: clean exit, no host-level error, a result line
+  const clean = r.status === 0 && !hostError && result !== null
+  const passed = clean && mode.expect.pass !== undefined && isPass(result, mode.expect.pass)
+  return { out, result, firstError, crash, clean, passed }
+}
+
+// Returns null when the mode met its expectation, else the reason it did not.
+function judge(mode) {
+  const { expect } = mode
+  const failedAs = (stage, error) =>
+    expect.stage === stage && expect.error.test(error ?? '')
+      ? (log(`${mode.name}: failed as expected at ${stage} (${expect.error}): ${error}`), null)
+      : `${stage} failure ${expect.error ? 'CHANGED' : 'unexpected'} (expected ${
+          expect.error ? expect.stage + ' ' + expect.error : 'a pass'
+        }): ${error}`
+  if (mode.bundleError) return failedAs('bundle', mode.bundleError)
+  if (mode.leaked.length)
+    return `bundle contains Node-stdlib shims hoisted from a sibling package: ${mode.leaked.join(', ')}`
+  const r = run(mode)
+  log(r.out.trimEnd().replace(/^/gm, '  | '))
+  if (r.crash) return r.crash
+  if (expect.pass !== undefined) {
+    const summary = r.result ? `passed=${r.result.passed} failed=${r.result.failed}` : 'no result line'
+    if (r.passed) return (log(`${mode.name}: PASS (${summary}, expected=${expect.pass})`), null)
+    return `FAIL (${summary}, expected=${expect.pass}) first error: ${r.firstError}`
+  }
+  if (r.clean && r.result.failed === 0)
+    return `UNEXPECTED PASS: a library improved; update this mode's expectation and README.md`
+  return failedAs('run', r.firstError)
 }
 
 let ok = true
-for (const mode of MODES) {
+for (const mode of modes) {
   log(
-    `\n== ${mode.name} ==  active hoops: ${mode.hoops.length ? '\n  - ' + mode.hoops.join('\n  - ') : 'none'}`,
+    `\n== ${mode.name} ==  active hoops: ${mode.hoops.length ? '\n  - ' + mode.hoops.map((h) => h.label).join('\n  - ') : 'none'}`,
   )
-  const r = run(mode)
-  log(r.out.trimEnd().replace(/^/gm, '  | '))
-  const summary = r.result
-    ? `passed=${r.result.passed} failed=${r.result.failed} expected=${SAFE_SET_TEST_COUNT}`
-    : 'no result line'
-  if (r.crash) {
-    log(`${mode.name}: FAIL (${r.crash})`)
+  const problem = judge(mode)
+  if (problem) {
+    log(`${mode.name}: FAIL: ${problem}`)
     ok = false
-  } else if (mode.name === 'bare') {
-    if (r.passed) {
-      log(`bare: UNEXPECTED PASS (${summary}) - a library improved; update BARE_EXPECTED and README.md`)
-      ok = false
-    } else if (BARE_EXPECTED.test(r.firstError ?? '')) {
-      log(`bare: failed as expected (${BARE_EXPECTED}): ${r.firstError}`)
-    } else {
-      log(`bare: failure CHANGED (expected ${BARE_EXPECTED}), first error: ${r.firstError}`)
-      ok = false
-    }
-  } else {
-    log(
-      `${mode.name}: ${r.passed ? 'PASS' : 'FAIL'} (${summary})${r.passed ? '' : ' first error: ' + r.firstError}`,
-    )
-    ok &&= r.passed
   }
 }
 log(ok ? '\nrn-harness: GREEN' : '')
