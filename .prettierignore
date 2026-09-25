@@ -5,3 +5,4 @@ docs
 report
 *.json
 *.md
+packages/test-rn-app/.cache

@@ -25,7 +25,8 @@
     "docs": "pnpm docs:copy && pnpm docs:build",
     "docs:copy": "tsx ./scripts/docs-copy.ts",
     "docs:build": "tsx ./scripts/docs-build.ts && pnpm docs:pretty",
-    "docs:pretty": "prettier --write docs/**/*.md"
+    "docs:pretty": "prettier --write docs/**/*.md",
+    "test:rn": "pnpm --filter \"@veramo/test-rn-app^...\" build && pnpm --filter @veramo/test-rn-app test"
   },
   "devDependencies": {
     "@changesets/changelog-github": "1.0.1",
