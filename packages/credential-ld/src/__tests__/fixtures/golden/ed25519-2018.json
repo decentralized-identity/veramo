@@ -1,0 +1,72 @@
+{
+  "credential": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://veramo.io/contexts/profile/v1"
+    ],
+    "type": [
+      "VerifiableCredential",
+      "Profile"
+    ],
+    "issuer": {
+      "id": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo"
+    },
+    "issuanceDate": "2026-01-01T00:00:00Z",
+    "credentialSubject": {
+      "id": "did:example:subject",
+      "name": "golden ed25519-2018"
+    },
+    "proof": {
+      "type": "Ed25519Signature2018",
+      "created": "2026-01-02T03:04:05Z",
+      "verificationMethod": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo#z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+      "proofPurpose": "assertionMethod",
+      "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..GS3YhpYzr7izjGzbQuP8nIFK4Ba6KzgEsHpbtBGBYDPHxbgIYyoxVUXBm9873alOg6CzgL2ohNg1BJj_hfQJCA"
+    }
+  },
+  "presentation": {
+    "holder": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+    "verifiableCredential": [
+      {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://veramo.io/contexts/profile/v1"
+        ],
+        "type": [
+          "VerifiableCredential",
+          "Profile"
+        ],
+        "issuer": {
+          "id": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo"
+        },
+        "issuanceDate": "2026-01-01T00:00:00Z",
+        "credentialSubject": {
+          "id": "did:example:subject",
+          "name": "golden ed25519-2018"
+        },
+        "proof": {
+          "type": "Ed25519Signature2018",
+          "created": "2026-01-02T03:04:05Z",
+          "verificationMethod": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo#z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+          "proofPurpose": "assertionMethod",
+          "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..GS3YhpYzr7izjGzbQuP8nIFK4Ba6KzgEsHpbtBGBYDPHxbgIYyoxVUXBm9873alOg6CzgL2ohNg1BJj_hfQJCA"
+        }
+      }
+    ],
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1"
+    ],
+    "type": [
+      "VerifiablePresentation"
+    ],
+    "proof": {
+      "type": "Ed25519Signature2018",
+      "created": "2026-01-02T03:04:05Z",
+      "verificationMethod": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo#z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+      "proofPurpose": "authentication",
+      "challenge": "golden-challenge",
+      "domain": "golden.example",
+      "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..SQ7cCTh_Dn5bK9G4ICJTrri5OKUV4gh46pa2Aei4ttnDJVOUvAzdhTEg1nLOIXTRo4dExeXo7e-4o2xPQoxuBw"
+    }
+  }
+}
