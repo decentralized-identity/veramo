@@ -337,6 +337,28 @@ describe('@veramo/utils credential utils', () => {
       expect(removeDIDParameters('did:example:123?')).toEqual('did:example:123')
     })
 
+    it('does not depend on a WHATWG URL implementation (React Native ships a partial one)', () => {
+      const RealURL = globalThis.URL
+      globalThis.URL = class {
+        constructor() {
+          throw new Error('URL is not available')
+        }
+      } as any
+      try {
+        expect(removeDIDParameters('did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn#key-1')).toEqual(
+          'did:key:z6MkvGFkoFarw7pXRBkKqZKwDcc2L3U4AZC1RtBiceicUHqn',
+        )
+        expect(removeDIDParameters('did:web:example.com:user:alice?versionId=1#publicKey')).toEqual(
+          'did:web:example.com:user:alice',
+        )
+        expect(removeDIDParameters('https://example.com:123/456?param=value#fragment')).toEqual(
+          'https://example.com:123/456',
+        )
+      } finally {
+        globalThis.URL = RealURL
+      }
+    })
+
     it('should handle only fragment components', () => {
       expect(removeDIDParameters('did:example:123#key-1')).toEqual('did:example:123')
       expect(removeDIDParameters('did:example:123#')).toEqual('did:example:123')
