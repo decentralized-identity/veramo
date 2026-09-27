@@ -12,8 +12,6 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@digitalbazaar/ed25519-signature-2020": "^5.4.0",
-    "@digitalbazaar/ed25519-verification-key-2020": "^4.2.0",
     "@digitalbazaar/vc": "^7.3.0",
     "@noble/curves": "^1.9.7",
     "@noble/hashes": "^1.8.0",

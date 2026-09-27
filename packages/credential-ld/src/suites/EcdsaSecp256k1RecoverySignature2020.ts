@@ -38,7 +38,6 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     return 'EcdsaSecp256k1RecoverySignature2020'
   }
 
-
   getSupportedVeramoKeyType(): TKeyType {
     return 'Secp256k1'
   }
@@ -60,7 +59,7 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     return new EcdsaSecp256k1RecoverySignature2020()
   }
 
-  preSigningCredModification(credential: CredentialPayload): void { }
+  preSigningCredModification(credential: CredentialPayload): void {}
 
   async preDidResolutionModification(didUrl: string, didDoc: DIDDocument): Promise<DIDDocument> {
     const ctx = asArray(didDoc['@context'])

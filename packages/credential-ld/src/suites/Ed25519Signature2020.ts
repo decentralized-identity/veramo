@@ -8,24 +8,73 @@ import {
   IResolver,
   TKeyType,
 } from '@veramo/core-types'
-import { Ed25519Signature2020 } from '@digitalbazaar/ed25519-signature-2020'
-import { Ed25519VerificationKey2020 } from '@digitalbazaar/ed25519-verification-key-2020'
+import { ed25519 } from '@noble/curves/ed25519'
 import {
   asArray,
+  base58ToBytes,
   base64ToBytes,
+  bytesToBase58,
   bytesToBase64,
   bytesToMultibase,
   extractPublicKeyHex,
   hexToBytes,
 } from '@veramo/utils'
+import { VeramoLinkedDataSignature } from './linked-data-signature.js'
+import { publicKeyOf } from './jws-detached-signature.js'
 import { VerificationMethod } from 'did-resolver'
 
 import Debug from 'debug'
 
 const debug = Debug('veramo:credential-ld:Ed25519Signature2020')
 
+const CONTEXT = 'https://w3id.org/security/suites/ed25519-2020/v1'
+const VERIFICATION_METHOD_TYPES = ['Ed25519VerificationKey2020', 'Ed25519VerificationKey2018', 'Multikey']
+
 /**
- * Veramo wrapper for the Ed25519Signature2020 suite by Digital Bazaar
+ * The Ed25519Signature2020 Linked Data suite: an Ed25519 signature over the verify data, carried in
+ * `proof.proofValue` as a base58btc multibase string (`z...`). Same wire format and checks as
+ * `@digitalbazaar/ed25519-signature-2020`.
+ */
+class Ed25519Signature2020 extends VeramoLinkedDataSignature {
+  private readonly signFn?: (data: Uint8Array) => Promise<Uint8Array>
+
+  constructor(signer?: { verificationMethod: string; sign: (data: Uint8Array) => Promise<Uint8Array> }) {
+    super({
+      type: 'Ed25519Signature2020',
+      contextUrl: CONTEXT,
+      verificationMethodTypes: VERIFICATION_METHOD_TYPES,
+      verificationMethod: signer?.verificationMethod,
+    })
+    this.signFn = signer?.sign
+  }
+
+  async sign({ verifyData, proof }: { verifyData: Uint8Array; proof: any }) {
+    if (!this.signFn) throw new Error('invalid_setup: this suite instance has no signer')
+    proof.proofValue = 'z' + bytesToBase58(await this.signFn(verifyData))
+    return proof
+  }
+
+  async verifySignature({ verifyData, verificationMethod, proof }: any): Promise<boolean> {
+    const { proofValue } = proof
+    if (typeof proofValue !== 'string' || proofValue[0] !== 'z') {
+      throw new Error('invalid_signature: proofValue must be a base58btc multibase string')
+    }
+    const key = publicKeyOf(verificationMethod)
+    return (
+      key?.keyType === 'Ed25519' &&
+      ed25519.verify(base58ToBytes(proofValue.slice(1)), verifyData, hexToBytes(key.publicKeyHex))
+    )
+  }
+
+  async matchProof(options: any): Promise<boolean> {
+    // this suite's terms (proofValue, ...) are defined by its context
+    const context = asArray(options.document['@context'])
+    return context.includes(CONTEXT) && super.matchProof(options)
+  }
+}
+
+/**
+ * Veramo wrapper for the Ed25519Signature2020 suite
  *
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
@@ -49,39 +98,20 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     verificationMethodId: string,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<any> {
-    const controller = issuerDid
-
-    // DID Key ID
-    let id = verificationMethodId
-
-    const signer = {
-      // returns signatureBytes
-      sign: async (args: { data: Uint8Array }): Promise<Uint8Array> => {
-        const messageString = bytesToBase64(args.data)
-        const signature = await context.agent.keyManagerSign({
-          keyRef: key.kid,
-          data: messageString,
-          encoding: 'base64',
-          algorithm: 'EdDSA',
-        })
-        return base64ToBytes(signature)
-      },
-    }
-
-    const verificationKey = new Ed25519VerificationKey2020({
-      id,
-      controller,
-      publicKeyMultibase: bytesToMultibase(hexToBytes(key.publicKeyHex), 'base58btc', 'ed25519-pub'),
-      // signer: () => signer,
-      // type: this.getSupportedVerificationType(),
-    })
-    // overwrite the signer since we're not passing the private key
-    verificationKey.signer = () => signer as any
-    verificationKey.type = 'Ed25519VerificationKey2020'
-    return new Ed25519Signature2020({
-      key: verificationKey,
-      signer: signer,
-    })
+    return Promise.resolve(
+      new Ed25519Signature2020({
+        verificationMethod: verificationMethodId,
+        sign: async (data) =>
+          base64ToBytes(
+            await context.agent.keyManagerSign({
+              keyRef: key.kid,
+              data: bytesToBase64(data),
+              encoding: 'base64',
+              algorithm: 'EdDSA',
+            }),
+          ),
+      }),
+    )
   }
 
   getSuiteForVerification(): any {
@@ -140,7 +170,7 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
 
   private transformVerificationMethod(vm: VerificationMethod): VerificationMethod {
     if (vm.type === 'Ed25519VerificationKey2020') {
-      ; (vm as any)['@context'] = 'https://w3id.org/security/suites/ed25519-2020/v1'
+      ;(vm as any)['@context'] = 'https://w3id.org/security/suites/ed25519-2020/v1'
       // publicKeyMultibase is required by this suite
       if (!vm.publicKeyMultibase) {
         const { publicKeyHex } = extractPublicKeyHex(vm)

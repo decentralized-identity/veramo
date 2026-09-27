@@ -41,7 +41,7 @@
     "start": "vite",
     "buildz": "vite build",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "test:browser": "vitest run"
+    "test:browser": "vitest run && vitest run --config vitest.no-polyfills.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

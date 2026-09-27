@@ -60,7 +60,7 @@ export default defineConfig({
     globals: false,
     // Only pick up the "*.vite-test.ts" files; legacy "*.browser-test.ts" files
     // (from the removed browser-driven runner) are not picked up.
-    include: ['headless-tests/**/*.vite-test.ts'],
+    include: ['headless-tests/*.vite-test.ts'],
     // Installs globalThis.process / globalThis.Buffer in the browser before
     // test modules (and their optimized deps) are evaluated.
     setupFiles: ['./headless-tests/setup.vite-globals.ts'],

@@ -613,12 +613,6 @@ importers:
 
   packages/credential-ld:
     dependencies:
-      '@digitalbazaar/ed25519-signature-2020':
-        specifier: ^5.4.0
-        version: 5.4.0
-      '@digitalbazaar/ed25519-verification-key-2020':
-        specifier: ^4.2.0
-        version: 4.2.0
       '@digitalbazaar/vc':
         specifier: ^7.3.0
         version: 7.3.0
@@ -2245,18 +2239,6 @@ packages:
   '@digitalbazaar/credentials-context@3.2.0':
     resolution: {integrity: sha512-WruXZAF182pCYq/z2JPJ4N4mVDu6pd/hr7widdCqbKekA53BXHoX7XhL9tmRmQ8kfmkaStBfla67QHhkchWYBQ==}
 
-  '@digitalbazaar/ed25519-multikey@1.3.1':
-    resolution: {integrity: sha512-55qIbOaAyswVCFfZ70ap7SN2bDSwYmcVbUtGCrpVF/CjuJ8IPqf6z8fDPJzB+CE7Q896SaZlcDukz4LOwIRCPA==}
-    engines: {node: '>=16'}
-
-  '@digitalbazaar/ed25519-signature-2020@5.4.0':
-    resolution: {integrity: sha512-dHjOv41wiKLoPaE1S9g4NCMKNnelYtBa5fCJKwrqo+cPlLuKcEhtD7w/uuc5non7bf/GX5sa5YfDI/sRUOS6iw==}
-    engines: {node: '>=18'}
-
-  '@digitalbazaar/ed25519-verification-key-2020@4.2.0':
-    resolution: {integrity: sha512-urEVTYkt+uYD8GjdoS6gkm2sKBich1hqx42b6vvUOmNgF0agZ95JlUjiJXEx+VOwu7WSjJSnEBph2Qatkrk1CA==}
-    engines: {node: '>=14'}
-
   '@digitalbazaar/http-client@4.4.0':
     resolution: {integrity: sha512-ODhCGmElUPmR3IR+KZmBNkRAFyjJ01rxvk2E+/qQ2h2EGPJH5k6bz3N24ympGc5+i4YCGk/ipIpmkwc0+iSmRg==}
     engines: {node: '>=18.0'}
@@ -2671,9 +2653,6 @@ packages:
   '@noble/curves@1.9.7':
     resolution: {integrity: sha512-gbKGcRUYIjA3/zCCNaWDciTMFI0dCkvou3TL8Zmy5Nc7sJ47a0jtOeZoTaMxkuqRo9cRhjOdZJXegxYE5FN/xw==}
     engines: {node: ^14.21.3 || >=16}
-
-  '@noble/ed25519@1.7.5':
-    resolution: {integrity: sha512-xuS0nwRMQBvSxDa7UxMb61xTiH3MxTgUfhyPUALVIe0FlOAz4sjELwyDRyUvqeEYfRSG9qNjFIycqLZppg4RSA==}
 
   '@noble/ed25519@2.3.0':
     resolution: {integrity: sha512-M7dvXL2B92/M7dw9+gzuydL8qn/jiqNHaoR3Q+cb1q1GHV7uwE17WCyFMG+Y+TZb5izcaXk5TdJRrDUxHXL78A==}
@@ -3762,16 +3741,8 @@ packages:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
 
-  base58-universal@2.0.0:
-    resolution: {integrity: sha512-BgkgF8zVLOAygszG4W8NkLm7iXrw80VYAOcedrzANrIhS14+4W6zVqjyGTFUBM/FpqkHUt8aAYd4DbBBfn3zKg==}
-    engines: {node: '>=14'}
-
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-
-  base64url-universal@2.0.0:
-    resolution: {integrity: sha512-6Hpg7EBf3t148C3+fMzjf+CHnADVDafWzlJUXAqqqbm4MKNXbsoPdOkWeRTjNlkYG7TpyjIpRO1Gk0SnsFD1rw==}
-    engines: {node: '>=14'}
 
   base64url@3.0.1:
     resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
@@ -4113,10 +4084,6 @@ packages:
     resolution: {integrity: sha512-r4ESw/IlusD17lgQi1O20Fa3qNnsckR126TdUuBgAu7GBYSIPvdNyONd3Zrxh0xCwA4+6w/TDArBPsMvhur+KQ==}
     engines: {node: '>= 0.10'}
 
-  crypto-ld@7.0.0:
-    resolution: {integrity: sha512-RrXy6aB0TOhSiqsgavTQt1G8mKomKIaNLb2JZxj7A/Vi0EwmXguuBQoeiAvePfK6bDR3uQbqYnaLLs4irTWwgw==}
-    engines: {node: '>=14'}
-
   cssom@0.3.8:
     resolution: {integrity: sha512-b0tGHbfegbhPJpxpiBPU2sCkigAqtM9O121le6bbOlgyV+NyGyCmVfJ6QW9eRjz8CpNfWEOYBIMIGRYkLwsIYg==}
 
@@ -4287,9 +4254,6 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
-
-  ed25519-signature-2020-context@1.1.0:
-    resolution: {integrity: sha512-dBGSmoUIK6h2vadDctrDnhhTO01PR2hJk0mRNEfrRDPCjaIwrfy4J+eziEQ9Q1m8By4f/CSRgKM1h53ydKfdNg==}
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
@@ -8016,27 +7980,6 @@ snapshots:
 
   '@digitalbazaar/credentials-context@3.2.0': {}
 
-  '@digitalbazaar/ed25519-multikey@1.3.1':
-    dependencies:
-      '@noble/ed25519': 1.7.5
-      base58-universal: 2.0.0
-      base64url-universal: 2.0.0
-
-  '@digitalbazaar/ed25519-signature-2020@5.4.0':
-    dependencies:
-      '@digitalbazaar/ed25519-multikey': 1.3.1
-      '@digitalbazaar/ed25519-verification-key-2020': 4.2.0
-      base58-universal: 2.0.0
-      ed25519-signature-2020-context: 1.1.0
-      jsonld-signatures: 11.6.0
-
-  '@digitalbazaar/ed25519-verification-key-2020@4.2.0':
-    dependencies:
-      '@noble/ed25519': 1.7.5
-      base58-universal: 2.0.0
-      base64url-universal: 2.0.0
-      crypto-ld: 7.0.0
-
   '@digitalbazaar/http-client@4.4.0':
     dependencies:
       ky: 1.14.3
@@ -8474,8 +8417,6 @@ snapshots:
   '@noble/curves@1.9.7':
     dependencies:
       '@noble/hashes': 1.8.0
-
-  '@noble/ed25519@1.7.5': {}
 
   '@noble/ed25519@2.3.0': {}
 
@@ -9699,13 +9640,7 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  base58-universal@2.0.0: {}
-
   base64-js@1.5.1: {}
-
-  base64url-universal@2.0.0:
-    dependencies:
-      base64url: 3.0.1
 
   base64url@3.0.1: {}
 
@@ -10133,8 +10068,6 @@ snapshots:
       randombytes: 2.1.0
       randomfill: 1.0.4
 
-  crypto-ld@7.0.0: {}
-
   cssom@0.3.8:
     optional: true
 
@@ -10310,8 +10243,6 @@ snapshots:
       gopd: 1.2.0
 
   eastasianwidth@0.2.0: {}
-
-  ed25519-signature-2020-context@1.1.0: {}
 
   ee-first@1.1.1: {}
 

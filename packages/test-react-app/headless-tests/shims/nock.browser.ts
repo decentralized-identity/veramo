@@ -18,15 +18,11 @@
 // rewrote the URL to a CORS-enabled mirror because the no-op stub let the
 // fetch go to the real network; that rewrite is gone).
 //
-// Ordering guarantee: the fetch wrapper is installed when THIS module is
-// evaluated. It is side-effect-imported by setup.vite-globals.ts (a vitest
-// `setupFiles` entry), which runs before any test module and before any of
-// their dependencies are evaluated. That matters because cross-fetch (used by
-// @veramo/credential-ld's document loader) captures `globalThis.fetch` at
-// module-evaluation time; any patch installed later would be bypassed. With
-// the setupFiles import, the wrapper is on globalThis before cross-fetch (or
-// anything else) executes. Actual context fetches only happen inside tests,
-// i.e. after both the patch and the suite's beforeAll registration exist.
+// The fetch wrapper is installed when THIS module is evaluated. It is
+// side-effect-imported by setup.vite-globals.ts (a vitest `setupFiles` entry),
+// so it is in place before any test runs. @veramo/credential-ld reads
+// `globalThis.fetch` when it loads a remote context, not at module evaluation,
+// so it always sees the wrapper.
 // The install is idempotent, so a second evaluation via the 'nock' alias (the
 // suite's own import) is a no-op.
 

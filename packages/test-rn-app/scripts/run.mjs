@@ -32,11 +32,6 @@ const HOOP = {
       'get-random-values: react-native-get-random-values@2.0.0 emulated (host arc4random_buf + JS installer)',
     hostArg: '--hoop=get-random-values',
   },
-  subtleDigest: {
-    label:
-      'subtle-digest: react-native-quick-crypto `crypto.subtle.digest` emulated (host CommonCrypto + JS installer)',
-    hostArg: '--hoop=subtle-digest',
-  },
   importMeta: {
     label:
       'import-meta: Babel transform of `import.meta` (babel-preset-expo unstable_transformImportMeta shape) + registry',
@@ -70,14 +65,14 @@ const MODES = [
     // @digitalbazaar/vc) uses; this records what an RN app without the transform gets.
     name: 'ld-veramo-no-import-meta',
     entry: 'src/entry.ld-veramo.ts',
-    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
+    hoops: [HOOP.textEncoding],
     expect: { stage: 'run', error: /'import\.meta' is currently unsupported/ },
   },
   {
     name: 'ld-veramo',
     entry: 'src/entry.ld-veramo.import-meta.ts',
     metroConfig: 'metro.import-meta.config.cjs',
-    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest, HOOP.importMeta],
+    hoops: [HOOP.textEncoding, HOOP.importMeta],
     expect: { pass: LD_TEST_COUNT },
   },
 ]

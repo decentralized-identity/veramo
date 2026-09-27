@@ -1,13 +1,11 @@
 // RN harness JSI host.
 
-#include <CommonCrypto/CommonDigest.h>
 #include <hermes/hermes.h>
 #include <jsi/jsi.h>
 #include <stdlib.h>
 
 #include <chrono>
 #include <cmath>
-#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -100,7 +98,7 @@ std::string describe(jsi::Runtime& rt, const jsi::Value& v) {
   return v.toString(rt).utf8(rt);
 }
 
-void installGlobals(jsi::Runtime& rt, bool hoopRandom, bool hoopDigest) {
+void installGlobals(jsi::Runtime& rt, bool hoopRandom) {
   jsi::Object global = rt.global();
   global.setProperty(rt, "RN$Bridgeless", true);
   // Bridgeless native module proxy with no native modules registered: every
@@ -166,29 +164,6 @@ void installGlobals(jsi::Runtime& rt, bool hoopRandom, bool hoopDigest) {
     global.setProperty(rt, "RNGetRandomValues", std::move(nativeModule));
   }
 
-  if (hoopDigest) {
-    jsi::Object nativeModule(rt);
-    setFn(rt, nativeModule, "digest", 2, [](jsi::Runtime& rt, const jsi::Value&, const jsi::Value* args, size_t count) {
-      if (count < 2 || !args[0].isString() || !args[1].isObject() || !args[1].getObject(rt).isArrayBuffer(rt))
-        throw jsi::JSError(rt, "digest(name, ArrayBuffer)");
-      std::string name = args[0].getString(rt).utf8(rt);
-      jsi::ArrayBuffer in = args[1].getObject(rt).getArrayBuffer(rt);
-      const void* data = in.data(rt);
-      CC_LONG len = (CC_LONG)in.size(rt);
-      std::vector<uint8_t> md;
-      if (name == "SHA-1") { md.resize(CC_SHA1_DIGEST_LENGTH); CC_SHA1(data, len, md.data()); }
-      else if (name == "SHA-256") { md.resize(CC_SHA256_DIGEST_LENGTH); CC_SHA256(data, len, md.data()); }
-      else if (name == "SHA-384") { md.resize(CC_SHA384_DIGEST_LENGTH); CC_SHA384(data, len, md.data()); }
-      else if (name == "SHA-512") { md.resize(CC_SHA512_DIGEST_LENGTH); CC_SHA512(data, len, md.data()); }
-      else throw jsi::JSError(rt, "digest: unsupported algorithm " + name);
-      jsi::Function ctor = rt.global().getPropertyAsFunction(rt, "ArrayBuffer");
-      jsi::ArrayBuffer out = ctor.callAsConstructor(rt, (double)md.size()).getObject(rt).getArrayBuffer(rt);
-      memcpy(out.data(rt), md.data(), md.size());
-      return jsi::Value(rt, out);
-    });
-    global.setProperty(rt, "RNSubtleDigest", std::move(nativeModule));
-  }
-
   jsi::Object hermesInternal = global.getPropertyAsObject(rt, "HermesInternal");
   if (hermesInternal.hasProperty(rt, "enablePromiseRejectionTracker")) {
     jsi::Object options(rt);
@@ -239,9 +214,9 @@ void eventLoop(jsi::Runtime& rt) {
   }
 }
 
-int run(jsi::Runtime& rt, const std::string& code, const char* url, bool hoopRandom, bool hoopDigest) {
+int run(jsi::Runtime& rt, const std::string& code, const char* url, bool hoopRandom) {
   try {
-    installGlobals(rt, hoopRandom, hoopDigest);
+    installGlobals(rt, hoopRandom);
     rt.evaluateJavaScript(std::make_shared<jsi::StringBuffer>(code), url);
   } catch (const std::exception& e) {
     reportError("EVAL_ERROR", e.what());
@@ -256,16 +231,14 @@ int run(jsi::Runtime& rt, const std::string& code, const char* url, bool hoopRan
 
 int main(int argc, char** argv) {
   if (argc < 2) {
-    std::cerr << "usage: host <bundle.js> [--hoop=get-random-values] [--hoop=subtle-digest]" << std::endl;
+    std::cerr << "usage: host <bundle.js> [--hoop=get-random-values]" << std::endl;
     return 2;
   }
-  bool hoopRandom = false, hoopDigest = false;
+  bool hoopRandom = false;
   for (int i = 2; i < argc; i++) {
     std::string arg = argv[i];
     if (arg == "--hoop=get-random-values") {
       hoopRandom = true;
-    } else if (arg == "--hoop=subtle-digest") {
-      hoopDigest = true;
     } else {
       std::cerr << "HOST_ERROR: unknown argument " << arg << std::endl;
       return 2;
@@ -281,7 +254,7 @@ int main(int argc, char** argv) {
 
   auto rt = facebook::hermes::makeHermesRuntime(
       ::hermes::vm::RuntimeConfig::Builder().withMicrotaskQueue(true).build());
-  int status = run(*rt, code.str(), argv[1], hoopRandom, hoopDigest);
+  int status = run(*rt, code.str(), argv[1], hoopRandom);
   timers.clear();  // no jsi value may outlive the runtime
   rt.reset();
   return status;

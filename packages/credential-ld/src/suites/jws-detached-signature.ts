@@ -1,12 +1,13 @@
-import jsonldSignatures from 'jsonld-signatures'
 import { ed25519 } from '@noble/curves/ed25519'
 import { p256 } from '@noble/curves/p256'
+import { p384 } from '@noble/curves/p384'
+import { p521 } from '@noble/curves/p521'
 import { secp256k1 } from '@noble/curves/secp256k1'
-import { sha256 } from '@noble/hashes/sha2'
+import { sha256, sha384, sha512 } from '@noble/hashes/sha2'
 import {
-  asArray,
   base64ToBytes,
   bytesToBase64,
+  bytesToHex,
   concat,
   decodeJoseBlob,
   encodeJoseBlob,
@@ -15,13 +16,12 @@ import {
   hexToBytes,
   stringToUtf8Bytes,
 } from '@veramo/utils'
+import { VeramoLinkedDataSignature } from './linked-data-signature.js'
 import type { VerificationMethod } from 'did-resolver'
 import type { IAgentContext, IKeyManager } from '@veramo/core-types'
 
-const { LinkedDataSignature } = jsonldSignatures.suites
-
 /** The JWS algorithms a {@link JwsDetachedSignature} can sign or verify. */
-export type JwsAlgorithm = 'EdDSA' | 'ES256K' | 'ES256K-R' | 'ES256'
+export type JwsAlgorithm = 'EdDSA' | 'ES256K' | 'ES256K-R' | 'ES256' | 'ES384' | 'ES512'
 
 /**
  * Signs the JWS signing input and returns the base64url encoded signature.
@@ -34,16 +34,13 @@ export type JwsSign = (signingInput: Uint8Array) => Promise<string>
  * (RFC 7797, `{"b64": false, "crit": ["b64"]}`), carried in `proof.jws`.
  *
  * This is the shape shared by Ed25519Signature2018, JsonWebSignature2020 and
- * EcdsaSecp256k1RecoverySignature2020: canonicalization and hashing come from
- * `jsonld-signatures`' `LinkedDataSignature` (the verify data is
- * `sha256(c14n(proof options)) || sha256(c14n(document))`), and the suite only adds the JWS
- * envelope and the key checks.
+ * EcdsaSecp256k1RecoverySignature2020. Canonicalization and hashing come from
+ * {@link VeramoLinkedDataSignature}; this class adds the JWS envelope and the key checks.
  *
  * @internal
  */
-export class JwsDetachedSignature extends LinkedDataSignature {
+export class JwsDetachedSignature extends VeramoLinkedDataSignature {
   readonly algorithms: JwsAlgorithm[]
-  readonly verificationMethodTypes: string[]
   private readonly signFn?: JwsSign
   private readonly signingAlgorithm?: JwsAlgorithm
 
@@ -57,11 +54,14 @@ export class JwsDetachedSignature extends LinkedDataSignature {
     /** only for signing */
     signer?: { algorithm: JwsAlgorithm; verificationMethod: string; sign: JwsSign }
   }) {
-    super({ type: options.type, contextUrl: options.contextUrl })
+    super({
+      type: options.type,
+      contextUrl: options.contextUrl,
+      verificationMethodTypes: options.verificationMethodTypes,
+      verificationMethod: options.signer?.verificationMethod,
+    })
     this.algorithms = options.algorithms
-    this.verificationMethodTypes = options.verificationMethodTypes
     if (options.signer) {
-      this.verificationMethod = options.signer.verificationMethod
       this.signingAlgorithm = options.signer.algorithm
       this.signFn = options.signer.sign
     }
@@ -91,53 +91,22 @@ export class JwsDetachedSignature extends LinkedDataSignature {
       throw new Error('invalid_signature: proof.jws is not a detached JWS')
     }
     const { alg, b64, crit } = decodeJoseBlob(header)
-    if (b64 !== false || !Array.isArray(crit) || !crit.includes('b64')) {
+    if (b64 !== false) {
       throw new Error('invalid_signature: proof.jws must use an unencoded payload (b64: false)')
+    }
+    // RFC 7515 section 4.1.11: unknown critical header parameters must be rejected
+    if (!Array.isArray(crit) || crit.length !== 1 || crit[0] !== 'b64') {
+      throw new Error('invalid_signature: proof.jws must have crit ["b64"]')
     }
     if (!this.algorithms.includes(alg)) {
       throw new Error(`invalid_signature: alg ${alg} is not supported by ${this.type}`)
     }
     return verifyJws(alg, signingInput(header, verifyData), base64ToBytes(signature), verificationMethod)
   }
-
-  /**
-   * Dereferences `proof.verificationMethod` through the document loader and returns the verification method
-   * object (with an absolute `id` and `controller`). Veramo's document loader returns either the DID document or,
-   * for some suites, the verification method itself.
-   */
-  async getVerificationMethod({ proof, documentLoader }: { proof: any; documentLoader: any }) {
-    const id =
-      typeof proof.verificationMethod === 'object' ? proof.verificationMethod.id : proof.verificationMethod
-    if (!id) throw new Error('invalid_proof: No "verificationMethod" found in proof.')
-    const { document } = await documentLoader(id)
-    const vm = findVerificationMethod(document, id)
-    if (!vm) throw new Error(`invalid_proof: Verification method ${id} not found.`)
-    if (!this.verificationMethodTypes.includes(vm.type)) {
-      throw new Error(`invalid_proof: ${this.type} does not support verification method type ${vm.type}`)
-    }
-    if ((vm as any).revoked !== undefined) {
-      throw new Error('invalid_proof: The verification method has been revoked.')
-    }
-    return vm
-  }
 }
 
 function signingInput(encodedHeader: string, verifyData: Uint8Array): Uint8Array {
   return concat([stringToUtf8Bytes(`${encodedHeader}.`), verifyData])
-}
-
-function findVerificationMethod(document: any, id: string): VerificationMethod | undefined {
-  if (!document || typeof document !== 'object') return undefined
-  const absolute = (ref: string) => (ref.startsWith('#') ? `${document.id}${ref}` : ref)
-  if (document.id && absolute(document.id) === id && document.type) {
-    return { ...document, id }
-  }
-  const candidates = ['verificationMethod', 'assertionMethod', 'authentication', 'publicKey']
-    .flatMap((prop) => asArray(document[prop]))
-    .filter((x: any) => typeof x === 'object')
-  const vm = candidates.find((x: any) => absolute(x.id) === id)
-  if (!vm) return undefined
-  return { ...vm, id, controller: vm.controller ? absolute(vm.controller) : document.id }
 }
 
 const PUBLIC_KEY_PROPERTIES = [
@@ -148,9 +117,16 @@ const PUBLIC_KEY_PROPERTIES = [
   'publicKeyMultibase',
 ]
 
-/** The public key a verification method carries, if any (an address-only VM carries none). */
-function publicKeyOf(vm: VerificationMethod): { publicKeyHex: string; keyType?: string } | undefined {
+/** The public key a verification method carries, if any (an address-only VM carries none). @internal */
+export function publicKeyOf(vm: VerificationMethod): { publicKeyHex: string; keyType?: string } | undefined {
   if (!PUBLIC_KEY_PROPERTIES.some((p) => (vm as any)[p])) return undefined
+  // P-384 / P-521 JWKs (P384Key2021, P521Key2021, JsonWebKey2020) are not covered by extractPublicKeyHex
+  const jwk = vm.publicKeyJwk
+  if (jwk?.kty === 'EC' && (jwk.crv === 'P-384' || jwk.crv === 'P-521') && jwk.x && jwk.y) {
+    const hex = (b64url: string) =>
+      bytesToHex(base64ToBytes(b64url)).padStart(jwk.crv === 'P-384' ? 96 : 132, '0')
+    return { publicKeyHex: `04${hex(jwk.x)}${hex(jwk.y)}`, keyType: jwk.crv }
+  }
   const { publicKeyHex, keyType } = extractPublicKeyHex(vm)
   return publicKeyHex ? { publicKeyHex: publicKeyHex.toLowerCase(), keyType } : undefined
 }
@@ -168,32 +144,55 @@ function verifyJws(
     case 'ES256':
       return (
         key?.keyType === 'P-256' &&
-        p256.verify(signature.slice(0, 64), sha256(data), hexToBytes(key.publicKeyHex))
+        signature.length === 64 &&
+        p256.verify(signature, sha256(data), hexToBytes(key.publicKeyHex))
+      )
+    case 'ES384':
+      return (
+        key?.keyType === 'P-384' &&
+        signature.length === 96 &&
+        p384.verify(signature, sha384(data), hexToBytes(key.publicKeyHex))
+      )
+    case 'ES512':
+      return (
+        key?.keyType === 'P-521' &&
+        signature.length === 132 &&
+        p521.verify(signature, sha512(data), hexToBytes(key.publicKeyHex))
       )
     case 'ES256K':
       return (
         key?.keyType === 'Secp256k1' &&
-        secp256k1.verify(signature.slice(0, 64), sha256(data), hexToBytes(key.publicKeyHex), { lowS: false })
+        signature.length === 64 &&
+        secp256k1.verify(signature, sha256(data), hexToBytes(key.publicKeyHex), { lowS: false })
       )
     case 'ES256K-R': {
-      if (signature.length !== 65) return false
+      // r || s || v, with v the recovery bit, optionally offset by 27 (Ethereum style)
+      if (signature.length !== 65 || ![0, 1, 27, 28].includes(signature[64])) return false
       const recovered = secp256k1.Signature.fromCompact(signature.slice(0, 64))
         .addRecoveryBit(signature[64] % 27)
         .recoverPublicKey(sha256(data))
       // a VM that carries a public key must match it; an address-only VM must match the recovered address
       if (key) return key.keyType === 'Secp256k1' && recovered.toHex(true) === key.publicKeyHex
-      const address = getEthereumAddress(vm)
       const recoveredAddress = getEthereumAddress({
         id: '',
         controller: '',
         type: 'EcdsaSecp256k1VerificationKey2019',
         publicKeyHex: recovered.toHex(false),
       })
-      return !!address && address === recoveredAddress
+      return addressesOf(vm).includes(recoveredAddress ?? '')
     }
     default:
       return false
   }
+}
+
+/** Every Ethereum address an address-only verification method declares (lowercase). */
+function addressesOf(vm: VerificationMethod): string[] {
+  const addresses = [
+    vm.ethereumAddress && getEthereumAddress({ ...vm, blockchainAccountId: undefined }),
+    vm.blockchainAccountId && getEthereumAddress({ ...vm, ethereumAddress: undefined }),
+  ]
+  return addresses.filter((a): a is string => !!a)
 }
 
 /**
