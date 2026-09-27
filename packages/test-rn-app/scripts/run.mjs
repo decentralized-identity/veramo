@@ -42,11 +42,12 @@ const HOOP = {
       'import-meta: Babel transform of `import.meta` (babel-preset-expo unstable_transformImportMeta shape) + registry',
   },
 }
-// Packages that are only reachable through a sibling workspace package's
-// Node-stdlib aliases (test-react-app: "crypto": "npm:crypto-browserify", ...),
-// which pnpm hoists into node_modules/.pnpm/node_modules where Metro's
-// hierarchical lookup finds them. A real RN app has none of them, so any of
-// them in a bundle would be a false green: the run fails instead.
+// Node-stdlib shims. pnpm hoists every store package into
+// node_modules/.pnpm/node_modules, where Metro's hierarchical lookup finds it
+// for any other store package, so a `require('crypto')` can resolve to a shim
+// that a sibling workspace package happens to depend on (test-react-app did,
+// until 10d). A real RN app would not have it: a shim in a bundle would be a
+// false green, so the run fails instead.
 const LEAKED =
   /node_modules\/\.pnpm\/(crypto-browserify|stream-browserify|path-browserify|node-stdlib-browser|buffer|process|util)@/
 const MODES = [
@@ -63,7 +64,7 @@ const MODES = [
     hoops: [HOOP.textEncoding, HOOP.getRandomValues],
     expect: { pass: SAFE_SET_TEST_COUNT },
   },
-  // 10c: JSON-LD. Recorded dead-ends first, then the green candidate.
+  // 10c/10d: JSON-LD through @veramo/credential-ld's public entry point.
   {
     // Hermes cannot parse `import.meta`, which @digitalbazaar/credentials-context@3 (a dependency of
     // @digitalbazaar/vc) uses; this records what an RN app without the transform gets.
