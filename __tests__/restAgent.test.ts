@@ -79,7 +79,6 @@ import { getResolver as webDidResolver } from 'web-did-resolver'
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 
 
@@ -156,7 +155,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   const eip712 = new CredentialProviderEIP712()
   const jwt = new CredentialProviderJWT()
   const ld = new CredentialProviderLD({
-    contextMaps: [LdDefaultContexts, credential_contexts as any],
+    contextMaps: [LdDefaultContexts],
     suites: [
       new VeramoEcdsaSecp256k1RecoverySignature2020(),
       new VeramoEd25519Signature2018(),

@@ -25,7 +25,6 @@ import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 
-import 'cross-fetch/polyfill'
 import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider.js'
 
 vi.setConfig({

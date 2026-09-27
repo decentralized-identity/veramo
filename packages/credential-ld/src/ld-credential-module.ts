@@ -9,12 +9,11 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
-import fetch from 'cross-fetch'
 import Debug from 'debug'
-import jsonldSignatures from '@digitalcredentials/jsonld-signatures'
+import jsonldSignatures from 'jsonld-signatures'
+import * as vc from '@digitalbazaar/vc'
 
 const { extendContextLoader } = jsonldSignatures
-import * as vc from '@digitalcredentials/vc'
 import { LdContextLoader } from './ld-context-loader.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'
 import { RequiredAgentMethods } from './ld-suites.js'
@@ -87,7 +86,7 @@ export class LdCredentialModule {
           // attempt to fetch the remote context!!!! MEGA FAIL for JSON-LD.
           debug('WARNING: attempting to fetch the doc directly for ', url)
           try {
-            const response = await fetch(url)
+            const response = await globalThis.fetch(url)
             if (response.status === 200) {
               const document = await response.json()
               return {

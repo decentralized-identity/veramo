@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { isPass, LD_LIB_TEST_COUNT, SAFE_SET_TEST_COUNT } from '../src/verdict.js'
+import { isPass, LD_TEST_COUNT, SAFE_SET_TEST_COUNT } from '../src/verdict.js'
 
 const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const cacheDir = join(pkgDir, '.cache')
@@ -65,39 +65,19 @@ const MODES = [
   },
   // 10c: JSON-LD. Recorded dead-ends first, then the green candidate.
   {
-    name: 'ld-veramo',
+    // Hermes cannot parse `import.meta`, which @digitalbazaar/credentials-context@3 (a dependency of
+    // @digitalbazaar/vc) uses; this records what an RN app without the transform gets.
+    name: 'ld-veramo-no-import-meta',
     entry: 'src/entry.ld-veramo.ts',
     hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
-    expect: { stage: 'bundle', error: /Unable to resolve module zlib from .*jose@4\.15\.9/ },
-  },
-  {
-    name: 'ld-dcc',
-    entry: 'src/entry.ld-dcc.ts',
-    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
-    expect: { stage: 'run', error: /Cannot read property 'Ed25519Signature2020' of undefined/ },
-  },
-  {
-    // diagnostic: a resolver trick (exports off) to record the DCC stack's
-    // NEXT failure; even with the subtle-digest hoop, its own browser maps
-    // replace its WebCrypto provider with an empty module.
-    name: 'ld-dcc-no-exports',
-    entry: 'src/entry.ld-dcc.ts',
-    metroConfig: 'metro.no-exports.config.cjs',
-    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest],
-    expect: { stage: 'run', error: /^crypto\.subtle not found\.$/ },
-  },
-  {
-    name: 'ld-upstream-no-import-meta',
-    entry: 'src/entry.ld-upstream.ts',
-    hoops: [HOOP.getRandomValues, HOOP.subtleDigest],
     expect: { stage: 'run', error: /'import\.meta' is currently unsupported/ },
   },
   {
-    name: 'ld-upstream',
-    entry: 'src/entry.ld-upstream.import-meta.ts',
+    name: 'ld-veramo',
+    entry: 'src/entry.ld-veramo.import-meta.ts',
     metroConfig: 'metro.import-meta.config.cjs',
-    hoops: [HOOP.getRandomValues, HOOP.subtleDigest, HOOP.importMeta],
-    expect: { pass: LD_LIB_TEST_COUNT },
+    hoops: [HOOP.textEncoding, HOOP.getRandomValues, HOOP.subtleDigest, HOOP.importMeta],
+    expect: { pass: LD_TEST_COUNT },
   },
 ]
 const only = process.argv.slice(2)

@@ -1,18 +1,27 @@
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
-import { JsonWebKey, JsonWebSignature } from '@transmute/json-web-signature'
-import {
-  asArray,
-  bytesToBase64,
-  bytesToBase64url,
-  concat,
-  encodeJoseBlob,
-  hexToBytes,
-  stringToUtf8Bytes,
-} from '@veramo/utils'
+import { JwsDetachedSignature, kmsJwsSigner } from './jws-detached-signature.js'
+
+const CONTEXT = 'https://w3id.org/security/suites/jws-2020/v1'
 
 /**
- * Veramo wrapper for the JsonWebSignature2020 suite by Transmute Industries
+ * The JsonWebSignature2020 Linked Data suite: a detached JWS over the canonicalized document, verified
+ * against a `JsonWebKey2020` verification method.
+ */
+class JsonWebSignature2020 extends JwsDetachedSignature {
+  constructor(signer?: ConstructorParameters<typeof JwsDetachedSignature>[0]['signer']) {
+    super({
+      type: 'JsonWebSignature2020',
+      contextUrl: CONTEXT,
+      algorithms: ['EdDSA', 'ES256K', 'ES256'],
+      verificationMethodTypes: ['JsonWebKey2020'],
+      signer,
+    })
+  }
+}
+
+/**
+ * Veramo wrapper for the JsonWebSignature2020 suite
  *
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
@@ -36,61 +45,15 @@ export class VeramoJsonWebSignature2020 extends VeramoLdSignature {
     verificationMethodId: string,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<any> {
-    const controller = issuerDid
-
-    // DID Key ID
-    let id = verificationMethodId
-
-    const signer = {
-      // returns a JWS detached
-      sign: async (args: { data: Uint8Array }): Promise<string> => {
-        const header = {
-          alg: 'EdDSA',
-          b64: false,
-          crit: ['b64'],
-        }
-        const headerString = encodeJoseBlob(header)
-        const messageBuffer = concat([stringToUtf8Bytes(`${headerString}.`), args.data])
-        const messageString = bytesToBase64(messageBuffer)
-        const signature = await context.agent.keyManagerSign({
-          keyRef: key.kid,
-          algorithm: 'EdDSA',
-          data: messageString,
-          encoding: 'base64',
-        })
-        return `${headerString}..${signature}`
-      },
-    }
-
-    const verificationKey = await JsonWebKey.from({
-      id: id,
-      type: 'JsonWebKey2020',
-      controller: controller,
-      publicKeyJwk: {
-        kty: 'OKP',
-        crv: 'Ed25519',
-        x: bytesToBase64url(hexToBytes(key.publicKeyHex)),
-      },
+    return new JsonWebSignature2020({
+      algorithm: 'EdDSA',
+      verificationMethod: verificationMethodId,
+      sign: kmsJwsSigner(context, key.kid, 'EdDSA'),
     })
-
-    verificationKey.signer = () => signer
-
-    const suite = new JsonWebSignature({
-      key: verificationKey,
-    })
-
-    suite.ensureSuiteContext = ({ document }: { document: any; addSuiteContext: boolean }) => {
-      document['@context'] = [
-        ...asArray(document['@context'] || []),
-        'https://w3id.org/security/suites/jws-2020/v1',
-      ]
-    }
-
-    return suite
   }
 
   getSuiteForVerification(): any {
-    return new JsonWebSignature()
+    return new JsonWebSignature2020()
   }
 
   preSigningCredModification(credential: CredentialPayload): void {

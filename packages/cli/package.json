@@ -35,7 +35,6 @@
   "dependencies": {
     "@microsoft/api-extractor": "^7.40.6",
     "@microsoft/api-extractor-model": "^7.28.13",
-    "@transmute/credentials-context": "^0.7.0-unstable.82",
     "@types/blessed": "^0.1.25",
     "@types/swagger-ui-express": "^4.1.6",
     "@veramo/core": "workspace:^",

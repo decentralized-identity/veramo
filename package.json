@@ -38,7 +38,6 @@
     "@microsoft/tsdoc": "0.17.0",
     "@noble/hashes": "1.7.1",
     "@stablelib/ed25519": "1.0.3",
-    "@transmute/credentials-context": "0.7.0-unstable.82",
     "@types/express": "4.17.25",
     "@types/fs-extra": "11.0.4",
     "@types/node": "26.5.1",

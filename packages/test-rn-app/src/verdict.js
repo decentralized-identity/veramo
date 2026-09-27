@@ -2,8 +2,8 @@
 // scripts/node-sanity.mjs. Counts are fixed here, not derived from what ran,
 // so a test that silently stops running fails the harness.
 export const SAFE_SET_TEST_COUNT = 8
-export const LD_TEST_COUNT = 3
-export const LD_LIB_TEST_COUNT = 3
+// 4 suites x (verify credential, verify presentation, byte-identical re-issue)
+export const LD_TEST_COUNT = 12
 
 export const isPass = (result, expected) => result?.passed === expected && result.failed === 0
 

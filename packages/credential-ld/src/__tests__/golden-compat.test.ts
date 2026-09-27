@@ -1,7 +1,7 @@
 /**
  * Golden compatibility fixtures for the JSON-LD de-fork.
  *
- * `fixtures/golden/*.json` were issued ONCE by the pre-de-fork stack
+ * `test-fixtures/golden/*.json` were issued ONCE by the pre-de-fork stack
  * (@digitalcredentials/* + @transmute/* + the EcdsaSecp256k1RecoverySignature2020
  * git fork), with fixed keys, fixed DIDs and a fixed clock. Whatever stack
  * credential-ld rides now must:
@@ -48,7 +48,7 @@ import {
 } from '../index.js'
 
 const REGENERATE = process.env.REGENERATE_GOLDEN === '1'
-const FIXTURES = new URL('./fixtures/golden/', import.meta.url)
+const FIXTURES = new URL('../../test-fixtures/golden/', import.meta.url)
 const NOW = new Date('2026-01-02T03:04:05Z')
 
 const ED25519 = {

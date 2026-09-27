@@ -18,13 +18,13 @@ import { CredentialStatusPlugin } from '../../packages/credential-status/src/ind
 type ConfiguredAgent = TAgent<IDIDManager & ICredentialPlugin & IDataStore & IDataStoreORM>
 
 // Constant used to simulate exception flows
-const simulateStatusVerificationFailure = 'Any_unexpected_failure_during_status_verification.'
+const simulateStatusVerificationFailure = 'https://example.com/status/unexpected-failure-during-status-verification'
 
 // Constant used to simulate revoked credentials
-const simulateRevokedCredential = 'A_revoked_credential.'
+const simulateRevokedCredential = 'https://example.com/status/revoked'
 
 // Constant used to simulate revoked credentials
-const simulateNotRevokedCredential = 'A_NOT_revoked_credential.'
+const simulateNotRevokedCredential = 'https://example.com/status/not-revoked'
 
 const callsCounter = vi.fn()
 
@@ -88,7 +88,7 @@ export default (testContext: {
 
       rawUnknown = buildCredential(identifier, {
         type: 'UnknownType',
-        id: 'any',
+        id: 'https://example.com/status/any',
       })
 
       rawFailure = buildCredential(identifier, {
@@ -153,7 +153,7 @@ export default (testContext: {
 
     it('should check credentialStatus for JSON-LD credential', async () => {
       const vc = await agent.createVerifiableCredential({
-        credential: rawCredential,
+        credential: withStatusTypeContext(rawCredential),
         proofFormat: 'lds',
       })
       expect(vc).toHaveProperty('proof.jws')
@@ -165,7 +165,7 @@ export default (testContext: {
 
     it('should check credentialStatus for revoked JSON-LD credential', async () => {
       const vc = await agent.createVerifiableCredential({
-        credential: rawRevoked,
+        credential: withStatusTypeContext(rawRevoked),
         proofFormat: 'lds',
       })
       expect(vc).toHaveProperty('proof.jws')
@@ -259,5 +259,17 @@ function buildCredential(
       name: 'Better trust layers with Veramo!',
     },
     credentialStatus,
+  }
+}
+
+// JSON-LD signing canonicalizes in safe mode, so every term, including the status type, must be defined
+// by a context. The other proof formats get the credential without it.
+function withStatusTypeContext(credential: CredentialPayload): CredentialPayload {
+  return {
+    ...credential,
+    '@context': [
+      ...(credential['@context'] as string[]),
+      { ExoticStatusMethod2022: 'https://example.com/status#ExoticStatusMethod2022' },
+    ],
   }
 }

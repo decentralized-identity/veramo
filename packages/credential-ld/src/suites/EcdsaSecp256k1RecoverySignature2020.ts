@@ -1,12 +1,29 @@
 import { RequiredAgentMethods, VeramoLdSignature } from '../ld-suites.js'
 import { CredentialPayload, DIDDocument, IAgentContext, IKey, TKeyType } from '@veramo/core-types'
-import ldsEcdsa from '@veramo-community/lds-ecdsa-secp256k1-recovery2020'
-import { asArray, bytesToBase64, concat, encodeJoseBlob, intersect, stringToUtf8Bytes } from '@veramo/utils'
+import { asArray, intersect } from '@veramo/utils'
+import { JwsDetachedSignature, kmsJwsSigner } from './jws-detached-signature.js'
 
-const { EcdsaSecp256k1RecoveryMethod2020, EcdsaSecp256k1RecoverySignature2020 } = ldsEcdsa
+const CONTEXT = 'https://w3id.org/security/suites/secp256k1recovery-2020/v2'
 
 /**
- * Veramo wrapper for the EcdsaSecp256k1RecoverySignature2020 suite by Transmute Industries
+ * The EcdsaSecp256k1RecoverySignature2020 Linked Data suite: a detached `ES256K-R` JWS over the
+ * canonicalized document. The signature carries its recovery bit, so it verifies against a verification
+ * method with only a `blockchainAccountId` / `ethereumAddress` as well as one with a public key.
+ */
+class EcdsaSecp256k1RecoverySignature2020 extends JwsDetachedSignature {
+  constructor(signer?: ConstructorParameters<typeof JwsDetachedSignature>[0]['signer']) {
+    super({
+      type: 'EcdsaSecp256k1RecoverySignature2020',
+      contextUrl: CONTEXT,
+      algorithms: ['ES256K-R'],
+      verificationMethodTypes: ['EcdsaSecp256k1RecoveryMethod2020'],
+      signer,
+    })
+  }
+}
+
+/**
+ * Veramo wrapper for the EcdsaSecp256k1RecoverySignature2020 suite
  *
  * @alpha This API is experimental and is very likely to change or disappear in future releases without notice.
  */
@@ -32,44 +49,11 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
     verifiableMethodId: string,
     context: IAgentContext<RequiredAgentMethods>,
   ): any {
-    const controller = did
-    const signer = {
-      //returns a JWS detached
-      sign: async (args: { data: Uint8Array }): Promise<string> => {
-        const header = {
-          alg: 'ES256K-R',
-          b64: false,
-          crit: ['b64'],
-        }
-        const headerString = encodeJoseBlob(header)
-        const messageBuffer = concat([stringToUtf8Bytes(`${headerString}.`), args.data])
-        const messageString = bytesToBase64(messageBuffer)
-        const signature = await context.agent.keyManagerSign({
-          keyRef: key.kid,
-          algorithm: 'ES256K-R',
-          data: messageString,
-          encoding: 'base64',
-        })
-        return `${headerString}..${signature}`
-      },
-    }
-
-    const suite = new EcdsaSecp256k1RecoverySignature2020({
-      // signer,
-      key: new EcdsaSecp256k1RecoveryMethod2020({
-        publicKeyHex: key.publicKeyHex,
-        signer: () => signer,
-        type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller,
-        id: verifiableMethodId,
-      }),
+    return new EcdsaSecp256k1RecoverySignature2020({
+      algorithm: 'ES256K-R',
+      verificationMethod: verifiableMethodId,
+      sign: kmsJwsSigner(context, key.kid, 'ES256K-R'),
     })
-
-    suite.ensureSuiteContext = ({ document }: { document: any; addSuiteContext: boolean }) => {
-      document['@context'] = [...asArray(document['@context'] || []), this.getContext()]
-    }
-
-    return suite
   }
 
   getSuiteForVerification(): any {
@@ -113,6 +97,6 @@ export class VeramoEcdsaSecp256k1RecoverySignature2020 extends VeramoLdSignature
   }
 
   getContext(): string {
-    return 'https://w3id.org/security/suites/secp256k1recovery-2020/v2'
+    return CONTEXT
   }
 }
