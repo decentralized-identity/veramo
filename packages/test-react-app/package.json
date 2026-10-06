@@ -31,8 +31,8 @@
     "@veramo/utils": "workspace:*",
     "buffer": "npm:buffer",
     "crypto": "npm:crypto-browserify",
-    "did-resolver": "^4.1.0",
-    "ethr-did-resolver": "^11.0.2",
+    "did-resolver": "^6.0.0",
+    "ethr-did-resolver": "^14.0.0",
     "path": "npm:path-browserify",
     "process": "npm:process",
     "react": "19.0.0",
@@ -40,7 +40,7 @@
     "stream": "npm:stream-browserify",
     "typeorm": "^0.3.20",
     "util": "npm:util",
-    "web-did-resolver": "^2.0.27",
+    "web-did-resolver": "^3.0.0",
     "web-vitals": "^3.5.2"
   },
   "scripts": {
