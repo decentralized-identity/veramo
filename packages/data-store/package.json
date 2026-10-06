@@ -15,7 +15,7 @@
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-jwt-vc": "^4.0.0",
+    "did-jwt-vc": "^5.0.0",
     "typeorm": "^0.3.20",
     "uuid": "^11.0.0"
   },

@@ -9,7 +9,7 @@ preferWorkspacePackages: true
 # (notably node-gyp, an optional dep of sqlite3, was dropping from ^10 to 8).
 overrides:
   '@types/eslint': ^9.0.0
-  jsonld: npm:@digitalcredentials/jsonld@^6.0.0
+  jsonld: npm:@digitalcredentials/jsonld@^9.0.0
   node-gyp: ^10.0.0
 
 # pnpm 11/12 replaced onlyBuiltDependencies / ignoredBuiltDependencies with a
