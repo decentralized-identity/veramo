@@ -32,7 +32,7 @@ jobs:
           ref: ${{ inputs.ref || github.ref }}
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Setup Node.js'
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
 
@@ -52,7 +52,7 @@ jobs:
         shard: [ 1, 2, 3, 4, 5 ]
     services:
       postgres:
-        image: postgres:16.0
+        image: postgres:16.15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: test123
@@ -69,7 +69,7 @@ jobs:
           fail-on-cache-miss: true
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Setup Node.js'
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
       - run: pnpm install
@@ -83,7 +83,7 @@ jobs:
           POSTGRES_PORT: 5432
         run: pnpm test:integration --shard=${{ matrix.shard }}/${{ strategy.job-total }}
       - run: mv coverage/coverage-final.json coverage/${{matrix.shard}}.json
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-artifacts-${{ matrix.shard }}
           path: coverage/
@@ -96,14 +96,14 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: coverage-artifacts-*
           merge-multiple: true
           path: coverage
       - name: Merge Code Coverage
         run: npx nyc merge coverage/ coverage/coverage-final.json
-      - uses: codecov/codecov-action@046562be8d17331600874a09d2c2062c27752c20 # v7.1.0
+      - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos but sometimes fails without :|
           fail_ci_if_error: false
@@ -121,7 +121,7 @@ jobs:
           fail-on-cache-miss: true
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Setup Node.js'
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
       - run: pnpm install
@@ -144,7 +144,7 @@ jobs:
           fail-on-cache-miss: true
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Setup Node.js'
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
       - run: pnpm run lint
@@ -169,7 +169,7 @@ jobs:
           ref: ${{ inputs.ref || github.ref }}
       - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
       - name: 'Setup Node.js'
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
 
