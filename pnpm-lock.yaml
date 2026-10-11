@@ -1217,8 +1217,8 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
       web-did-resolver:
-        specifier: 2.0.29
-        version: 2.0.29(encoding@0.1.13)
+        specifier: 2.0.32
+        version: 2.0.32(encoding@0.1.13)
 
   packages/key-manager:
     dependencies:
