@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           ref: ${{ inputs.ref || github.ref }}
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
       - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -67,7 +67,7 @@ jobs:
           key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
       - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -119,7 +119,7 @@ jobs:
           key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
       - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -142,7 +142,7 @@ jobs:
           key: '${{ runner.os }}-build-${{ github.sha }}-${{ github.run_id }}'
           restore-keys: '${{ runner.os }}-build-${{ github.sha }}'
           fail-on-cache-miss: true
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
       - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -167,7 +167,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           ref: ${{ inputs.ref || github.ref }}
-      - uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
       - name: 'Setup Node.js'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
