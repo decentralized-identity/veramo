@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest'
 import {
   CredentialPayload,
   ICredentialPlugin,
+  ICredentialStatusVerifier,
   IDIDManager,
   IIdentifier,
   IKeyManager,
@@ -37,12 +38,20 @@ const customContext: Record<string, ContextDoc> = {
       nothing: 'custom:example.context#blank',
     },
   },
+  'custom:status.context': {
+    '@context': {
+      TestStatusMethod: 'custom:status.context#TestStatusMethod',
+    },
+  },
 }
 
 describe('credential-w3c full flow', () => {
   let didKeyIdentifier: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
   let credential: CredentialPayload
+  // a verifier with a credential status plugin; `agent` has none
+  let statusAgent: TAgent<IResolver & ICredentialPlugin>
+  const revokedStatusIds = new Set<string>()
 
   beforeAll(async () => {
     const jwt = new CredentialProviderJWT()
@@ -71,6 +80,19 @@ describe('credential-w3c full flow', () => {
           }),
         }),
         new CredentialPlugin([jwt, ld]),
+      ],
+    })
+    statusAgent = createAgent<IResolver & ICredentialPlugin & ICredentialStatusVerifier>({
+      plugins: [
+        new DIDResolverPlugin({ resolver: new Resolver({ ...getDidKeyResolver() }) }),
+        new CredentialPlugin([jwt, ld]),
+        {
+          methods: {
+            checkCredentialStatus: async ({ credential }) => ({
+              revoked: revokedStatusIds.has((credential.credentialStatus as any).id),
+            }),
+          },
+        },
       ],
     })
     didKeyIdentifier = await agent.didManagerCreate()
@@ -246,5 +268,58 @@ describe('credential-w3c full flow', () => {
     })
 
     expect(response.verified).toBe(true)
+  })
+
+  describe('presentation with a credential that has a credentialStatus', () => {
+    const presentationWithStatus = async (proofFormat: 'jwt' | 'lds', statusId: string) => {
+      const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          ...credential,
+          '@context': ['custom:example.context', 'custom:status.context'],
+          credentialStatus: { id: statusId, type: 'TestStatusMethod' },
+        },
+        proofFormat,
+      })
+      return agent.createVerifiablePresentation({
+        presentation: { verifiableCredential: [verifiableCredential], holder: didKeyIdentifier.did },
+        challenge: 'VERAMO',
+        proofFormat,
+      })
+    }
+
+    it.each(['jwt', 'lds'] as const)(
+      'verifies when the credential is not revoked (%s)',
+      async (proofFormat) => {
+        const presentation = await presentationWithStatus(proofFormat, `custom:status/valid-${proofFormat}`)
+        const result = await statusAgent.verifyPresentation({ presentation, challenge: 'VERAMO' })
+        expect(result.verified).toBe(true)
+      },
+    )
+
+    it.each(['jwt', 'lds'] as const)('fails when the credential is revoked (%s)', async (proofFormat) => {
+      revokedStatusIds.add(`custom:status/revoked-${proofFormat}`)
+      const presentation = await presentationWithStatus(proofFormat, `custom:status/revoked-${proofFormat}`)
+      const result = await statusAgent.verifyPresentation({ presentation, challenge: 'VERAMO' })
+      expect(result.verified).toBe(false)
+      expect(result.error?.errorCode).toBe('revoked')
+    })
+
+    it('skips the status check when policies.credentialStatus is false', async () => {
+      revokedStatusIds.add('custom:status/revoked-skipped')
+      const presentation = await presentationWithStatus('lds', 'custom:status/revoked-skipped')
+      const result = await statusAgent.verifyPresentation({
+        presentation,
+        challenge: 'VERAMO',
+        policies: { credentialStatus: false },
+      })
+      expect(result.verified).toBe(true)
+    })
+
+    it('fails closed when no credential status plugin is installed', async () => {
+      const presentation = await presentationWithStatus('lds', 'custom:status/unchecked')
+      await expect(agent.verifyPresentation({ presentation, challenge: 'VERAMO' })).rejects.toThrow(
+        /ICredentialStatusVerifier/,
+      )
+    })
   })
 })

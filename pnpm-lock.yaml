@@ -810,6 +810,9 @@ importers:
       '@noble/curves':
         specifier: ^1.4.2
         version: 1.9.7
+      '@noble/hashes':
+        specifier: ^1.8.0
+        version: 1.8.0
       '@stablelib/aes-kw':
         specifier: ^2.0.0
         version: 2.0.1
@@ -1232,7 +1235,7 @@ importers:
   packages/kms-local:
     dependencies:
       '@noble/curves':
-        specifier: ^1.4.2
+        specifier: ^1.9.7
         version: 1.9.7
       '@stablelib/nacl':
         specifier: ^1.0.4
@@ -1763,7 +1766,7 @@ importers:
         specifier: ^4.0.5
         version: 4.1.5
       '@noble/curves':
-        specifier: ^1.4.2
+        specifier: ^1.9.7
         version: 1.9.7
       '@veramo/core-types':
         specifier: workspace:^

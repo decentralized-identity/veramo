@@ -163,6 +163,8 @@ const result = await run(bundle).catch((e) => ({
 let ok = result.passed > 0 && result.failed === 0
 console.log(`\nrn-harness: ${result.passed} passed, ${result.failed} failed`)
 for (const { name, error } of result.failures) console.log(`  FAIL ${name}: ${error}`)
+// unhandledRejection is emitted after the current microtask queue drains; let it run before checking
+await new Promise((resolve) => setImmediate(resolve))
 for (const error of unhandled) {
   console.log(`rn-harness: FAIL: unhandled rejection: ${error?.stack ?? error}`)
   ok = false

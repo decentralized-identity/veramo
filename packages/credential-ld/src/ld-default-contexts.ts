@@ -65,8 +65,10 @@ export const LdDefaultContexts = new Map<string, ContextDoc>([
  *
  * @internal
  */
-export const LdCredentialsContexts = new Map<string, ContextDoc>([
-  ['https://www.w3.org/2018/credentials/v1', contextCredentialV1],
-  ['https://www.w3.org/ns/credentials/v2', contextCredentialV2],
-  ['https://www.w3.org/ns/credentials/undefined-terms/v2', contextUndefinedTermsV2],
-])
+export const LdCredentialsContexts = new Map<string, ContextDoc>(
+  [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://www.w3.org/ns/credentials/v2',
+    'https://www.w3.org/ns/credentials/undefined-terms/v2',
+  ].map((url) => [url, LdDefaultContexts.get(url)!]),
+)

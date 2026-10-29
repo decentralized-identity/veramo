@@ -283,7 +283,7 @@ export async function verifyPresentation(
       presentationResult,
       verified: (credentialResults ?? []).every((r) => r.verified) && presentationResult.verified,
       credentialResults,
-      error: presentationResult.error,
+      error: presentationResult.error ?? credentialResults?.find((r) => !r.verified)?.error,
     }
   } catch (error) {
     return failure('presentation', presentation, error)

@@ -19,7 +19,15 @@ import {
 
 import { ICredentialProvider } from './abstract-credential-provider.js'
 
-import { extractIssuer, isDefined, MANDATORY_CREDENTIAL_CONTEXT, processEntryToArray } from '@veramo/utils'
+import {
+  asArray,
+  decodeCredentialToObject,
+  decodePresentationToObject,
+  extractIssuer,
+  isDefined,
+  MANDATORY_CREDENTIAL_CONTEXT,
+  processEntryToArray,
+} from '@veramo/utils'
 import Debug from 'debug'
 
 const debug = Debug('veramo:w3c:action-handler')
@@ -225,8 +233,33 @@ export class CredentialPlugin implements IAgentPlugin {
     if (!result) {
       throw new Error('invalid_setup: No verifier found for the provided presentation')
     }
+
+    if (result.verified && args.policies?.credentialStatus !== false) {
+      const revoked = await Promise.all(
+        embeddedCredentials(args.presentation).map((credential) => isRevoked(credential, context as any)),
+      )
+      if (revoked.some(Boolean)) {
+        result = {
+          verified: false,
+          error: {
+            message: 'revoked: A credential in the presentation was revoked by the issuer',
+            errorCode: 'revoked',
+          },
+        }
+      }
+    }
+
     return result
   }
+}
+
+/** The credentials embedded in a presentation, decoded to objects (without modifying the presentation). */
+function embeddedCredentials(presentation: IVerifyPresentationArgs['presentation']): VerifiableCredential[] {
+  const credentials =
+    typeof presentation === 'string'
+      ? decodePresentationToObject(presentation).verifiableCredential
+      : presentation.verifiableCredential
+  return asArray(credentials).map(decodeCredentialToObject)
 }
 
 async function isRevoked(

@@ -53,7 +53,10 @@ export class LdCredentialModule {
         const resolutionResult = await context.agent.resolveDid({ didUrl: url, options: resolutionOptions })
         const didDoc = resolutionResult.didDocument
 
-        if (!didDoc) return
+        if (!didDoc) {
+          const reason = resolutionResult.didResolutionMetadata?.error ?? 'notFound'
+          throw new Error(`not_found: unable to resolve ${url} (${reason})`)
+        }
 
         let result: any = didDoc
 

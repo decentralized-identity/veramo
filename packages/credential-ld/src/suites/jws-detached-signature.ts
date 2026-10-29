@@ -203,8 +203,13 @@ function verifyJws(
       const recovered = secp256k1.Signature.fromCompact(signature.slice(0, 64))
         .addRecoveryBit(signature[64] % 27)
         .recoverPublicKey(sha256(data))
-      // a VM that carries a public key must match it; an address-only VM must match the recovered address
-      if (key) return key.keyType === 'Secp256k1' && recovered.toHex(true) === key.publicKeyHex
+      // match the VM's secp256k1 public key, else any address it declares
+      if (
+        key?.keyType === 'Secp256k1' &&
+        [recovered.toHex(true), recovered.toHex(false)].includes(key.publicKeyHex)
+      ) {
+        return true
+      }
       const recoveredAddress = getEthereumAddress({
         id: '',
         controller: '',
@@ -218,7 +223,7 @@ function verifyJws(
   }
 }
 
-/** Every Ethereum address an address-only verification method declares (lowercase). */
+/** Every Ethereum address a verification method declares (lowercase). */
 function addressesOf(vm: VerificationMethod): string[] {
   const addresses = [
     vm.ethereumAddress && getEthereumAddress({ ...vm, blockchainAccountId: undefined }),

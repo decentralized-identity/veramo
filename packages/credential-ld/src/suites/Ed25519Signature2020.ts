@@ -14,13 +14,12 @@ import {
   base58ToBytes,
   base64ToBytes,
   bytesToBase58,
-  bytesToBase64,
   bytesToMultibase,
   extractPublicKeyHex,
   hexToBytes,
 } from '@veramo/utils'
 import { VeramoLinkedDataSignature } from './linked-data-signature.js'
-import { publicKeyOf } from './jws-detached-signature.js'
+import { kmsJwsSigner, publicKeyOf } from './jws-detached-signature.js'
 import { VerificationMethod } from 'did-resolver'
 
 import Debug from 'debug'
@@ -92,26 +91,17 @@ export class VeramoEd25519Signature2020 extends VeramoLdSignature {
     return 'Ed25519'
   }
 
-  getSuiteForSigning(
+  async getSuiteForSigning(
     key: IKey,
     issuerDid: string,
     verificationMethodId: string,
     context: IAgentContext<RequiredAgentMethods>,
   ): Promise<any> {
-    return Promise.resolve(
-      new Ed25519Signature2020({
-        verificationMethod: verificationMethodId,
-        sign: async (data) =>
-          base64ToBytes(
-            await context.agent.keyManagerSign({
-              keyRef: key.kid,
-              data: bytesToBase64(data),
-              encoding: 'base64',
-              algorithm: 'EdDSA',
-            }),
-          ),
-      }),
-    )
+    const sign = kmsJwsSigner(context, key.kid, 'EdDSA')
+    return new Ed25519Signature2020({
+      verificationMethod: verificationMethodId,
+      sign: async (data) => base64ToBytes(await sign(data)),
+    })
   }
 
   getSuiteForVerification(): any {

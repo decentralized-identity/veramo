@@ -96,14 +96,14 @@ export abstract class VeramoLinkedDataSignature extends LinkedDataSignature {
 function findVerificationMethod(document: any, id: string): VerificationMethod | undefined {
   if (!document || typeof document !== 'object') return undefined
   const absolute = (ref: string) => (ref.startsWith('#') ? `${document.id}${ref}` : ref)
-  if (document.id && absolute(document.id) === id && document.type) {
+  if (typeof document.id === 'string' && absolute(document.id) === id && document.type) {
     return { ...document, id }
   }
   const candidates = ['verificationMethod', 'assertionMethod', 'authentication', 'publicKey']
     .flatMap((prop) => asArray(document[prop]))
-    .filter((x: any) => typeof x === 'object')
+    .filter((x: any) => typeof x?.id === 'string')
   const vm = candidates.find((x: any) => absolute(x.id) === id)
   if (!vm) return undefined
   // a VM without a controller is controlled by the document it is embedded in
-  return { ...vm, id, controller: vm.controller ? absolute(vm.controller) : document.id }
+  return { ...vm, id, controller: typeof vm.controller === 'string' ? absolute(vm.controller) : document.id }
 }
