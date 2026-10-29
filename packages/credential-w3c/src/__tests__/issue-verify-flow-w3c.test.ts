@@ -304,6 +304,17 @@ describe('credential-w3c full flow', () => {
       expect(result.error?.errorCode).toBe('revoked')
     })
 
+    it('reads the credentials of a JWT presentation from its JWT, not the unsigned wrapper', async () => {
+      revokedStatusIds.add('custom:status/revoked-wrapper')
+      const presentation = await presentationWithStatus('jwt', 'custom:status/revoked-wrapper')
+      const result = await statusAgent.verifyPresentation({
+        presentation: { ...presentation, verifiableCredential: [] },
+        challenge: 'VERAMO',
+      })
+      expect(result.verified).toBe(false)
+      expect(result.error?.errorCode).toBe('revoked')
+    })
+
     it('skips the status check when policies.credentialStatus is false', async () => {
       revokedStatusIds.add('custom:status/revoked-skipped')
       const presentation = await presentationWithStatus('lds', 'custom:status/revoked-skipped')

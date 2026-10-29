@@ -253,12 +253,15 @@ export class CredentialPlugin implements IAgentPlugin {
   }
 }
 
-/** The credentials embedded in a presentation, decoded to objects (without modifying the presentation). */
+/**
+ * The credentials embedded in a presentation, decoded to objects (without modifying the presentation). A JWT
+ * presentation is verified through its JWT, so they are read from it, not from the unsigned object around it.
+ */
 function embeddedCredentials(presentation: IVerifyPresentationArgs['presentation']): VerifiableCredential[] {
-  const credentials =
-    typeof presentation === 'string'
-      ? decodePresentationToObject(presentation).verifiableCredential
-      : presentation.verifiableCredential
+  const jwt = typeof presentation === 'string' ? presentation : presentation.proof?.jwt
+  const credentials = jwt
+    ? decodePresentationToObject(jwt).verifiableCredential
+    : (presentation as VerifiablePresentation).verifiableCredential
   return asArray(credentials).map(decodeCredentialToObject)
 }
 

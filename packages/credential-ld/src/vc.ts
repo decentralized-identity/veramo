@@ -200,6 +200,10 @@ export function checkPresentation(presentation: any) {
 
 /** An assertion proof purpose that also requires the credential's issuer to control the verification method. */
 export class CredentialIssuancePurpose extends AssertionProofPurpose {
+  constructor(options: { controller?: any } = {}) {
+    super(options)
+  }
+
   async validate(proof: any, options: any) {
     try {
       const result = await super.validate(proof, options)
@@ -245,23 +249,32 @@ const failure = (key: 'credential' | 'presentation', document: any, error: any) 
   error,
 })
 
-/** Verifies a credential: data model checks, then its proofs with {@link CredentialIssuancePurpose}. */
+/**
+ * Verifies a credential: data model checks, then its proofs with the given `purpose`, or a
+ * {@link CredentialIssuancePurpose} for the given `controller`.
+ */
 export async function verifyCredential(credential: any, options: VcOptions) {
   try {
     checkCredential(credential, options)
-    return await jsonldSignatures.verify(credential, { ...options, purpose: new CredentialIssuancePurpose() })
+    const purpose = options.purpose ?? new CredentialIssuancePurpose({ controller: options.controller })
+    return await jsonldSignatures.verify(credential, { ...options, purpose })
   } catch (error) {
     return failure('credential', credential, error)
   }
 }
 
 /**
- * Verifies a presentation: data model checks, every embedded credential, then the presentation's proof for the
- * given `challenge` and `domain`.
+ * Verifies a presentation: data model checks, every embedded credential, then the presentation's proof with the
+ * given `presentationPurpose`, or an `AuthenticationProofPurpose` for the given `challenge`, `domain` and `controller`.
  */
 export async function verifyPresentation(
   presentation: any,
-  { challenge, domain, ...options }: VcOptions & { challenge?: string; domain?: string },
+  {
+    challenge,
+    domain,
+    presentationPurpose,
+    ...options
+  }: VcOptions & { challenge?: string; domain?: string; presentationPurpose?: any },
 ) {
   try {
     checkPresentation(presentation)
@@ -274,11 +287,14 @@ export async function verifyPresentation(
           })),
         )
       : undefined
-    assert(challenge, 'A "challenge" param is required for AuthenticationProofPurpose.')
-    const presentationResult = await jsonldSignatures.verify(presentation, {
-      ...options,
-      purpose: new AuthenticationProofPurpose({ challenge, domain }),
-    })
+    assert(
+      presentationPurpose || challenge,
+      'A "challenge" param is required for AuthenticationProofPurpose.',
+    )
+    const purpose =
+      presentationPurpose ??
+      new AuthenticationProofPurpose({ controller: options.controller, domain, challenge })
+    const presentationResult = await jsonldSignatures.verify(presentation, { ...options, purpose })
     return {
       presentationResult,
       verified: (credentialResults ?? []).every((r) => r.verified) && presentationResult.verified,
