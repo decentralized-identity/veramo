@@ -2,14 +2,17 @@ import { describe, expect, it } from 'vitest'
 import { ed25519 } from '@noble/curves/ed25519'
 import { p256 } from '@noble/curves/p256'
 import { p384 } from '@noble/curves/p384'
+import { p521 } from '@noble/curves/p521'
 import { secp256k1 } from '@noble/curves/secp256k1'
-import { sha256, sha384 } from '@noble/hashes/sha2'
+import { sha256, sha384, sha512 } from '@noble/hashes/sha2'
 import { computeAddress } from 'ethers'
 import {
+  bytesToBase58,
   bytesToBase64url,
   bytesToHex,
   concat,
   encodeJoseBlob,
+  hexToBytes,
   stringToUtf8Bytes,
 } from '../../../utils/src/index.js'
 import { JwsAlgorithm, JwsDetachedSignature } from '../suites/jws-detached-signature.js'
@@ -101,6 +104,72 @@ describe('JwsDetachedSignature.verifySignature', () => {
       ),
     ).toBe(true)
     expect(await verify(suite(['ES384']), jws('ES384', p384Sign), p384Vm)).toBe(true)
+  })
+
+  it('verifies NIST curve keys given as base58, hex or multibase', async () => {
+    const vm = (type: string, extra: any) => ({ id: 'did:ex:6#k', controller: 'did:ex:6', type, ...extra })
+    const multikey = (prefix: number[], key: Uint8Array) => 'z' + bytesToBase58(concat([prefix, key]))
+    const p521Priv = p521.utils.randomPrivateKey()
+    const p521Pub = p521.getPublicKey(p521Priv, true)
+    const p521Sign = (input: Uint8Array) => p521.sign(sha512(input), p521Priv).toCompactRawBytes()
+    const p384Pub = p384.getPublicKey(p384Priv, true)
+
+    const es256 = jws('ES256', pSign)
+    expect(
+      await verify(
+        suite(['ES256']),
+        es256,
+        vm('P256Key2021', { publicKeyBase58: bytesToBase58(hexToBytes(pPub)) }),
+      ),
+    ).toBe(true)
+    expect(await verify(suite(['ES256']), es256, vm('P256Key2021', { publicKeyHex: pPub }))).toBe(true)
+    expect(
+      await verify(
+        suite(['ES256']),
+        es256,
+        vm('Multikey', { publicKeyMultibase: multikey([0x80, 0x24], p256.getPublicKey(pPriv, true)) }),
+      ),
+    ).toBe(true)
+
+    const es384 = jws('ES384', p384Sign)
+    expect(
+      await verify(suite(['ES384']), es384, vm('P384Key2021', { publicKeyBase58: bytesToBase58(p384Pub) })),
+    ).toBe(true)
+    expect(
+      await verify(
+        suite(['ES384']),
+        es384,
+        vm('Multikey', { publicKeyMultibase: multikey([0x81, 0x24], p384Pub) }),
+      ),
+    ).toBe(true)
+
+    const es512 = jws('ES512', p521Sign)
+    expect(
+      await verify(suite(['ES512']), es512, vm('P521Key2021', { publicKeyBase58: bytesToBase58(p521Pub) })),
+    ).toBe(true)
+    expect(
+      await verify(
+        suite(['ES512']),
+        es512,
+        vm('Multikey', { publicKeyMultibase: multikey([0x82, 0x24], p521Pub) }),
+      ),
+    ).toBe(true)
+
+    // the key material wins over the VM type
+    expect(
+      await verify(
+        suite(['ES384']),
+        es384,
+        vm('P256Key2021', { publicKeyMultibase: multikey([0x81, 0x24], p384Pub) }),
+      ),
+    ).toBe(true)
+    expect(
+      await verify(
+        suite(['ES256']),
+        es256,
+        vm('P384Key2021', { publicKeyMultibase: multikey([0x80, 0x24], p256.getPublicKey(pPriv, true)) }),
+      ),
+    ).toBe(true)
   })
 
   it('rejects a signature from another key', async () => {

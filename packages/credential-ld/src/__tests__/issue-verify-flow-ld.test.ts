@@ -205,6 +205,24 @@ describe('credential-LD full flow', () => {
     expect(result.verified).toBe(true)
   })
 
+  it('leaves the Veramo-only verifier out of an LD presentation', async () => {
+    const verifiablePresentation = await agent.createVerifiablePresentation({
+      presentation: {
+        holder: didKeyIdentifier.did,
+        verifier: [didEthrIdentifier.did],
+      },
+      challenge: 'VERAMO',
+      proofFormat: 'lds',
+    })
+
+    expect(verifiablePresentation.verifier).toBeUndefined()
+    const result = await agent.verifyPresentation({
+      presentation: verifiablePresentation,
+      challenge: 'VERAMO',
+    })
+    expect(result.verified).toBe(true)
+  })
+
   it('works with EcdsaSecp256k1RecoveryMethod2020 credential and presentation', async () => {
     const credential: CredentialPayload = {
       issuer: { id: didEthrIdentifier.did },

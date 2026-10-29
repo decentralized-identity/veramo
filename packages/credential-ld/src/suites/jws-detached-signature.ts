@@ -5,6 +5,7 @@ import { p521 } from '@noble/curves/p521'
 import { secp256k1 } from '@noble/curves/secp256k1'
 import { sha256, sha384, sha512 } from '@noble/hashes/sha2'
 import {
+  base58ToBytes,
   base64ToBytes,
   bytesToBase64,
   bytesToHex,
@@ -117,6 +118,30 @@ const PUBLIC_KEY_PROPERTIES = [
   'publicKeyMultibase',
 ]
 
+// extractPublicKeyHex infers the key type from the VM type, and does not know these
+const VM_TYPE_TO_CURVE: Record<string, string> = {
+  P256Key2021: 'P-256',
+  P384Key2021: 'P-384',
+  P521Key2021: 'P-521',
+}
+
+// multicodec varint prefixes of NIST curve public keys, with their compressed and uncompressed lengths
+const NIST_MULTICODECS = [
+  { prefix: [0x80, 0x24], keyType: 'P-256', lengths: [33, 65] },
+  { prefix: [0x81, 0x24], keyType: 'P-384', lengths: [49, 97] },
+  { prefix: [0x82, 0x24], keyType: 'P-521', lengths: [67, 133] },
+]
+
+function nistMultikey(multibase: string): { publicKeyHex: string; keyType: string } | undefined {
+  if (!multibase.startsWith('z')) return undefined
+  const bytes = base58ToBytes(multibase.slice(1))
+  const codec = NIST_MULTICODECS.find(
+    ({ prefix, lengths }) =>
+      prefix.every((b, i) => bytes[i] === b) && lengths.includes(bytes.length - prefix.length),
+  )
+  return codec && { publicKeyHex: bytesToHex(bytes.slice(codec.prefix.length)), keyType: codec.keyType }
+}
+
 /** The public key a verification method carries, if any (an address-only VM carries none). @internal */
 export function publicKeyOf(vm: VerificationMethod): { publicKeyHex: string; keyType?: string } | undefined {
   if (!PUBLIC_KEY_PROPERTIES.some((p) => (vm as any)[p])) return undefined
@@ -127,8 +152,15 @@ export function publicKeyOf(vm: VerificationMethod): { publicKeyHex: string; key
       bytesToHex(base64ToBytes(b64url)).padStart(jwk.crv === 'P-384' ? 96 : 132, '0')
     return { publicKeyHex: `04${hex(jwk.x)}${hex(jwk.y)}`, keyType: jwk.crv }
   }
+  // neither are P-384 / P-521 multicodec keys (Multikey)
+  const multikey =
+    !vm.publicKeyBase58 && !vm.publicKeyBase64 && !vm.publicKeyHex && !jwk && vm.publicKeyMultibase
+  const nist = multikey ? nistMultikey(multikey) : undefined
+  if (nist) return nist
   const { publicKeyHex, keyType } = extractPublicKeyHex(vm)
-  return publicKeyHex ? { publicKeyHex: publicKeyHex.toLowerCase(), keyType } : undefined
+  return publicKeyHex
+    ? { publicKeyHex: publicKeyHex.toLowerCase(), keyType: keyType ?? VM_TYPE_TO_CURVE[vm.type] }
+    : undefined
 }
 
 function verifyJws(
