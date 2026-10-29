@@ -32,10 +32,6 @@ const HOOP = {
       'get-random-values: react-native-get-random-values@2.0.0 emulated (host arc4random_buf + JS installer)',
     hostArg: '--hoop=get-random-values',
   },
-  importMeta: {
-    label:
-      'import-meta: Babel transform of `import.meta` (babel-preset-expo unstable_transformImportMeta shape) + registry',
-  },
 }
 // Node-stdlib shims. pnpm hoists every store package into
 // node_modules/.pnpm/node_modules, where Metro's hierarchical lookup finds it
@@ -61,18 +57,9 @@ const MODES = [
   },
   // 10c/10d: JSON-LD through @veramo/credential-ld's public entry point.
   {
-    // Hermes cannot parse `import.meta`, which @digitalbazaar/credentials-context@3 (a dependency of
-    // @digitalbazaar/vc) uses; this records what an RN app without the transform gets.
-    name: 'ld-veramo-no-import-meta',
+    name: 'ld-veramo',
     entry: 'src/entry.ld-veramo.ts',
     hoops: [HOOP.textEncoding],
-    expect: { stage: 'run', error: /'import\.meta' is currently unsupported/ },
-  },
-  {
-    name: 'ld-veramo',
-    entry: 'src/entry.ld-veramo.import-meta.ts',
-    metroConfig: 'metro.import-meta.config.cjs',
-    hoops: [HOOP.textEncoding, HOOP.importMeta],
     expect: { pass: LD_TEST_COUNT },
   },
 ]
@@ -163,20 +150,18 @@ if (!existsSync(hostBin)) {
   sh('clang++', [...flags, '-o', hostBin, hostSrc], 300)
 }
 
-// 3. Metro bundles (Metro's JS API; config = the mode's metro config). A
+// 3. Metro bundles (Metro's JS API). A
 // bundle failure is recorded on the mode, not thrown: it may be the expectation.
 const Metro = req(req.resolve('metro'))
 log(`[metro] metro ${req('metro/package.json').version}, platform ios, dev=false`)
-const configs = {}
+const config = await Metro.loadConfig({ config: join(pkgDir, 'metro.config.cjs'), cwd: pkgDir })
 mkdirSync(join(cacheDir, 'bundles'), { recursive: true })
 for (const mode of modes) {
-  const configFile = mode.metroConfig ?? 'metro.config.cjs'
-  configs[configFile] ??= await Metro.loadConfig({ config: join(pkgDir, configFile), cwd: pkgDir })
   mode.bundle = join(cacheDir, 'bundles', `${mode.name}.ios.js`)
   let built
   try {
     built = await withTimeout(
-      Metro.runBuild(configs[configFile], {
+      Metro.runBuild(config, {
         entry: mode.entry,
         platform: 'ios',
         dev: false,

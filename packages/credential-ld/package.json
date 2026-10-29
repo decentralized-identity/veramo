@@ -12,7 +12,6 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@digitalbazaar/vc": "^7.3.0",
     "@noble/curves": "^1.9.7",
     "@noble/hashes": "^1.8.0",
     "@veramo/core-types": "workspace:^",
@@ -32,7 +31,8 @@
     "src/**/*",
     "contexts/**/*.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "publishConfig": {
     "access": "public"

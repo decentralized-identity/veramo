@@ -613,9 +613,6 @@ importers:
 
   packages/credential-ld:
     dependencies:
-      '@digitalbazaar/vc':
-        specifier: ^7.3.0
-        version: 7.3.0
       '@noble/curves':
         specifier: ^1.9.7
         version: 1.9.7
@@ -2236,19 +2233,12 @@ packages:
   '@decentralized-identity/ion-sdk@1.0.4':
     resolution: {integrity: sha512-pOWrlTH5ChxUKRHOgfG2ZeTioWEFJXADyErCQOJ0BqYNDKfP+CM09Vss+9ei6PNOABQlcDn0mEDFZtpO+DXl8A==}
 
-  '@digitalbazaar/credentials-context@3.2.0':
-    resolution: {integrity: sha512-WruXZAF182pCYq/z2JPJ4N4mVDu6pd/hr7widdCqbKekA53BXHoX7XhL9tmRmQ8kfmkaStBfla67QHhkchWYBQ==}
-
   '@digitalbazaar/http-client@4.4.0':
     resolution: {integrity: sha512-ODhCGmElUPmR3IR+KZmBNkRAFyjJ01rxvk2E+/qQ2h2EGPJH5k6bz3N24ympGc5+i4YCGk/ipIpmkwc0+iSmRg==}
     engines: {node: '>=18.0'}
 
   '@digitalbazaar/security-context@1.0.1':
     resolution: {integrity: sha512-0WZa6tPiTZZF8leBtQgYAfXQePFQp2z5ivpCEN/iZguYYZ0TB9qRmWtan5XH6mNFuusHtMcyIzAcReyE6rZPhA==}
-
-  '@digitalbazaar/vc@7.3.0':
-    resolution: {integrity: sha512-liPd4fCQYGXB3aTUY7XNt2A41EGwwdCJdqQvOjXp1ySwLptvifOYA/EvlViJfFgjDeU5DaSEeB+2V1/BY6oMHA==}
-    engines: {node: '>=18'}
 
   '@epic-web/invariant@1.0.0':
     resolution: {integrity: sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==}
@@ -7978,20 +7968,12 @@ snapshots:
       multiformats: 12.1.3
       uri-js: 4.4.1
 
-  '@digitalbazaar/credentials-context@3.2.0': {}
-
   '@digitalbazaar/http-client@4.4.0':
     dependencies:
       ky: 1.14.3
       undici: 6.28.1
 
   '@digitalbazaar/security-context@1.0.1': {}
-
-  '@digitalbazaar/vc@7.3.0':
-    dependencies:
-      '@digitalbazaar/credentials-context': 3.2.0
-      jsonld: 9.0.0
-      jsonld-signatures: 11.6.0
 
   '@epic-web/invariant@1.0.0': {}
 
