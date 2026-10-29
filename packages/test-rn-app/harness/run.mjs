@@ -13,25 +13,22 @@ const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const outDir = join(pkgDir, '.cache')
 const req = createRequire(join(pkgDir, 'package.json'))
 
-// Built-ins of the Hermes VM react-native 0.87.1 ships that a node:vm context lacks, and V8 built-ins that Hermes
+// Built-ins of the Hermes VM react-native 0.88.1 ships (260318099.0.5) that a node:vm context lacks, and V8 built-ins that Hermes
 // lacks (measured by listing both engines' globals and built-in properties). A library that feature-detects one of
 // the latter takes its Hermes path here too. (Symbol.dispose / asyncDispose cannot be deleted; `using` would fail
-// in hermesc anyway.)
-const HERMES_ONLY = { atob, btoa } // and TextEncoder, defined in the context by rnContext
+// in hermesc anyway. Hermes' Math.sumPrecise is not added.)
+const HERMES_ONLY = { atob, btoa, TextDecoder } // and TextEncoder, defined in the context by rnContext
 const encoder = new TextEncoder()
 const V8_ONLY = [
   'AsyncDisposableStack',
   'Atomics',
   'DisposableStack',
-  'FinalizationRegistry',
   'Float16Array',
-  'Iterator',
   'SharedArrayBuffer',
   'SuppressedError',
   'WebAssembly',
   'Array.fromAsync',
   'Array.prototype.toSorted',
-  'ArrayBuffer.prototype.detached',
   'ArrayBuffer.prototype.maxByteLength',
   'ArrayBuffer.prototype.resizable',
   'ArrayBuffer.prototype.resize',
@@ -48,9 +45,7 @@ const V8_ONLY = [
   'Intl.supportedValuesOf',
   'JSON.isRawJSON',
   'JSON.rawJSON',
-  'Map.groupBy',
   'Math.f16round',
-  'Object.groupBy',
   'RegExp.escape',
   'RegExp.prototype.unicodeSets',
   'TypedArray.prototype.toReversed',
@@ -86,7 +81,10 @@ function rnContext() {
     setImmediate: (fn, ...args) => (queueMicrotask(() => fn(...args)), 0),
     clearImmediate: () => {},
     RN$Bridgeless: true,
-    nativeModuleProxy: {},
+    nativeModuleProxy: {
+      // C++ TurboModule in every RN app; RN's `performance` (setUpPerformance) is built on it. Only what `now()` needs
+      NativePerformanceCxx: { now: () => performance.now(), timeOrigin: () => performance.timeOrigin },
+    },
     // the native half of react-native-get-random-values, which every Veramo RN app installs
     crypto: { getRandomValues: (array) => webcrypto.getRandomValues(array) },
   })

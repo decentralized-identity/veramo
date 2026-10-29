@@ -15,9 +15,8 @@
     "@veramo/kms-local": "workspace:*",
     "@veramo/test-utils": "workspace:*",
     "did-resolver": "4.1.0",
-    "fast-text-encoding": "1.0.6",
-    "react": "19.2.0",
-    "react-native": "0.87.1"
+    "react": "19.3.1",
+    "react-native": "0.88.1"
   },
   "scripts": {
     "test": "node harness/run.mjs"
@@ -26,8 +25,8 @@
     "@types/chai": "5.2.3",
     "@vitest/expect": "5.0.1",
     "@babel/runtime": "7.28.4",
-    "@react-native/babel-preset": "0.87.1",
-    "@react-native/metro-config": "0.87.1",
+    "@react-native/babel-preset": "0.88.1",
+    "@react-native/metro-config": "0.88.1",
     "chai": "6.2.2",
     "metro": "0.87.1"
   },
