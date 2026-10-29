@@ -15,14 +15,12 @@
     "@veramo/kms-local": "workspace:*",
     "@veramo/test-utils": "workspace:*",
     "did-resolver": "4.1.0",
-    "fast-base64-decode": "1.0.0",
     "fast-text-encoding": "1.0.6",
     "react": "19.2.0",
     "react-native": "0.87.1"
   },
   "scripts": {
-    "test": "node scripts/run.mjs",
-    "test:node-sanity": "node scripts/node-sanity.mjs"
+    "test": "node scripts/run.mjs"
   },
   "devDependencies": {
     "@babel/runtime": "7.28.4",

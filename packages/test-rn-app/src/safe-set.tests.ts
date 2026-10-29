@@ -1,5 +1,5 @@
-// Safe-set tests for the RN harness. Harness-agnostic: no test
-// framework, no globals beyond `console` and Promise.
+// Safe-set tests for the RN harness: a Veramo agent without JSON-LD (core, key-manager, kms-local, did-manager,
+// did-resolver, test-utils' did:fake). No test framework, no globals beyond `console` and Promise.
 import { createAgent } from '@veramo/core'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
@@ -7,7 +7,6 @@ import { DIDManager, MemoryDIDStore } from '@veramo/did-manager'
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { Resolver } from 'did-resolver'
 import { FakeDidProvider, FakeDidResolver } from '@veramo/test-utils'
-import { SAFE_SET_TEST_COUNT } from './verdict.js'
 import { assert, createTestRun, type Result } from './harness.ts'
 
 function makeAgent() {
@@ -85,12 +84,5 @@ export async function runSafeSet(): Promise<Result> {
     assert(vm.publicKeyHex === id.keys[0].publicKeyHex, 'publicKeyHex mismatch')
   })
 
-  return result
-}
-
-/** Runs the safe set and prints one machine-readable line; the runner parses it. */
-export async function main(): Promise<Result> {
-  const result = await runSafeSet()
-  console.log('RN_HARNESS_RESULT ' + JSON.stringify({ ...result, expected: SAFE_SET_TEST_COUNT }))
   return result
 }

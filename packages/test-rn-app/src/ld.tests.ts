@@ -1,5 +1,4 @@
-// JSON-LD tests for the RN harness. Harness-agnostic, like safe-set.tests.ts: no test
-// framework, no globals beyond `console` and Promise, so it runs the same bundled on Hermes and on Node.
+// JSON-LD tests for the RN harness. No test framework, no globals beyond `console` and Promise.
 //
 // It replays credential-ld's golden fixtures (packages/credential-ld/test-fixtures/golden,
 // issued by the pre-de-fork stack with fixed keys, DIDs and clock) through @veramo/credential-ld's public

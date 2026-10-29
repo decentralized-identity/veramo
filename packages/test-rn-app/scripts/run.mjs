@@ -1,249 +1,184 @@
-// RN harness runner: Metro-bundle the safe-set tests and run the
-// bundles on the Hermes VM that react-native ships, hosted by host/host.cpp.
-//
-//   bare  : src/entry.bare.ts, no hoops. Must fail with BARE_EXPECTED, with a
-//           clean host exit (a library getting better or worse is noticed).
-//   hoops : src/entry.hoops.ts + host --hoop=get-random-values. Must pass all
-//           SAFE_SET_TEST_COUNT tests.
-
+// RN harness runner: for each mode, Metro bundles the entry as an RN app is bundled, hermesc (the Hermes compiler
+// react-native ships) compiles the bundle, and the bundle runs in a node:vm context holding only what React Native on
+// Hermes provides. Each mode must pass a fixed number of tests. See ../README.md.
 import { spawnSync } from 'node:child_process'
-import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { isPass, LD_TEST_COUNT, SAFE_SET_TEST_COUNT } from '../src/verdict.js'
+import { webcrypto } from 'node:crypto'
+import vm from 'node:vm'
 
 const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const cacheDir = join(pkgDir, '.cache')
+const outDir = join(pkgDir, '.cache')
 const req = createRequire(join(pkgDir, 'package.json'))
-// Host exit codes: 0 all good, 4 bundle evaluation threw, 5 errors reported
-// while running. Anything else (signal, crash, usage error) fails every mode.
-const HOST_EXIT_OK = [0, 4, 5]
-// sha256 of hermes-ios-<V>-hermes-ios-release.tar.gz, reviewed and pinned here.
-const HERMES_SHA256 = {
-  '250829098.0.17': '2967ee51b41bd433b3027dda875e96194354e2b4d715f9f186fd0c04ccef309d',
-}
-// Each hoop: its label, and the host flag that installs its native half (if any).
-const HOOP = {
-  textEncoding: { label: 'text-encoding: fast-text-encoding@1.0.6 (pure JS, fills TextDecoder)' },
-  getRandomValues: {
-    label:
-      'get-random-values: react-native-get-random-values@2.0.0 emulated (host arc4random_buf + JS installer)',
-    hostArg: '--hoop=get-random-values',
-  },
-}
-// Node-stdlib shims. pnpm hoists every store package into
-// node_modules/.pnpm/node_modules, where Metro's hierarchical lookup finds it
-// for any other store package, so a `require('crypto')` can resolve to a shim
-// that a sibling workspace package happens to depend on (test-react-app did,
-// until 10d). A real RN app would not have it: a shim in a bundle would be a
-// false green, so the run fails instead.
+
+// Counts are fixed here, not derived from what ran, so a test that silently stops running fails the harness.
+// `getRandomValues` stands in for react-native-get-random-values, a native module every RN app installs.
+const MODES = [
+  { name: 'safe-set', entry: 'src/entry.safe-set.ts', expected: 8, getRandomValues: true },
+  // 4 suites x (verify credential, verify presentation, byte-identical re-issue)
+  { name: 'ld', entry: 'src/entry.ld.ts', expected: 12 },
+]
+
+// Built-ins of the Hermes VM react-native 0.87.1 ships that a node:vm context lacks, and V8 built-ins that Hermes
+// lacks (measured by listing both engines' globals and built-in properties). A library that feature-detects one of
+// the latter takes its Hermes path here too. (Symbol.dispose / asyncDispose cannot be deleted; `using` would fail
+// in hermesc anyway.)
+const HERMES_ONLY = { atob, btoa } // and TextEncoder, defined in the context by rnContext
+const encoder = new TextEncoder()
+const V8_ONLY = [
+  'AsyncDisposableStack',
+  'Atomics',
+  'DisposableStack',
+  'FinalizationRegistry',
+  'Float16Array',
+  'Iterator',
+  'SharedArrayBuffer',
+  'SuppressedError',
+  'WebAssembly',
+  'Array.fromAsync',
+  'Array.prototype.toSorted',
+  'ArrayBuffer.prototype.detached',
+  'ArrayBuffer.prototype.maxByteLength',
+  'ArrayBuffer.prototype.resizable',
+  'ArrayBuffer.prototype.resize',
+  'ArrayBuffer.prototype.transfer',
+  'ArrayBuffer.prototype.transferToFixedLength',
+  'Error.stackTraceLimit',
+  'Intl.DisplayNames',
+  'Intl.DurationFormat',
+  'Intl.ListFormat',
+  'Intl.Locale',
+  'Intl.PluralRules',
+  'Intl.RelativeTimeFormat',
+  'Intl.Segmenter',
+  'Intl.supportedValuesOf',
+  'JSON.isRawJSON',
+  'JSON.rawJSON',
+  'Map.groupBy',
+  'Math.f16round',
+  'Object.groupBy',
+  'RegExp.escape',
+  'RegExp.prototype.unicodeSets',
+  'TypedArray.prototype.toReversed',
+  'TypedArray.prototype.toSorted',
+  'TypedArray.prototype.with',
+]
+// Node-stdlib shims a real RN app would not have: pnpm hoists every store package into node_modules/.pnpm/node_modules,
+// where Metro's hierarchical lookup can find one for any `require('crypto')`, giving a false green.
 const LEAKED =
   /node_modules\/\.pnpm\/(crypto-browserify|stream-browserify|path-browserify|node-stdlib-browser|buffer|process|util)@/
-const MODES = [
-  // 10a: the safe set (no JSON-LD).
-  {
-    name: 'bare',
-    entry: 'src/entry.bare.ts',
-    hoops: [],
-    expect: { stage: 'run', error: /Property 'TextDecoder' doesn't exist/ },
-  },
-  {
-    name: 'hoops',
-    entry: 'src/entry.hoops.ts',
-    hoops: [HOOP.textEncoding, HOOP.getRandomValues],
-    expect: { pass: SAFE_SET_TEST_COUNT },
-  },
-  // 10c/10d: JSON-LD through @veramo/credential-ld's public entry point.
-  {
-    name: 'ld-veramo',
-    entry: 'src/entry.ld-veramo.ts',
-    hoops: [HOOP.textEncoding],
-    expect: { pass: LD_TEST_COUNT },
-  },
-]
+
 const only = process.argv.slice(2)
-for (const name of only)
-  if (!MODES.some((m) => m.name === name)) {
-    console.error(`rn-harness: unknown mode ${name}; modes: ${MODES.map((m) => m.name).join(', ')}`)
-    process.exit(2)
-  }
 const modes = only.length ? MODES.filter((m) => only.includes(m.name)) : MODES
-const hostArgs = (mode) => mode.hoops.flatMap((h) => (h.hostArg ? [h.hostArg] : []))
-
-const log = (m) => console.log(m)
-const fail = (m) => {
-  console.error('rn-harness: FAIL: ' + m)
-  process.exit(1)
-}
-function sh(cmd, args, timeoutSec, opts = {}) {
-  const r = spawnSync(cmd, args, { encoding: 'utf8', timeout: timeoutSec * 1000, ...opts })
-  if (r.error || r.status !== 0) {
-    fail(`${cmd} ${args.join(' ')} -> ${r.error?.message ?? 'exit ' + r.status}\n${r.stderr ?? ''}`)
-  }
-  return r.stdout
-}
-const withTimeout = (p, sec, label) =>
-  Promise.race([
-    p,
-    new Promise((_, rej) =>
-      setTimeout(() => rej(new Error(`${label} timed out (${sec}s)`)), sec * 1000).unref(),
-    ),
-  ])
-
-if (process.platform !== 'darwin') {
-  fail(
-    'macOS only: the host links the macOS slice of hermesvm.framework. On Linux, build Hermes from source at tag hermes-v<V> (see README.md).',
+if (modes.length !== (only.length || MODES.length)) {
+  console.error(
+    `rn-harness: unknown mode in ${only.join(', ')}; modes: ${MODES.map((m) => m.name).join(', ')}`,
   )
+  process.exit(2)
 }
 
-// 1. Hermes VM: the version react-native pins, from Maven, checked against HERMES_SHA256.
 const rnDir = dirname(req.resolve('react-native/package.json'))
-const V = readFileSync(join(rnDir, 'sdks/hermes-engine/version.properties'), 'utf8').match(
-  /HERMES_VERSION_NAME=(\S+)/,
-)[1]
-const hermesDir = join(cacheDir, `hermes-ios-${V}`)
-const include = join(hermesDir, 'destroot/include')
-const frameworks = join(hermesDir, 'destroot/Library/Frameworks/macosx')
-const url = `https://repo1.maven.org/maven2/com/facebook/hermes/hermes-ios/${V}/hermes-ios-${V}-hermes-ios-release.tar.gz`
-const pinned = HERMES_SHA256[V]
-if (!pinned) {
-  const published = sh('curl', ['-fsSL', '--max-time', '60', url + '.sha256'], 70)
-    .trim()
-    .split(/\s+/)[0]
-  fail(
-    `Hermes ${V} has no pinned sha256. Published ${url}.sha256 is ${published}; review it and add it to HERMES_SHA256 in scripts/run.mjs.`,
-  )
-}
-if (!existsSync(join(include, 'jsi/jsi.h'))) {
-  const tgz = join(cacheDir, `hermes-ios-${V}.tar.gz`)
-  mkdirSync(hermesDir, { recursive: true })
-  log(`[hermes] downloading ${url}`)
-  sh('curl', ['-fsSL', '--max-time', '600', '-o', tgz, url], 620)
-  const got = createHash('sha256').update(readFileSync(tgz)).digest('hex')
-  if (got !== pinned) fail(`sha256 mismatch for ${tgz}: pinned ${pinned}, got ${got}`)
-  log(`[hermes] sha256 matches pinned value ${pinned}`)
-  sh('tar', ['-xzf', tgz, '-C', hermesDir], 120)
-}
-log(
-  `[hermes] react-native ${req('react-native/package.json').version} -> Hermes ${V} (cached in ${hermesDir})`,
+const hermesc = join(
+  dirname(createRequire(join(rnDir, 'package.json')).resolve('hermes-compiler/package.json')),
+  'hermesc',
+  { darwin: 'osx-bin/hermesc', linux: 'linux64-bin/hermesc', win32: 'win64-bin/hermesc.exe' }[
+    process.platform
+  ],
 )
 
-// 2. JSI host, cached under a hash of host.cpp + compiler flags.
-const hostSrc = join(pkgDir, 'host/host.cpp')
-const flags = [
-  '-std=c++20',
-  '-O1',
-  '-I',
-  include,
-  '-F',
-  frameworks,
-  '-framework',
-  'hermesvm',
-  '-Wl,-rpath,' + frameworks,
-]
-const hostKey = createHash('sha256').update(readFileSync(hostSrc)).update(JSON.stringify(flags)).digest('hex')
-const hostBin = join(cacheDir, `host-${V}-${hostKey.slice(0, 12)}`)
-if (!existsSync(hostBin)) {
-  log('[host] compiling host.cpp')
-  sh('clang++', [...flags, '-o', hostBin, hostSrc], 300)
-}
-
-// 3. Metro bundles (Metro's JS API). A
-// bundle failure is recorded on the mode, not thrown: it may be the expectation.
-const Metro = req(req.resolve('metro'))
-log(`[metro] metro ${req('metro/package.json').version}, platform ios, dev=false`)
-const config = await Metro.loadConfig({ config: join(pkgDir, 'metro.config.cjs'), cwd: pkgDir })
-mkdirSync(join(cacheDir, 'bundles'), { recursive: true })
-for (const mode of modes) {
-  mode.bundle = join(cacheDir, 'bundles', `${mode.name}.ios.js`)
-  let built
-  try {
-    built = await withTimeout(
-      Metro.runBuild(config, {
-        entry: mode.entry,
-        platform: 'ios',
-        dev: false,
-        minify: false,
-        // an external (not inline) map: its `sources` feed the LEAKED check
-        sourceMap: true,
-        sourceMapUrl: `${mode.name}.ios.js.map`,
-      }),
-      600,
-      `metro ${mode.entry}`,
-    )
-  } catch (e) {
-    mode.bundleError = String(e?.message ?? e).split('\n')[0]
-    log(`[metro] ${mode.entry}: bundle FAILED: ${mode.bundleError}`)
-    continue
-  }
-  writeFileSync(mode.bundle, built.code)
-  log(`[metro] ${mode.entry} -> ${mode.bundle} (${(built.code.length / 1024).toFixed(0)} KiB)`)
-  const sources = JSON.parse(built.map).sections.flatMap((section) => section.map.sources)
-  mode.leaked = sources.filter((f) => LEAKED.test(f))
-}
-
-// 4. Run each bundle on Hermes.
-function run(mode) {
-  const r = spawnSync(hostBin, [mode.bundle, ...hostArgs(mode)], {
-    encoding: 'utf8',
-    timeout: 120_000,
+/** The vm context: what RN's native runtime and its JS setup provide, on Hermes' built-ins. */
+function rnContext(mode) {
+  const context = vm.createContext({
+    ...HERMES_ONLY,
+    // RN's native globals: logging (RN's console polyfill is built on it), timers, bridgeless TurboModules (none)
+    nativeLoggingHook: (message) => console.log('  | ' + message),
+    setTimeout,
+    clearTimeout,
+    setInterval,
+    clearInterval,
+    // RN's JS setup (setUpTimers.js): queueMicrotask, and setImmediate on top of microtasks
+    queueMicrotask,
+    setImmediate: (fn, ...args) => (queueMicrotask(() => fn(...args)), 0),
+    clearImmediate: () => {},
+    RN$Bridgeless: true,
+    nativeModuleProxy: {},
+    ...(mode.getRandomValues && { crypto: { getRandomValues: (array) => webcrypto.getRandomValues(array) } }),
   })
-  const out = (r.stdout ?? '') + (r.stderr ?? '')
-  const line = out.split('\n').find((l) => l.startsWith('RN_HARNESS_RESULT '))
-  const result = line ? JSON.parse(line.slice('RN_HARNESS_RESULT '.length)) : null
-  const hostError = out
-    .split('\n')
-    .find((l) => /^(EVAL_ERROR|UNCAUGHT_ERROR|UNHANDLED_REJECTION|HOST_ERROR)/.test(l))
-  const firstError = hostError ?? result?.failures[0]?.error ?? (r.error ? r.error.message : null)
-  const crash = r.error
-    ? `host did not complete: ${r.error.message}`
-    : r.signal || !HOST_EXIT_OK.includes(r.status)
-      ? `host crashed: ${r.signal ? 'signal ' + r.signal : 'exit ' + r.status}`
-      : null
-  // ran to the end: clean exit, no host-level error, a result line
-  const clean = r.status === 0 && !hostError && result !== null
-  const passed = clean && mode.expect.pass !== undefined && isPass(result, mode.expect.pass)
-  return { out, result, firstError, crash, clean, passed }
+  const global = vm.runInContext('globalThis', context)
+  const root = (name) => (name === 'TypedArray' ? Object.getPrototypeOf(global.Uint8Array) : global[name])
+  for (const path of V8_ONLY) {
+    const [head, ...keys] = path.split('.')
+    const key = keys.pop()
+    if (key === undefined) delete global[head]
+    else delete keys.reduce((owner, k) => owner[k], root(head))[key]
+  }
+  delete global.console // RN's console polyfill (prepended by Metro) installs its own on nativeLoggingHook
+  // defined in the context so it returns the context's Uint8Array: Node's returns Node's, which fails `instanceof`
+  global.TextEncoder = vm.runInContext(
+    `(encoder) => class TextEncoder {
+      get encoding() { return 'utf-8' }
+      encode(input = '') { return new Uint8Array(encoder.encode(String(input))) }
+      encodeInto(input, destination) { return encoder.encodeInto(String(input), destination) }
+    }`,
+    context,
+  )(encoder)
+  return context
 }
 
-// Returns null when the mode met its expectation, else the reason it did not.
-function judge(mode) {
-  const { expect } = mode
-  const failedAs = (stage, error) =>
-    expect.stage === stage && expect.error.test(error ?? '')
-      ? (log(`${mode.name}: failed as expected at ${stage} (${expect.error}): ${error}`), null)
-      : `${stage} failure ${expect.error ? 'CHANGED' : 'unexpected'} (expected ${
-          expect.error ? expect.stage + ' ' + expect.error : 'a pass'
-        }): ${error}`
-  if (mode.bundleError) return failedAs('bundle', mode.bundleError)
-  if (mode.leaked.length)
-    return `bundle contains Node-stdlib shims hoisted from a sibling package: ${mode.leaked.join(', ')}`
-  const r = run(mode)
-  log(r.out.trimEnd().replace(/^/gm, '  | '))
-  if (r.crash) return r.crash
-  if (expect.pass !== undefined) {
-    const summary = r.result ? `passed=${r.result.passed} failed=${r.result.failed}` : 'no result line'
-    if (r.passed) return (log(`${mode.name}: PASS (${summary}, expected=${expect.pass})`), null)
-    return `FAIL (${summary}, expected=${expect.pass}) first error: ${r.firstError}`
-  }
-  if (r.clean && r.result.failed === 0)
-    return `UNEXPECTED PASS: a library improved; update this mode's expectation and README.md`
-  return failedAs('run', r.firstError)
+async function runMode(mode, config, Metro) {
+  const bundle = join(outDir, `${mode.name}.ios.js`)
+  const built = await Metro.runBuild(config, {
+    entry: mode.entry,
+    platform: 'ios',
+    dev: false,
+    minify: false,
+    sourceMap: true, // its `sources` feed the LEAKED check
+    sourceMapUrl: `${mode.name}.ios.js.map`,
+  })
+  writeFileSync(bundle, built.code)
+  const leaked = JSON.parse(built.map)
+    .sections.flatMap((section) => section.map.sources)
+    .filter((f) => LEAKED.test(f))
+  if (leaked.length) return `bundle contains Node-stdlib shims: ${leaked.join(', ')}`
+
+  const compiled = spawnSync(hermesc, ['-emit-binary', '-out', bundle.replace(/\.js$/, '.hbc'), bundle], {
+    encoding: 'utf8',
+  })
+  if (compiled.status !== 0) return `hermesc cannot compile the bundle:\n${compiled.stderr}`
+
+  const context = rnContext(mode)
+  vm.runInContext(built.code, context, { filename: bundle })
+  const result = await context.__harnessResult
+  const failures = result.failures.map((f) => `\n  ${f.name}: ${f.error}`).join('')
+  return result.passed === mode.expected && result.failed === 0
+    ? null
+    : `passed=${result.passed} failed=${result.failed} expected=${mode.expected}${failures}`
 }
+
+const unhandled = []
+process.on('unhandledRejection', (error) => unhandled.push(error))
+
+const Metro = req(req.resolve('metro'))
+const config = await Metro.loadConfig({ config: join(pkgDir, 'metro.config.cjs'), cwd: pkgDir })
+mkdirSync(outDir, { recursive: true })
+console.log(
+  `rn-harness: react-native ${req('react-native/package.json').version}, metro ${req('metro/package.json').version}`,
+)
 
 let ok = true
 for (const mode of modes) {
-  log(
-    `\n== ${mode.name} ==  active hoops: ${mode.hoops.length ? '\n  - ' + mode.hoops.map((h) => h.label).join('\n  - ') : 'none'}`,
+  console.log(`\n== ${mode.name} (${mode.entry})`)
+  const problem = await runMode(mode, config, Metro).catch((e) => String(e?.stack ?? e))
+  console.log(
+    problem ? `${mode.name}: FAIL: ${problem}` : `${mode.name}: PASS (${mode.expected}/${mode.expected})`,
   )
-  const problem = judge(mode)
-  if (problem) {
-    log(`${mode.name}: FAIL: ${problem}`)
-    ok = false
-  }
+  ok &&= !problem
 }
-log(ok ? '\nrn-harness: GREEN' : '')
-if (!ok) fail('see above')
-process.exit(0)
+for (const error of unhandled) {
+  console.log(`rn-harness: FAIL: unhandled rejection: ${error?.stack ?? error}`)
+  ok = false
+}
+console.log(ok ? '\nrn-harness: GREEN' : '\nrn-harness: RED')
+process.exit(ok ? 0 : 1)
