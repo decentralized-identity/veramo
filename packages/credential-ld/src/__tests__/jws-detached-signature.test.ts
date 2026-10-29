@@ -16,6 +16,8 @@ import {
   stringToUtf8Bytes,
 } from '../../../utils/src/index.js'
 import { JwsAlgorithm, JwsDetachedSignature } from '../suites/jws-detached-signature.js'
+import { VeramoJsonWebSignature2020 } from '../suites/JsonWebSignature2020.js'
+import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 
 const verifyData = sha256(stringToUtf8Bytes('proof options')).map((b, i) => b ^ i) // any 32+ bytes
 const edPriv = ed25519.utils.randomPrivateKey()
@@ -282,5 +284,47 @@ describe('JwsDetachedSignature.getVerificationMethod', () => {
     await expect(get('did:ex:1#missing')).rejects.toThrow(/not found/)
     await expect(get('did:ex:1#old')).rejects.toThrow(/revoked/)
     await expect(get('did:ex:1#other')).rejects.toThrow(/does not support/)
+  })
+})
+
+describe('Multikey verification methods', () => {
+  const multikey = (prefix: number[], key: Uint8Array) => 'z' + bytesToBase58(concat([prefix, key]))
+  const multikeyVm = (publicKeyMultibase: string) => ({
+    id: 'did:ex:7#k',
+    controller: 'did:ex:7',
+    type: 'Multikey',
+    publicKeyMultibase,
+  })
+  // checks the suite accepts the VM type, then the signature against the decoded key
+  const verifyWith = async (s: JwsDetachedSignature, proofJws: string, vm: any) => {
+    const documentLoader = async () => ({ document: { id: 'did:ex:7', verificationMethod: [vm] } })
+    const verificationMethod = await s.getVerificationMethod({
+      proof: { verificationMethod: vm.id },
+      documentLoader,
+    })
+    return verify(s, proofJws, verificationMethod)
+  }
+
+  it('JsonWebSignature2020 verifies Ed25519 and P-256 Multikey keys', async () => {
+    const s = new VeramoJsonWebSignature2020().getSuiteForVerification()
+    const edVm = multikeyVm(multikey([0xed, 0x01], hexToBytes(edPub)))
+    const pVm = multikeyVm(multikey([0x80, 0x24], p256.getPublicKey(pPriv, true)))
+    expect(await verifyWith(s, jws('EdDSA', edSign), edVm)).toBe(true)
+    expect(await verifyWith(s, jws('ES256', pSign), pVm)).toBe(true)
+    expect(await verifyWith(s, jws('ES256', pSign), edVm)).toBe(false)
+  })
+
+  it('EcdsaSecp256k1RecoverySignature2020 verifies a secp256k1 Multikey key', async () => {
+    const s = new VeramoEcdsaSecp256k1RecoverySignature2020().getSuiteForVerification()
+    const kMultikey = multikeyVm(multikey([0xe7, 0x01], hexToBytes(kPub)))
+    const otherKey = multikeyVm(
+      multikey([0xe7, 0x01], secp256k1.getPublicKey(secp256k1.utils.randomPrivateKey(), true)),
+    )
+    const sig = jws(
+      'ES256K-R',
+      kSignR((v) => v),
+    )
+    expect(await verifyWith(s, sig, kMultikey)).toBe(true)
+    expect(await verifyWith(s, sig, otherKey)).toBe(false)
   })
 })

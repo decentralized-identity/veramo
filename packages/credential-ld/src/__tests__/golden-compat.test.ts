@@ -215,3 +215,38 @@ describe('golden JSON-LD fixtures (pre-de-fork compatibility)', () => {
     })
   })
 })
+
+describe('golden JsonWebSignature2020 proofs against a Multikey verification method', () => {
+  const c = {
+    ...CASES.find((x) => x.name === 'jws-2020')!,
+    resolutionOptions: { publicKeyFormat: 'Multikey' },
+  }
+  let agent: Agent
+  let golden: { credential: any; presentation: any }
+
+  beforeAll(async () => {
+    vi.useFakeTimers({ now: NOW, toFake: ['Date'] })
+    agent = await makeAgent(c)
+    golden = JSON.parse(readFileSync(new URL('jws-2020.json', FIXTURES), 'utf8'))
+  })
+  afterAll(() => {
+    vi.useRealTimers()
+  })
+
+  it('verifies the golden credential and presentation', async () => {
+    const credential = await agent.verifyCredential({
+      credential: golden.credential,
+      resolutionOptions: c.resolutionOptions,
+    })
+    expect(credential.error).toBeUndefined()
+    expect(credential.verified).toBe(true)
+    const presentation = await agent.verifyPresentation({
+      presentation: golden.presentation,
+      challenge: 'golden-challenge',
+      domain: 'golden.example',
+      resolutionOptions: c.resolutionOptions,
+    })
+    expect(presentation.error).toBeUndefined()
+    expect(presentation.verified).toBe(true)
+  })
+})

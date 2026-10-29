@@ -16,7 +16,7 @@ class EcdsaSecp256k1RecoverySignature2020 extends JwsDetachedSignature {
       type: 'EcdsaSecp256k1RecoverySignature2020',
       contextUrl: CONTEXT,
       algorithms: ['ES256K-R'],
-      verificationMethodTypes: ['EcdsaSecp256k1RecoveryMethod2020'],
+      verificationMethodTypes: ['EcdsaSecp256k1RecoveryMethod2020', 'Multikey'],
       signer,
     })
   }

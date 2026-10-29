@@ -14,9 +14,10 @@ class JsonWebSignature2020 extends JwsDetachedSignature {
       type: 'JsonWebSignature2020',
       contextUrl: CONTEXT,
       algorithms: ['EdDSA', 'ES256K', 'ES256K-R', 'ES256', 'ES384', 'ES512'],
-      // JsonWebKey2020, plus the key types @transmute/json-web-signature converted to it
+      // JsonWebKey2020, the key types @transmute/json-web-signature converted to it, and Multikey
       verificationMethodTypes: [
         'JsonWebKey2020',
+        'Multikey',
         'Ed25519VerificationKey2018',
         'EcdsaSecp256k1VerificationKey2019',
         'P256Key2021',
