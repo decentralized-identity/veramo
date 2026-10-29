@@ -5,7 +5,8 @@ import { playwright } from '@vitest/browser-playwright'
 // free-variable defines, no setup file. Only packages that need no polyfills belong here.
 export default defineConfig({
   test: {
-    include: ['headless-tests/no-polyfills/**/*.vite-test.ts'],
+    // the RN harness's credential-ld test file, a plain vitest file, runs here unchanged
+    include: ['../test-rn-app/tests/credential-ld.test.ts'],
     browser: {
       enabled: true,
       provider: playwright(),

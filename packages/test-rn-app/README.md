@@ -1,32 +1,49 @@
 # @veramo/test-rn-app: React Native harness
 
-Checks that Veramo works in a React Native app on Hermes, without a device or simulator. For each mode,
-`scripts/run.mjs`:
-
-1. **bundles** the entry with Metro, using the RN app template's config (real RN module resolution: `react-native`
-   and `browser` fields, `exports` conditions);
-2. **compiles** the bundle with `hermesc`, the Hermes compiler react-native ships (npm package `hermes-compiler`),
-   which rejects syntax Hermes cannot parse, such as `import.meta`;
-3. **runs** the bundle in a `node:vm` context that holds only what React Native on Hermes provides, and requires a
-   fixed number of tests to pass.
-
-## Run
+Checks that Veramo works in a React Native app on Hermes, without a device or simulator.
 
 ```sh
-pnpm test:rn     # from the repo root: builds the @veramo/* deps, then runs scripts/run.mjs
+pnpm test:rn                              # from the repo root: builds the @veramo/* deps, then runs the harness
+pnpm --filter @veramo/test-rn-app test    # deps already built
 ```
 
-| Mode | Entry | What it covers | Tests |
-|---|---|---|---|
-| `safe-set` | `src/entry.safe-set.ts` | an agent without JSON-LD: keys, signing, `did:fake` DIDs and resolution | 8 |
-| `ld` | `src/entry.ld.ts` | `@veramo/credential-ld`'s golden fixtures, all four suites: verify, then re-issue byte-for-byte | 12 |
+## Layout
 
-## What an RN app needs (what the entries install)
+| Path | What it is |
+|---|---|
+| `tests/*.test.ts` | **the tests**: plain vitest files (`describe` / `it` / `expect` from `vitest`) |
+| `harness/app.ts` | the harness app's `index.js`: RN's JS setup, the polyfills an app installs, then the test files |
+| `harness/rn-runtime.js` | RN's own JS setup steps (`setUpGlobals`, `Event`/`EventTarget`, `setUpPerformance`, `setUpXHR`) |
+| `harness/vitest.ts` | what `vitest` is in the bundle: vitest's own `expect` (`@vitest/expect`), and a minimal `describe` / `it` / `beforeAll` |
+| `harness/run.mjs` | the runner: bundle, compile, run (below) |
+| `metro.config.cjs`, `babel.config.cjs` | the RN app template's, plus the deltas below |
+
+To add tests, add a vitest file to `tests/` and import it in `harness/app.ts`. Only `describe`, `it` / `test`,
+`beforeAll`, `expect`, and `describe.each` / `it.each` over a list of objects (names with `$property`) are available;
+tests in a file run in order.
+
+| Test file | What it covers |
+|---|---|
+| `tests/agent.test.ts` | an agent without JSON-LD: keys, signing, `did:fake` DIDs and resolution |
+| `tests/credential-ld.test.ts` | `@veramo/credential-ld`'s golden fixtures, all four suites: verify, then re-issue byte-for-byte. Also runs in Chromium without polyfills (`packages/test-react-app/vitest.no-polyfills.config.ts`) |
+
+## How it runs
+
+`harness/run.mjs`:
+
+1. **bundles** `harness/app.ts` with Metro, using the RN app template's config (real RN module resolution:
+   `react-native` and `browser` fields, `exports` conditions);
+2. **compiles** the bundle with `hermesc`, the Hermes compiler react-native ships (npm package `hermes-compiler`),
+   which rejects syntax Hermes cannot parse, such as `import.meta`;
+3. **runs** the bundle in a `node:vm` context that holds only what React Native on Hermes provides, and fails unless
+   every registered test passes.
+
+## What an RN app needs (what `harness/app.ts` installs)
 
 - A `TextDecoder` polyfill (`fast-text-encoding`; Expo ships one): Hermes has no `TextDecoder`, and did-jwt's
-  multiformats needs it at module load. Every mode.
+  multiformats needs it at module load time.
 - `crypto.getRandomValues` (`react-native-get-random-values`, a native module): key generation and `uuid`. The runner
-  provides it for `safe-set` only; credential-ld does not need it.
+  provides it, standing in for the native module.
 
 ## The runtime
 
@@ -34,9 +51,9 @@ The vm context starts from V8's built-ins, adjusted to the Hermes VM react-nativ
 `HERMES_ONLY` / `V8_ONLY`, measured by listing both engines' globals and built-in properties): it adds `TextEncoder`,
 `atob` and `btoa`, and removes the newer V8 built-ins Hermes lacks (`Iterator`, `Object.groupBy`, `Intl.Segmenter`,
 ...). On that it installs RN's native globals (`nativeLoggingHook`, timers, `queueMicrotask`, `setImmediate`,
-`RN$Bridgeless`, an empty `nativeModuleProxy`). The entries then run RN's own JS setup (`src/rn-runtime.js`:
-`setUpGlobals`, `setUpXHR`), so `URL`, `self` and friends are React Native's, as in an app. `fetch`, XHR and `Blob`
-need native modules, so they throw if used.
+`RN$Bridgeless`, an empty `nativeModuleProxy`). `harness/rn-runtime.js` then runs RN's own JS setup, so `URL`,
+`EventTarget`, `performance`, `self` and friends are React Native's, as in an app. `fetch`, XHR and `Blob` need native
+modules, so they throw if used.
 
 When react-native is upgraded, re-measure the lists if a library starts failing on a built-in the new Hermes has.
 
@@ -44,9 +61,11 @@ When react-native is upgraded, re-measure the lists if a library starts failing 
 
 `babel.config.cjs` is the RN template's. `metro.config.cjs` is the template's plus two pnpm/monorepo options that an
 app consuming published `@veramo/*` does not need: `watchFolders: [repoRoot]` (the workspace symlinks point outside
-this package) and `resolver.nodeModulesPaths` (so `packages/*/build` files find this package's `@babel/runtime`). The
-runner fails a bundle that contains a Node stdlib shim (`crypto-browserify`, `buffer`, ...): pnpm hoists store packages
-where Metro can find them for any package, which a real app would not get.
+this package) and `resolver.nodeModulesPaths` (so `packages/*/build` files find this package's `@babel/runtime`). Its
+`resolver.resolveRequest` applies only to imports from `harness/` and `tests/`: `vitest` resolves to
+`harness/vitest.ts`, and `./x.js` to a sibling `./x.ts` (the repo's import style, which Metro does not resolve).
+Dependencies resolve unchanged. The runner fails a bundle that contains a Node stdlib shim (`crypto-browserify`,
+`buffer`, ...): pnpm hoists store packages where Metro can find them for any package, which a real app would not get.
 
 ## Limitations
 

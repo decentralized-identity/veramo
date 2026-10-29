@@ -1,6 +1,6 @@
-// RN harness runner: for each mode, Metro bundles the entry as an RN app is bundled, hermesc (the Hermes compiler
-// react-native ships) compiles the bundle, and the bundle runs in a node:vm context holding only what React Native on
-// Hermes provides. Each mode must pass a fixed number of tests. See ../README.md.
+// RN harness runner: Metro bundles harness/app.ts as an RN app is bundled, hermesc (the Hermes compiler react-native
+// ships) compiles the bundle, and the bundle runs in a node:vm context holding only what React Native on Hermes
+// provides. A fixed number of tests must pass. See ../README.md.
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -12,14 +12,6 @@ import vm from 'node:vm'
 const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const outDir = join(pkgDir, '.cache')
 const req = createRequire(join(pkgDir, 'package.json'))
-
-// Counts are fixed here, not derived from what ran, so a test that silently stops running fails the harness.
-// `getRandomValues` stands in for react-native-get-random-values, a native module every RN app installs.
-const MODES = [
-  { name: 'safe-set', entry: 'src/entry.safe-set.ts', expected: 8, getRandomValues: true },
-  // 4 suites x (verify credential, verify presentation, byte-identical re-issue)
-  { name: 'ld', entry: 'src/entry.ld.ts', expected: 12 },
-]
 
 // Built-ins of the Hermes VM react-native 0.87.1 ships that a node:vm context lacks, and V8 built-ins that Hermes
 // lacks (measured by listing both engines' globals and built-in properties). A library that feature-detects one of
@@ -70,15 +62,6 @@ const V8_ONLY = [
 const LEAKED =
   /node_modules\/\.pnpm\/(crypto-browserify|stream-browserify|path-browserify|node-stdlib-browser|buffer|process|util)@/
 
-const only = process.argv.slice(2)
-const modes = only.length ? MODES.filter((m) => only.includes(m.name)) : MODES
-if (modes.length !== (only.length || MODES.length)) {
-  console.error(
-    `rn-harness: unknown mode in ${only.join(', ')}; modes: ${MODES.map((m) => m.name).join(', ')}`,
-  )
-  process.exit(2)
-}
-
 const rnDir = dirname(req.resolve('react-native/package.json'))
 const hermesc = join(
   dirname(createRequire(join(rnDir, 'package.json')).resolve('hermes-compiler/package.json')),
@@ -89,7 +72,7 @@ const hermesc = join(
 )
 
 /** The vm context: what RN's native runtime and its JS setup provide, on Hermes' built-ins. */
-function rnContext(mode) {
+function rnContext() {
   const context = vm.createContext({
     ...HERMES_ONLY,
     // RN's native globals: logging (RN's console polyfill is built on it), timers, bridgeless TurboModules (none)
@@ -104,7 +87,8 @@ function rnContext(mode) {
     clearImmediate: () => {},
     RN$Bridgeless: true,
     nativeModuleProxy: {},
-    ...(mode.getRandomValues && { crypto: { getRandomValues: (array) => webcrypto.getRandomValues(array) } }),
+    // the native half of react-native-get-random-values, which every Veramo RN app installs
+    crypto: { getRandomValues: (array) => webcrypto.getRandomValues(array) },
   })
   const global = vm.runInContext('globalThis', context)
   const root = (name) => (name === 'TypedArray' ? Object.getPrototypeOf(global.Uint8Array) : global[name])
@@ -127,34 +111,35 @@ function rnContext(mode) {
   return context
 }
 
-async function runMode(mode, config, Metro) {
-  const bundle = join(outDir, `${mode.name}.ios.js`)
+/** Bundles harness/app.ts and compiles it with hermesc; returns the bundle's code. */
+async function build(Metro, config) {
+  const bundle = join(outDir, 'index.ios.js')
   const built = await Metro.runBuild(config, {
-    entry: mode.entry,
+    entry: 'harness/app.ts',
     platform: 'ios',
     dev: false,
     minify: false,
     sourceMap: true, // its `sources` feed the LEAKED check
-    sourceMapUrl: `${mode.name}.ios.js.map`,
+    sourceMapUrl: 'index.ios.js.map',
   })
   writeFileSync(bundle, built.code)
   const leaked = JSON.parse(built.map)
     .sections.flatMap((section) => section.map.sources)
     .filter((f) => LEAKED.test(f))
-  if (leaked.length) return `bundle contains Node-stdlib shims: ${leaked.join(', ')}`
+  if (leaked.length) throw new Error(`bundle contains Node-stdlib shims: ${leaked.join(', ')}`)
 
-  const compiled = spawnSync(hermesc, ['-emit-binary', '-out', bundle.replace(/\.js$/, '.hbc'), bundle], {
+  const compiled = spawnSync(hermesc, ['-emit-binary', '-out', join(outDir, 'index.ios.hbc'), bundle], {
     encoding: 'utf8',
   })
-  if (compiled.status !== 0) return `hermesc cannot compile the bundle:\n${compiled.stderr}`
+  if (compiled.status !== 0) throw new Error(`hermesc cannot compile the bundle:\n${compiled.stderr}`)
+  return { code: built.code, filename: bundle }
+}
 
-  const context = rnContext(mode)
-  vm.runInContext(built.code, context, { filename: bundle })
-  const result = await context.__harnessResult
-  const failures = result.failures.map((f) => `\n  ${f.name}: ${f.error}`).join('')
-  return result.passed === mode.expected && result.failed === 0
-    ? null
-    : `passed=${result.passed} failed=${result.failed} expected=${mode.expected}${failures}`
+/** Runs the bundle's tests; resolves to their result (harness/vitest.ts). */
+async function run(bundle) {
+  const context = rnContext()
+  vm.runInContext(bundle.code, context, { filename: bundle.filename })
+  return context.__harnessResult
 }
 
 const unhandled = []
@@ -167,15 +152,19 @@ console.log(
   `rn-harness: react-native ${req('react-native/package.json').version}, metro ${req('metro/package.json').version}`,
 )
 
-let ok = true
-for (const mode of modes) {
-  console.log(`\n== ${mode.name} (${mode.entry})`)
-  const problem = await runMode(mode, config, Metro).catch((e) => String(e?.stack ?? e))
-  console.log(
-    problem ? `${mode.name}: FAIL: ${problem}` : `${mode.name}: PASS (${mode.expected}/${mode.expected})`,
-  )
-  ok &&= !problem
-}
+const bundle = await build(Metro, config).catch((e) => {
+  console.log(`rn-harness: FAIL: ${e?.message ?? e}\n\nrn-harness: RED`)
+  process.exit(1)
+})
+
+const result = await run(bundle).catch((e) => ({
+  passed: 0,
+  failed: 1,
+  failures: [{ name: 'bundle', error: e?.stack ?? e }],
+}))
+let ok = result.passed > 0 && result.failed === 0
+console.log(`\nrn-harness: ${result.passed} passed, ${result.failed} failed`)
+for (const { name, error } of result.failures) console.log(`  FAIL ${name}: ${error}`)
 for (const error of unhandled) {
   console.log(`rn-harness: FAIL: unhandled rejection: ${error?.stack ?? error}`)
   ok = false

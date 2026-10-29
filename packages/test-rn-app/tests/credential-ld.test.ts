@@ -1,11 +1,8 @@
-// JSON-LD tests for the RN harness. No test framework, no globals beyond `console` and Promise.
-//
-// It replays credential-ld's golden fixtures (packages/credential-ld/test-fixtures/golden,
-// issued by the pre-de-fork stack with fixed keys, DIDs and clock) through @veramo/credential-ld's public
-// entry point, one agent per suite:
-//   1. verify the golden credential and presentation,
-//   2. re-issue both with the same keys and a frozen clock and require byte-identical output.
-
+// @veramo/credential-ld through its public entry point, replaying its golden fixtures
+// (packages/credential-ld/test-fixtures/golden, issued by the pre-de-fork stack with fixed keys, DIDs and clock), one
+// agent per suite: verify the golden credential and presentation, then re-issue both with the same inputs and a
+// frozen clock and require identical output.
+import { describe, expect, it } from 'vitest'
 import { createAgent } from '@veramo/core'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'
 import { KeyManagementSystem } from '@veramo/kms-local'
@@ -23,7 +20,6 @@ import {
 import { getDidKeyResolver } from '@veramo/did-provider-key'
 import { getDidPkhResolver } from '@veramo/did-provider-pkh'
 import { Resolver } from 'did-resolver'
-import { assert, createTestRun, type Result } from './harness.ts'
 import ed25519_2018 from '../../credential-ld/test-fixtures/golden/ed25519-2018.json' with { type: 'json' }
 import ed25519_2020 from '../../credential-ld/test-fixtures/golden/ed25519-2020.json' with { type: 'json' }
 import jws_2020 from '../../credential-ld/test-fixtures/golden/jws-2020.json' with { type: 'json' }
@@ -48,17 +44,16 @@ const SECP256K1 = {
 const DID_KEY = 'did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo'
 const DID_PKH = 'did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74'
 
-type Golden = { credential: any; presentation: any }
-type Case = {
+type GoldenCase = {
   name: string
   suite: () => any
   did: string
   key: any
   resolutionOptions?: any
-  golden: Golden
+  golden: { credential: any; presentation: any }
 }
 
-export const LD_CASES: Case[] = [
+const CASES: GoldenCase[] = [
   {
     name: 'Ed25519Signature2018',
     suite: () => new VeramoEd25519Signature2018(),
@@ -92,7 +87,8 @@ export const LD_CASES: Case[] = [
   },
 ]
 
-async function makeAgent(c: Case) {
+/** An agent with only this case's suite, and its DID imported with the fixed key. */
+async function makeAgent(c: GoldenCase) {
   const agent: any = createAgent({
     plugins: [
       new KeyManager({
@@ -129,67 +125,55 @@ async function atFixedTime<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-/** JSON with sorted keys, so two documents compare by content, not by key order. */
-function stable(value: any): string {
-  if (Array.isArray(value)) return `[${value.map(stable).join(',')}]`
-  if (value && typeof value === 'object') {
-    return `{${Object.keys(value)
-      .sort()
-      .map((k) => `${JSON.stringify(k)}:${stable(value[k])}`)
-      .join(',')}}`
-  }
-  return JSON.stringify(value)
-}
+describe('@veramo/credential-ld golden fixtures', () => {
+  it.each(CASES)('verifies the $name credential', async (c) => {
+    const agent = await makeAgent(c)
+    const result = await agent.verifyCredential({
+      credential: c.golden.credential,
+      resolutionOptions: c.resolutionOptions,
+    })
+    expect(result.error).toBeUndefined()
+    expect(result.verified).toBe(true)
+  })
 
-export async function runLd(): Promise<Result> {
-  const { result, test } = createTestRun()
-  for (const c of LD_CASES) {
+  it.each(CASES)('verifies the $name presentation', async (c) => {
+    const agent = await makeAgent(c)
+    const result = await agent.verifyPresentation({
+      presentation: c.golden.presentation,
+      challenge: 'golden-challenge',
+      domain: 'golden.example',
+      resolutionOptions: c.resolutionOptions,
+    })
+    expect(result.error).toBeUndefined()
+    expect(result.verified).toBe(true)
+  })
+
+  // issues the golden credential and presentation again, from the same inputs, at the fixtures' time
+  it.each(CASES)('re-issues the $name credential and presentation identically', async (c) => {
     const agent = await makeAgent(c)
     const { credential, presentation } = c.golden
-
-    await test(`${c.name}: verify the golden credential`, async () => {
-      const r = await agent.verifyCredential({ credential, resolutionOptions: c.resolutionOptions })
-      assert(r.verified === true, 'not verified: ' + String(r.error?.message ?? JSON.stringify(r.error)))
-    })
-
-    await test(`${c.name}: verify the golden presentation`, async () => {
-      const r = await agent.verifyPresentation({
-        presentation,
-        challenge: 'golden-challenge',
-        domain: 'golden.example',
+    const reissued = await atFixedTime(async () => {
+      const vc = await agent.createVerifiableCredential({
+        credential: {
+          '@context': credential['@context'].slice(0, 2),
+          type: credential.type,
+          issuer: credential.issuer,
+          issuanceDate: credential.issuanceDate,
+          credentialSubject: credential.credentialSubject,
+        },
+        proofFormat: 'lds',
         resolutionOptions: c.resolutionOptions,
       })
-      assert(r.verified === true, 'not verified: ' + String(r.error?.message ?? JSON.stringify(r.error)))
-    })
-
-    await test(`${c.name}: re-issue the golden credential and presentation byte-for-byte`, async () => {
-      const issued = await atFixedTime(async () => {
-        const vc = await agent.createVerifiableCredential({
-          credential: {
-            '@context': credential['@context'].slice(0, 2),
-            type: credential.type,
-            issuer: credential.issuer,
-            issuanceDate: credential.issuanceDate,
-            credentialSubject: credential.credentialSubject,
-          },
-          proofFormat: 'lds',
-          resolutionOptions: c.resolutionOptions,
-        })
-        const vp = await agent.createVerifiablePresentation({
-          presentation: { holder: c.did, verifiableCredential: [vc] },
-          challenge: 'golden-challenge',
-          domain: 'golden.example',
-          proofFormat: 'lds',
-          resolutionOptions: c.resolutionOptions,
-        })
-        return { credential: vc, presentation: vp }
+      const vp = await agent.createVerifiablePresentation({
+        presentation: { holder: c.did, verifiableCredential: [vc] },
+        challenge: 'golden-challenge',
+        domain: 'golden.example',
+        proofFormat: 'lds',
+        resolutionOptions: c.resolutionOptions,
       })
-      assert(
-        stable(issued.credential) === stable(credential),
-        'credential differs: ' + stable(issued.credential),
-      )
-      assert(stable(issued.presentation) === stable(presentation), 'presentation differs')
+      return { credential: vc, presentation: vp }
     })
-  }
-  return result
-}
+    expect(reissued.credential).toStrictEqual(credential)
+    expect(reissued.presentation).toStrictEqual(presentation)
+  })
+})
