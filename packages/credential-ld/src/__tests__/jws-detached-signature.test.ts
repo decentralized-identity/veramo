@@ -19,6 +19,7 @@ import { JwsAlgorithm, JwsDetachedSignature } from '../suites/jws-detached-signa
 import { VeramoJsonWebSignature2020 } from '../suites/JsonWebSignature2020.js'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 
+const multikey = (prefix: number[], key: Uint8Array) => 'z' + bytesToBase58(concat([prefix, key]))
 const verifyData = sha256(stringToUtf8Bytes('proof options')).map((b, i) => b ^ i) // any 32+ bytes
 const edPriv = ed25519.utils.randomPrivateKey()
 const edPub = bytesToHex(ed25519.getPublicKey(edPriv))
@@ -110,7 +111,6 @@ describe('JwsDetachedSignature.verifySignature', () => {
 
   it('verifies NIST curve keys given as base58, hex or multibase', async () => {
     const vm = (type: string, extra: any) => ({ id: 'did:ex:6#k', controller: 'did:ex:6', type, ...extra })
-    const multikey = (prefix: number[], key: Uint8Array) => 'z' + bytesToBase58(concat([prefix, key]))
     const p521Priv = p521.utils.randomPrivateKey()
     const p521Pub = p521.getPublicKey(p521Priv, true)
     const p521Sign = (input: Uint8Array) => p521.sign(sha512(input), p521Priv).toCompactRawBytes()
@@ -288,7 +288,6 @@ describe('JwsDetachedSignature.getVerificationMethod', () => {
 })
 
 describe('Multikey verification methods', () => {
-  const multikey = (prefix: number[], key: Uint8Array) => 'z' + bytesToBase58(concat([prefix, key]))
   const multikeyVm = (publicKeyMultibase: string) => ({
     id: 'did:ex:7#k',
     controller: 'did:ex:7',

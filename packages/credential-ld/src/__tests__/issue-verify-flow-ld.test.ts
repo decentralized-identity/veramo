@@ -285,6 +285,39 @@ describe('credential-LD full flow', () => {
       })
     })
 
+    it('signs a credential with the given purpose', async () => {
+      const purpose = new AssertionProofPurpose()
+      const update = vi.spyOn(purpose, 'update')
+      const credential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: didKeyIdentifier.did,
+          '@context': ['custom:example.context'],
+          credentialSubject: { nothing: 'else matters' },
+        },
+        proofFormat: 'lds',
+        purpose,
+      })
+      expect(update).toHaveBeenCalledOnce()
+      expect(credential.proof.proofPurpose).toBe('assertionMethod')
+      expect((await agent.verifyCredential({ credential })).verified).toBe(true)
+    })
+
+    it('propagates errors from a custom signing purpose', async () => {
+      const purpose = new AssertionProofPurpose()
+      vi.spyOn(purpose, 'update').mockRejectedValue(new Error('custom signing rejected'))
+      await expect(
+        agent.createVerifiableCredential({
+          credential: {
+            issuer: didKeyIdentifier.did,
+            '@context': ['custom:example.context'],
+            credentialSubject: { nothing: 'else matters' },
+          },
+          proofFormat: 'lds',
+          purpose,
+        }),
+      ).rejects.toThrow('custom signing rejected')
+    })
+
     it('verifies a credential with the given purpose', async () => {
       const result = await agent.verifyCredential({
         credential: verifiableCredential,

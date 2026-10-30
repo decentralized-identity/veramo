@@ -17,25 +17,10 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import { Resolver } from 'did-resolver'
 import { computeAddress } from 'ethers'
 
-import {
-  ICredentialPlugin,
-  IDIDManager,
-  IKeyManager,
-  IResolver,
-  TAgent,
-  TKeyType,
-} from '../../../core-types/src/index.js'
-import { createAgent } from '../../../core/src/index.js'
-import { CredentialPlugin } from '../../../credential-w3c/src/index.js'
-import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../../key-manager/src/index.js'
-import { KeyManagementSystem } from '../../../kms-local/src/index.js'
-import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
-import { getDidKeyResolver } from '../../../did-provider-key/src/index.js'
-import { getDidPkhResolver } from '../../../did-provider-pkh/src/index.js'
+import { TKeyType } from '../../../core-types/src/index.js'
+import { GoldenAgent as Agent, makeGoldenAgent } from '../../../test-rn-app/tests/golden-agent.js'
 import { bytesToMultibase, hexToBytes } from '../../../utils/src/index.js'
 import {
   CredentialProviderLD,
@@ -109,25 +94,8 @@ const CASES: Case[] = [
   },
 ]
 
-type Agent = TAgent<IResolver & IKeyManager & IDIDManager & ICredentialPlugin>
-
-async function makeAgent(c: Case): Promise<Agent> {
-  const agent = createAgent<Agent>({
-    plugins: [
-      new KeyManager({
-        store: new MemoryKeyStore(),
-        kms: { local: new KeyManagementSystem(new MemoryPrivateKeyStore()) },
-      }),
-      new DIDManager({ providers: {}, store: new MemoryDIDStore(), defaultProvider: 'none' }),
-      new DIDResolverPlugin({ resolver: new Resolver({ ...getDidKeyResolver(), ...getDidPkhResolver() }) }),
-      new CredentialPlugin([
-        new CredentialProviderLD({ contextMaps: [LdDefaultContexts], suites: [c.suite()] }),
-      ]),
-    ],
-  })
-  await agent.didManagerImport({ did: c.did, provider: 'none', keys: [{ ...c.key, kms: 'local' } as any] })
-  return agent
-}
+const makeAgent = (c: Case) =>
+  makeGoldenAgent(c, new CredentialProviderLD({ contextMaps: [LdDefaultContexts], suites: [c.suite()] }))
 
 const credentialFor = (c: Case) => ({
   '@context': ['https://www.w3.org/2018/credentials/v1', 'https://veramo.io/contexts/profile/v1'],
@@ -198,6 +166,39 @@ describe('golden JSON-LD fixtures (pre-de-fork compatibility)', () => {
       })
       expect(result.error).toBeUndefined()
       expect(result.verified).toBe(true)
+    })
+
+    it('skips only the holder proof when unsignedPresentation is explicitly enabled', async () => {
+      const presentation = structuredClone(golden.presentation)
+      presentation.proof = { ...presentation.proof, jws: 'invalid', proofValue: 'invalid' }
+      expect(
+        (
+          await agent.verifyPresentation({
+            presentation,
+            challenge: 'golden-challenge',
+            domain: 'golden.example',
+            resolutionOptions: c.resolutionOptions,
+          })
+        ).verified,
+      ).toBe(false)
+
+      const result = await agent.verifyPresentation({
+        presentation,
+        unsignedPresentation: true,
+        resolutionOptions: c.resolutionOptions,
+      })
+      expect(result.error).toBeUndefined()
+      expect(result.verified).toBe(true)
+      expect(result.credentialResults[0].verified).toBe(true)
+
+      presentation.verifiableCredential[0].credentialSubject.name = 'tampered'
+      const tampered = await agent.verifyPresentation({
+        presentation,
+        unsignedPresentation: true,
+        resolutionOptions: c.resolutionOptions,
+      })
+      expect(tampered.verified).toBe(false)
+      expect(tampered.credentialResults[0].verified).toBe(false)
     })
 
     it('rejects a tampered golden credential', async () => {

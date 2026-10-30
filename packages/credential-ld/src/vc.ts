@@ -43,6 +43,7 @@
  * @internal
  */
 import jsonldSignatures from 'jsonld-signatures'
+import { parse as parseUri } from 'fast-uri'
 import { asArray } from '@veramo/utils'
 
 const { AssertionProofPurpose, AuthenticationProofPurpose } = jsonldSignatures.purposes
@@ -60,9 +61,8 @@ const dateRegex = new RegExp(
     '(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?',
 )
 
-// a URI scheme followed by a non-empty, whitespace-free remainder (vc uses `new URL(id)`, which React Native's
-// built-in URL does not implement to the WHATWG spec)
-const uriRegex = /^[a-zA-Z][a-zA-Z0-9+.-]*:\S+$/
+// Require an absolute identifier as well as well-formed URI components.
+const uriRegex = /^[a-zA-Z][a-zA-Z0-9+.-]*:[^\s\u0000-\u001F\u007F<>"{}|\\^`]+$/
 
 /** Signing and verification options `vc` accepted, besides the document, suite and document loader. */
 export type VcOptions = {
@@ -83,7 +83,12 @@ function assert(condition: unknown, message: string, ErrorType = Error): asserts
 }
 
 function assertUri(id: unknown, propertyName: string) {
-  assert(typeof id === 'string' && uriRegex.test(id), `"${propertyName}" must be a URI: "${id}".`, TypeError)
+  // Keep IDNs without invoking the WHATWG URL-based conversion that React Native does not implement.
+  assert(
+    typeof id === 'string' && uriRegex.test(id) && !parseUri(id, { unicodeSupport: true }).error,
+    `"${propertyName}" must be a URI: "${id}".`,
+    TypeError,
+  )
 }
 
 function assertDate(document: any, prop: string) {
@@ -228,7 +233,7 @@ export async function issue(credential: any, { suite, documentLoader, ...options
   }
   checkCredential(credential, { ...options, mode: 'issue' })
   return jsonldSignatures.sign(credential, {
-    purpose: new CredentialIssuancePurpose(),
+    purpose: options.purpose ?? new CredentialIssuancePurpose(),
     documentLoader,
     suite,
   })
@@ -266,6 +271,7 @@ export async function verifyCredential(credential: any, options: VcOptions) {
 /**
  * Verifies a presentation: data model checks, every embedded credential, then the presentation's proof with the
  * given `presentationPurpose`, or an `AuthenticationProofPurpose` for the given `challenge`, `domain` and `controller`.
+ * `unsignedPresentation` skips only the presentation proof, not the embedded credentials or data model checks.
  */
 export async function verifyPresentation(
   presentation: any,
@@ -287,6 +293,14 @@ export async function verifyPresentation(
           })),
         )
       : undefined
+    if (options.unsignedPresentation) {
+      return {
+        verified: (credentialResults ?? []).every((r) => r.verified),
+        results: [presentation],
+        credentialResults,
+        error: credentialResults?.find((r) => !r.verified)?.error,
+      }
+    }
     assert(
       presentationPurpose || challenge,
       'A "challenge" param is required for AuthenticationProofPurpose.',
