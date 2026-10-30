@@ -19,6 +19,7 @@
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
     "did-resolver": "^4.1.0",
+    "fast-uri": "^3.1.8",
     "jsonld-signatures": "^11.6.0"
   },
   "devDependencies": {

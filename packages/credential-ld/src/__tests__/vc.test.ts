@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { checkCredential, checkPresentation, verifyPresentation } from '../vc.js'
 
 const v1 = (extra: any = {}) => ({
@@ -39,6 +39,60 @@ describe('checkCredential', () => {
     expect(() => checkCredential(v1({ issuer: [{ id: 'did:a:1' }, { id: 'did:a:2' }] }))).toThrow(/one value/)
   })
 
+  it.each([
+    'https://[',
+    'https://[not-an-ipv6-address]/status',
+    'https://',
+    'https://example.org:bad/status',
+    'https://example.org:65536/status',
+    'https://example.org/%zz',
+    'https://example.org/with space',
+    'https://exa<mple.org/status',
+    'https://example.org/\u0000status',
+    '../status',
+  ])('rejects malformed status URI %s when issuing and verifying', (id) => {
+    const credential = v1({ credentialStatus: { id, type: 'StatusList2021Entry' } })
+    for (const mode of ['issue', 'verify'] as const) {
+      expect(() => checkCredential(credential, { now, mode })).toThrow(/credentialStatus.id/)
+    }
+  })
+
+  it.each([
+    'did:example:status',
+    'urn:example:status-1',
+    'mailto:status@example.org',
+    'https://example.org/status?list=1#entry',
+    'https://[::1]:8443/status',
+    'https://例え.テスト/status',
+  ])('accepts absolute status URI %s', (id) => {
+    const credential = v1({ credentialStatus: { id, type: 'StatusList2021Entry' } })
+    expect(() => checkCredential(credential, { now })).not.toThrow()
+  })
+
+  it('validates URIs without the global URL parser', () => {
+    vi.stubGlobal('URL', undefined)
+    try {
+      expect(() =>
+        checkCredential(
+          v1({
+            credentialStatus: { id: 'https://例え.テスト/status', type: 'StatusList2021Entry' },
+          }),
+          { now },
+        ),
+      ).not.toThrow()
+      expect(() =>
+        checkCredential(
+          v1({
+            credentialStatus: { id: 'https://[', type: 'StatusList2021Entry' },
+          }),
+          { now },
+        ),
+      ).toThrow(/credentialStatus.id/)
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   it('requires typed objects for proof, credentialStatus, termsOfUse and evidence', () => {
     expect(() => checkCredential(v1({ evidence: [{ id: 'urn:e:1' }] }))).toThrow(/must have property type/)
     expect(() => checkCredential(v1({ proof: null }))).toThrow(/must be an object/)
@@ -64,6 +118,16 @@ describe('checkPresentation / verifyPresentation', () => {
   it('requires a credentials context and the VerifiablePresentation type', () => {
     expect(() => checkPresentation(vp)).not.toThrow()
     expect(() => checkPresentation({ ...vp, type: ['Other'] })).toThrow(/VerifiablePresentation/)
+  })
+
+  it('allows an explicitly unsigned presentation without a challenge, but still checks its data model', async () => {
+    const options = { suite: [], documentLoader: async () => ({}), unsignedPresentation: true }
+    const result = await verifyPresentation(vp, options)
+    expect(result.verified).toBe(true)
+    expect(result.results).toEqual([vp])
+
+    const invalid = await verifyPresentation({ ...vp, type: [] }, options)
+    expect(invalid.verified).toBe(false)
   })
 
   it('returns a failed result, not a rejection, when a check fails or the challenge is missing', async () => {

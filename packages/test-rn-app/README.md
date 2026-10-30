@@ -66,7 +66,7 @@ React Native's, as in an app. `fetch`, XHR and `Blob` need native modules, so th
    versions, and mirror new or moved setup steps in `harness/rn-runtime.js`.
 4. Re-measure Hermes: run `harness/probe-builtins.js` on the new Hermes VM and in a `node:vm` context, diff the two
    lists, and update `HERMES_ONLY` / `V8_ONLY` in `run.mjs`. To run it on Hermes without a device, build the JSI host
-   from git history (`git show 6bcc4ac2:packages/test-rn-app/host/host.cpp`) against
+   from git history (`git show 00896a92:packages/test-rn-app/host/host.cpp`) against
    `com.facebook.hermes:hermes-ios:<HERMES_VERSION_NAME>` from Maven (macOS; compile flags in that commit's
    `scripts/run.mjs`), and run `host harness/probe-builtins.js`. Not part of the harness; only needed here.
 

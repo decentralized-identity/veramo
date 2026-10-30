@@ -3,12 +3,7 @@
 // agent per suite: verify the golden credential and presentation, then re-issue both with the same inputs and a
 // frozen clock and require identical output.
 import { describe, expect, it } from 'vitest'
-import { createAgent } from '@veramo/core'
-import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '@veramo/key-manager'
-import { KeyManagementSystem } from '@veramo/kms-local'
-import { DIDManager, MemoryDIDStore } from '@veramo/did-manager'
-import { DIDResolverPlugin } from '@veramo/did-resolver'
-import { CredentialPlugin } from '@veramo/credential-w3c'
+import { makeGoldenAgent } from './golden-agent.js'
 import {
   CredentialProviderLD,
   LdDefaultContexts,
@@ -17,9 +12,6 @@ import {
   VeramoEd25519Signature2020,
   VeramoJsonWebSignature2020,
 } from '@veramo/credential-ld'
-import { getDidKeyResolver } from '@veramo/did-provider-key'
-import { getDidPkhResolver } from '@veramo/did-provider-pkh'
-import { Resolver } from 'did-resolver'
 import ed25519_2018 from '../../credential-ld/test-fixtures/golden/ed25519-2018.json' with { type: 'json' }
 import ed25519_2020 from '../../credential-ld/test-fixtures/golden/ed25519-2020.json' with { type: 'json' }
 import jws_2020 from '../../credential-ld/test-fixtures/golden/jws-2020.json' with { type: 'json' }
@@ -87,24 +79,8 @@ const CASES: GoldenCase[] = [
   },
 ]
 
-/** An agent with only this case's suite, and its DID imported with the fixed key. */
-async function makeAgent(c: GoldenCase) {
-  const agent: any = createAgent({
-    plugins: [
-      new KeyManager({
-        store: new MemoryKeyStore(),
-        kms: { local: new KeyManagementSystem(new MemoryPrivateKeyStore()) },
-      }),
-      new DIDManager({ providers: {}, store: new MemoryDIDStore(), defaultProvider: 'none' }),
-      new DIDResolverPlugin({ resolver: new Resolver({ ...getDidKeyResolver(), ...getDidPkhResolver() }) }),
-      new CredentialPlugin([
-        new CredentialProviderLD({ contextMaps: [LdDefaultContexts], suites: [c.suite()] }),
-      ]),
-    ],
-  })
-  await agent.didManagerImport({ did: c.did, provider: 'none', keys: [c.key] })
-  return agent
-}
+const makeAgent = (c: GoldenCase) =>
+  makeGoldenAgent(c, new CredentialProviderLD({ contextMaps: [LdDefaultContexts], suites: [c.suite()] }))
 
 /** Runs `fn` with `new Date()` / `Date.now()` pinned to NOW (proofs carry a `created` timestamp). */
 async function atFixedTime<T>(fn: () => Promise<T>): Promise<T> {
@@ -146,6 +122,70 @@ describe('@veramo/credential-ld golden fixtures', () => {
     })
     expect(result.error).toBeUndefined()
     expect(result.verified).toBe(true)
+  })
+
+  it.each(CASES)(
+    'verifies the $name embedded credential without checking the holder proof when opted out',
+    async (c) => {
+      const agent = await makeAgent(c)
+      const presentation = {
+        ...c.golden.presentation,
+        proof: { ...c.golden.presentation.proof, jws: 'invalid', proofValue: 'invalid' },
+      }
+      const result = await agent.verifyPresentation({
+        presentation,
+        unsignedPresentation: true,
+        resolutionOptions: c.resolutionOptions,
+      })
+      expect(result.verified).toBe(true)
+      expect(result.credentialResults[0].verified).toBe(true)
+
+      const credential = c.golden.credential
+      presentation.verifiableCredential = [
+        {
+          ...credential,
+          credentialSubject: { ...credential.credentialSubject, name: 'tampered' },
+        },
+      ]
+      const tampered = await agent.verifyPresentation({
+        presentation,
+        unsignedPresentation: true,
+        resolutionOptions: c.resolutionOptions,
+      })
+      expect(tampered.verified).toBe(false)
+      expect(tampered.credentialResults[0].verified).toBe(false)
+    },
+  )
+
+  it.each(CASES)('rejects a malformed status URI when signing with $name', async (c) => {
+    const agent = await makeAgent(c)
+    const { proof, ...credential } = c.golden.credential
+    await expect(
+      agent.createVerifiableCredential({
+        credential: {
+          ...credential,
+          credentialStatus: { id: 'https://[', type: 'https://example.org/StatusListEntry' },
+        },
+        proofFormat: 'lds',
+        resolutionOptions: c.resolutionOptions,
+      }),
+    ).rejects.toThrow(/credentialStatus.id/)
+  })
+
+  it.each(CASES)('accepts IPv6 and internationalized status URIs when signing with $name', async (c) => {
+    const agent = await makeAgent(c)
+    const { proof, ...credential } = c.golden.credential
+    for (const id of ['https://[::1]:8443/status', 'https://例え.テスト/status']) {
+      const signed = await agent.createVerifiableCredential({
+        credential: {
+          ...credential,
+          credentialStatus: { id, type: 'https://example.org/StatusListEntry' },
+        },
+        proofFormat: 'lds',
+        resolutionOptions: c.resolutionOptions,
+      })
+      expect(signed.credentialStatus.id).toBe(id)
+    }
   })
 
   // issues the golden credential and presentation again, from the same inputs, at the fixtures' time
