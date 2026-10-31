@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/chai": "5.2.3",
     "@vitest/expect": "5.0.1",
-    "@babel/runtime": "7.28.4",
+    "@babel/runtime": "8.0.10",
     "@react-native/babel-preset": "0.88.1",
     "@react-native/metro-config": "0.88.1",
     "chai": "6.2.2",
