@@ -23,12 +23,12 @@
   },
   "devDependencies": {
     "@types/chai": "5.2.3",
-    "@vitest/expect": "5.0.1",
+    "@vitest/expect": "5.0.5",
     "@babel/runtime": "7.28.4",
     "@react-native/babel-preset": "0.88.1",
     "@react-native/metro-config": "0.88.1",
     "chai": "6.2.2",
-    "metro": "0.87.1"
+    "metro": "0.87.2"
   },
   "type": "module"
 }
