@@ -23,7 +23,7 @@
     "jsonld-signatures": "^11.6.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.13",
     "borc": "3.0.0",
     "typescript": "7.0.2"
   },
