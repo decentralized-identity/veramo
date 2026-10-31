@@ -1195,8 +1195,8 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
       web-did-resolver:
-        specifier: 2.0.29
-        version: 2.0.29(encoding@0.1.13)
+        specifier: 2.0.32
+        version: 2.0.32(encoding@0.1.13)
 
   packages/key-manager:
     dependencies:
@@ -7178,9 +7178,6 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
-
-  web-did-resolver@2.0.29:
-    resolution: {integrity: sha512-hpwctjy5qGhViloUdIv3zX5N234gzIbfJZ+hZ560qqZN+7Immpo9tsbxFsJVdmU93DDPMSpltnJJWENj9FfZug==}
 
   web-did-resolver@2.0.32:
     resolution: {integrity: sha512-L91/ApTmDjgzS0UDstTKn3kN/1hlQBnVcUN8K29e3xhVBpPktHYC6uvVAQ8ohbIg9D6wrrbaBQvfRArDxgJG2g==}
@@ -13651,13 +13648,6 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
-
-  web-did-resolver@2.0.29(encoding@0.1.13):
-    dependencies:
-      cross-fetch: 4.1.0(encoding@0.1.13)
-      did-resolver: 4.1.0
-    transitivePeerDependencies:
-      - encoding
 
   web-did-resolver@2.0.32(encoding@0.1.13):
     dependencies:
