@@ -10,12 +10,12 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@aviarytech/did-peer": "^0.0.22",
+    "@aviarytech/did-peer": "^1.0.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-resolver": "^4.1.0"
+    "did-resolver": "^6.0.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
