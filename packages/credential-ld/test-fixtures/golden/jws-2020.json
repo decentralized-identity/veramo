@@ -1,0 +1,75 @@
+{
+  "credential": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://veramo.io/contexts/profile/v1",
+      "https://w3id.org/security/suites/jws-2020/v1"
+    ],
+    "type": [
+      "VerifiableCredential",
+      "Profile"
+    ],
+    "issuer": {
+      "id": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo"
+    },
+    "issuanceDate": "2026-01-01T00:00:00Z",
+    "credentialSubject": {
+      "id": "did:example:subject",
+      "name": "golden jws-2020"
+    },
+    "proof": {
+      "type": "JsonWebSignature2020",
+      "created": "2026-01-02T03:04:05Z",
+      "verificationMethod": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo#z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+      "proofPurpose": "assertionMethod",
+      "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..8jVnUPCqRGjchLxNbwmZiWpmmtn8Np7BWvvjl4DAf9wfLx-3IxiuTh6x48FsvyVg4Wx7VXm-n8zj2MQmyQaiAQ"
+    }
+  },
+  "presentation": {
+    "holder": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+    "verifiableCredential": [
+      {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://veramo.io/contexts/profile/v1",
+          "https://w3id.org/security/suites/jws-2020/v1"
+        ],
+        "type": [
+          "VerifiableCredential",
+          "Profile"
+        ],
+        "issuer": {
+          "id": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo"
+        },
+        "issuanceDate": "2026-01-01T00:00:00Z",
+        "credentialSubject": {
+          "id": "did:example:subject",
+          "name": "golden jws-2020"
+        },
+        "proof": {
+          "type": "JsonWebSignature2020",
+          "created": "2026-01-02T03:04:05Z",
+          "verificationMethod": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo#z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+          "proofPurpose": "assertionMethod",
+          "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..8jVnUPCqRGjchLxNbwmZiWpmmtn8Np7BWvvjl4DAf9wfLx-3IxiuTh6x48FsvyVg4Wx7VXm-n8zj2MQmyQaiAQ"
+        }
+      }
+    ],
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/security/suites/jws-2020/v1"
+    ],
+    "type": [
+      "VerifiablePresentation"
+    ],
+    "proof": {
+      "type": "JsonWebSignature2020",
+      "created": "2026-01-02T03:04:05Z",
+      "verificationMethod": "did:key:z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo#z6MkgbqNU4uF9NKSz5BqJQ4XKVHuQZYcUZP8pXGsJC8nTHwo",
+      "proofPurpose": "authentication",
+      "challenge": "golden-challenge",
+      "domain": "golden.example",
+      "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..qEpcRs3M5pYYZlXb0fBWXR-gnt4DjUipufB5CJPSeatsvykV1zWTvUcrfh-ICfGDnvSkNWnaPhMZnE0GTQS5Bg"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import { ContextDoc } from './types.js'
 import contextCredentialV1 from './contexts/www.w3.org_2018_credentials_v1.json' with { type: 'json' }
+import contextCredentialV2 from './contexts/www.w3.org_ns_credentials_v2.json' with { type: 'json' }
+import contextUndefinedTermsV2 from './contexts/www.w3.org_ns_credentials_undefined-terms_v2.json' with { type: 'json' }
 import contextCredentialExamplesV1 from './contexts/www.w3.org_2018_credentials_examples_v1.json' with { type: 'json' }
 import contextDidV1 from './contexts/www.w3.org_ns_did_v1.json' with { type: 'json' }
 import contextSecurityV1 from './contexts/w3id.org_security_v1.json' with { type: 'json' }
@@ -27,6 +29,8 @@ import schema_org from './contexts/schema.org.json' with { type: 'json' }
  */
 export const LdDefaultContexts = new Map<string, ContextDoc>([
   ['https://www.w3.org/2018/credentials/v1', contextCredentialV1],
+  ['https://www.w3.org/ns/credentials/v2', contextCredentialV2],
+  ['https://www.w3.org/ns/credentials/undefined-terms/v2', contextUndefinedTermsV2],
   ['https://www.w3.org/2018/credentials/examples/v1', contextCredentialExamplesV1],
   ['https://www.w3.org/ns/did/v1', contextDidV1],
   ['https://w3id.org/did/v1', contextDidV1], //legacy
@@ -54,3 +58,17 @@ export const LdDefaultContexts = new Map<string, ContextDoc>([
   ['https://w3id.org/security/suites/eip712sig-2021/v1', contextSuiteEip712],
   ['https://schema.org', schema_org],
 ])
+
+/**
+ * The credentials contexts the document loader always serves, even when they are not in the configured context maps
+ * (as `@digitalbazaar/vc`'s default document loader did).
+ *
+ * @internal
+ */
+export const LdCredentialsContexts = new Map<string, ContextDoc>(
+  [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://www.w3.org/ns/credentials/v2',
+    'https://www.w3.org/ns/credentials/undefined-terms/v2',
+  ].map((url) => [url, LdDefaultContexts.get(url)!]),
+)

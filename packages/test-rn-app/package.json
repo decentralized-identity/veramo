@@ -1,0 +1,34 @@
+{
+  "name": "@veramo/test-rn-app",
+  "description": "React Native test harness for Veramo. no device",
+  "version": "7.0.0",
+  "private": true,
+  "dependencies": {
+    "@veramo/core": "workspace:*",
+    "@veramo/credential-ld": "workspace:*",
+    "@veramo/credential-w3c": "workspace:*",
+    "@veramo/did-manager": "workspace:*",
+    "@veramo/did-provider-key": "workspace:*",
+    "@veramo/did-provider-pkh": "workspace:*",
+    "@veramo/did-resolver": "workspace:*",
+    "@veramo/key-manager": "workspace:*",
+    "@veramo/kms-local": "workspace:*",
+    "@veramo/test-utils": "workspace:*",
+    "did-resolver": "4.1.0",
+    "react": "19.3.1",
+    "react-native": "0.88.1"
+  },
+  "scripts": {
+    "test": "node harness/run.mjs"
+  },
+  "devDependencies": {
+    "@types/chai": "5.2.3",
+    "@vitest/expect": "5.0.1",
+    "@babel/runtime": "7.28.4",
+    "@react-native/babel-preset": "0.88.1",
+    "@react-native/metro-config": "0.88.1",
+    "chai": "6.2.2",
+    "metro": "0.87.1"
+  },
+  "type": "module"
+}

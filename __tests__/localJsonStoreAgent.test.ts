@@ -60,7 +60,6 @@ import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../packages/
 import { Resolver } from 'did-resolver'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
-import { contexts as credential_contexts } from '@transmute/credentials-context'
 import * as fs from 'fs'
 
 
@@ -208,7 +207,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         new CredentialProviderEIP712(),
         new CredentialProviderJWT(),
         new CredentialProviderLD({
-          contextMaps: [LdDefaultContexts, credential_contexts as any],
+          contextMaps: [LdDefaultContexts],
           suites: [
             new VeramoEcdsaSecp256k1RecoverySignature2020(),
             new VeramoEd25519Signature2018(),

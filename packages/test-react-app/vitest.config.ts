@@ -1,19 +1,15 @@
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
-import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared.js'
+import { browserGlobalsDefine, buildStdlibAliases } from './vite.shared.js'
 
 // ---------------------------------------------------------------------------
 // Test-runner config. The app-polyfill plumbing (Node builtin aliases,
-// free-variable globals, namespace-call interop) is shared with
+// free-variable globals) is shared with
 // vite.config.ts via vite.shared.ts so the runner and the dev server run the
 // app under the same contract.
 // ---------------------------------------------------------------------------
 
 const stdlibAliases = buildStdlibAliases()
-
-const namespaceCallInteropVitePlugin = createNamespaceCallInteropVitePlugin('veramo-browser-test-rewrites')
-
-const namespaceCallInteropOptimizerPlugin = createNamespaceCallInteropVitePlugin('veramo-namespace-call-interop-optimizer')
 
 // Note: no test-source URL rewriting is needed anymore. verifiableDataLD.ts's
 // mocked context (https://veramo.io/contexts/discord-kudos/v1) is served
@@ -22,7 +18,6 @@ const namespaceCallInteropOptimizerPlugin = createNamespaceCallInteropVitePlugin
 // LdDefaultContexts (preloaded locally, never fetched).
 
 export default defineConfig({
-  plugins: [namespaceCallInteropVitePlugin],
   resolve: {
     alias: stdlibAliases,
   },
@@ -32,7 +27,7 @@ export default defineConfig({
     // the test file mid-import ("optimized dependencies changed. reloading"),
     // which failed the suite. Pre-declaring the deps resolvable from this
     // package keeps the optimizer stable. (Transitive deps — @noble/*,
-    // @digitalcredentials/*, nock internals, ... — are discovered on import;
+    // jsonld, nock internals, ... — are discovered on import;
     // their one-time reload race only happens on a cold .vite cache.)
     include: [
       '@metamask/eth-sig-util',
@@ -49,7 +44,6 @@ export default defineConfig({
       'web-did-resolver',
     ],
     rolldownOptions: {
-      plugins: [namespaceCallInteropOptimizerPlugin],
       resolve: {
         alias: stdlibAliases,
       },
@@ -66,7 +60,7 @@ export default defineConfig({
     globals: false,
     // Only pick up the "*.vite-test.ts" files; legacy "*.browser-test.ts" files
     // (from the removed browser-driven runner) are not picked up.
-    include: ['headless-tests/**/*.vite-test.ts'],
+    include: ['headless-tests/*.vite-test.ts'],
     // Installs globalThis.process / globalThis.Buffer in the browser before
     // test modules (and their optimized deps) are evaluated.
     setupFiles: ['./headless-tests/setup.vite-globals.ts'],

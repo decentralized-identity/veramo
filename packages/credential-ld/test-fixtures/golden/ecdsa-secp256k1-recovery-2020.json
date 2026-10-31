@@ -1,0 +1,75 @@
+{
+  "credential": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://veramo.io/contexts/profile/v1",
+      "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+    ],
+    "type": [
+      "VerifiableCredential",
+      "Profile"
+    ],
+    "issuer": {
+      "id": "did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74"
+    },
+    "issuanceDate": "2026-01-01T00:00:00Z",
+    "credentialSubject": {
+      "id": "did:example:subject",
+      "name": "golden ecdsa-secp256k1-recovery-2020"
+    },
+    "proof": {
+      "type": "EcdsaSecp256k1RecoverySignature2020",
+      "created": "2026-01-02T03:04:05Z",
+      "verificationMethod": "did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74#blockchainAccountId",
+      "proofPurpose": "assertionMethod",
+      "jws": "eyJhbGciOiJFUzI1NkstUiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..N-FgOX8gwl0-wgt3nhCZgXKEqDhGcPD4q1qAQTqF5V0jPz37e3Svj8opmefVKxfUE8zfRJjtQ77SPBd9ghJHkAE"
+    }
+  },
+  "presentation": {
+    "holder": "did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74",
+    "verifiableCredential": [
+      {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://veramo.io/contexts/profile/v1",
+          "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+        ],
+        "type": [
+          "VerifiableCredential",
+          "Profile"
+        ],
+        "issuer": {
+          "id": "did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74"
+        },
+        "issuanceDate": "2026-01-01T00:00:00Z",
+        "credentialSubject": {
+          "id": "did:example:subject",
+          "name": "golden ecdsa-secp256k1-recovery-2020"
+        },
+        "proof": {
+          "type": "EcdsaSecp256k1RecoverySignature2020",
+          "created": "2026-01-02T03:04:05Z",
+          "verificationMethod": "did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74#blockchainAccountId",
+          "proofPurpose": "assertionMethod",
+          "jws": "eyJhbGciOiJFUzI1NkstUiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..N-FgOX8gwl0-wgt3nhCZgXKEqDhGcPD4q1qAQTqF5V0jPz37e3Svj8opmefVKxfUE8zfRJjtQ77SPBd9ghJHkAE"
+        }
+      }
+    ],
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+    ],
+    "type": [
+      "VerifiablePresentation"
+    ],
+    "proof": {
+      "type": "EcdsaSecp256k1RecoverySignature2020",
+      "created": "2026-01-02T03:04:05Z",
+      "verificationMethod": "did:pkh:eip155:1:0xF3beAC30C498D9E26865F34fCAa57dBB935b0D74#blockchainAccountId",
+      "proofPurpose": "authentication",
+      "challenge": "golden-challenge",
+      "domain": "golden.example",
+      "jws": "eyJhbGciOiJFUzI1NkstUiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..vrhi_DJJoh7SUVVvKQsaKSeRsRCH6EqnT6v-bKIRcTxOYtrsybL34_w67XyXiZdfJzfXkq_ZtAzsr5ejRfvG8gE"
+    }
+  }
+}

@@ -397,7 +397,11 @@ export default (testContext: {
           proofFormat: 'lds',
           credential: {
             issuer: { id: didKeyIdentifier.did },
-            '@context': ['https://veramo.io/contexts/profile/v1'],
+            '@context': [
+              'https://veramo.io/contexts/profile/v1',
+              // JSON-LD safe mode: the status type must be a defined term
+              { ThisMethodDoesNotExist2022: 'https://example.com/status#ThisMethodDoesNotExist2022' },
+            ],
             type: ['Profile'],
             credentialSubject: {
               id: didKeyIdentifier.did,

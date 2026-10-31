@@ -34,28 +34,6 @@ export function buildStdlibAliases(): Record<string, string> {
   return aliases
 }
 
-// Some browserified deps do `import * as ns from 'cjs-pkg'` and then CALL the
-// namespace (e.g. @digitalcredentials/ed25519-verification-key-2020's baseX.js
-// does `import * as baseX from 'base-x'; baseX(BASE58)`). That worked under the
-// former bundler/test-runner interop but not under native ESM namespace semantics. Rewrite
-// such imports to default imports in the affected files.
-function transformNamespaceCallInterop(code: string, id: string): string | null {
-  if (!id.includes('@digitalcredentials/ed25519-verification-key-2020')) return null
-  const from = "import * as baseX from 'base-x'"
-  if (!code.includes(from)) return null
-  return code.replace(from, "import baseX from 'base-x'")
-}
-
-export function createNamespaceCallInteropVitePlugin(name: string) {
-  return {
-    name,
-    enforce: 'pre' as const,
-    transform(code: string, id: string) {
-      return transformNamespaceCallInterop(code, id)
-    },
-  }
-}
-
 // Free-variable globals used by browserified deps. The dep optimizer gets the
 // equivalent via optimizeDeps.rolldownOptions.transform.define below.
 export const browserGlobalsDefine = {

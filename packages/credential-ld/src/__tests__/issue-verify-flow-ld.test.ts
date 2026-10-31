@@ -22,10 +22,10 @@ import { CredentialProviderLD } from '../CredentialProviderLD.js'
 import { LdDefaultContexts } from '../ld-default-contexts.js'
 import { VeramoEd25519Signature2018 } from '../suites/Ed25519Signature2018.js'
 import { Resolver } from 'did-resolver'
+import jsonldSignatures from 'jsonld-signatures'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { VeramoEcdsaSecp256k1RecoverySignature2020 } from '../suites/EcdsaSecp256k1RecoverySignature2020.js'
 
-import 'cross-fetch/polyfill'
 import { createGanacheProvider } from '../../../test-react-app/src/test-utils/ganache-provider.js'
 
 vi.setConfig({
@@ -206,6 +206,24 @@ describe('credential-LD full flow', () => {
     expect(result.verified).toBe(true)
   })
 
+  it('leaves the Veramo-only verifier out of an LD presentation', async () => {
+    const verifiablePresentation = await agent.createVerifiablePresentation({
+      presentation: {
+        holder: didKeyIdentifier.did,
+        verifier: [didEthrIdentifier.did],
+      },
+      challenge: 'VERAMO',
+      proofFormat: 'lds',
+    })
+
+    expect(verifiablePresentation.verifier).toBeUndefined()
+    const result = await agent.verifyPresentation({
+      presentation: verifiablePresentation,
+      challenge: 'VERAMO',
+    })
+    expect(result.verified).toBe(true)
+  })
+
   it('works with EcdsaSecp256k1RecoveryMethod2020 credential and presentation', async () => {
     const credential: CredentialPayload = {
       issuer: { id: didEthrIdentifier.did },
@@ -239,5 +257,101 @@ describe('credential-LD full flow', () => {
     })
 
     expect(result.verified).toBe(true)
+  })
+
+  describe('caller-supplied proof purposes and controller', () => {
+    const { AssertionProofPurpose, ControllerProofPurpose } = jsonldSignatures.purposes
+    class RejectingPurpose extends AssertionProofPurpose {
+      async validate() {
+        return { valid: false, error: new Error('rejected by custom purpose') }
+      }
+    }
+    let verifiableCredential: any
+    let verifiablePresentation: any
+
+    beforeAll(async () => {
+      verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: didKeyIdentifier.did,
+          '@context': ['custom:example.context'],
+          credentialSubject: { nothing: 'else matters' },
+        },
+        proofFormat: 'lds',
+      })
+      verifiablePresentation = await agent.createVerifiablePresentation({
+        presentation: { verifiableCredential: [verifiableCredential], holder: didKeyIdentifier.did },
+        challenge: 'VERAMO',
+        proofFormat: 'lds',
+      })
+    })
+
+    it('signs a credential with the given purpose', async () => {
+      const purpose = new AssertionProofPurpose()
+      const update = vi.spyOn(purpose, 'update')
+      const credential = await agent.createVerifiableCredential({
+        credential: {
+          issuer: didKeyIdentifier.did,
+          '@context': ['custom:example.context'],
+          credentialSubject: { nothing: 'else matters' },
+        },
+        proofFormat: 'lds',
+        purpose,
+      })
+      expect(update).toHaveBeenCalledOnce()
+      expect(credential.proof.proofPurpose).toBe('assertionMethod')
+      expect((await agent.verifyCredential({ credential })).verified).toBe(true)
+    })
+
+    it('propagates errors from a custom signing purpose', async () => {
+      const purpose = new AssertionProofPurpose()
+      vi.spyOn(purpose, 'update').mockRejectedValue(new Error('custom signing rejected'))
+      await expect(
+        agent.createVerifiableCredential({
+          credential: {
+            issuer: didKeyIdentifier.did,
+            '@context': ['custom:example.context'],
+            credentialSubject: { nothing: 'else matters' },
+          },
+          proofFormat: 'lds',
+          purpose,
+        }),
+      ).rejects.toThrow('custom signing rejected')
+    })
+
+    it('verifies a credential with the given purpose', async () => {
+      const result = await agent.verifyCredential({
+        credential: verifiableCredential,
+        purpose: new RejectingPurpose(),
+      })
+      expect(result.verified).toBe(false)
+    })
+
+    it('verifies a credential against the given controller', async () => {
+      const result = await agent.verifyCredential({
+        credential: verifiableCredential,
+        controller: { id: didKeyIdentifier.did, assertionMethod: [] },
+      })
+      expect(result.verified).toBe(false)
+    })
+
+    it('verifies a presentation with the given presentationPurpose', async () => {
+      const rejected = await agent.verifyPresentation({
+        presentation: verifiablePresentation,
+        challenge: 'VERAMO',
+        presentationPurpose: new (class extends ControllerProofPurpose {
+          async validate() {
+            return { valid: false, error: new Error('rejected by custom purpose') }
+          }
+        })({ term: 'authentication' }),
+      })
+      expect(rejected.verified).toBe(false)
+
+      // a custom purpose needs no challenge
+      const accepted = await agent.verifyPresentation({
+        presentation: verifiablePresentation,
+        presentationPurpose: new ControllerProofPurpose({ term: 'authentication' }),
+      })
+      expect(accepted.verified).toBe(true)
+    })
   })
 })

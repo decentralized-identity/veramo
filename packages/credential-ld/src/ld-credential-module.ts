@@ -9,13 +9,13 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core-types'
-import fetch from 'cross-fetch'
 import Debug from 'debug'
-import jsonldSignatures from '@digitalcredentials/jsonld-signatures'
+import jsonldSignatures from 'jsonld-signatures'
+import { issue, signPresentation, verifyCredential, verifyPresentation } from './vc.js'
 
 const { extendContextLoader } = jsonldSignatures
-import * as vc from '@digitalcredentials/vc'
 import { LdContextLoader } from './ld-context-loader.js'
+import { LdCredentialsContexts } from './ld-default-contexts.js'
 import { LdSuiteLoader } from './ld-suite-loader.js'
 import { RequiredAgentMethods } from './ld-suites.js'
 
@@ -53,7 +53,10 @@ export class LdCredentialModule {
         const resolutionResult = await context.agent.resolveDid({ didUrl: url, options: resolutionOptions })
         const didDoc = resolutionResult.didDocument
 
-        if (!didDoc) return
+        if (!didDoc) {
+          const reason = resolutionResult.didResolutionMetadata?.error ?? 'notFound'
+          throw new Error(`not_found: unable to resolve ${url} (${reason})`)
+        }
 
         let result: any = didDoc
 
@@ -87,7 +90,7 @@ export class LdCredentialModule {
           // attempt to fetch the remote context!!!! MEGA FAIL for JSON-LD.
           debug('WARNING: attempting to fetch the doc directly for ', url)
           try {
-            const response = await fetch(url)
+            const response = await globalThis.fetch(url)
             if (response.status === 200) {
               const document = await response.json()
               return {
@@ -102,11 +105,10 @@ export class LdCredentialModule {
         }
       }
 
-      debug(
-        `WARNING: Possible unknown context/identifier for ${url} \n falling back to default documentLoader`,
-      )
-
-      return vc.defaultDocumentLoader(url)
+      if (LdCredentialsContexts.has(url)) {
+        return { contextUrl: null, documentUrl: url, document: LdCredentialsContexts.get(url) }
+      }
+      throw new Error(`Document loader unable to load URL "${url}".`)
     })
   }
 
@@ -128,12 +130,10 @@ export class LdCredentialModule {
     // some suites can modify the incoming credential (e.g. add required contexts)
     suite.preSigningCredModification(credential)
 
-    return await vc.issue({
+    return await issue(credential, {
       ...options,
-      credential,
       suite: await suite.getSuiteForSigning(key, issuerDid, verificationMethodId, context),
       documentLoader,
-      compactProof: false,
     })
   }
 
@@ -156,14 +156,12 @@ export class LdCredentialModule {
 
     suite.preSigningPresModification(presentation)
 
-    return await vc.signPresentation({
+    return await signPresentation(presentation, {
       ...options,
-      presentation,
       suite: await suite.getSuiteForSigning(key, holderDid, verificationMethodId, context),
       challenge,
       domain,
       documentLoader,
-      compactProof: false,
     })
   }
 
@@ -173,13 +171,11 @@ export class LdCredentialModule {
     context: IAgentContext<IResolver>,
   ): Promise<IVerifyResult> {
     const fetchRemoteContexts = options.fetchRemoteContexts ?? false
-    const result = await vc.verifyCredential({
+    // credential status is checked by @veramo/credential-w3c, not here
+    const result = await verifyCredential(credential, {
       ...options,
-      credential,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, { ...options, fetchRemoteContexts }),
-      compactProof: false,
-      checkStatus: async () => Promise.resolve({ verified: true }), // Fake method
     })
 
     if (!result.verified) {
@@ -198,14 +194,12 @@ export class LdCredentialModule {
     context: IAgentContext<IResolver>,
   ): Promise<IVerifyResult> {
     const fetchRemoteContexts = options.fetchRemoteContexts ?? false
-    const result = await vc.verify({
+    const result = await verifyPresentation(presentation, {
       ...options,
-      presentation,
       suite: this.ldSuiteLoader.getAllSignatureSuites().map((x) => x.getSuiteForVerification()),
       documentLoader: this.getDocumentLoader(context, { ...options, fetchRemoteContexts }),
       challenge,
       domain,
-      compactProof: false,
     })
 
     if (!result.verified) {

@@ -11,12 +11,9 @@
 import processShim from 'process'
 import { Buffer as bufferShim } from 'buffer'
 
-// Activates the browser nock shim's globalThis.fetch interceptor (idempotent).
-// This MUST happen here, in a setupFiles entry, before any test module or
-// dependency is evaluated: cross-fetch (used by @veramo/credential-ld's
-// document loader) captures globalThis.fetch at module-evaluation time, so a
-// patch installed later (e.g. when the 'nock' alias is first imported by the
-// shared suites) would be bypassed. See shims/nock.browser.ts.
+// Activates the browser nock shim's globalThis.fetch interceptor (idempotent),
+// before any test runs. @veramo/credential-ld reads globalThis.fetch at call
+// time, so the order is not load-bearing. See shims/nock.browser.ts.
 import './shims/nock.browser'
 
 if (typeof globalThis.process !== 'object' || globalThis.process === null) {

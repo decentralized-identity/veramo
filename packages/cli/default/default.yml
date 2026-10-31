@@ -283,7 +283,6 @@ CredentialProviderLD:
       contextMaps:
         # The LdDefaultContext is a "catch-all" for now.
         - $require: "@veramo/credential-ld?t=object#LdDefaultContexts"
-        - $require: "@transmute/credentials-context?t=object#contexts"
         #  others should be included here
 
 CredentialProviderJWT:

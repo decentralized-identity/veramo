@@ -1,25 +1,16 @@
-import path from 'node:path'
-import { createRequire } from 'node:module'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { browserGlobalsDefine, buildStdlibAliases, createNamespaceCallInteropVitePlugin } from './vite.shared.js'
+import { browserGlobalsDefine, buildStdlibAliases } from './vite.shared.js'
 
 // Dev server / build config for the React app (port 4269). The app mounts the
 // full Veramo agent (see src/veramo/setup.ts), which bundles ganache for the
 // browser — hence the same polyfill plumbing as the test runner (vite.shared.ts).
 const stdlibAliases = buildStdlibAliases()
 
-// @transmute/ed25519-key-pair@0.7.0-unstable.2 imports `tslib` without
-// declaring it (packaging bug), so rolldown cannot resolve it under pnpm's
-// strict layout. tslib is a devDependency of this package purely to give the
-// alias below a legitimate resolution anchor.
-const require = createRequire(import.meta.url)
-const tslibAlias = { tslib: path.dirname(require.resolve('tslib/package.json')) }
-
 export default defineConfig({
-  plugins: [react(), createNamespaceCallInteropVitePlugin('veramo-browser-test-rewrites')],
+  plugins: [react()],
   resolve: {
-    alias: { ...stdlibAliases, ...tslibAlias },
+    alias: stdlibAliases,
   },
   define: browserGlobalsDefine,
   server: {
@@ -53,7 +44,6 @@ export default defineConfig({
       'web-did-resolver',
     ],
     rolldownOptions: {
-      plugins: [createNamespaceCallInteropVitePlugin('veramo-namespace-call-interop-optimizer')],
       resolve: {
         alias: stdlibAliases,
       },

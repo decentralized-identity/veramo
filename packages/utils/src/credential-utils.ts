@@ -176,12 +176,9 @@ export function extractIssuer(
  * @beta This API may change without a BREAKING CHANGE notice.
  */
 export function removeDIDParameters(did: string): string {
-  try {
-    const { origin, protocol, pathname } = new URL(did)
-    // Reconstruct URL without search parameters or hash
-    return origin !== 'null' ? `${origin}${pathname}` : `${protocol}${pathname}`
-  } catch (error) {
-    // Fallback: return original input for malformed URLs or non-URL strings
-    return did
-  }
+  // A DID URL is `did path-abempty [ "?" query ] [ "#" fragment ]`, so everything from the first `?` or `#`
+  // is parameters. Plain string handling: React Native's built-in `URL` does not implement the WHATWG
+  // parsing (`origin`, `protocol`, `pathname`) this used to rely on.
+  const end = did.search(/[?#]/)
+  return end === -1 ? did : did.slice(0, end)
 }

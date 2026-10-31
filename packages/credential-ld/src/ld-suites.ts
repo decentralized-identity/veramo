@@ -38,16 +38,17 @@ export abstract class VeramoLdSignature {
 
   abstract getSuiteForVerification(): any
 
-  abstract preDidResolutionModification(didUrl: string, didDoc: DIDDocument | DIDDocComponent, context: IAgentContext<IResolver>): Promise<DIDDocument | DIDDocComponent>
+  abstract preDidResolutionModification(
+    didUrl: string,
+    didDoc: DIDDocument | DIDDocComponent,
+    context: IAgentContext<IResolver>,
+  ): Promise<DIDDocument | DIDDocComponent>
 
   abstract preSigningCredModification(credential: CredentialPayload): void
 
   preSigningPresModification(presentation: PresentationPayload): void {
-    // TODO: Remove invalid field 'verifiers' from Presentation. Needs to be adapted for LD credentials
-    // Only remove empty array (vc.signPresentation will throw then)
-    const sanitizedPresentation = presentation as any
-    if (sanitizedPresentation?.verifier?.length == 0) {
-      delete sanitizedPresentation.verifier
-    }
+    // `verifier` is Veramo-only (JWT `aud`); no credentials context defines it, so safe mode would throw.
+    // LD proofs bind the audience through `domain` and `challenge` instead.
+    delete (presentation as any).verifier
   }
 }
