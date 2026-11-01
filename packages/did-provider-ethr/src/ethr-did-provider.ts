@@ -225,7 +225,9 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     }
     if (typeof networkSpecifier === 'bigint' || typeof networkSpecifier === 'number') {
       networkSpecifier =
-        network.name && network.name.length > 0 ? network.name : BigInt(options?.network || 1).toString(16)
+        network.name && network.name.length > 0
+          ? network.name
+          : `0x${BigInt(options?.network || 1).toString(16)}`
     }
     const networkString = networkSpecifier && networkSpecifier !== 'mainnet' ? `${networkSpecifier}:` : ''
     const identifier: Omit<IIdentifier, 'provider'> = {

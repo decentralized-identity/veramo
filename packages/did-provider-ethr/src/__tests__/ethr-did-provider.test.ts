@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { IDIDManager, IKeyManager, MinimalImportableKey, TAgent } from '@veramo/core-types'
 import { DIDManager, MemoryDIDStore } from '../../../did-manager/src/index.js'
 import { EthrDIDProvider } from '../ethr-did-provider.js'
@@ -210,5 +210,26 @@ describe('EthrDIDProvider', () => {
       expect(signature.sigS).toContain('0x')
       expect(options).toEqual({ signOnly: true, gasLimit: 100_000 })
     })
+  })
+
+  it('uses a 0x prefixed network-chain-id for an unnamed network', async () => {
+    const ethrDidProvider = new EthrDIDProvider({
+      defaultKms: KMS,
+      networks: [{ chainId: 11155111, rpcUrl: 'http://127.0.0.1:1' }],
+    })
+    const context: any = {
+      agent: {
+        keyManagerCreate: vi.fn(async () => ({
+          kid: 'k',
+          kms: KMS,
+          type: 'Secp256k1',
+          publicKeyHex: '0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798',
+        })),
+      },
+    }
+
+    const { did } = await ethrDidProvider.createIdentifier({ options: { network: 11155111 } }, context)
+
+    expect(did.startsWith('did:ethr:0xaa36a7:')).toBe(true)
   })
 })
