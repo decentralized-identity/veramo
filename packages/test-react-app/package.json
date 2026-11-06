@@ -44,14 +44,14 @@
     "test:browser": "vitest run && vitest run --config vitest.no-polyfills.config.ts"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.5",
+    "@eslint/js": "10.0.1",
     "@types/node": "26.5.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/browser": "^4.1.11",
-    "@vitest/browser-playwright": "^4.1.11",
-    "eslint": "9.39.5",
+    "@vitest/browser": "^5.0.0",
+    "@vitest/browser-playwright": "^5.0.0",
+    "eslint": "10.14.0",
     "eslint-plugin-react": "7.37.5",
     "globals": "17.12.0",
     "node-stdlib-browser": "^1.3.1",
@@ -59,7 +59,7 @@
     "typescript": "7.0.2",
     "typescript-eslint": "8.70.0",
     "vite": "^8.2.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "type": "module"
 }
