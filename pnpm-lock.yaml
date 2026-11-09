@@ -1089,8 +1089,8 @@ importers:
   packages/did-provider-peer:
     dependencies:
       '@aviarytech/did-peer':
-        specifier: ^0.0.22
-        version: 0.0.22
+        specifier: ^1.1.2
+        version: 1.1.2
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -1820,8 +1820,8 @@ packages:
   '@adraffy/ens-normalize@1.11.1':
     resolution: {integrity: sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ==}
 
-  '@aviarytech/did-peer@0.0.22':
-    resolution: {integrity: sha512-BdA7L9wpYNLf1c3d0yB92aoj1AUWE10p408VZ4IJXfavb/oNxALZRRRJTcvMdrd5P2XXQsP5+x4bXfO24iRURg==}
+  '@aviarytech/did-peer@1.1.2':
+    resolution: {integrity: sha512-5epYnyduIhp+xs7GtpI3IMLqbryjgHEtAqaKVZHtjTz+hQEgm2rPspm5LB2sHG+04dy6v/gbxNDOCO+hxaix4g==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -7438,7 +7438,7 @@ snapshots:
 
   '@adraffy/ens-normalize@1.11.1': {}
 
-  '@aviarytech/did-peer@0.0.22':
+  '@aviarytech/did-peer@1.1.2':
     dependencies:
       buffer: 6.0.3
 

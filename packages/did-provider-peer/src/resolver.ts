@@ -1,5 +1,6 @@
 import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID, Service } from 'did-resolver'
 import { resolve } from '@aviarytech/did-peer'
+import { asArray } from '@veramo/utils'
 
 /**
  * Creates a DID Resolver that can resolve Peer DIDs (for the 0 and 2 num_algo values)
@@ -26,7 +27,7 @@ export function getResolver(): Record<string, DIDResolver> {
           service: doc.service as Service[],
         }
         if (doc.alsoKnownAs) {
-          didDocument.alsoKnownAs = [doc.alsoKnownAs]
+          didDocument.alsoKnownAs = asArray(doc.alsoKnownAs)
         }
         if (doc.controller) {
           didDocument.controller = doc.controller
