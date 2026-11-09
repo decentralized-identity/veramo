@@ -14,11 +14,11 @@
   "dependencies": {
     "@veramo/core-types": "workspace:*",
     "@veramo/utils": "workspace:*",
-    "debug": "^4.3.4",
-    "events": "^3.2.0",
+    "debug": "^4.4.3",
+    "events": "^3.3.0",
     "json-buffer": "^3.0.1",
     "typeorm": "^0.3.20",
-    "uint8arrays": "^4.0.6"
+    "uint8arrays": "^6.1.1"
   },
   "devDependencies": {
     "@keyv/compress-brotli": "1.1.4",

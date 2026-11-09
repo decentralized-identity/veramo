@@ -216,8 +216,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       credential-status:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 4.0.0
+        version: 4.0.0
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
@@ -234,8 +234,8 @@ importers:
         specifier: 6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did-resolver:
-        specifier: 11.1.3
-        version: 11.1.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 14.1.4
+        version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       express:
         specifier: 4.22.3
         version: 4.22.3(supports-color@8.1.1)
@@ -282,8 +282,8 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(@types/node@26.5.1)(@vitest/coverage-v8@5.0.1)(jsdom@20.0.3(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@6.0.3))(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.44.0)(tsx@4.23.13)(yaml@2.9.1))
       web-did-resolver:
-        specifier: 2.0.32
-        version: 2.0.32(encoding@0.1.13)
+        specifier: 3.2.0
+        version: 3.2.0
 
   packages/cli:
     dependencies:
@@ -396,23 +396,23 @@ importers:
         specifier: ^2.8.5
         version: 2.8.5
       cross-fetch:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(encoding@0.1.13)
       date-fns:
         specifier: ^3.3.1
         version: 3.6.0
       debug:
-        specifier: ^4.3.4
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1
       ethr-did-resolver:
-        specifier: ^11.0.2
-        version: 11.1.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^14.1.4
+        version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       express:
         specifier: ^4.18.2
         version: 4.22.3(supports-color@8.1.1)
@@ -471,8 +471,8 @@ importers:
         specifier: ^1.5.10
         version: 1.5.10
       web-did-resolver:
-        specifier: ^2.0.27
-        version: 2.0.32(encoding@0.1.13)
+        specifier: ^3.2.0
+        version: 3.2.0
       ws:
         specifier: ^8.16.0
         version: 8.21.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -542,11 +542,11 @@ importers:
         specifier: ^4.3.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.16
+        specifier: ^5.0.1
+        version: 5.0.2
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -595,14 +595,14 @@ importers:
         specifier: workspace:^
         version: link:../utils
       canonicalize:
-        specifier: ^2.0.0
-        version: 2.1.0
+        specifier: ^5.1.0
+        version: 5.1.0
       debug:
         specifier: ^4.3.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.16
+        specifier: ^5.0.2
+        version: 5.0.2
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -632,11 +632,11 @@ importers:
         specifier: ^4.3.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       fast-uri:
-        specifier: ^3.1.8
-        version: 3.1.8
+        specifier: ^4.2.3
+        version: 4.2.3
       jsonld-signatures:
         specifier: ^11.6.0
         version: 11.6.0
@@ -660,14 +660,14 @@ importers:
         specifier: workspace:^
         version: link:../utils
       credential-status:
-        specifier: ^3.0.0
-        version: 3.0.4
+        specifier: ^4.0.0
+        version: 4.0.0
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -700,17 +700,17 @@ importers:
         specifier: ^4.3.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.16
+        specifier: ^5.0.2
+        version: 5.0.2
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -740,17 +740,17 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.16
+        specifier: ^5.0.2
+        version: 5.0.2
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.16.3)(sqlite3@5.1.7(supports-color@8.1.1))(supports-color@8.1.1)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))
       uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -768,8 +768,8 @@ importers:
   packages/data-store-json:
     dependencies:
       '@ungap/structured-clone':
-        specifier: ^1.2.0
-        version: 1.3.0
+        specifier: ^1.4.0
+        version: 1.4.0
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -783,14 +783,14 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.16
+        specifier: ^5.0.2
+        version: 5.0.2
       uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -799,8 +799,8 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       '@types/uuid':
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 11.0.0
+        version: 11.0.0
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -835,27 +835,27 @@ importers:
         specifier: workspace:^
         version: link:../utils
       cross-fetch:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(encoding@0.1.13)
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
         version: 4.1.8
       '@types/uuid':
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 11.0.0
+        version: 11.0.0
       sqlite3:
         specifier: 5.1.7
         version: 5.1.7(supports-color@8.1.1)
@@ -888,14 +888,14 @@ importers:
         specifier: workspace:^
         version: link:../message-handler
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -929,13 +929,13 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did:
-        specifier: ^3.0.21
+        specifier: ^3.0.38
         version: 3.0.38(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
@@ -993,17 +993,17 @@ importers:
         specifier: workspace:^
         version: link:../utils
       canonicalize:
-        specifier: ^2.0.0
-        version: 2.1.0
+        specifier: ^5.1.0
+        version: 5.1.0
       cross-fetch:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(encoding@0.1.13)
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
@@ -1033,11 +1033,11 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1070,11 +1070,11 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -1101,11 +1101,11 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1129,11 +1129,11 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -1157,7 +1157,7 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
       '@types/debug':
@@ -1176,27 +1176,27 @@ importers:
         specifier: workspace:^
         version: link:../utils
       cross-fetch:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(encoding@0.1.13)
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
         version: 4.1.8
       ethr-did-resolver:
-        specifier: 11.0.3
-        version: 11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 14.1.4
+        version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       typescript:
         specifier: 7.0.2
         version: 7.0.2
       web-did-resolver:
-        specifier: 2.0.29
-        version: 2.0.29(encoding@0.1.13)
+        specifier: 3.2.0
+        version: 3.2.0
 
   packages/key-manager:
     dependencies:
@@ -1210,27 +1210,27 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.4
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       uint8arrays:
-        specifier: ^4.0.6
-        version: 4.0.10
+        specifier: ^6.1.1
+        version: 6.1.1
       uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
         version: 4.1.8
       '@types/uuid':
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 11.0.0
+        version: 11.0.0
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -1253,11 +1253,11 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -1278,7 +1278,7 @@ importers:
         specifier: workspace:^
         version: link:../key-manager
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       ethers:
         specifier: ^6.13.4
@@ -1300,10 +1300,10 @@ importers:
         specifier: workspace:*
         version: link:../utils
       debug:
-        specifier: ^4.3.4
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       events:
-        specifier: ^3.2.0
+        specifier: ^3.3.0
         version: 3.3.0
       json-buffer:
         specifier: ^3.0.1
@@ -1312,8 +1312,8 @@ importers:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.16.3)(sqlite3@5.1.7(supports-color@8.1.1))(supports-color@8.1.1)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))
       uint8arrays:
-        specifier: ^4.0.6
-        version: 4.0.10
+        specifier: ^6.1.1
+        version: 6.1.1
     devDependencies:
       '@keyv/compress-brotli':
         specifier: 1.1.4
@@ -1364,7 +1364,7 @@ importers:
         specifier: workspace:^
         version: link:../kv-store
       debug:
-        specifier: ^4.3.4
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       uuid:
         specifier: ^11.0.0
@@ -1389,7 +1389,7 @@ importers:
         specifier: workspace:^
         version: link:../core-types
       debug:
-        specifier: ^4.3.4
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
     devDependencies:
       '@types/debug':
@@ -1405,10 +1405,10 @@ importers:
         specifier: workspace:^
         version: link:../core-types
       cross-fetch:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(encoding@0.1.13)
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       openapi-types:
         specifier: 12.1.3
@@ -1433,22 +1433,22 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       express:
         specifier: ^4.18.2
         version: 4.22.3(supports-color@8.1.1)
       passport:
-        specifier: ^0.6.0
-        version: 0.6.0
+        specifier: ^0.7.0
+        version: 0.7.0
       passport-http-bearer:
         specifier: ^1.0.1
         version: 1.0.1
       url-parse:
-        specifier: ^1.5.4
+        specifier: ^1.5.10
         version: 1.5.10
     devDependencies:
       '@types/debug':
@@ -1458,14 +1458,14 @@ importers:
         specifier: 4.17.17
         version: 4.17.17
       '@types/passport':
-        specifier: 1.0.12
-        version: 1.0.12
+        specifier: 1.0.17
+        version: 1.0.17
       '@types/passport-http-bearer':
-        specifier: 1.0.37
-        version: 1.0.37
+        specifier: 1.0.42
+        version: 1.0.42
       '@types/url-parse':
-        specifier: 1.4.8
-        version: 1.4.8
+        specifier: 1.4.11
+        version: 1.4.11
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -1482,21 +1482,21 @@ importers:
         specifier: workspace:^
         version: link:../utils
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
         version: 4.1.8
       '@types/uuid':
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 11.0.0
+        version: 11.0.0
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -1579,11 +1579,11 @@ importers:
         specifier: workspace:*
         version: link:../utils
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       ethr-did-resolver:
-        specifier: ^11.0.2
-        version: 11.1.3(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^14.1.4
+        version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -1594,8 +1594,8 @@ importers:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.16.3)(sqlite3@5.1.7(supports-color@8.1.1))(supports-color@8.1.1)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))
       web-did-resolver:
-        specifier: ^2.0.27
-        version: 2.0.32(encoding@0.1.13)
+        specifier: ^3.2.0
+        version: 3.2.0
       web-vitals:
         specifier: ^3.5.2
         version: 3.5.2
@@ -1682,8 +1682,8 @@ importers:
         specifier: workspace:*
         version: link:../test-utils
       did-resolver:
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -1728,8 +1728,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       typescript:
         specifier: 7.0.2
@@ -1744,21 +1744,21 @@ importers:
         specifier: workspace:^
         version: link:../message-handler
       cross-fetch:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(encoding@0.1.13)
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       url-parse:
-        specifier: ^1.5.4
+        specifier: ^1.5.10
         version: 1.5.10
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
         version: 4.1.8
       '@types/url-parse':
-        specifier: 1.4.8
-        version: 1.4.8
+        specifier: 1.4.11
+        version: 1.4.11
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -1767,7 +1767,7 @@ importers:
     dependencies:
       '@ipld/dag-pb':
         specifier: ^4.0.5
-        version: 4.1.5
+        version: 4.2.0
       '@noble/curves':
         specifier: ^1.9.7
         version: 1.9.7
@@ -1775,23 +1775,23 @@ importers:
         specifier: workspace:^
         version: link:../core-types
       credential-status:
-        specifier: ^3.0.0
-        version: 3.0.4
+        specifier: ^4.0.0
+        version: 4.0.0
       cross-fetch:
         specifier: ^4.0.0
         version: 4.1.0(encoding@0.1.13)
       debug:
-        specifier: ^4.3.3
+        specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       did-jwt:
-        specifier: ^8.0.0
-        version: 8.0.18
+        specifier: ^9.0.3
+        version: 9.0.3
       did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.16
+        specifier: ^5.0.2
+        version: 5.0.2
       did-resolver:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^6.0.0
+        version: 6.0.0
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -1800,7 +1800,7 @@ importers:
         version: 11.2.5
       multiformats:
         specifier: ^13.0.0
-        version: 13.4.0
+        version: 13.4.2
       uint8arrays:
         specifier: ^4.0.6
         version: 4.0.10
@@ -1816,6 +1816,9 @@ packages:
 
   '@adraffy/ens-normalize@1.10.1':
     resolution: {integrity: sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==}
+
+  '@adraffy/ens-normalize@1.11.1':
+    resolution: {integrity: sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ==}
 
   '@aviarytech/did-peer@0.0.22':
     resolution: {integrity: sha512-BdA7L9wpYNLf1c3d0yB92aoj1AUWE10p408VZ4IJXfavb/oNxALZRRRJTcvMdrd5P2XXQsP5+x4bXfO24iRURg==}
@@ -2513,8 +2516,8 @@ packages:
     resolution: {integrity: sha512-lGPVU3yO9ZNqA7vTYz26jny41lE7yoQansmqdMLBEfqaGsmdg7V3W9mK9Pvb5IL4EVZ9GnSDGMO/cJXud5dMaw==}
     engines: {node: '>=18'}
 
-  '@ipld/dag-pb@4.1.5':
-    resolution: {integrity: sha512-w4PZ2yPqvNmlAir7/2hsCRMqny1EY5jj26iZcSgxREJexmbAc2FI21jp26MqiNdfgAxvkCnf2N/TJI18GaDNwA==}
+  '@ipld/dag-pb@4.2.0':
+    resolution: {integrity: sha512-T2hsy18NNAUkIiQgvtrhKJXIkTjKcGHPJzp6mYp/tx4x0X9wedUTrCNADEP4hAS7Vy4/bJtc37eX4GSDFiKLhw==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
 
   '@isaacs/cliui@8.0.2':
@@ -2643,6 +2646,10 @@ packages:
     resolution: {integrity: sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw==}
     engines: {node: ^14.21.3 || >=16}
 
+  '@noble/ciphers@2.4.0':
+    resolution: {integrity: sha512-AnjFn0Jv92laAkvMrghlFZq4qQCIN/4DxFV/eooqtC2YTjB7kBeLMS2T9KJX4Dn+ZVXLOwK0lSgqDtx9gvxtiw==}
+    engines: {node: '>= 20.19.0'}
+
   '@noble/curves@1.2.0':
     resolution: {integrity: sha512-oYclrNgRaM9SsBUBVbb8M6DTV7ZHRTKugureoYEncY5c65HOmRzvSiTE3y5CYaPYJA/GVkrhXEoF0M3Ya9PMnw==}
 
@@ -2652,6 +2659,10 @@ packages:
   '@noble/curves@1.9.7':
     resolution: {integrity: sha512-gbKGcRUYIjA3/zCCNaWDciTMFI0dCkvou3TL8Zmy5Nc7sJ47a0jtOeZoTaMxkuqRo9cRhjOdZJXegxYE5FN/xw==}
     engines: {node: ^14.21.3 || >=16}
+
+  '@noble/curves@2.4.0':
+    resolution: {integrity: sha512-P4/62zrgfH33CneE3Dn4WhJVA22YUU0eR51wKIan4NVRvwsA0YnPTwWGpNbpuacSujmSFLvyzpyuR30+fbq2Ew==}
+    engines: {node: '>= 20.19.0'}
 
   '@noble/ed25519@2.3.0':
     resolution: {integrity: sha512-M7dvXL2B92/M7dw9+gzuydL8qn/jiqNHaoR3Q+cb1q1GHV7uwE17WCyFMG+Y+TZb5izcaXk5TdJRrDUxHXL78A==}
@@ -2671,6 +2682,10 @@ packages:
   '@noble/hashes@1.8.0':
     resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
     engines: {node: ^14.21.3 || >=16}
+
+  '@noble/hashes@2.4.0':
+    resolution: {integrity: sha512-X5XaVWZIBCT7HHZGm5I7ZQXDwLG+bGXuSrMQAW+7Zvl87h1kmc1ZB1VSRJcpUfoUrGQp4Fkoxm5kZ+Ms+aW+eA==}
+    engines: {node: '>= 20.19.0'}
 
   '@noble/secp256k1@2.3.0':
     resolution: {integrity: sha512-0TQed2gcBbIrh7Ccyw+y/uZQvbJwm7Ao4scBUxqpBCcsOlZG0O4KGfjtNAy/li4W8n1xt3dxrwJ0beZ2h2G6Kw==}
@@ -3179,8 +3194,14 @@ packages:
   '@types/passport-http-bearer@1.0.37':
     resolution: {integrity: sha512-/2Z28LfgY7kP/GO75os+feTP+//qHfpYn3V7sWAl0kwNwyDT1eGgjO30OU+Lown00ogSee+fea8a0+fr/UpTXw==}
 
+  '@types/passport-http-bearer@1.0.42':
+    resolution: {integrity: sha512-cGezyf9hy3Cth+zWS779FR9XYhIX/DExsVZURqcSeUU/nhj0Aw8PUhvCyfS35ScwOSd5AFiFhtfWmqHa/2aYZg==}
+
   '@types/passport@1.0.12':
     resolution: {integrity: sha512-QFdJ2TiAEoXfEQSNDISJR1Tm51I78CymqcBa8imbjo6dNNu+l2huDxxbDEIoFIwOSKMkOfHEikyDuZ38WwWsmw==}
+
+  '@types/passport@1.0.17':
+    resolution: {integrity: sha512-aciLyx+wDwT2t2/kJGJR2AEeBz0nJU4WuRX04Wu9Dqc5lSUtwu0WERPHYsLhF9PtseiAMPBGNUOtFjxZ56prsg==}
 
   '@types/qrcode-terminal@0.12.0':
     resolution: {integrity: sha512-g0fQKl3IVnUePV8tLkiBTduxAVSZsXts444T2aMfjOEGxd7XoeSIs16/AmRe2NlcJLqbvsOBSXov7dKSo4wigA==}
@@ -3217,8 +3238,15 @@ packages:
   '@types/ungap__structured-clone@1.2.0':
     resolution: {integrity: sha512-ZoaihZNLeZSxESbk9PUAPZOlSpcKx81I1+4emtULDVmBLkYutTcMlCj2K9VNlf9EWODxdO6gkAqEaLorXwZQVA==}
 
+  '@types/url-parse@1.4.11':
+    resolution: {integrity: sha512-FKvKIqRaykZtd4n47LbK/W/5fhQQ1X7cxxzG9A48h0BGN+S04NH7ervcCjM8tyR0lyGru83FAHSmw2ObgKoESg==}
+
   '@types/url-parse@1.4.8':
     resolution: {integrity: sha512-zqqcGKyNWgTLFBxmaexGUKQyWqeG7HjXj20EuQJSJWwXe54BjX0ihIo5cJB9yAQzH8dNugJ9GvkBYMjPXs/PJw==}
+
+  '@types/uuid@11.0.0':
+    resolution: {integrity: sha512-HVyk8nj2m+jcFRNazzqyVKiZezyhDKrGUA3jlEcg/nZ6Ms+qHwocba1Y/AaVaznJTAM9xpdFSh+ptbNrhOGvZA==}
+    deprecated: This is a stub types definition. uuid provides its own type definitions, so you do not need this installed.
 
   '@types/uuid@9.0.2':
     resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
@@ -3417,6 +3445,9 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
     deprecated: Potential CWE-502 - Update to 1.3.1 or higher
+
+  '@ungap/structured-clone@1.4.0':
+    resolution: {integrity: sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==}
 
   '@vitejs/plugin-react@6.1.1':
     resolution: {integrity: sha512-yxLaQV9gkhS8ezJqCM6+ndU7mDY6gqAg75NQ+0IjwEI8IYOmQCgkRwHKVSfWXW076DsqMo0Dk+0FK1U+M5RgFw==}
@@ -3899,6 +3930,11 @@ packages:
     resolution: {integrity: sha512-F705O3xrsUtgt98j7leetNhTWPe+5S72rlL5O4jA1pKqBVQ/dT1O1D6PFxmSXvc0SUOinWS57DKx0I3CHrXJHQ==}
     hasBin: true
 
+  canonicalize@5.1.0:
+    resolution: {integrity: sha512-bab9+WefZljqQ8jT0qRwVmTyzAUU63K97QIQD3agynIBrb6sa5M2eAy8Hv8K3p4V9+ONVYZKtGYl4Dg+/5Gumw==}
+    engines: {node: '>=22'}
+    hasBin: true
+
   catering@2.1.1:
     resolution: {integrity: sha512-K7Qy8O9p76sL3/3m7/zLKbRkyOlSZAgzEaLhyj2mXS8PsCud2Eo4hAb8aLtZqHh0QGqLcb9dlJSu6lHRVENm1w==}
     engines: {node: '>=6'}
@@ -4059,8 +4095,9 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  credential-status@3.0.4:
-    resolution: {integrity: sha512-6xHMXhdIZjhyTzkXx49hR4CjHNEqFJmWEL29CNulGA0XDozHsZXVF34BZyHGz9vWD/Du05pVEDhpZL0jdLGIRw==}
+  credential-status@4.0.0:
+    resolution: {integrity: sha512-OSaYoV0Z6Ezt2/wXhwN1alHurEerccQ97EvnZosvAt5+L2/Wmx0GPclTfbVfSAD4ayhaqkbSFH9a37whjc8q7Q==}
+    engines: {node: '>=22.12'}
 
   cross-env@10.1.0:
     resolution: {integrity: sha512-GsYosgnACZTADcmEyJctkJIoqAhHjttw7RsFrVoJNXbsWWqaq6Ym+7kZjq6mS45O0jij6vtiReppKQEtqWy6Dw==}
@@ -4205,17 +4242,28 @@ packages:
     resolution: {integrity: sha512-is7/e2KdLwtDP3JTnf9sLhUeBQF9AhyGjBuJAAVs5U2Uf8CBchRwDycztHQJCx1voBabVprrmAa9NJMd+qWcSA==}
     engines: {node: '>=18'}
 
+  did-jwt-vc@5.0.2:
+    resolution: {integrity: sha512-ndUBm3nTildFFOELbujJtUWR75Hz5J2cIw4bOQ/m5w4Vb1aTPEBCWy/dzGwdt3TEN3Eb6BgvpkrkDZdqQveJTg==}
+    engines: {node: '>=22.12'}
+
   did-jwt@8.0.18:
     resolution: {integrity: sha512-yS3Y+aUKjYqRFrgR/RY77NuOOqS7SFfvfFH4THhWD6+hkxeUZcKQSsdNZ12QR1Vd48yP9exwae2wzbuOZn0NqQ==}
 
   did-jwt@8.0.8:
     resolution: {integrity: sha512-XlL71xneBxwGiED4yB+LklGpBnCwY3/ZpIf9o3e+3ubo1BLDaPppfhZTevUKG4UXWAqZC5/WT2hD/WfqAhl8FA==}
 
+  did-jwt@9.0.3:
+    resolution: {integrity: sha512-oBwx+Yx6Judka+GY8CFB2qFl/l9Ea4ftRMyUxs11zNiOReWmOKhQeTKvdWIFDNqpVfUdAkThUtAC539iCT/TOA==}
+    engines: {node: '>=22.12'}
+
   did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
 
   did-resolver@5.0.1:
     resolution: {integrity: sha512-AtbIfBt/D9Z6GeNKhm1AzCbF7y5PhsNukgmVYnsdxbIX8UAsquQpbm8ECfPwDRXAOM3EsGdHheK5WMojcPlAPg==}
+
+  did-resolver@6.0.0:
+    resolution: {integrity: sha512-qYlNpucsgfBE0foIqlnEjLx7ZvMTUOkPeIjOhVKPJKm4h8afFNS78zDLbiJPZ2yvY3Z7C79FW1UHSRyehRCpOg==}
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
@@ -4473,14 +4521,15 @@ packages:
     resolution: {integrity: sha512-21YtnZVg4/zKkCQPjrDj38B1r4nQvTZLopUGMLQ1ePU2zV/joCfDC3t3iKQjWRzjjjbzR+mdAIoikeBRNkdllA==}
     engines: {node: '>=14.0.0'}
 
-  ethr-did-resolver@11.0.3:
-    resolution: {integrity: sha512-lQ1T/SZfgR6Kp05/GSIXnMELxQ5H6M6OCTH4wBTVSAgHzbJiDNVIYWzg/c+NniIM88B0ViAi4CaiCHaiUlvPQg==}
+  ethers@6.17.0:
+    resolution: {integrity: sha512-BpyrpIPJ3ydEVow8zGaz1DuPS7YU8DcWxuBnY9a0UA/lvAPwrMr+EPXsfrul628SRaekPNeIM4UFh/91GWZang==}
+    engines: {node: '>=14.0.0'}
 
   ethr-did-resolver@11.0.4:
     resolution: {integrity: sha512-EJ/dL2QsFzvhBJd0nlPFjma3bxpQOWyp2TytQZyAeqi6SfZ4ALCB0VaA4dSeT4T8ZtI2pzs/sD7t/7A0584J6Q==}
 
-  ethr-did-resolver@11.1.3:
-    resolution: {integrity: sha512-YKZYazilgH9ikcEJN5WTIWhY/3G45SSoBbhwJkzb3m9QjG2pBjAg2aYLSRYgK463zAu2EuNvUjMmZ8vsk2EbiQ==}
+  ethr-did-resolver@14.1.4:
+    resolution: {integrity: sha512-LYaY+nOnjxGuOnoRv51uAz5QRf/3d8KL0AFVeOsQEj44HnutcqjtwJmGvZIlssIBiTcm66gss25x8++exjHhHg==}
 
   ethr-did@3.0.38:
     resolution: {integrity: sha512-gUxtErXVOQUJf+bmnxRdSJdlU9aFbQSBNaJCYGt+PLqw6l4qqInTfMRiWpwe/brhRtdjE+64tnayOVk8ataeQA==}
@@ -4532,6 +4581,9 @@ packages:
 
   fast-uri@3.1.8:
     resolution: {integrity: sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==}
+
+  fast-uri@4.2.3:
+    resolution: {integrity: sha512-I1PXwP5eAhlNlcdpjt9CgB59op2ZvZfxw+BkqGFVIUOgNpCVTcTqp3HhTX7brxj5vsip+nSY4nTvff+eIA76hg==}
 
   fast-wrap-ansi@0.2.2:
     resolution: {integrity: sha512-7F2Fl+TjRSenLqlU3UjSH0iyqopqoZIu7eZVpEirP2g1GtWa2G/ecEmBdgz31+Mxr+ELclgg6sokpSFIQiZ02Q==}
@@ -5633,8 +5685,8 @@ packages:
     resolution: {integrity: sha512-eajQ/ZH7qXZQR2AgtfpmSMizQzmyYVmCql7pdhldPuYQi4atACekbJaQplk6dWyIi10jCaFnd6pqvcEFXjbaJw==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
 
-  multiformats@13.4.0:
-    resolution: {integrity: sha512-Mkb/QcclrJxKC+vrcIFl297h52QcKh2Az/9A5vbWytbQt4225UWWWmIuSsKksdww9NkIeYcA7DkfftyLuC/JSg==}
+  multiformats@13.4.2:
+    resolution: {integrity: sha512-eh6eHCrRi1+POZ3dA+Dq1C6jhP1GNtr9CRINMb67OKzqW9I5DUuZM/3jLPlzhgpGeiNUlEGEbkCYChXMCc/8DQ==}
 
   multiformats@14.0.5:
     resolution: {integrity: sha512-vbIm83F2yZ1pWJGS0yl0ysracIvv56LtbrIyiIQHoLdYDJOMoLfVFsXhh9DUH4SFdkdkFhucyWniihsNzVEjkQ==}
@@ -5888,10 +5940,6 @@ packages:
 
   passport-strategy@1.0.0:
     resolution: {integrity: sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==}
-    engines: {node: '>= 0.4.0'}
-
-  passport@0.6.0:
-    resolution: {integrity: sha512-0fe+p3ZnrWRW74fe8+SvCyf4a3Pb2/h7gFkQ8yTJpAO50gDzlfjZUZTO1k5Eg9kUct22OxHLqDZoKUWRHOh9ug==}
     engines: {node: '>= 0.4.0'}
 
   passport@0.7.0:
@@ -6916,11 +6964,11 @@ packages:
     engines: {node: '>=0.8.0'}
     hasBin: true
 
-  uint8-varint@2.0.4:
-    resolution: {integrity: sha512-FwpTa7ZGA/f/EssWAb5/YV6pHgVF1fViKdW8cWaEarjB8t7NyofSWBdOTyFPaGuUG4gx3v1O3PQ8etsiOs3lcw==}
+  uint8-varint@2.0.5:
+    resolution: {integrity: sha512-jeFLbL/x30wBRnWjKE1qVBXeumG46r7XmYkpis955lTQ+blccGKFrOsSMHlxePwYB1pI7L8YPHz1t4jLxEs3nA==}
 
-  uint8arraylist@2.4.8:
-    resolution: {integrity: sha512-vc1PlGOzglLF0eae1M8mLRTBivsvrGsdmJ5RbK3e+QRvRLOZfZhQROTwH/OfyF3+ZVUg9/8hE8bmKP2CvP9quQ==}
+  uint8arraylist@2.4.9:
+    resolution: {integrity: sha512-KxWjyEFzchzik3aoQlK66oaoxIReoMo5bQRm1fcjBUZvE8xv/tyR3CTKhjh6K/faV8VaF6hd5pjr45CzbwuwkA==}
 
   uint8arrays@3.1.1:
     resolution: {integrity: sha512-+QJa8QRnbdXVpHYjLoTpJIdCTiw9Ir62nocClWuXIq2JIh4Uta0cQsTSpFL678p2CN8B+XSApwcU+pQEqVpKWg==}
@@ -6928,8 +6976,8 @@ packages:
   uint8arrays@4.0.10:
     resolution: {integrity: sha512-AnJNUGGDJAgFw/eWu/Xb9zrVKEGlwJJCaeInlf3BkecE/zcTobk5YXYIPNQJO1q5Hh1QZrQQHf0JvcHqz2hqoA==}
 
-  uint8arrays@5.1.0:
-    resolution: {integrity: sha512-vA6nFepEmlSKkMBnLBaUMVvAC4G3CTmO58C12y4sq6WPDOR7mOFYOi7GlrQ4djeSbP6JG9Pv9tJDM97PedRSww==}
+  uint8arrays@5.1.1:
+    resolution: {integrity: sha512-9muQwa4wZG4dKi9gMAIBtnk2Pw87SRpvWTH6lOGm19V2Uqxr4uomUf2PGqPnWc+qs06sN8owUU4jfcoWOcfwVQ==}
 
   uint8arrays@6.1.1:
     resolution: {integrity: sha512-iz7JN0XCSZYA111lhFG2Ui9EhFvTNekqSRHw3lvMHq+dzwWy1OQftxFQREEh4rffU0oSoXdQHsk2TiHKVm4fsA==}
@@ -7020,6 +7068,10 @@ packages:
 
   uuid@11.1.0:
     resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
+  uuid@14.0.3:
+    resolution: {integrity: sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==}
     hasBin: true
 
   uuid@9.0.1:
@@ -7179,11 +7231,9 @@ packages:
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
-  web-did-resolver@2.0.29:
-    resolution: {integrity: sha512-hpwctjy5qGhViloUdIv3zX5N234gzIbfJZ+hZ560qqZN+7Immpo9tsbxFsJVdmU93DDPMSpltnJJWENj9FfZug==}
-
-  web-did-resolver@2.0.32:
-    resolution: {integrity: sha512-L91/ApTmDjgzS0UDstTKn3kN/1hlQBnVcUN8K29e3xhVBpPktHYC6uvVAQ8ohbIg9D6wrrbaBQvfRArDxgJG2g==}
+  web-did-resolver@3.2.0:
+    resolution: {integrity: sha512-DclShDbyFGnUuk17Is+hdBPsBbQRiZfcp6sEBS+4y8DeYN+sXnxYJPpdcgbLoNZHGYNoj12MR7MgO/j4VUrdFw==}
+    engines: {node: '>=22'}
 
   web-streams-polyfill@3.3.3:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
@@ -7385,6 +7435,8 @@ packages:
 snapshots:
 
   '@adraffy/ens-normalize@1.10.1': {}
+
+  '@adraffy/ens-normalize@1.11.1': {}
 
   '@aviarytech/did-peer@0.0.22':
     dependencies:
@@ -8169,9 +8221,9 @@ snapshots:
 
   '@inquirer/figures@1.0.13': {}
 
-  '@ipld/dag-pb@4.1.5':
+  '@ipld/dag-pb@4.2.0':
     dependencies:
-      multiformats: 13.4.0
+      multiformats: 14.0.5
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -8385,6 +8437,8 @@ snapshots:
 
   '@noble/ciphers@1.3.0': {}
 
+  '@noble/ciphers@2.4.0': {}
+
   '@noble/curves@1.2.0':
     dependencies:
       '@noble/hashes': 1.3.2
@@ -8397,6 +8451,10 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.8.0
 
+  '@noble/curves@2.4.0':
+    dependencies:
+      '@noble/hashes': 2.4.0
+
   '@noble/ed25519@2.3.0': {}
 
   '@noble/hashes@1.3.2': {}
@@ -8406,6 +8464,8 @@ snapshots:
   '@noble/hashes@1.7.1': {}
 
   '@noble/hashes@1.8.0': {}
+
+  '@noble/hashes@2.4.0': {}
 
   '@noble/secp256k1@2.3.0': {}
 
@@ -9002,9 +9062,19 @@ snapshots:
       '@types/koa': 3.0.0
       '@types/passport': 1.0.12
 
+  '@types/passport-http-bearer@1.0.42':
+    dependencies:
+      '@types/express': 4.17.25
+      '@types/koa': 3.0.0
+      '@types/passport': 1.0.17
+
   '@types/passport@1.0.12':
     dependencies:
       '@types/express': 4.17.21
+
+  '@types/passport@1.0.17':
+    dependencies:
+      '@types/express': 4.17.25
 
   '@types/qrcode-terminal@0.12.0': {}
 
@@ -9044,7 +9114,13 @@ snapshots:
 
   '@types/ungap__structured-clone@1.2.0': {}
 
+  '@types/url-parse@1.4.11': {}
+
   '@types/url-parse@1.4.8': {}
+
+  '@types/uuid@11.0.0':
+    dependencies:
+      uuid: 11.1.0
 
   '@types/uuid@9.0.2': {}
 
@@ -9212,6 +9288,8 @@ snapshots:
     optional: true
 
   '@ungap/structured-clone@1.3.0': {}
+
+  '@ungap/structured-clone@1.4.0': {}
 
   '@vitejs/plugin-react@6.1.1(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.1)(jiti@1.21.7)(terser@5.44.0)(tsx@4.23.13)(yaml@2.9.1))':
     dependencies:
@@ -9832,6 +9910,8 @@ snapshots:
 
   canonicalize@2.1.0: {}
 
+  canonicalize@5.1.0: {}
+
   catering@2.1.1: {}
 
   chai@6.2.2: {}
@@ -9990,10 +10070,10 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  credential-status@3.0.4:
+  credential-status@4.0.0:
     dependencies:
-      did-jwt: 8.0.18
-      did-resolver: 4.1.0
+      did-jwt: 9.0.3
+      did-resolver: 6.0.0
 
   cross-env@10.1.0:
     dependencies:
@@ -10147,6 +10227,11 @@ snapshots:
       did-jwt: 8.0.18
       did-resolver: 4.1.0
 
+  did-jwt-vc@5.0.2:
+    dependencies:
+      did-jwt: 9.0.3
+      did-resolver: 6.0.0
+
   did-jwt@8.0.18:
     dependencies:
       '@noble/ciphers': 1.3.0
@@ -10171,9 +10256,21 @@ snapshots:
       multiformats: 9.9.0
       uint8arrays: 3.1.1
 
+  did-jwt@9.0.3:
+    dependencies:
+      '@noble/ciphers': 2.4.0
+      '@noble/curves': 2.4.0
+      '@noble/hashes': 2.4.0
+      '@scure/base': 2.4.0
+      canonicalize: 5.1.0
+      did-resolver: 6.0.0
+      uint8arrays: 6.1.1
+
   did-resolver@4.1.0: {}
 
   did-resolver@5.0.1: {}
+
+  did-resolver@6.0.0: {}
 
   diff@4.0.2:
     optional: true
@@ -10622,10 +10719,15 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethr-did-resolver@11.0.3(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  ethers@6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
-      did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      '@adraffy/ens-normalize': 1.11.1
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@types/node': 22.7.5
+      aes-js: 4.0.0-beta.5
+      tslib: 2.7.0
+      ws: 8.21.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -10638,10 +10740,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethr-did-resolver@11.1.3(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  ethr-did-resolver@14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
       did-resolver: 5.0.1
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ethers: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -10730,6 +10832,8 @@ snapshots:
       fast-string-truncated-width: 3.0.3
 
   fast-uri@3.1.8: {}
+
+  fast-uri@4.2.3: {}
 
   fast-wrap-ansi@0.2.2:
     dependencies:
@@ -11192,7 +11296,7 @@ snapshots:
   ipfs-unixfs@11.2.5:
     dependencies:
       protons-runtime: 5.6.0
-      uint8arraylist: 2.4.8
+      uint8arraylist: 2.4.9
 
   is-arguments@1.2.0:
     dependencies:
@@ -11974,7 +12078,7 @@ snapshots:
 
   multiformats@12.1.3: {}
 
-  multiformats@13.4.0: {}
+  multiformats@13.4.2: {}
 
   multiformats@14.0.5: {}
 
@@ -12271,12 +12375,6 @@ snapshots:
 
   passport-strategy@1.0.0: {}
 
-  passport@0.6.0:
-    dependencies:
-      passport-strategy: 1.0.0
-      pause: 0.0.1
-      utils-merge: 1.0.1
-
   passport@0.7.0:
     dependencies:
       passport-strategy: 1.0.0
@@ -12449,9 +12547,9 @@ snapshots:
 
   protons-runtime@5.6.0:
     dependencies:
-      uint8-varint: 2.0.4
-      uint8arraylist: 2.4.8
-      uint8arrays: 5.1.0
+      uint8-varint: 2.0.5
+      uint8arraylist: 2.4.9
+      uint8arrays: 5.1.1
 
   proxy-addr@2.0.7:
     dependencies:
@@ -13449,14 +13547,14 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  uint8-varint@2.0.4:
+  uint8-varint@2.0.5:
     dependencies:
-      uint8arraylist: 2.4.8
-      uint8arrays: 5.1.0
+      uint8arraylist: 2.4.9
+      uint8arrays: 5.1.1
 
-  uint8arraylist@2.4.8:
+  uint8arraylist@2.4.9:
     dependencies:
-      uint8arrays: 5.1.0
+      uint8arrays: 5.1.1
 
   uint8arrays@3.1.1:
     dependencies:
@@ -13466,9 +13564,9 @@ snapshots:
     dependencies:
       multiformats: 12.1.3
 
-  uint8arrays@5.1.0:
+  uint8arrays@5.1.1:
     dependencies:
-      multiformats: 13.4.0
+      multiformats: 13.4.2
 
   uint8arrays@6.1.1:
     dependencies:
@@ -13558,6 +13656,8 @@ snapshots:
   utils-merge@1.0.1: {}
 
   uuid@11.1.0: {}
+
+  uuid@14.0.3: {}
 
   uuid@9.0.1: {}
 
@@ -13652,19 +13752,9 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
-  web-did-resolver@2.0.29(encoding@0.1.13):
+  web-did-resolver@3.2.0:
     dependencies:
-      cross-fetch: 4.1.0(encoding@0.1.13)
-      did-resolver: 4.1.0
-    transitivePeerDependencies:
-      - encoding
-
-  web-did-resolver@2.0.32(encoding@0.1.13):
-    dependencies:
-      cross-fetch: 4.1.0(encoding@0.1.13)
-      did-resolver: 4.1.0
-    transitivePeerDependencies:
-      - encoding
+      did-resolver: 6.0.0
 
   web-streams-polyfill@3.3.3: {}
 

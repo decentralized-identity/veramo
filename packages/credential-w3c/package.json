@@ -17,10 +17,10 @@
     "@veramo/utils": "workspace:^",
     "canonicalize": "^2.0.0",
     "debug": "^4.3.3",
-    "did-jwt": "^8.0.0",
-    "did-jwt-vc": "^4.0.0",
-    "did-resolver": "^4.1.0",
-    "uuid": "^11.0.0"
+    "did-jwt": "^9.0.3",
+    "did-jwt-vc": "^5.0.2",
+    "did-resolver": "^6.0.0",
+    "uuid": "^14.0.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

@@ -27,7 +27,7 @@ describe('@veramo/did-resolver', () => {
           provider: provider as any, // different versions of ethers complain about a type mismatch here
           registry,
         },
-        { name: 'development', rpcUrl: 'http://localhost:7545' },
+        // { name: 'development', rpcUrl: 'http://localhost:7545', registry: '0x this is an example' },
         // FIXME: add this example
         // { name: 'test', provider: TBD_add_example_of_custom_provider_usage },
       ],

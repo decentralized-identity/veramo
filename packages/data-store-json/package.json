@@ -10,19 +10,19 @@
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@ungap/structured-clone": "^1.2.0",
+    "@ungap/structured-clone": "^1.4.0",
     "@veramo/core-types": "workspace:^",
     "@veramo/did-manager": "workspace:^",
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "debug": "^4.3.3",
-    "did-jwt-vc": "^4.0.0",
-    "uuid": "^11.0.0"
+    "debug": "^4.4.3",
+    "did-jwt-vc": "^5.0.2",
+    "uuid": "^14.0.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
     "@types/ungap__structured-clone": "1.2.0",
-    "@types/uuid": "9.0.2",
+    "@types/uuid": "11.0.0",
     "typescript": "7.0.2"
   },
   "files": [

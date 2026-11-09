@@ -12,13 +12,13 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
-    "cross-fetch": "^4.0.0",
-    "debug": "^4.3.3",
-    "url-parse": "^1.5.4"
+    "cross-fetch": "^4.1.0",
+    "debug": "^4.4.3",
+    "url-parse": "^1.5.10"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "@types/url-parse": "1.4.8",
+    "@types/url-parse": "1.4.11",
     "typescript": "7.0.2"
   },
   "files": [

@@ -17,6 +17,17 @@ export const schema = {
           ],
           "type": "object"
         },
+        "ContextEntry": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/Extensible"
+            }
+          ],
+          "description": "Defines a JSON-LD context entry."
+        },
         "DIDDocument": {
           "description": "Represents a DID document.",
           "properties": {
@@ -27,11 +38,11 @@ export const schema = {
                   "type": "string"
                 },
                 {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ContextEntry"
                 },
                 {
                   "items": {
-                    "type": "string"
+                    "$ref": "#/components/schemas/ContextEntry"
                   },
                   "type": "array"
                 }
@@ -169,6 +180,10 @@ export const schema = {
           ],
           "description": "Refers to a section of a DID document. Either the list of verification methods or services or one of the verification relationships.\n\nSee  {@link https://www.w3.org/TR/did-core/#verification-relationships | verification relationships }"
         },
+        "Extensible": {
+          "description": "Defines an object type that can be extended with other properties.",
+          "type": "object"
+        },
         "GetDIDComponentArgs": {
           "description": "Input arguments for  {@link IResolver.getDIDComponentById | getDIDComponentById }",
           "properties": {
@@ -237,15 +252,8 @@ export const schema = {
           "type": "object"
         },
         "KeyCapabilitySection": {
-          "description": "Represents the Verification Relationship between a DID subject and a Verification Method.",
-          "enum": [
-            "authentication",
-            "assertionMethod",
-            "keyAgreement",
-            "capabilityInvocation",
-            "capabilityDelegation"
-          ],
-          "type": "string"
+          "$ref": "#/components/schemas/VerificationRelationship",
+          "description": "Backwards-compatibility alias"
         },
         "Service": {
           "description": "Represents a Service entry in a  {@link https://www.w3.org/TR/did-core/#did-document-properties | DID document } .",
@@ -325,24 +333,32 @@ export const schema = {
               "type": "string"
             },
             "ethereumAddress": {
+              "deprecated": true,
               "type": "string"
             },
             "id": {
               "type": "string"
             },
             "publicKeyBase58": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyBase64": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyHex": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyJwk": {
               "$ref": "#/components/schemas/JsonWebKey"
             },
             "publicKeyMultibase": {
+              "type": "string"
+            },
+            "publicKeyPem": {
+              "deprecated": true,
               "type": "string"
             },
             "relationshipChild": {
@@ -377,6 +393,17 @@ export const schema = {
           ],
           "type": "object"
         },
+        "VerificationRelationship": {
+          "description": "Represents the Verification Relationship between a DID subject and a Verification Method.",
+          "enum": [
+            "authentication",
+            "assertionMethod",
+            "keyAgreement",
+            "capabilityInvocation",
+            "capabilityDelegation"
+          ],
+          "type": "string"
+        },
         "DIDDocComponent": {
           "anyOf": [
             {
@@ -393,6 +420,9 @@ export const schema = {
           "properties": {
             "accept": {
               "type": "string"
+            },
+            "cache": {
+              "type": "boolean"
             }
           },
           "type": "object"
@@ -427,7 +457,17 @@ export const schema = {
               "type": "boolean"
             },
             "equivalentId": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ]
             },
             "nextUpdate": {
               "type": "string"
@@ -466,11 +506,11 @@ export const schema = {
                   "type": "string"
                 },
                 {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ContextEntry"
                 },
                 {
                   "items": {
-                    "type": "string"
+                    "$ref": "#/components/schemas/ContextEntry"
                   },
                   "type": "array"
                 }
@@ -1544,6 +1584,21 @@ export const schema = {
           ],
           "type": "object"
         },
+        "ContextEntry": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/Extensible"
+            }
+          ],
+          "description": "Defines a JSON-LD context entry."
+        },
+        "Extensible": {
+          "description": "Defines an object type that can be extended with other properties.",
+          "type": "object"
+        },
         "IDIDManagerUpdateArgs": {
           "description": "The arguments necessary to perform a full DID document update for a DID.",
           "properties": {
@@ -1564,10 +1619,14 @@ export const schema = {
                       "type": "string"
                     },
                     {
+                      "properties": {},
+                      "type": "object"
+                    },
+                    {
                       "allOf": [
                         {
                           "items": {
-                            "type": "string"
+                            "$ref": "#/components/schemas/ContextEntry"
                           },
                           "type": "array"
                         },
@@ -1909,24 +1968,32 @@ export const schema = {
               "type": "string"
             },
             "ethereumAddress": {
+              "deprecated": true,
               "type": "string"
             },
             "id": {
               "type": "string"
             },
             "publicKeyBase58": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyBase64": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyHex": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyJwk": {
               "$ref": "#/components/schemas/JsonWebKey"
             },
             "publicKeyMultibase": {
+              "type": "string"
+            },
+            "publicKeyPem": {
+              "deprecated": true,
               "type": "string"
             },
             "relationshipChild": {
@@ -4373,6 +4440,9 @@ export const schema = {
                 "accept": {
                   "type": "string"
                 },
+                "cache": {
+                  "type": "boolean"
+                },
                 "publicKeyFormat": {
                   "type": "string"
                 }
@@ -4519,6 +4589,9 @@ export const schema = {
               "properties": {
                 "accept": {
                   "type": "string"
+                },
+                "cache": {
+                  "type": "boolean"
                 },
                 "publicKeyFormat": {
                   "type": "string"
@@ -4913,6 +4986,9 @@ export const schema = {
                 "accept": {
                   "type": "string"
                 },
+                "cache": {
+                  "type": "boolean"
+                },
                 "publicKeyFormat": {
                   "type": "string"
                 }
@@ -5112,6 +5188,9 @@ export const schema = {
                 "accept": {
                   "type": "string"
                 },
+                "cache": {
+                  "type": "boolean"
+                },
                 "publicKeyFormat": {
                   "type": "string"
                 }
@@ -5242,6 +5321,17 @@ export const schema = {
           ],
           "type": "object"
         },
+        "ContextEntry": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/Extensible"
+            }
+          ],
+          "description": "Defines a JSON-LD context entry."
+        },
         "ContextType": {
           "anyOf": [
             {
@@ -5301,11 +5391,11 @@ export const schema = {
                   "type": "string"
                 },
                 {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ContextEntry"
                 },
                 {
                   "items": {
-                    "type": "string"
+                    "$ref": "#/components/schemas/ContextEntry"
                   },
                   "type": "array"
                 }
@@ -5423,6 +5513,10 @@ export const schema = {
           ],
           "type": "object"
         },
+        "Extensible": {
+          "description": "Defines an object type that can be extended with other properties.",
+          "type": "object"
+        },
         "ICheckCredentialStatusArgs": {
           "description": "Arguments for calling  {@link ICredentialStatusVerifier.checkCredentialStatus | checkCredentialStatus } .\n\nThe credential whose status should be checked and the DID document of the credential issuer.\n\nSee  {@link https://www.w3.org/TR/vc-data-model/#status | Credential Status }",
           "properties": {
@@ -5439,6 +5533,9 @@ export const schema = {
               "properties": {
                 "accept": {
                   "type": "string"
+                },
+                "cache": {
+                  "type": "boolean"
                 },
                 "publicKeyFormat": {
                   "type": "string"
@@ -5656,24 +5753,32 @@ export const schema = {
               "type": "string"
             },
             "ethereumAddress": {
+              "deprecated": true,
               "type": "string"
             },
             "id": {
               "type": "string"
             },
             "publicKeyBase58": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyBase64": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyHex": {
+              "deprecated": true,
               "type": "string"
             },
             "publicKeyJwk": {
               "$ref": "#/components/schemas/JsonWebKey"
             },
             "publicKeyMultibase": {
+              "type": "string"
+            },
+            "publicKeyPem": {
+              "deprecated": true,
               "type": "string"
             },
             "relationshipChild": {

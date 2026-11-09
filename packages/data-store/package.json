@@ -14,10 +14,10 @@
     "@veramo/did-manager": "workspace:^",
     "@veramo/key-manager": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "debug": "^4.3.3",
-    "did-jwt-vc": "^4.0.0",
+    "debug": "^4.4.3",
+    "did-jwt-vc": "^5.0.2",
     "typeorm": "^0.3.20",
-    "uuid": "^11.0.0"
+    "uuid": "^14.0.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
