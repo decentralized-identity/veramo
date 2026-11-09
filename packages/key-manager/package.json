@@ -15,7 +15,7 @@
     "@veramo/utils": "workspace:^",
     "debug": "^4.4.3",
     "did-jwt": "^9.0.3",
-    "ethers": "^6.13.4",
+    "ethers": "^6.17.0",
     "uint8arrays": "^6.1.1",
     "uuid": "^14.0.3"
   },

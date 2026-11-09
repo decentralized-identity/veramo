@@ -222,17 +222,17 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       did-jwt:
-        specifier: 8.0.18
-        version: 8.0.18
+        specifier: 9.0.3
+        version: 9.0.3
       did-jwt-vc:
-        specifier: 4.0.16
-        version: 4.0.16
+        specifier: 5.0.2
+        version: 5.0.2
       did-resolver:
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: 6.0.0
+        version: 6.0.0
       ethers:
-        specifier: 6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: 6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ethr-did-resolver:
         specifier: 14.1.4
         version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -932,11 +932,11 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-      ethr-did:
-        specifier: ^3.0.38
-        version: 3.0.38(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.16.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ethr-did-resolver:
+        specifier: ^14.1.4
+        version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1005,8 +1005,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
       multihashes:
         specifier: ^4.0.3
         version: 4.0.3
@@ -1076,8 +1076,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1135,8 +1135,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1216,8 +1216,8 @@ importers:
         specifier: ^9.0.3
         version: 9.0.3
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       uint8arrays:
         specifier: ^6.1.1
         version: 6.1.1
@@ -1259,8 +1259,8 @@ importers:
         specifier: ^9.0.3
         version: 9.0.3
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1281,8 +1281,8 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1793,8 +1793,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       ethers:
-        specifier: ^6.13.4
-        version: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^6.17.0
+        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       ipfs-unixfs:
         specifier: ^11.1.0
         version: 11.2.5
@@ -1813,9 +1813,6 @@ importers:
         version: 9.0.2
 
 packages:
-
-  '@adraffy/ens-normalize@1.10.1':
-    resolution: {integrity: sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==}
 
   '@adraffy/ens-normalize@1.11.1':
     resolution: {integrity: sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ==}
@@ -4238,26 +4235,13 @@ packages:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
     engines: {node: '>=8'}
 
-  did-jwt-vc@4.0.16:
-    resolution: {integrity: sha512-is7/e2KdLwtDP3JTnf9sLhUeBQF9AhyGjBuJAAVs5U2Uf8CBchRwDycztHQJCx1voBabVprrmAa9NJMd+qWcSA==}
-    engines: {node: '>=18'}
-
   did-jwt-vc@5.0.2:
     resolution: {integrity: sha512-ndUBm3nTildFFOELbujJtUWR75Hz5J2cIw4bOQ/m5w4Vb1aTPEBCWy/dzGwdt3TEN3Eb6BgvpkrkDZdqQveJTg==}
     engines: {node: '>=22.12'}
 
-  did-jwt@8.0.18:
-    resolution: {integrity: sha512-yS3Y+aUKjYqRFrgR/RY77NuOOqS7SFfvfFH4THhWD6+hkxeUZcKQSsdNZ12QR1Vd48yP9exwae2wzbuOZn0NqQ==}
-
-  did-jwt@8.0.8:
-    resolution: {integrity: sha512-XlL71xneBxwGiED4yB+LklGpBnCwY3/ZpIf9o3e+3ubo1BLDaPppfhZTevUKG4UXWAqZC5/WT2hD/WfqAhl8FA==}
-
   did-jwt@9.0.3:
     resolution: {integrity: sha512-oBwx+Yx6Judka+GY8CFB2qFl/l9Ea4ftRMyUxs11zNiOReWmOKhQeTKvdWIFDNqpVfUdAkThUtAC539iCT/TOA==}
     engines: {node: '>=22.12'}
-
-  did-resolver@4.1.0:
-    resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
 
   did-resolver@5.0.1:
     resolution: {integrity: sha512-AtbIfBt/D9Z6GeNKhm1AzCbF7y5PhsNukgmVYnsdxbIX8UAsquQpbm8ECfPwDRXAOM3EsGdHheK5WMojcPlAPg==}
@@ -4517,22 +4501,12 @@ packages:
   ethereum-cryptography@2.2.1:
     resolution: {integrity: sha512-r/W8lkHSiTLxUxW8Rf3u4HGB0xQweG2RyETjywylKZSzLWoWAijRz8WCuOtJ6wah+avllXBqZuk29HCCvhEIRg==}
 
-  ethers@6.13.4:
-    resolution: {integrity: sha512-21YtnZVg4/zKkCQPjrDj38B1r4nQvTZLopUGMLQ1ePU2zV/joCfDC3t3iKQjWRzjjjbzR+mdAIoikeBRNkdllA==}
-    engines: {node: '>=14.0.0'}
-
   ethers@6.17.0:
     resolution: {integrity: sha512-BpyrpIPJ3ydEVow8zGaz1DuPS7YU8DcWxuBnY9a0UA/lvAPwrMr+EPXsfrul628SRaekPNeIM4UFh/91GWZang==}
     engines: {node: '>=14.0.0'}
 
-  ethr-did-resolver@11.0.4:
-    resolution: {integrity: sha512-EJ/dL2QsFzvhBJd0nlPFjma3bxpQOWyp2TytQZyAeqi6SfZ4ALCB0VaA4dSeT4T8ZtI2pzs/sD7t/7A0584J6Q==}
-
   ethr-did-resolver@14.1.4:
     resolution: {integrity: sha512-LYaY+nOnjxGuOnoRv51uAz5QRf/3d8KL0AFVeOsQEj44HnutcqjtwJmGvZIlssIBiTcm66gss25x8++exjHhHg==}
-
-  ethr-did@3.0.38:
-    resolution: {integrity: sha512-gUxtErXVOQUJf+bmnxRdSJdlU9aFbQSBNaJCYGt+PLqw6l4qqInTfMRiWpwe/brhRtdjE+64tnayOVk8ataeQA==}
 
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -7345,18 +7319,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.17.1:
-    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.21.0:
     resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
     engines: {node: '>=10.0.0'}
@@ -7433,8 +7395,6 @@ packages:
     hasBin: true
 
 snapshots:
-
-  '@adraffy/ens-normalize@1.10.1': {}
 
   '@adraffy/ens-normalize@1.11.1': {}
 
@@ -10222,39 +10182,10 @@ snapshots:
 
   detect-libc@2.0.4: {}
 
-  did-jwt-vc@4.0.16:
-    dependencies:
-      did-jwt: 8.0.18
-      did-resolver: 4.1.0
-
   did-jwt-vc@5.0.2:
     dependencies:
       did-jwt: 9.0.3
       did-resolver: 6.0.0
-
-  did-jwt@8.0.18:
-    dependencies:
-      '@noble/ciphers': 1.3.0
-      '@noble/curves': 1.9.7
-      '@noble/hashes': 1.7.1
-      '@scure/base': 2.4.0
-      canonicalize: 2.1.0
-      did-resolver: 4.1.0
-      multibase: 4.0.6
-      multiformats: 9.9.0
-      uint8arrays: 3.1.1
-
-  did-jwt@8.0.8:
-    dependencies:
-      '@noble/ciphers': 1.3.0
-      '@noble/curves': 1.9.7
-      '@noble/hashes': 1.7.1
-      '@scure/base': 1.2.6
-      canonicalize: 2.1.0
-      did-resolver: 4.1.0
-      multibase: 4.0.6
-      multiformats: 9.9.0
-      uint8arrays: 3.1.1
 
   did-jwt@9.0.3:
     dependencies:
@@ -10265,8 +10196,6 @@ snapshots:
       canonicalize: 5.1.0
       did-resolver: 6.0.0
       uint8arrays: 6.1.1
-
-  did-resolver@4.1.0: {}
 
   did-resolver@5.0.1: {}
 
@@ -10693,28 +10622,15 @@ snapshots:
       '@scure/bip32': 1.4.0
       '@scure/bip39': 1.3.0
 
-  ethers@6.13.4(bufferutil@4.0.7)(utf-8-validate@5.0.7):
+  ethers@6.17.0(bufferutil@4.0.7)(utf-8-validate@5.0.7):
     dependencies:
-      '@adraffy/ens-normalize': 1.10.1
+      '@adraffy/ens-normalize': 1.11.1
       '@noble/curves': 1.2.0
       '@noble/hashes': 1.3.2
       '@types/node': 22.7.5
       aes-js: 4.0.0-beta.5
       tslib: 2.7.0
-      ws: 8.17.1(bufferutil@4.0.7)(utf-8-validate@5.0.7)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  ethers@6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    dependencies:
-      '@adraffy/ens-normalize': 1.10.1
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@types/node': 22.7.5
-      aes-js: 4.0.0-beta.5
-      tslib: 2.7.0
-      ws: 8.17.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ws: 8.21.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -10732,28 +10648,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  ethr-did-resolver@11.0.4(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    dependencies:
-      did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   ethr-did-resolver@14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
       did-resolver: 5.0.1
       ethers: 6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  ethr-did@3.0.38(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    dependencies:
-      did-jwt: 8.0.8
-      did-resolver: 4.1.0
-      ethers: 6.13.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-      ethr-did-resolver: 11.0.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -13875,15 +13773,10 @@ snapshots:
       bufferutil: 4.0.7
       utf-8-validate: 6.0.3
 
-  ws@8.17.1(bufferutil@4.0.7)(utf-8-validate@5.0.7):
+  ws@8.21.0(bufferutil@4.0.7)(utf-8-validate@5.0.7):
     optionalDependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.7
-
-  ws@8.17.1(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    optionalDependencies:
-      bufferutil: 4.0.7
-      utf-8-validate: 6.0.3
 
   ws@8.21.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     optionalDependencies:
