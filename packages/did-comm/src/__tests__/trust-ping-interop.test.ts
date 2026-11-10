@@ -9,7 +9,6 @@ import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { DIDDocument, Resolver } from 'did-resolver'
 import { IDIDComm } from '../types/IDIDComm.js'
 import { ExampleDidProvider } from '../../../test-utils/src/index.js'
-import 'cross-fetch/polyfill'
 import { base64ToBytes, bytesToHex } from '../../../utils/src/index.js'
 
 import * as u8a from 'uint8arrays'

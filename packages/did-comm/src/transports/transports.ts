@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import { fetch } from 'cross-fetch'
 import { decodeBase64url } from '@veramo/utils'
 import Debug from 'debug'
 const debug = Debug('veramo:did-comm:http-transport')

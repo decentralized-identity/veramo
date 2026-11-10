@@ -52,7 +52,6 @@ import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { MediationManagerPlugin } from '../../../mediation-manager/src/index.js'
 
-import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],
@@ -70,7 +69,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
     IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore & IMediationManager
   >
   let didCommEndpointServer: Server
-  let listeningPort = Math.round(Math.random() * 32000 + 2048)
+  let listeningPort = Math.round(Math.random() * 32000 + 7000)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 

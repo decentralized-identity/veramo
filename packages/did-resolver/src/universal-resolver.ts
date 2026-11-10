@@ -1,5 +1,4 @@
 import { DIDResolutionResult, DIDResolver } from 'did-resolver'
-import fetch from 'cross-fetch'
 
 interface Options {
   url: string

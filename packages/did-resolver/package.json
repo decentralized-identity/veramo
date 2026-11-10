@@ -12,7 +12,6 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "cross-fetch": "^4.1.0",
     "debug": "^4.4.3",
     "did-resolver": "^6.0.0"
   },

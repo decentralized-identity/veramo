@@ -40,7 +40,7 @@ export default (testContext: {
     let bob: IIdentifier
 
     let didCommEndpointServer: Server
-    let listeningPort = Math.round(Math.random() * 32000 + 2048)
+    let listeningPort = Math.round(Math.random() * 32000 + 7000)
 
     beforeAll(async () => {
       await testContext.setup({ plugins: [DIDCommEventSniffer] })
