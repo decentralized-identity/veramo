@@ -212,7 +212,9 @@ export class CredentialIssuancePurpose extends AssertionProofPurpose {
   async validate(proof: any, options: any) {
     try {
       const result = await super.validate(proof, options)
-      if (!result.valid) throw result.error
+      if (!result.valid) {
+        return { valid: false, error: result.error }
+      }
       const issuer = getId(asArray(options.document.issuer)[0])
       assert(issuer, 'Credential issuer is required.')
       assert(
