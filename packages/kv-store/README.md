@@ -47,7 +47,7 @@ import {
 import { DataSource } from 'typeorm'
 
 const dbConnection: DataSource = await new DataSource({
-  type: 'sqlite',
+  type: 'better-sqlite3',
   database: ':memory:',
   logging: 'all',
   migrationsRun: true,
@@ -80,7 +80,7 @@ import {
 import { DataSource } from 'typeorm'
 
 dbConnection = await new DataSource({
-  type: 'sqlite',
+  type: 'better-sqlite3',
   database: ':memory:',
   logging: 'all',
   migrationsRun: true,

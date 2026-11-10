@@ -48,8 +48,7 @@ describe('did-comm-message-handler', () => {
 
   beforeAll(async () => {
     dbConnection = new DataSource({
-      name: 'test',
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: ':memory:',
       synchronize: false,
       migrations: migrations,

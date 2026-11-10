@@ -15,7 +15,7 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
   name = 'AllowNullIssuanceDateForPresentations1637237492913' // Used in case this class gets minified, which would change the classname
 
   async up(queryRunner: QueryRunner): Promise<void> {
-    if (queryRunner.connection.driver.options.type === 'sqlite') {
+    if (queryRunner.connection.driver.options.type === 'better-sqlite3') {
       debug(`splitting migration into multiple transactions to allow sqlite table updates`)
       await queryRunner.commitTransaction()
       debug(`turning off foreign keys`)
@@ -32,7 +32,7 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
     await queryRunner.changeColumn(table!, oldColumn, newColumn)
     debug(`updated issuanceDate for presentations to allow null`)
 
-    if (queryRunner.connection.driver.options.type === 'sqlite') {
+    if (queryRunner.connection.driver.options.type === 'better-sqlite3') {
       debug(`splitting migration into multiple transactions to allow sqlite table updates`)
       await queryRunner.commitTransaction()
       debug(`turning on foreign keys`)
@@ -42,7 +42,7 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
-    if (queryRunner.connection.driver.options.type === 'sqlite') {
+    if (queryRunner.connection.driver.options.type === 'better-sqlite3') {
       debug(`splitting migration into multiple transactions to allow sqlite table updates`)
       await queryRunner.commitTransaction()
       debug(`turning off foreign keys`)
@@ -67,7 +67,7 @@ export class AllowNullIssuanceDateForPresentations1637237492913 implements Migra
     await queryRunner.changeColumn(table!, oldColumn, newColumn)
     debug(`updated issuanceDate for presentations to NOT allow null`)
 
-    if (queryRunner.connection.driver.options.type === 'sqlite') {
+    if (queryRunner.connection.driver.options.type === 'better-sqlite3') {
       debug(`splitting migration into multiple transactions to allow sqlite table updates`)
       await queryRunner.commitTransaction()
       debug(`turning on foreign keys`)

@@ -65,7 +65,7 @@ export class DataStore implements IAgentPlugin {
   async dataStoreGetMessage(args: IDataStoreGetMessageArgs): Promise<IMessage> {
     const [messageEntity] = await (await getConnectedDb(this.dbConnection)).getRepository(Message).find({
       where: { id: args.id },
-      relations: ['credentials', 'presentations'],
+      relations: { credentials: true, presentations: true },
     })
     if (!messageEntity) throw new Error('not_found: Message not found')
 
@@ -75,7 +75,7 @@ export class DataStore implements IAgentPlugin {
   async dataStoreDeleteMessage(args: IDataStoreDeleteMessageArgs): Promise<boolean> {
     const [messageEntity] = await (await getConnectedDb(this.dbConnection)).getRepository(Message).find({
       where: { id: args.id },
-      relations: ['credentials', 'presentations'],
+      relations: { credentials: true, presentations: true },
     })
     if (!messageEntity) {
       return false

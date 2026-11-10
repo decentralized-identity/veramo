@@ -995,7 +995,7 @@ export const schema = {
           }
         },
         "keyManagerDecryptJWE": {
-          "description": "Decrypts data This API may change without a BREAKING CHANGE notice.",
+          "description": "Decrypts data",
           "arguments": {
             "$ref": "#/components/schemas/IKeyManagerDecryptJWEArgs"
           },
@@ -1013,7 +1013,7 @@ export const schema = {
           }
         },
         "keyManagerEncryptJWE": {
-          "description": "Encrypts data This API may change without a BREAKING CHANGE notice.",
+          "description": "Encrypts data",
           "arguments": {
             "$ref": "#/components/schemas/IKeyManagerEncryptJWEArgs"
           },
@@ -4874,7 +4874,7 @@ export const schema = {
       },
       "methods": {
         "createVerifiableCredential": {
-          "description": "Creates a Verifiable Credential. The payload, signer, and format are chosen based on the ",
+          "description": "Creates a Verifiable Credential.",
           "arguments": {
             "$ref": "#/components/schemas/ICreateVerifiableCredentialArgs"
           },
@@ -4883,7 +4883,7 @@ export const schema = {
           }
         },
         "createVerifiablePresentation": {
-          "description": "Creates a Verifiable Presentation. The payload, signer and format are chosen based on the ",
+          "description": "Creates a Verifiable Presentation.",
           "arguments": {
             "$ref": "#/components/schemas/ICreateVerifiablePresentationArgs"
           },

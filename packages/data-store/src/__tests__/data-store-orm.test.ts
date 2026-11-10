@@ -129,7 +129,7 @@ describe('@veramo/data-store queries', () => {
 
   beforeAll(async () => {
     dbConnection = new DataSource({
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: databaseFile,
       entities: Entities,
     }).initialize()
@@ -142,7 +142,7 @@ describe('@veramo/data-store queries', () => {
   })
 
   afterAll(async () => {
-    ;(await dbConnection).close()
+    ;(await dbConnection).destroy()
     fs.unlinkSync(databaseFile)
   })
 

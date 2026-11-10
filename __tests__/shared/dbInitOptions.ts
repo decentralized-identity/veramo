@@ -34,14 +34,21 @@ export default (testContext: {
   setup: (agentOptions: IAgentOptions) => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
+  // Files are named uniquely per invocation of this suite, since multiple test
+  // files mount it, and they run as parallel workers sharing the current
+  // working directory. The two suites below both create and then delete their
+  // sqlite db files in cwd, so a worker's tearDown can remove a db file that
+  // another worker's DataSource is still using, nondeterministically (observed
+  // with typeorm 1.x). Unique names avoid the interference entirely.
+  const dbFilePrefix = 'sqlite-db-init-' + crypto.randomUUID().slice(0, 8)
+
   describe('when database is initialized', () => {
     describe('using sqlite and synchronize=true', () => {
       createTestsUsingOptions({
         context: {
-          databaseFile: 'sqlite-sync-init-test.sqlite',
+          databaseFile: `${dbFilePrefix}-sync-init-test.sqlite`,
           dbConnectionOptions: {
-            name: 'sqlite-sync-init-test',
-            type: 'sqlite',
+            type: 'better-sqlite3',
             synchronize: true,
             migrationsRun: false,
           },
@@ -51,10 +58,9 @@ export default (testContext: {
     describe('using sqlite and migrations', () => {
       createTestsUsingOptions({
         context: {
-          databaseFile: 'sqlite-migration-init-test.sqlite',
+          databaseFile: `${dbFilePrefix}-migration-init-test.sqlite`,
           dbConnectionOptions: {
-            name: 'sqlite-migration-init-test',
-            type: 'sqlite',
+            type: 'better-sqlite3',
             synchronize: false,
             migrationsRun: true,
           },
@@ -68,7 +74,6 @@ export default (testContext: {
         createTestsUsingOptions({
           context: {
             dbConnectionOptions: {
-              name: 'postgres-migration-init-test',
               type: 'postgres',
               database: undefined,
               synchronize: false,
@@ -86,7 +91,6 @@ export default (testContext: {
         createTestsUsingOptions({
           context: {
             dbConnectionOptions: {
-              name: 'postgres-sync-init-test',
               type: 'postgres',
               database: undefined,
               synchronize: true,

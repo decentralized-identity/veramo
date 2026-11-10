@@ -142,8 +142,7 @@ const getAgent = (options?: IAgentOptions) =>
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   dbConnection = new DataSource({
-    name: options?.context?.['dbName'] || 'sqlite-test',
-    type: 'sqlite',
+    type: 'better-sqlite3',
     database: databaseFile,
     synchronize: false,
     migrations: migrations,
@@ -292,7 +291,7 @@ const tearDown = async (): Promise<boolean> => {
   await new Promise((resolve) => restServer.close(resolve))
   try {
     await (await dbConnection).dropDatabase()
-    await (await dbConnection).close()
+    await (await dbConnection).destroy()
   } catch (e) {
     // nop
   }

@@ -63,11 +63,11 @@ constants:
     - getVerifiableCredentialsForSdr
     - validatePresentationAgainstSdr
 
-# Data base
+# Database
 dbConnection:
   $require: typeorm#DataSource
   $args:
-    - type: sqlite
+    - type: better-sqlite3
       database:
         $ref: /constants/databaseFile
       synchronize: false
