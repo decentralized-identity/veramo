@@ -50,7 +50,7 @@ export class DIDStore extends AbstractDIDStore {
 
     const [identifier] = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).find({
       where,
-      relations: ['keys', 'services'],
+      relations: { keys: true, services: true },
     })
 
     if (!identifier) throw Error('Identifier not found')
@@ -90,7 +90,7 @@ export class DIDStore extends AbstractDIDStore {
   async deleteDID({ did }: { did: string }) {
     const [identifier] = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).find({
       where: { did },
-      relations: ['keys', 'services', 'issuedCredentials', 'issuedPresentations'],
+      relations: { keys: true, services: true, issuedCredentials: true, issuedPresentations: true },
     })
     if (!identifier || typeof identifier === 'undefined') {
       return true
@@ -167,7 +167,7 @@ export class DIDStore extends AbstractDIDStore {
     }
     const identifiers = await (await getConnectedDb(this.dbConnection)).getRepository(Identifier).find({
       where,
-      relations: ['keys', 'services'],
+      relations: { keys: true, services: true },
     })
     return identifiers.map((identifier) => {
       const i = identifier

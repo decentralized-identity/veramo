@@ -778,7 +778,7 @@ export const schema = {
           }
         },
         "sendDIDCommMessage": {
-          "description": "Sends the given message to the recipient. If a return-transport is provided it will be checked whether the parent thread allows reusing the route. You cannot reuse the transport if the message was forwarded from a DIDComm mediator.",
+          "description": "Sends the given message to the recipient. If a return-transport is provided",
           "arguments": {
             "$ref": "#/components/schemas/ISendDIDCommMessageArgs"
           },

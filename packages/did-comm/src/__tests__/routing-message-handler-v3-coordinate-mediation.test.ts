@@ -75,8 +75,7 @@ describe('routing-message-handler [V3 CoordinateMediation]', () => {
 
   beforeAll(async () => {
     dbConnection = new DataSource({
-      name: 'test',
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: ':memory:',
       synchronize: false,
       migrations: migrations,

@@ -13,7 +13,7 @@ describe('DB entities test', () => {
   beforeAll(
     async () =>
       (connection = await new DataSource({
-        type: 'sqlite',
+        type: 'better-sqlite3',
         database: databaseFile,
         entities: Entities,
       }).initialize()),
@@ -25,7 +25,7 @@ describe('DB entities test', () => {
   })
 
   afterAll(async () => {
-    await connection.close()
+    await connection.destroy()
     fs.unlinkSync(databaseFile)
   })
 
@@ -64,7 +64,7 @@ describe('DB entities test', () => {
 
     const credential = await Credential.findOne({
       where: { hash: entity.hash },
-      relations: ['issuer', 'subject', 'claims', 'claims.issuer', 'claims.subject'],
+      relations: { issuer: true, subject: true, claims: true, },
     })
     expect(credential?.issuer.did).toEqual(did1)
     expect(credential?.subject?.did).toEqual(did2)
@@ -138,14 +138,10 @@ describe('DB entities test', () => {
 
     const message = await Message.findOne({
       where: { id: m.id },
-      relations: [
-        'credentials',
-        'credentials.issuer',
-        'credentials.subject',
-        'credentials.claims',
-        'presentations',
-        'presentations.credentials',
-      ],
+      relations: {
+        credentials: { issuer: true, subject: true, claims: true },
+        presentations: { credentials: true },
+      },
     })
 
     expect(message?.credentials.length).toEqual(1)
@@ -154,7 +150,7 @@ describe('DB entities test', () => {
     expect(message?.presentations[0].credentials.length).toEqual(1)
 
     const claims = await Claim.find({
-      relations: ['credential', 'credential.issuer', 'credential.subject'],
+      relations: { credential: { issuer: true, subject: true } },
       where: {
         issuer: In([did1]),
         subject: In([did2]),

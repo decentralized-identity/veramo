@@ -66,7 +66,9 @@ import {
 import { BrokenDiscoveryProvider, FakeDidProvider, FakeDidResolver } from '../packages/test-utils/src/index.js'
 
 import { DataSource } from 'typeorm'
+// @ts-ignore
 import { createGanacheProvider } from '../packages/test-react-app/src/test-utils/ganache-provider.js'
+// @ts-ignore
 import { createEthersProvider } from '../packages/test-react-app/src/test-utils/ethers-provider.js'
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver'
 import { getResolver as webDidResolver } from 'web-did-resolver'
@@ -121,8 +123,7 @@ let databaseFile: string
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || ':memory:'
   dbConnection = new DataSource({
-    name: options?.context?.['dbName'] || 'test',
-    type: 'sqlite',
+    type: 'better-sqlite3',
     database: databaseFile,
     synchronize: false,
     migrations: migrations,
@@ -254,7 +255,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 const tearDown = async (): Promise<boolean> => {
   try {
     await (await dbConnection).dropDatabase()
-    await (await dbConnection).close()
+    await (await dbConnection).destroy()
   } catch (e) {
     // nop
   }

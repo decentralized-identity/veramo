@@ -48,7 +48,7 @@ The Mediation Manager Plugin can be used via the `agent.yml` or programatically 
 dbConnection:
   $require: typeorm#DataSource
   $args:
-    - type: sqlite
+    - type: better-sqlite3
       database:
         $ref: /constants/databaseFile
       synchronize: false
@@ -153,7 +153,7 @@ import { DataSource } from 'typeorm'
 
 const dbConnection = new DataSource({
   name: 'test',
-  type: 'sqlite',
+  type: 'better-sqlite3',
   database: ':memory:',
   synchronize: false,
   migrations: dataStoreMigrations.concat(kvStoreMigrations),

@@ -13,7 +13,7 @@
     "@veramo/utils": "workspace:*",
     "debug": "^4.4.3",
     "json-buffer": "^3.0.1",
-    "typeorm": "^0.3.20"
+    "typeorm": "^1.1.2"
   },
   "devDependencies": {
     "@keyv/sqlite": "3.6.5",

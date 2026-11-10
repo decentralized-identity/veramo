@@ -82,8 +82,7 @@ describe('database initial migration tests', () => {
 
         // intentionally using DataSource instead of Promise<DataSource> to test compatibility
         dbConnection = new DataSource({
-          name: 'test',
-          type: 'sqlite',
+          type: 'better-sqlite3',
           database: databaseFile,
           synchronize: false,
           migrations: migrations,
@@ -134,7 +133,7 @@ describe('database initial migration tests', () => {
         return true
       })
       afterAll(async () => {
-        await (await dbConnection).close()
+        await (await dbConnection).destroy()
         fs.unlinkSync(databaseFile)
       })
 

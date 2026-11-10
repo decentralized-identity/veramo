@@ -12,7 +12,7 @@ import { kvStoreMigrations } from '../store-adapters/typeorm/migrations/index.js
 let dbConnection: DataSource
 beforeEach(async () => {
   dbConnection = await new DataSource({
-    type: 'sqlite',
+    type: 'better-sqlite3',
     database: ':memory:',
     logging: ['error'],
     migrationsRun: true,

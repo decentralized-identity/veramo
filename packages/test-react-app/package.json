@@ -33,7 +33,7 @@
     "ethr-did-resolver": "^14.1.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "typeorm": "^0.3.20",
+    "typeorm": "^1.1.2",
     "web-did-resolver": "^3.2.0",
     "web-vitals": "^3.5.2"
   },

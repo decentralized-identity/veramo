@@ -32,8 +32,7 @@ describe('data handling tests', () => {
     beforeAll(async () => {
       await fs.promises.copyFile(fixture, databaseFile)
       dbConnection = new DataSource({
-        name: 'test',
-        type: 'sqlite',
+        type: 'better-sqlite3',
         database: databaseFile,
         synchronize: false,
         migrations: migrations,
@@ -99,7 +98,7 @@ describe('data handling tests', () => {
       // typeorm types don't seem to follow semantic release patterns leading to type errors
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dbConnection: any = new DataSource({
-        type: 'sqlite',
+        type: 'better-sqlite3',
         database: ':memory:',
         entities: Entities,
         synchronize: false,
