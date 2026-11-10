@@ -12,11 +12,9 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/key-manager": "workspace:^",
-    "debug": "^4.4.3",
     "ethers": "^6.17.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
     "typescript": "7.0.2"
   },
   "files": [

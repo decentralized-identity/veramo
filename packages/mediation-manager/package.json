@@ -7,20 +7,13 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --config=../../jest.config.mjs",
-    "test:ci": "jest --config=../../jest.config.mjs",
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
     "@veramo/core-types": "workspace:^",
-    "@veramo/kv-store": "workspace:^",
-    "debug": "^4.4.3",
-    "uuid": "^11.0.0"
+    "@veramo/kv-store": "workspace:^"
   },
   "devDependencies": {
-    "eslint": "8.57.1",
-    "eslint-plugin-promise": "6.6.0",
-    "timekeeper": "2.3.1",
     "typescript": "7.0.2"
   },
   "files": [

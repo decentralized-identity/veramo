@@ -12,7 +12,6 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/message-handler": "workspace:^",
-    "cross-fetch": "^4.1.0",
     "debug": "^4.4.3",
     "fast-uri": "^4.2.3"
   },

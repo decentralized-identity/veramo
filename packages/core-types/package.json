@@ -32,12 +32,9 @@
     }
   },
   "dependencies": {
-    "debug": "^4.3.3",
-    "did-jwt-vc": "^5.0.1",
     "did-resolver": "^6.0.0"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
     "typescript": "7.0.2"
   },
   "files": [

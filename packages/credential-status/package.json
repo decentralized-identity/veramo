@@ -13,13 +13,9 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
     "credential-status": "^4.0.0",
-    "did-jwt": "^9.0.3",
     "did-resolver": "^6.0.0"
   },
   "devDependencies": {
-    "@veramo/core": "workspace:^",
-    "@veramo/did-resolver": "workspace:^",
-    "@types/debug": "4.1.8",
     "typescript": "7.0.2"
   },
   "files": [
