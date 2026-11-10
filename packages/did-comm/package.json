@@ -26,16 +26,14 @@
     "@veramo/mediation-manager": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "cross-fetch": "^4.0.0",
-    "debug": "^4.3.3",
-    "did-jwt": "^8.0.0",
-    "did-resolver": "^4.1.0",
-    "uuid": "^11.0.0"
+    "cross-fetch": "^4.1.0",
+    "debug": "^4.4.3",
+    "did-jwt": "^9.0.3",
+    "did-resolver": "^6.0.0",
+    "uuid": "^14.0.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "@types/uuid": "9.0.2",
-    "sqlite3": "5.1.7",
     "typescript": "7.0.2"
   },
   "files": [

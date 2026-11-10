@@ -1,10 +1,18 @@
 import { IAgentContext, IIdentifier, IKey, IKeyManager, IService } from '@veramo/core-types'
 import { AbstractIdentifierProvider } from '@veramo/did-manager'
 import { importOrCreateKey, CreateIdentifierBaseOptions } from '@veramo/utils'
-import { Provider, SigningKey, computeAddress, JsonRpcProvider, TransactionRequest, Signature } from 'ethers'
+import {
+  Provider,
+  Signer,
+  SigningKey,
+  JsonRpcProvider,
+  toQuantity,
+  TransactionRequest,
+  Signature,
+} from 'ethers'
 import { KmsEthereumSigner } from './kms-eth-signer.js'
 import Debug from 'debug'
-import { EthrDID } from 'ethr-did'
+import { EthrDidController } from 'ethr-did-resolver'
 
 const debug = Debug('veramo:did-provider-ethr')
 
@@ -14,15 +22,6 @@ export type IRequiredContext = IAgentContext<IKeyManager>
  * For most operations at most 60-70k gas is needed, larger amount for safety
  */
 export const DEFAULT_GAS_LIMIT = 100000
-
-/**
- * Helper method that can computes the ethereumAddress corresponding to a Secp256k1 public key.
- * @param hexPublicKey A hex encoded public key, optionally prefixed with `0x`
- */
-export function toEthereumAddress(hexPublicKey: string): string {
-  const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
-  return computeAddress(publicKey)
-}
 
 /**
  * Options for creating a did:ethr
@@ -190,16 +189,19 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       key = await context.agent.keyManagerGet({ kid: options.keyRef })
 
       if (key.type !== 'Secp256k1') {
-        throw new Error(`not_supported: Key type must be Secp256k1`  );
+        throw new Error(`not_supported: Key type must be Secp256k1`)
       }
     } else {
-      key = await importOrCreateKey({
-        kms: kms || this.defaultKms,
-        options: {
-          ...(options?.key ?? {}),
-          type: 'Secp256k1',
-        }
-      }, context)
+      key = await importOrCreateKey(
+        {
+          kms: kms || this.defaultKms,
+          options: {
+            ...(options?.key ?? {}),
+            type: 'Secp256k1',
+          },
+        },
+        context,
+      )
     }
 
     const compressedPublicKey = SigningKey.computePublicKey(`0x${key.publicKeyHex}`, true)
@@ -279,7 +281,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     identifier: IIdentifier,
     context: IRequiredContext,
     metaIdentifierKeyId?: string,
-  ): Promise<EthrDID> {
+  ): Promise<EthrDidController> {
     if (identifier.controllerKeyId == null) {
       throw new Error('invalid_argument: identifier does not list a `controllerKeyId`')
     }
@@ -298,8 +300,28 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
     }
 
     if (!network.provider) {
-      throw new Error(`Provider was not found for network ${identifier.did}`)
+      throw new Error(`invalid_setup: Provider was not found for network ${identifier.did}`)
     }
+
+    const chainNameOrId =
+      typeof network.chainId === 'bigint' || typeof network.chainId === 'number'
+        ? toQuantity(network.chainId)
+        : network.chainId
+    const registry = network.registry
+    if (!registry) {
+      throw new Error(`invalid_setup: Registry was not configured for network ${identifier.did}`)
+    }
+
+    const createController = (txSigner?: Signer) =>
+      new EthrDidController(
+        identifier.did,
+        undefined,
+        txSigner,
+        network.name || chainNameOrId,
+        network.provider,
+        network.rpcUrl,
+        registry,
+      )
 
     if (metaIdentifierKeyId) {
       const metaControllerKey = await context.agent.keyManagerGet({ kid: metaIdentifierKeyId })
@@ -308,34 +330,14 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       }
 
       // Identity owner signs payload but metaIdentifier send the tx (meta transaction; signed methods)
-      return new EthrDID({
-        identifier: identifier.did,
-        provider: network.provider,
-        chainNameOrId: network.name || network.chainId,
-        rpcUrl: network.rpcUrl,
-        registry: network.registry,
-        txSigner: new KmsEthereumSigner(metaControllerKey, context, network?.provider),
-      })
+      return createController(new KmsEthereumSigner(metaControllerKey, context, network?.provider))
     }
 
     if (controllerKey.meta?.algorithms?.includes('eth_signTransaction')) {
-      return new EthrDID({
-        identifier: identifier.did,
-        provider: network.provider,
-        chainNameOrId: network.name || network.chainId,
-        rpcUrl: network.rpcUrl,
-        registry: network.registry,
-        txSigner: new KmsEthereumSigner(controllerKey, context, network?.provider),
-      })
+      return createController(new KmsEthereumSigner(controllerKey, context, network?.provider))
     } else {
       // Web3Provider should perform signing and sending transaction
-      return new EthrDID({
-        identifier: identifier.did,
-        provider: network.provider,
-        chainNameOrId: network.name || network.chainId,
-        rpcUrl: network.rpcUrl,
-        registry: network.registry,
-      })
+      return createController()
     }
   }
 
@@ -364,7 +366,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       const metaEthrDid = await this.getEthrDidController(identifier, context, options.metaIdentifierKeyId!)
       debug('ethrDid.addKeySigned %o', { attrName, attrValue, ttl, gasLimit })
       delete options.metaIdentifierKeyId
-      const txHash = await metaEthrDid.setAttributeSigned(
+      const receipt = await metaEthrDid.setAttributeSigned(
         attrName,
         attrValue,
         ttl,
@@ -374,16 +376,16 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
           gasLimit,
         },
       )
-      debug(`ethrDid.addKeySigned tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.addKeySigned tx = ${receipt.hash}`)
+      return receipt.hash
     } else {
       debug('ethrDid.setAttribute %o', { attrName, attrValue, ttl, gasLimit })
-      const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
+      const receipt = await ethrDid.setAttribute(attrName, attrValue, ttl, {
         ...options,
         gasLimit,
       })
-      debug(`ethrDid.addKey tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.addKey tx = ${receipt.hash}`)
+      return receipt.hash
     }
   }
 
@@ -421,7 +423,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       const metaEthrDid = await this.getEthrDidController(identifier, context, options.metaIdentifierKeyId!)
       debug('ethrDid.addServiceSigned %o', { attrName, attrValue, ttl, gasLimit })
       delete options.metaIdentifierKeyId
-      const txHash = await metaEthrDid.setAttributeSigned(
+      const receipt = await metaEthrDid.setAttributeSigned(
         attrName,
         attrValue,
         ttl,
@@ -431,15 +433,15 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
           gasLimit,
         },
       )
-      debug(`ethrDid.addServiceSigned tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.addServiceSigned tx = ${receipt.hash}`)
+      return receipt.hash
     } else {
-      const txHash = await ethrDid.setAttribute(attrName, attrValue, ttl, undefined, {
+      const receipt = await ethrDid.setAttribute(attrName, attrValue, ttl, {
         ...options,
         gasLimit,
       })
-      debug(`ethrDid.addService tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.addService tx = ${receipt.hash}`)
+      return receipt.hash
     }
   }
 
@@ -476,7 +478,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       )
       debug('ethrDid.revokeAttributeSigned %o', { attrName, attrValue, gasLimit })
       delete args.options.metaIdentifierKeyId
-      const txHash = await metaEthrDid.revokeAttributeSigned(
+      const receipt = await metaEthrDid.revokeAttributeSigned(
         attrName,
         attrValue,
         { sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
@@ -485,16 +487,16 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
           gasLimit,
         },
       )
-      debug(`ethrDid.removeKeySigned tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.removeKeySigned tx = ${receipt.hash}`)
+      return receipt.hash
     } else {
       debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
-      const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
+      const receipt = await ethrDid.revokeAttribute(attrName, attrValue, {
         ...args.options,
         gasLimit,
       })
-      debug(`ethrDid.removeKey tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.removeKey tx = ${receipt.hash}`)
+      return receipt.hash
     }
   }
 
@@ -540,7 +542,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
       )
       debug('ethrDid.revokeAttributeSigned %o', { attrName, attrValue, gasLimit })
       delete args.options.metaIdentifierKeyId
-      const txHash = await metaEthrDid.revokeAttributeSigned(
+      const receipt = await metaEthrDid.revokeAttributeSigned(
         attrName,
         attrValue,
         { sigV: canonicalSignature.v, sigR: canonicalSignature.r, sigS: canonicalSignature.s },
@@ -549,16 +551,16 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
           gasLimit,
         },
       )
-      debug(`ethrDid.removeServiceSigned tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.removeServiceSigned tx = ${receipt.hash}`)
+      return receipt.hash
     } else {
       debug('ethrDid.revokeAttribute', { attrName, attrValue, gasLimit })
-      const txHash = await ethrDid.revokeAttribute(attrName, attrValue, undefined, {
+      const receipt = await ethrDid.revokeAttribute(attrName, attrValue, {
         ...args.options,
         gasLimit,
       })
-      debug(`ethrDid.removeService tx = ${txHash}`)
-      return txHash
+      debug(`ethrDid.removeService tx = ${receipt.hash}`)
+      return receipt.hash
     }
   }
 
@@ -573,10 +575,7 @@ export class EthrDIDProvider extends AbstractIdentifierProvider {
   matchPrefix(prefix: string): boolean {
     const matches = prefix.match(/^did:ethr(:.+)?$/)
     let network = this.getNetworkFor(matches?.[1]?.substring(1))
-    if (!matches || !network) {
-      return false
-    }
-    return true
+    return !(!matches || !network);
   }
 
   private static async createMetaSignature(

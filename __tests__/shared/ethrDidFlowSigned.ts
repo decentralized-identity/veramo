@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { describe, it, expect, beforeEach, afterAll } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 import {
   IAgentOptions,
@@ -11,10 +11,11 @@ import {
   IResolver,
   TAgent,
 } from '../../packages/core-types/src/index.js'
-import {IDIDComm} from '../../packages/did-comm/src/index.js'
+import { IDIDComm } from '../../packages/did-comm/src/index.js'
 // @ts-ignore
 import express from 'express'
-import {Server} from 'http'
+import { Server } from 'http'
+import { bytesToMultibase, hexToBytes } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
@@ -83,20 +84,23 @@ export default (testContext: {
           type: 'DIDComm',
           serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
           description: 'this endpoint will be removed',
-        }, options: {
-          metaIdentifierKeyId: bob.controllerKeyId
-        }
+        },
+        options: {
+          metaIdentifierKeyId: bob.controllerKeyId,
+        },
       })
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
 
-      expect(resolution.didDocument).toEqual(expect.objectContaining({
-        service: expect.arrayContaining([
-          expect.objectContaining({
-            serviceEndpoint: `http://localhost:${listeningPort}/foobar`
-          })
-        ])
-      }))
+      expect(resolution.didDocument).toEqual(
+        expect.objectContaining({
+          service: expect.arrayContaining([
+            expect.objectContaining({
+              serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
+            }),
+          ]),
+        }),
+      )
     })
 
     it('should remove dummy service to alice did with bob sending the tx', async () => {
@@ -107,17 +111,18 @@ export default (testContext: {
           type: 'DIDComm',
           serviceEndpoint: `http://localhost:${listeningPort}/foobar`,
           description: 'this endpoint will be removed',
-        }, options: {
-          metaIdentifierKeyId: bob.controllerKeyId
-        }
+        },
+        options: {
+          metaIdentifierKeyId: bob.controllerKeyId,
+        },
       })
 
       await agent.didManagerRemoveService({
         did: alice.did,
-        id: "localhost-useless-endpoint",
+        id: 'localhost-useless-endpoint',
         options: {
-          metaIdentifierKeyId: bob.controllerKeyId
-        }
+          metaIdentifierKeyId: bob.controllerKeyId,
+        },
       })
 
       const resolution = await agent.resolveDid({ didUrl: alice.did })
@@ -125,14 +130,14 @@ export default (testContext: {
     })
 
     it('should add verification key to alice did with bob sending the tx', async () => {
-      const keyToAdd = await agent.keyManagerCreate({type: 'Secp256k1', kms: 'local'})
+      const keyToAdd = await agent.keyManagerCreate({ type: 'Ed25519', kms: 'local' })
 
       await agent.didManagerAddKey({
         did: alice.did,
         key: keyToAdd,
         options: {
-          metaIdentifierKeyId: bob.controllerKeyId
-        }
+          metaIdentifierKeyId: bob.controllerKeyId,
+        },
       })
 
       // Give ganache some time to emit the event from the contract
@@ -140,13 +145,19 @@ export default (testContext: {
 
       const didAfterchange = await agent.resolveDid({ didUrl: alice.did })
       expect(didAfterchange).toBeTruthy()
-      expect(didAfterchange.didDocument).toEqual(expect.objectContaining({
-        verificationMethod: expect.arrayContaining([
-          expect.objectContaining({
-            publicKeyHex: keyToAdd.publicKeyHex
-          })
-        ])
-      }))
+      expect(didAfterchange.didDocument).toEqual(
+        expect.objectContaining({
+          verificationMethod: expect.arrayContaining([
+            expect.objectContaining({
+              publicKeyMultibase: bytesToMultibase(
+                hexToBytes(keyToAdd.publicKeyHex),
+                'base58btc',
+                'ed25519-pub',
+              ),
+            }),
+          ]),
+        }),
+      )
     })
   })
 }

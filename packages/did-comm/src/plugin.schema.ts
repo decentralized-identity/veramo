@@ -207,6 +207,9 @@ export const schema = {
                 "accept": {
                   "type": "string"
                 },
+                "cache": {
+                  "type": "boolean"
+                },
                 "publicKeyFormat": {
                   "type": "string"
                 }
@@ -237,6 +240,9 @@ export const schema = {
               "properties": {
                 "accept": {
                   "type": "string"
+                },
+                "cache": {
+                  "type": "boolean"
                 },
                 "publicKeyFormat": {
                   "type": "string"
@@ -707,6 +713,9 @@ export const schema = {
               "properties": {
                 "accept": {
                   "type": "string"
+                },
+                "cache": {
+                  "type": "boolean"
                 },
                 "publicKeyFormat": {
                   "type": "string"

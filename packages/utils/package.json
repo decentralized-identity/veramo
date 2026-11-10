@@ -13,20 +13,17 @@
     "@ipld/dag-pb": "^4.0.5",
     "@noble/curves": "^1.9.7",
     "@veramo/core-types": "workspace:^",
-    "credential-status": "^3.0.0",
-    "cross-fetch": "^4.0.0",
-    "debug": "^4.3.3",
-    "did-jwt": "^8.0.0",
-    "did-jwt-vc": "^4.0.0",
-    "did-resolver": "^4.1.0",
-    "ethers": "^6.13.4",
+    "debug": "^4.4.3",
+    "did-jwt": "^9.0.3",
+    "did-jwt-vc": "^5.0.2",
+    "did-resolver": "^6.0.0",
+    "ethers": "^6.17.0",
     "ipfs-unixfs": "^11.1.0",
     "multiformats": "^13.0.0",
     "uint8arrays": "^4.0.6"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
-    "@types/uuid": "9.0.2"
+    "@types/debug": "4.1.8"
   },
   "files": [
     "build/**/*",

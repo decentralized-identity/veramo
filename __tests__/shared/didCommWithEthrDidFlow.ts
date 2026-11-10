@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import {
   IAgentOptions,
@@ -18,7 +18,8 @@ import { MessagingRouter, RequestWithAgentRouter } from '../../packages/remote-s
 // @ts-ignore
 import express from 'express'
 import { Server } from 'http'
-import { bytesToBase58, hexToBytes } from '../../packages/utils/src/index.js'
+import { hexToBytes } from '../../packages/utils/src/index.js'
+import { bytesToMultibase } from 'did-jwt'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
@@ -240,7 +241,7 @@ export default (testContext: {
     it('should add dummy key to identifier', async () => {
       dummyKey = await agent.keyManagerCreate({
         kms: 'local',
-        type: 'Secp256k1',
+        type: 'Ed25519',
       })
 
       const result = await agent.didManagerAddKey({
@@ -250,7 +251,9 @@ export default (testContext: {
 
       expect(result.slice(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: alice.did })
-      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyHex).toEqual(dummyKey.publicKeyHex)
+      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyMultibase).toEqual(
+        bytesToMultibase(hexToBytes(dummyKey.publicKeyHex), 'base58btc', 'ed25519-pub'),
+      )
     })
 
     it('should remove dummy key from identifier', async () => {
@@ -589,8 +592,14 @@ export default (testContext: {
 
       expect(result.substring(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: alice.did })
-      const expectedBase58Key = bytesToBase58(hexToBytes(newKey.publicKeyHex))
-      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)
+      const expectedMultibaseKey = bytesToMultibase(
+        hexToBytes(newKey.publicKeyHex),
+        'base58btc',
+        'x25519-pub',
+      )
+      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyMultibase).toEqual(
+        expectedMultibaseKey,
+      )
       expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(
         resolution?.didDocument?.verificationMethod?.[2].id,
       )
@@ -694,8 +703,14 @@ export default (testContext: {
 
       expect(result.slice(0, 2)).toEqual('0x')
       const resolution = await agent.resolveDid({ didUrl: bob.did })
-      const expectedBase58Key = bytesToBase58(hexToBytes(newKey.publicKeyHex))
-      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyBase58).toEqual(expectedBase58Key)
+      const expectedMultibaseKey = bytesToMultibase(
+        hexToBytes(newKey.publicKeyHex),
+        'base58btc',
+        'x25519-pub',
+      )
+      expect(resolution?.didDocument?.verificationMethod?.[2].publicKeyMultibase).toEqual(
+        expectedMultibaseKey,
+      )
       expect(resolution?.didDocument?.keyAgreement?.[0]).toEqual(
         resolution?.didDocument?.verificationMethod?.[2].id,
       )

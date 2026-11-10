@@ -49,6 +49,42 @@ describe('@veramo/url-handler', () => {
     })
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
     expect(message.raw).toEqual(JWT)
+    expect(message.metaData?.at(-1)).toEqual({ type: 'URL', value: 'https://identifier.foundation/ssi/' })
+  })
+
+  it('should record normalized origin and path metadata for bare host URLs', async () => {
+    const message = new Message({ raw: 'https://example.com?c_i=jwtvalue' })
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
+    expect(message.raw).toEqual('jwtvalue')
+    expect(message.metaData?.at(-1)).toEqual({ type: 'URL', value: 'https://example.com/' })
+  })
+
+  it('should preserve the port in URL metadata', async () => {
+    const message = new Message({ raw: 'https://example.com:8443/claim?c_i=jwtvalue' })
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
+    expect(message.raw).toEqual('jwtvalue')
+    expect(message.metaData?.at(-1)).toEqual({ type: 'URL', value: 'https://example.com:8443/claim' })
+  })
+
+  it('should ignore message payloads that are not URLs', async () => {
+    const message = new Message({ raw: 'this is not a url at all' })
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
+    expect(message.raw).toEqual('this is not a url at all')
+    expect(fetchMock).not.toHaveBeenCalled()
+    expect(message.metaData?.some((meta) => meta.type === 'URL')).toBeFalsy()
+  })
+
+  it('should treat an empty c_i as absent and fetch the URL instead', async () => {
+    const message = new Message({ raw: 'https://example.com/message?c_i=' })
+    fetchMock.mockImplementation(() =>
+      Promise.resolve({
+        url: 'https://example.com/message?c_i=',
+        text: async () => 'mockbody',
+      } as any),
+    )
+    await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
+    expect(fetchMock).toHaveBeenCalled()
+    expect(message.raw).toEqual('mockbody')
   })
 
   it('should try to load data from URL if URL is not standard', async () => {
@@ -74,11 +110,12 @@ describe('@veramo/url-handler', () => {
         text: async () => 'mockbody',
       } as any),
     )
-    expect.assertions(2)
+    expect.assertions(3)
 
     await expect(messageHandler.handle(message, context)).rejects.toThrow('Unsupported message type')
 
     expect(message.raw).toEqual('asdf')
+    expect(message.metaData?.at(-1)).toEqual({ type: 'URL', value: 'https://some.other.site.example.com/' })
   })
 
   it('should try to load data from redirected URL body', async () => {

@@ -1,4 +1,4 @@
-import parse from 'url-parse'
+import fastUri from 'fast-uri'
 
 import { IDIDManager, TAgent, TKeyType } from '@veramo/core-types'
 
@@ -20,7 +20,7 @@ export async function createDefaultDid(options: CreateDefaultDidOptions) {
   if (!options.agent) throw Error('[createDefaultDid] Agent is required')
   if (!options.baseUrl) throw Error('[createDefaultDid] baseUrl is required')
 
-  const hostname = parse(options.baseUrl).hostname
+  const hostname = fastUri.parse(options.baseUrl).host || ''
 
   const serverIdentifier = await options?.agent?.didManagerGetOrCreate({
     provider: 'did:web',

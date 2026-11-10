@@ -1,5 +1,5 @@
 import { set, get } from 'jsonpointer'
-import parse from 'url-parse'
+import fastUri from 'fast-uri'
 import { resolve } from 'path'
 
 /**
@@ -85,11 +85,12 @@ export async function createObjects(config: object, pointers: Record<string, str
   async function objectFromConfig(objectConfig: any): Promise<any> {
     let object
     // console.log('Requiring', objectConfig['$require'])
-    const parsed = parse(objectConfig['$require'], {}, true)
-    let module = parsed.pathname
-    const member = parsed.hash.length > 1 ? parsed.hash.slice(1) : undefined
-    const type = parsed.query['t'] || 'class'
-    const pointer = parsed.query['p']
+    const parsed = fastUri.parse(objectConfig['$require'])
+    let module = parsed.path || ''
+    const member = parsed.fragment || undefined
+    const params = new URLSearchParams(parsed.query)
+    const type = params.get('t') || 'class'
+    const pointer = params.get('p') || undefined
     const args = objectConfig['$args']
     // console.log({module, member, type, query: parsed.query})
 

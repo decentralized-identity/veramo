@@ -18,13 +18,12 @@
     "@veramo/credential-w3c": "workspace:^",
     "@veramo/utils": "workspace:^",
     "debug": "^4.3.3",
-    "did-resolver": "^4.1.0",
-    "fast-uri": "^3.1.8",
+    "did-resolver": "^6.0.0",
+    "fast-uri": "^4.2.3",
     "jsonld-signatures": "^11.6.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "borc": "3.0.0",
     "typescript": "7.0.2"
   },
   "files": [

@@ -15,9 +15,9 @@
     "@veramo/core-types": "workspace:^",
     "@veramo/credential-w3c": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "canonicalize": "^2.0.0",
+    "canonicalize": "^5.1.0",
     "debug": "^4.3.3",
-    "did-jwt-vc": "^4.0.0"
+    "did-jwt-vc": "^5.0.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",

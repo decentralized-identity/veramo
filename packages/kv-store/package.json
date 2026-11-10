@@ -7,31 +7,19 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --config=../../jest.config.mjs",
-    "test:ci": "jest --config=../../jest.config.mjs",
     "extract-api": "node ../cli/bin/veramo.js dev extract-api"
   },
   "dependencies": {
-    "@veramo/core-types": "workspace:*",
     "@veramo/utils": "workspace:*",
-    "debug": "^4.3.4",
-    "events": "^3.2.0",
+    "debug": "^4.4.3",
     "json-buffer": "^3.0.1",
-    "typeorm": "^0.3.20",
-    "uint8arrays": "^4.0.6"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@keyv/compress-brotli": "1.1.4",
-    "@keyv/compress-gzip": "1.2.3",
     "@keyv/sqlite": "3.6.5",
-    "@keyv/test-suite": "1.9.2",
     "@types/debug": "4.1.8",
-    "@types/events": "^3.0.0",
     "@types/json-buffer": "3.0.0",
     "@types/node": "26.5.1",
-    "eslint": "8.57.1",
-    "eslint-plugin-promise": "6.6.0",
-    "keyv": "4.5.3",
     "timekeeper": "2.3.1",
     "typescript": "7.0.2"
   },

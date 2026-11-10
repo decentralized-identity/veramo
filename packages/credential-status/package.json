@@ -12,14 +12,10 @@
   "dependencies": {
     "@veramo/core-types": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "credential-status": "^3.0.0",
-    "did-jwt": "^8.0.0",
-    "did-resolver": "^4.1.0"
+    "credential-status": "^4.0.0",
+    "did-resolver": "^6.0.0"
   },
   "devDependencies": {
-    "@veramo/core": "workspace:^",
-    "@veramo/did-resolver": "workspace:^",
-    "@types/debug": "4.1.8",
     "typescript": "7.0.2"
   },
   "files": [
