@@ -43,7 +43,7 @@ describe('trust-ping-message-handler', () => {
   let recipient: IIdentifier
   let agent: TAgent<IResolver & IKeyManager & IDIDManager & IDIDComm & IMessageHandler & IDataStore>
   let didCommEndpointServer: Server
-  let listeningPort = Math.round(Math.random() * 32000 + 2048)
+  let listeningPort = Math.round(Math.random() * 32000 + 7000)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let dbConnection: any // typeorm types don't seem to follow semantic release patterns leading to type errors
 

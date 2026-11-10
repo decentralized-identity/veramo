@@ -40,7 +40,6 @@ data
 .vscode-upload.json
 
 local-database*.json
-planning/
-CONTEXT.md
+AGENTS.md
 .scratch/
 .pi/

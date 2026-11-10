@@ -15,9 +15,8 @@ vi.setConfig({
 })
 
 // The @sphereon/ion-pow dependency uses its own bundled cross-fetch, so its HTTP
-// calls cannot be mocked through the global fetch. Start a local server instead and
-// point the PoW endpoints at it. (PoW challenge is disabled in tests to avoid argon2
-// WASM fetches.)
+// calls cannot be mocked through the global fetch. A local server is started in
+// `beforeAll` instead and the PoW endpoints point at it.
 const getListeningAddress = (server: http.Server): string => {
   const address = server.address()
   if (address === null || typeof address === 'string') {
@@ -26,42 +25,8 @@ const getListeningAddress = (server: http.Server): string => {
   return `http://127.0.0.1:${address.port}`
 }
 
-const powServer = http.createServer((req, res) => {
-  let body = ''
-  req.on('data', (chunk) => (body += chunk))
-  req.on('end', () => {
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end(JSON.stringify({ operation: 'mocked-operation' }))
-  })
-})
-
-await new Promise<void>((resolve) => powServer.listen(0, '127.0.0.1', () => resolve()))
-const powEndpointUrl = getListeningAddress(powServer)
-
-const ionDIDProvider = new IonDIDProvider({
-  defaultKms: 'mem',
-  challengeEnabled: false,
-  challengeEndpoint: powEndpointUrl + '/proof-of-work-challenge',
-  solutionEndpoint: powEndpointUrl + '/operations',
-})
-const agent = createAgent<IKeyManager, IDIDManager>({
-  plugins: [
-    new KeyManager({
-      store: new MemoryKeyStore(),
-      kms: {
-        mem: new KeyManagementSystem(new MemoryPrivateKeyStore()),
-      },
-    }),
-    new DIDManager({
-      providers: {
-        'did:ion': ionDIDProvider,
-      },
-      defaultProvider: 'did:ion',
-      store: new MemoryDIDStore(),
-    }),
-  ],
-})
-
+let powServer: http.Server
+let agent: ReturnType<typeof createAgent<IKeyManager, IDIDManager>>
 const PRIVATE_RECOVERY_KEY_HEX = '7c90c0575643d09a370c35021c91e9d8af2c968c5f3a4bf73802693511a55b9f'
 const PRIVATE_UPDATE_KEY_HEX = '7288a92f6219c873446abd1f8d26fcbbe1caa5274b47f6f086ef3e7e75dcad8b'
 const PRIVATE_DID1_KEY_HEX = '06eb9e64569203679b36f834a4d9725c989d32a7fb52c341eae3517b3aff8ee6'
@@ -106,6 +71,41 @@ describe('@veramo/did-provider-ion', () => {
   beforeAll(async () => {
     // Mock ION HTTP requests via the global fetch implementation
     vi.stubGlobal('fetch', fetchMock)
+
+    powServer = http.createServer((req, res) => {
+      let body = ''
+      req.on('data', (chunk) => (body += chunk))
+      req.on('end', () => {
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ operation: 'mocked-operation' }))
+      })
+    })
+    await new Promise<void>((resolve) => powServer.listen(0, '127.0.0.1', () => resolve()))
+    const powEndpointUrl = getListeningAddress(powServer)
+
+    const ionDIDProvider = new IonDIDProvider({
+      defaultKms: 'mem',
+      challengeEnabled: false,
+      challengeEndpoint: powEndpointUrl + '/proof-of-work-challenge',
+      solutionEndpoint: powEndpointUrl + '/operations',
+    })
+    agent = createAgent<IKeyManager, IDIDManager>({
+      plugins: [
+        new KeyManager({
+          store: new MemoryKeyStore(),
+          kms: {
+            mem: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          },
+        }),
+        new DIDManager({
+          providers: {
+            'did:ion': ionDIDProvider,
+          },
+          defaultProvider: 'did:ion',
+          store: new MemoryDIDStore(),
+        }),
+      ],
+    })
   })
 
   afterEach(() => {
