@@ -14,11 +14,10 @@
     "@veramo/message-handler": "workspace:^",
     "cross-fetch": "^4.1.0",
     "debug": "^4.4.3",
-    "url-parse": "^1.5.10"
+    "fast-uri": "^4.2.3"
   },
   "devDependencies": {
     "@types/debug": "4.1.8",
-    "@types/url-parse": "1.4.11",
     "typescript": "7.0.2"
   },
   "files": [

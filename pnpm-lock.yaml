@@ -419,6 +419,9 @@ importers:
       express-handlebars:
         specifier: ^7.1.2
         version: 7.1.3
+      fast-uri:
+        specifier: ^4.2.3
+        version: 4.2.3
       fuzzy:
         specifier: ^0.1.3
         version: 0.1.3
@@ -467,9 +470,6 @@ importers:
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.16.3)(sqlite3@5.1.7(supports-color@8.1.1))(supports-color@8.1.1)(ts-node@10.9.2(@types/node@26.5.1)(typescript@7.0.2))
-      url-parse:
-        specifier: ^1.5.10
-        version: 1.5.10
       web-did-resolver:
         specifier: ^3.2.0
         version: 3.2.0
@@ -501,9 +501,6 @@ importers:
       '@types/qrcode-terminal':
         specifier: 0.12.0
         version: 0.12.0
-      '@types/url-parse':
-        specifier: 1.4.8
-        version: 1.4.8
       '@types/ws':
         specifier: 8.5.5
         version: 8.5.5
@@ -1441,15 +1438,15 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.22.3(supports-color@8.1.1)
+      fast-uri:
+        specifier: ^4.2.3
+        version: 4.2.3
       passport:
         specifier: ^0.7.0
         version: 0.7.0
       passport-http-bearer:
         specifier: ^1.0.1
         version: 1.0.1
-      url-parse:
-        specifier: ^1.5.10
-        version: 1.5.10
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1463,9 +1460,6 @@ importers:
       '@types/passport-http-bearer':
         specifier: 1.0.42
         version: 1.0.42
-      '@types/url-parse':
-        specifier: 1.4.11
-        version: 1.4.11
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -1749,16 +1743,13 @@ importers:
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
-      url-parse:
-        specifier: ^1.5.10
-        version: 1.5.10
+      fast-uri:
+        specifier: ^4.2.3
+        version: 4.2.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
         version: 4.1.8
-      '@types/url-parse':
-        specifier: 1.4.11
-        version: 1.4.11
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -3234,12 +3225,6 @@ packages:
 
   '@types/ungap__structured-clone@1.2.0':
     resolution: {integrity: sha512-ZoaihZNLeZSxESbk9PUAPZOlSpcKx81I1+4emtULDVmBLkYutTcMlCj2K9VNlf9EWODxdO6gkAqEaLorXwZQVA==}
-
-  '@types/url-parse@1.4.11':
-    resolution: {integrity: sha512-FKvKIqRaykZtd4n47LbK/W/5fhQQ1X7cxxzG9A48h0BGN+S04NH7ervcCjM8tyR0lyGru83FAHSmw2ObgKoESg==}
-
-  '@types/url-parse@1.4.8':
-    resolution: {integrity: sha512-zqqcGKyNWgTLFBxmaexGUKQyWqeG7HjXj20EuQJSJWwXe54BjX0ihIo5cJB9yAQzH8dNugJ9GvkBYMjPXs/PJw==}
 
   '@types/uuid@11.0.0':
     resolution: {integrity: sha512-HVyk8nj2m+jcFRNazzqyVKiZezyhDKrGUA3jlEcg/nZ6Ms+qHwocba1Y/AaVaznJTAM9xpdFSh+ptbNrhOGvZA==}
@@ -9074,10 +9059,6 @@ snapshots:
 
   '@types/ungap__structured-clone@1.2.0': {}
 
-  '@types/url-parse@1.4.11': {}
-
-  '@types/url-parse@1.4.8': {}
-
   '@types/uuid@11.0.0':
     dependencies:
       uuid: 11.1.0
@@ -12490,7 +12471,8 @@ snapshots:
 
   querystring-es3@0.2.1: {}
 
-  querystringify@2.2.0: {}
+  querystringify@2.2.0:
+    optional: true
 
   queue-microtask@1.2.3: {}
 
@@ -12653,7 +12635,8 @@ snapshots:
 
   require-from-string@2.0.2: {}
 
-  requires-port@1.0.0: {}
+  requires-port@1.0.0:
+    optional: true
 
   resolve-from@4.0.0: {}
 
@@ -13525,6 +13508,7 @@ snapshots:
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
+    optional: true
 
   url@0.11.4:
     dependencies:

@@ -43,7 +43,7 @@
  * @internal
  */
 import jsonldSignatures from 'jsonld-signatures'
-import { parse as parseUri } from 'fast-uri'
+import fastUri from 'fast-uri'
 import { asArray } from '@veramo/utils'
 
 const { AssertionProofPurpose, AuthenticationProofPurpose } = jsonldSignatures.purposes
@@ -85,7 +85,7 @@ function assert(condition: unknown, message: string, ErrorType = Error): asserts
 function assertUri(id: unknown, propertyName: string) {
   // Keep IDNs without invoking the WHATWG URL-based conversion that React Native does not implement.
   assert(
-    typeof id === 'string' && uriRegex.test(id) && !parseUri(id, { unicodeSupport: true }).error,
+    typeof id === 'string' && uriRegex.test(id) && !fastUri.parse(id, { unicodeSupport: true }).error,
     `"${propertyName}" must be a URI: "${id}".`,
     TypeError,
   )
