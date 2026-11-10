@@ -42,7 +42,6 @@ import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { Message } from '@veramo/message-handler'
 
-import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: [

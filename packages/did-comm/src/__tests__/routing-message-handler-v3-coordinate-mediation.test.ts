@@ -52,7 +52,6 @@ import { DataSource } from 'typeorm'
 import { v4 } from 'uuid'
 import { MediationManagerPlugin } from '../../../mediation-manager/src/index.js'
 
-import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received', 'DIDCommV2Message-forwardMessageQueued'],

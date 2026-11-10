@@ -26,7 +26,6 @@
     "@veramo/mediation-manager": "workspace:^",
     "@veramo/message-handler": "workspace:^",
     "@veramo/utils": "workspace:^",
-    "cross-fetch": "^4.1.0",
     "debug": "^4.4.3",
     "did-jwt": "^9.0.3",
     "did-resolver": "^6.0.0",

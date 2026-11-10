@@ -1,7 +1,8 @@
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { IDIDManager, IIdentifier, IKey, IKeyManager, IService } from '../../core-types/src/index.js'
 import { createAgent } from '../../core/src/index.js'
+import * as http from 'node:http'
 import { DIDManager, MemoryDIDStore } from '../../did-manager/src/index.js'
 import { KeyManager, MemoryKeyStore, MemoryPrivateKeyStore } from '../../key-manager/src/index.js'
 import { IonPublicKeyPurpose } from '@decentralized-identity/ion-sdk'
@@ -9,17 +10,39 @@ import { KeyManagementSystem } from '../../kms-local/src/index.js'
 import { IonDIDProvider } from '../src/ion-did-provider.js'
 import { ICreateIdentifierOpts } from '../src/types/ion-provider-types.js'
 
-// @ts-ignore
-import nock from 'nock'
-
 vi.setConfig({
   testTimeout: 60_000,
 })
 
-// Disable PoW challenge in tests to avoid argon2 WASM fetches
+// The @sphereon/ion-pow dependency uses its own bundled cross-fetch, so its HTTP
+// calls cannot be mocked through the global fetch. Start a local server instead and
+// point the PoW endpoints at it. (PoW challenge is disabled in tests to avoid argon2
+// WASM fetches.)
+const getListeningAddress = (server: http.Server): string => {
+  const address = server.address()
+  if (address === null || typeof address === 'string') {
+    throw new Error('Mock PoW server not listening on a TCP port')
+  }
+  return `http://127.0.0.1:${address.port}`
+}
+
+const powServer = http.createServer((req, res) => {
+  let body = ''
+  req.on('data', (chunk) => (body += chunk))
+  req.on('end', () => {
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ operation: 'mocked-operation' }))
+  })
+})
+
+await new Promise<void>((resolve) => powServer.listen(0, '127.0.0.1', () => resolve()))
+const powEndpointUrl = getListeningAddress(powServer)
+
 const ionDIDProvider = new IonDIDProvider({
   defaultKms: 'mem',
   challengeEnabled: false,
+  challengeEndpoint: powEndpointUrl + '/proof-of-work-challenge',
+  solutionEndpoint: powEndpointUrl + '/operations',
 })
 const agent = createAgent<IKeyManager, IDIDManager>({
   plugins: [
@@ -49,26 +72,49 @@ const PRIVATE_DID4_KEY_HEX = '7dd923e40f4615ac496119f7e793cc2899e99b64b88ca8603d
 // Generate a new private key in hex format if needed, using the following method:
 // console.log(generatePrivateKeyHex(KeyType.Secp256k1))
 
+const MOCK_DISCOVERY_ENDPOINT = 'https://beta.discover.did.microsoft.com/1.0/identifiers/'
+const MOCK_OPERATIONS_ENDPOINT = 'https://beta.ion.msidentity.com/api/v1.0/operations'
+
+const MOCK_RESOLVER_RESULT = {
+  didDocument: {
+    '@context': 'https://www.w3.org/ns/did/v1',
+    id: 'did:ion:mock',
+    verificationMethod: [],
+  },
+  didDocumentMetadata: { method: { updateCommitment: 'genesis', recoveryCommitment: 'genesis' } },
+  didResolutionMetadata: {},
+}
+
+const fetchMock = vi.fn(async (input: string | URL | Request) => {
+  const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+  if (url.startsWith(MOCK_OPERATIONS_ENDPOINT)) {
+    return new Response(JSON.stringify({ operation: 'mocked-operation' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+  if (url.startsWith(MOCK_DISCOVERY_ENDPOINT)) {
+    return new Response(JSON.stringify(MOCK_RESOLVER_RESULT), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+  throw new Error(`Unexpected fetch request in test: ${url}`)
+})
+
 describe('@veramo/did-provider-ion', () => {
   beforeAll(async () => {
-    // Mocking ION HTTP requests
-    nock('https://beta.ion.msidentity.com')
-      .persist()
-      .post('/api/v1.0/operations')
-      .reply(200, { operation: 'mocked-operation' })
+    // Mock ION HTTP requests via the global fetch implementation
+    vi.stubGlobal('fetch', fetchMock)
+  })
 
-    nock('https://beta.discover.did.microsoft.com')
-      .persist()
-      .get(/\/1\.0\/identifiers\/.*/)
-      .reply(200, {
-        didDocument: {
-          '@context': 'https://www.w3.org/ns/did/v1',
-          id: 'did:ion:mock',
-          verificationMethod: [],
-        },
-        didDocumentMetadata: { method: { updateCommitment: 'genesis', recoveryCommitment: 'genesis' } },
-        didResolutionMetadata: {},
-      })
+  afterEach(() => {
+    fetchMock.mockClear()
+  })
+
+  afterAll(() => {
+    vi.unstubAllGlobals()
+    powServer.close()
   })
 
   it('should create identifier', async () => {

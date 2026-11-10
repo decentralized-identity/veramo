@@ -59,7 +59,6 @@ import { DataStore, DataStoreORM } from '../../../data-store/src/index.js'
 import { MediationManagerPlugin } from '../../../mediation-manager/src/index.js'
 import { DataSource } from 'typeorm'
 
-import 'cross-fetch/polyfill'
 
 const DIDCommEventSniffer: IEventListener = {
   eventTypes: ['DIDCommV2Message-sent', 'DIDCommV2Message-received'],

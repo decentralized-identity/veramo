@@ -83,8 +83,7 @@ export async function setup() {
 
 /**
  * Minimal per-suite cleanup: stops the ganache provider of the previous
- * suite (no leaked chains/servers) and resets the in-memory store. Deeper
- * teardown remains out of scope (see CONTEXT.md / ticket 03).
+ * suite (no leaked chains/servers) and resets the in-memory store.
  */
 export async function tearDown(): Promise<boolean> {
   const previousProvider = provider as GanacheProvider | undefined

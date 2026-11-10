@@ -30,7 +30,6 @@ import { DIDCommMessageHandler } from '../message-handler.js'
 import { DataStore, DataStoreORM } from '../../../data-store/src/index.js'
 import { DataSource } from 'typeorm'
 
-import 'cross-fetch/polyfill'
 import { asArray } from '../../../utils/src/index.js'
 
 const DIDCommEventSniffer: IEventListener = {

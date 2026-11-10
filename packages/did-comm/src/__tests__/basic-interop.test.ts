@@ -8,7 +8,6 @@ import { KeyManagementSystem } from '../../../kms-local/src/index.js'
 import { DIDResolverPlugin } from '../../../did-resolver/src/index.js'
 import { Resolver } from 'did-resolver'
 import { IDIDComm } from '../types/IDIDComm.js'
-import 'cross-fetch/polyfill'
 import { base64ToBytes, bytesToHex } from '../../../utils/src/index.js'
 import { getResolver as getDidPeerResolver, PeerDIDProvider } from '../../../did-provider-peer/src/index.js'
 
