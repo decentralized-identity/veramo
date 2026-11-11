@@ -38,7 +38,7 @@ export interface KeyvOptions<Value> {
   emitErrors?: boolean
 }
 
-export interface KeyvCompressionAdapter {
+interface KeyvCompressionAdapter {
   compress(value: any, options?: any): OrPromise<any>
 
   decompress(value: any, options?: any): OrPromise<any>

@@ -19,7 +19,7 @@ import { bytesToMultibase, hexToBytes } from '../../packages/utils/src'
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager & IResolver & IDIDComm & IMessageHandler>
 
-export async function sleep(milliseconds: number): Promise<void> {
+async function sleep(milliseconds: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds))
 }
 

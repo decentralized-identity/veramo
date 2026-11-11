@@ -204,7 +204,7 @@ export function checkPresentation(presentation: any) {
 }
 
 /** An assertion proof purpose that also requires the credential's issuer to control the verification method. */
-export class CredentialIssuancePurpose extends AssertionProofPurpose {
+class CredentialIssuancePurpose extends AssertionProofPurpose {
   constructor(options: { controller?: any } = {}) {
     super(options)
   }

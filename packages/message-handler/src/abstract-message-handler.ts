@@ -3,7 +3,7 @@ import { Message } from './message.js'
 import Debug from 'debug'
 
 const debug = Debug('veramo:message-handler')
-export const unsupportedMessageTypeError = new Error('Unsupported message type')
+const unsupportedMessageTypeError = new Error('Unsupported message type')
 
 /**
  * An abstract class for creating {@link @veramo/message-handler#MessageHandler} plugins

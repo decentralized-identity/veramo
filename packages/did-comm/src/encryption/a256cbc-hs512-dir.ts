@@ -57,7 +57,7 @@ async function cbcEncrypt(
   return { enc: 'dir', ciphertext, tag, iv }
 }
 
-export function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
+function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
   if (a.length !== b.length) {
     return false
   }
