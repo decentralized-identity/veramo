@@ -263,7 +263,7 @@ function resolveX25519(did: string, options: DIDKeyResolverOptions) {
   return result
 }
 
-export const didPrefixMap: Record<string, Function> = {
+const didPrefixMap: Record<string, Function> = {
   'did:key:z6Mk': resolveEDDSA,
   'did:key:z6LS': resolveX25519,
   'did:key:zQ3s': resolveECDSA, // compressed Secp256k1 keys

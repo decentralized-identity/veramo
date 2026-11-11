@@ -197,9 +197,6 @@ importers:
       '@types/express':
         specifier: 4.17.25
         version: 4.17.25
-      '@types/fs-extra':
-        specifier: 11.0.4
-        version: 11.0.4
       '@types/node':
         specifier: 26.5.1
         version: 26.5.1
@@ -344,9 +341,6 @@ importers:
       '@veramo/kms-local':
         specifier: workspace:^
         version: link:../kms-local
-      '@veramo/kv-store':
-        specifier: workspace:^
-        version: link:../kv-store
       '@veramo/mediation-manager':
         specifier: workspace:^
         version: link:../mediation-manager
@@ -362,9 +356,6 @@ importers:
       '@veramo/selective-disclosure':
         specifier: workspace:^
         version: link:../selective-disclosure
-      '@veramo/url-handler':
-        specifier: workspace:^
-        version: link:../url-handler
       '@veramo/utils':
         specifier: workspace:^
         version: link:../utils
@@ -389,12 +380,6 @@ importers:
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
-      did-resolver:
-        specifier: ^6.0.0
-        version: 6.0.0
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.6.1
       ethr-did-resolver:
         specifier: ^14.1.4
         version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -413,9 +398,6 @@ importers:
       inquirer-autocomplete-prompt:
         specifier: ^3.0.1
         version: 3.0.1(inquirer@9.3.8(@types/node@26.5.1))
-      json-schema:
-        specifier: ^0.4.0
-        version: 0.4.0
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -449,9 +431,6 @@ importers:
       web-did-resolver:
         specifier: ^3.2.0
         version: 3.2.0
-      ws:
-        specifier: ^8.16.0
-        version: 8.22.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       yaml:
         specifier: ^2.3.4
         version: 2.9.1
@@ -847,67 +826,6 @@ importers:
       ethr-did-resolver:
         specifier: ^14.1.4
         version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
-    devDependencies:
-      '@types/debug':
-        specifier: 4.1.8
-        version: 4.1.8
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-
-  packages/did-provider-ion:
-    dependencies:
-      '@decentralized-identity/ion-sdk':
-        specifier: ^1.0.1
-        version: 1.0.4
-      '@noble/curves':
-        specifier: ^1.4.2
-        version: 1.9.7
-      '@noble/hashes':
-        specifier: ^1.4.0
-        version: 1.8.0
-      '@sphereon/ion-pow':
-        specifier: ^0.2.0
-        version: 0.2.0(@sphereon/react-native-argon2@2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)))(encoding@0.1.14)(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))(supports-color@8.1.1)
-      '@sphereon/isomorphic-argon2':
-        specifier: ^1.0.1
-        version: 1.0.1(@sphereon/react-native-argon2@2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)))(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))
-      '@sphereon/react-native-argon2':
-        specifier: ^2.0.7
-        version: 2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))
-      '@trust/keyto':
-        specifier: ^1.0.1
-        version: 1.0.1
-      '@veramo/core-types':
-        specifier: workspace:^
-        version: link:../core-types
-      '@veramo/did-manager':
-        specifier: workspace:^
-        version: link:../did-manager
-      '@veramo/key-manager':
-        specifier: workspace:^
-        version: link:../key-manager
-      '@veramo/kms-local':
-        specifier: workspace:^
-        version: link:../kms-local
-      '@veramo/utils':
-        specifier: workspace:^
-        version: link:../utils
-      canonicalize:
-        specifier: ^5.1.0
-        version: 5.1.0
-      debug:
-        specifier: ^4.4.3
-        version: 4.4.3(supports-color@8.1.1)
-      did-resolver:
-        specifier: ^6.0.0
-        version: 6.0.0
-      ethers:
-        specifier: ^6.17.0
-        version: 6.17.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
-      multihashes:
-        specifier: ^4.0.3
-        version: 4.0.3
     devDependencies:
       '@types/debug':
         specifier: 4.1.8
@@ -1338,9 +1256,6 @@ importers:
       '@veramo/credential-w3c':
         specifier: workspace:*
         version: link:../credential-w3c
-      '@veramo/data-store':
-        specifier: workspace:*
-        version: link:../data-store
       '@veramo/data-store-json':
         specifier: workspace:*
         version: link:../data-store-json
@@ -1392,12 +1307,6 @@ importers:
       '@veramo/test-utils':
         specifier: workspace:*
         version: link:../test-utils
-      '@veramo/url-handler':
-        specifier: workspace:*
-        version: link:../url-handler
-      '@veramo/utils':
-        specifier: workspace:*
-        version: link:../utils
       did-resolver:
         specifier: ^6.0.0
         version: 6.0.0
@@ -1410,9 +1319,6 @@ importers:
       react-dom:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
-      typeorm:
-        specifier: ^1.1.2
-        version: 1.1.2(better-sqlite3@12.11.1)(pg@8.23.1)(supports-color@8.1.1)
       web-did-resolver:
         specifier: ^3.2.0
         version: 3.2.0
@@ -2016,9 +1922,6 @@ packages:
     resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
 
-  '@decentralized-identity/ion-sdk@1.0.4':
-    resolution: {integrity: sha512-pOWrlTH5ChxUKRHOgfG2ZeTioWEFJXADyErCQOJ0BqYNDKfP+CM09Vss+9ei6PNOABQlcDn0mEDFZtpO+DXl8A==}
-
   '@digitalbazaar/http-client@4.4.0':
     resolution: {integrity: sha512-ODhCGmElUPmR3IR+KZmBNkRAFyjJ01rxvk2E+/qQ2h2EGPJH5k6bz3N24ympGc5+i4YCGk/ipIpmkwc0+iSmRg==}
     engines: {node: '>=18.0'}
@@ -2381,9 +2284,6 @@ packages:
     resolution: {integrity: sha512-VVPPgHyQ6ShqnrmDWuxjmUIsO9gWyOZFmuOfLd9LfBGQJwZfy0gvv9pbHSJuoFNIYC7ZDX9aoFwowjcdSC4E8w==}
     engines: {node: '>=18'}
 
-  '@multiformats/base-x@4.0.1':
-    resolution: {integrity: sha512-eMk0b9ReBbV23xXU693TAIrLyeO5iTgBZGSJfpqriG8UkYvr/hC9u9pyMlAakDNHWmbhMZCDs6KQO0jzKD8OTw==}
-
   '@noble/ciphers@1.3.0':
     resolution: {integrity: sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw==}
     engines: {node: ^14.21.3 || >=16}
@@ -2406,9 +2306,6 @@ packages:
     resolution: {integrity: sha512-P4/62zrgfH33CneE3Dn4WhJVA22YUU0eR51wKIan4NVRvwsA0YnPTwWGpNbpuacSujmSFLvyzpyuR30+fbq2Ew==}
     engines: {node: '>= 20.19.0'}
 
-  '@noble/ed25519@2.3.0':
-    resolution: {integrity: sha512-M7dvXL2B92/M7dw9+gzuydL8qn/jiqNHaoR3Q+cb1q1GHV7uwE17WCyFMG+Y+TZb5izcaXk5TdJRrDUxHXL78A==}
-
   '@noble/hashes@1.3.2':
     resolution: {integrity: sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==}
     engines: {node: '>= 16'}
@@ -2428,9 +2325,6 @@ packages:
   '@noble/hashes@2.4.0':
     resolution: {integrity: sha512-X5XaVWZIBCT7HHZGm5I7ZQXDwLG+bGXuSrMQAW+7Zvl87h1kmc1ZB1VSRJcpUfoUrGQp4Fkoxm5kZ+Ms+aW+eA==}
     engines: {node: '>= 20.19.0'}
-
-  '@noble/secp256k1@2.3.0':
-    resolution: {integrity: sha512-0TQed2gcBbIrh7Ccyw+y/uZQvbJwm7Ao4scBUxqpBCcsOlZG0O4KGfjtNAy/li4W8n1xt3dxrwJ0beZ2h2G6Kw==}
 
   '@npmcli/agent@2.2.2':
     resolution: {integrity: sha512-OrcNPXdpSl9UX7qPVRWbmWMCSXrcDa2M9DvrbOTj7ao1S4PlqVFYv9/yLKMkrJKZ/V5A/kDBC690or307i26Og==}
@@ -2715,22 +2609,6 @@ packages:
   '@sinclair/typebox@0.27.12':
     resolution: {integrity: sha512-hhyNJ+nbR6ZR7pToHvllEFun9TL0sbL+tk/ON75lo+Xas054uez98qRbsuNt7MBCyZKK4+8Yli/OAGZhmfBZ/g==}
 
-  '@sphereon/ion-pow@0.2.0':
-    resolution: {integrity: sha512-SpEG4mV5D+K/jrqGI9QSBPPKO5+Kpu6F3cINBKbWiz+ZI4boWwz9JAdNspD45YnnMqTbR14CDEGtHwOaHboJQg==}
-    peerDependencies:
-      '@sphereon/react-native-argon2': ^2.0.7
-
-  '@sphereon/isomorphic-argon2@1.0.1':
-    resolution: {integrity: sha512-Z40mdiuuZjII19FfIsti9JFGqX56jhpaeZb135BZayJPaRSbi8JnbJ3pzulJJAHsymkWzVqMqt242fBKpualHg==}
-    peerDependencies:
-      '@sphereon/react-native-argon2': ^2.0.9
-      react-native: '>=0.60.0'
-
-  '@sphereon/react-native-argon2@2.0.9':
-    resolution: {integrity: sha512-mXcp3meaKbv5TpEPxItZ1ZuRqkdNf8vjx3EM+GqNVQ8QQF9pbD3jw6wQfuFRPc+8kN+m9GEiVVbd9I0m50OPBg==}
-    peerDependencies:
-      react-native: '>=0.67.0'
-
   '@sqltools/formatter@1.2.5':
     resolution: {integrity: sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==}
 
@@ -2806,9 +2684,6 @@ packages:
   '@trufflesuite/uws-js-unofficial@20.30.0-unofficial.0':
     resolution: {integrity: sha512-r5X0aOQcuT6pLwTRLD+mPnAM/nlKtvIK4Z+My++A8tTOR0qTjNRx8UB8jzRj3D+p9PMAp5LnpCUUGmz7/TppwA==}
 
-  '@trust/keyto@1.0.1':
-    resolution: {integrity: sha512-OXTmKkrnkwktCX86XA7eWs1TQ6u64enm0syzAfNhjigbuGLy5aLhbhRYWtjt4zzdG/irWudluheRZ9Ic9pCwsA==}
-
   '@types/accepts@1.3.7':
     resolution: {integrity: sha512-Pay9fq2lM2wXPWbteBsRAGiWH2hig4ZE2asK+mm7kUzlxRTfL961rj89I6zV/E3PcIkDqyuBEcMxFT7rccugeQ==}
 
@@ -2857,9 +2732,6 @@ packages:
   '@types/express@4.17.25':
     resolution: {integrity: sha512-dVd04UKsfpINUnK0yBoYHDF3xu7xVH4BuDotC/xGuycx4CgbP48X/KF/586bcObxT0HENHXEU8Nqtu6NR+eKhw==}
 
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
   '@types/http-assert@1.5.6':
     resolution: {integrity: sha512-TTEwmtjgVbYAzZYWyeHPrrtWnfVkm8tQkP8P21uQifPgMRgjrow3XDEYqucuC8SKZJT7pUnhU/JymvjggxO9vw==}
 
@@ -2886,9 +2758,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/jsonfile@6.1.4':
-    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/keygrip@1.0.6':
     resolution: {integrity: sha512-lZuNAY9xeJt7Bx4t4dx0rYCDqGPW8RXhQZK1td7d4H6E9zYbLoOtjBvfwdTKpsyxQI/2jv+armjX/RW+ZNpXOQ==}
@@ -3332,9 +3201,6 @@ packages:
     resolution: {integrity: sha512-KwIVkfFfJSSzBmZhDGuTmkhWqTdyB5oNVzzznBJbBZ5bZtHiqSrcugRF0RKJKT4Ss3d7ZrcjnlFVDlQNmtWfWw==}
     engines: {node: '>=14'}
 
-  argon2-browser@1.18.0:
-    resolution: {integrity: sha512-ImVAGIItnFnvET1exhsQB7apRztcoC5TnlSqernMJDUjbc/DLq3UEYeXFrLPrlaIl8cVfwnXb6wX2KpFf2zxHw==}
-
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
 
@@ -3377,9 +3243,6 @@ packages:
 
   asn1.js@4.10.1:
     resolution: {integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==}
-
-  asn1.js@5.4.1:
-    resolution: {integrity: sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==}
 
   assert@2.1.0:
     resolution: {integrity: sha512-eLHpSK/Y4nhMJ07gDaAzoX/XAKS8PSaojml3M0DM4JpV1LAi5JOJ/p6H/XWrl8L+DzVEvVCW1z3vWAaB9oTsQw==}
@@ -3432,10 +3295,6 @@ packages:
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-
-  base64url@3.0.1:
-    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
-    engines: {node: '>=6.0.0'}
 
   baseline-browser-mapping@2.11.35:
     resolution: {integrity: sha512-GNk8KX52CHqeNKGk8+7tZnQab/2k1t/BgrUHPKNdijzpEhF1saPQZHVKb6m5loSAxB39gyrTYw34Qf9CQ3u1qQ==}
@@ -3744,9 +3603,6 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  cross-fetch@3.2.0:
-    resolution: {integrity: sha512-Q+xVJLoGOeIMXZmbUK4HYk+69cQH6LudR0Vu/pRm2YlU/hDV9CiS0gKUMaWY5f2NeUH9C1nV3bsTlCo0FsTV1Q==}
-
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -3873,10 +3729,6 @@ packages:
   domain-browser@4.22.0:
     resolution: {integrity: sha512-IGBwjF7tNk3cwypFNH/7bfzBcgSCbaMOD3GsaY1AU/JRrnHnYgEM0+9kQt52iZxjNsjBtJYtao146V+f8jFZNw==}
     engines: {node: '>=10'}
-
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -4675,9 +4527,6 @@ packages:
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
-  json-schema@0.4.0:
-    resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
-
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
@@ -5138,11 +4987,6 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  multibase@4.0.6:
-    resolution: {integrity: sha512-x23pDe5+svdLz/k5JPGCVdfn7Q5mZVMBETiC+ORfO+sor9Sgs0smJzAjfTbM5tckeCqnaUuMYoz+k3RXMmJClQ==}
-    engines: {node: '>=12.0.0', npm: '>=6.0.0'}
-    deprecated: This module has been superseded by the multiformats module
-
   multiformats@12.1.3:
     resolution: {integrity: sha512-eajQ/ZH7qXZQR2AgtfpmSMizQzmyYVmCql7pdhldPuYQi4atACekbJaQplk6dWyIi10jCaFnd6pqvcEFXjbaJw==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
@@ -5152,13 +4996,6 @@ packages:
 
   multiformats@14.0.5:
     resolution: {integrity: sha512-vbIm83F2yZ1pWJGS0yl0ysracIvv56LtbrIyiIQHoLdYDJOMoLfVFsXhh9DUH4SFdkdkFhucyWniihsNzVEjkQ==}
-
-  multiformats@9.9.0:
-    resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
-
-  multihashes@4.0.3:
-    resolution: {integrity: sha512-0AhMH7Iu95XjDLxIeuCOOE4t9+vQZsACyKZ9Fxw2pcsRmlX4iCn1mby0hS0bb+nQOVpdQYWPpnyusw4da5RPhA==}
-    engines: {node: '>=12.0.0', npm: '>=6.0.0'}
 
   mute-stream@1.0.0:
     resolution: {integrity: sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==}
@@ -5205,15 +5042,6 @@ packages:
   node-exports-info@1.6.2:
     resolution: {integrity: sha512-kXs9Go0cah0qHVV2v389IXQLdLCeE1xfFtjOAF+iobu0OIoG1pje8At2vMHyaPMiPMnG/LWP50twML21eMcAag==}
     engines: {node: '>= 0.4'}
-
-  node-fetch@2.7.0:
-    resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
-    engines: {node: 4.x || >=6.0.0}
-    peerDependencies:
-      encoding: ^0.1.0
-    peerDependenciesMeta:
-      encoding:
-        optional: true
 
   node-gyp-build@4.8.4:
     resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
@@ -6086,9 +5914,6 @@ packages:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
 
-  tr46@0.0.3:
-    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
-
   ts-api-utils@2.5.0:
     resolution: {integrity: sha512-OJ/ibxhPlqrMM0UiNHJ/0CKQkoKF243/AEmplt3qpRgkW8VG7IfOS41h7V8TjITqdByHzrjcS/2si+y4lIh8NA==}
     engines: {node: '>=18.12'}
@@ -6270,9 +6095,6 @@ packages:
   uint8arraylist@2.4.9:
     resolution: {integrity: sha512-KxWjyEFzchzik3aoQlK66oaoxIReoMo5bQRm1fcjBUZvE8xv/tyR3CTKhjh6K/faV8VaF6hd5pjr45CzbwuwkA==}
 
-  uint8arrays@3.1.1:
-    resolution: {integrity: sha512-+QJa8QRnbdXVpHYjLoTpJIdCTiw9Ir62nocClWuXIq2JIh4Uta0cQsTSpFL678p2CN8B+XSApwcU+pQEqVpKWg==}
-
   uint8arrays@4.0.10:
     resolution: {integrity: sha512-AnJNUGGDJAgFw/eWu/Xb9zrVKEGlwJJCaeInlf3BkecE/zcTobk5YXYIPNQJO1q5Hh1QZrQQHf0JvcHqz2hqoA==}
 
@@ -6371,9 +6193,6 @@ packages:
   validator@13.15.35:
     resolution: {integrity: sha512-TQ5pAGhd5whStmqWvYF4OjQROlmv9SMFVt37qoCBdqRffuuklWYQlCNnEs2ZaIBD1kZRNnikiZOS1eqgkar0iw==}
     engines: {node: '>= 0.10'}
-
-  varint@5.0.2:
-    resolution: {integrity: sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==}
 
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
@@ -6479,14 +6298,8 @@ packages:
   web-vitals@3.5.2:
     resolution: {integrity: sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==}
 
-  webidl-conversions@3.0.1:
-    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
-
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
-
-  whatwg-url@5.0.0:
-    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
 
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
@@ -7172,14 +6985,6 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@decentralized-identity/ion-sdk@1.0.4':
-    dependencies:
-      '@noble/ed25519': 2.3.0
-      '@noble/secp256k1': 2.3.0
-      canonicalize: 2.1.0
-      multiformats: 12.1.3
-      uri-js: 4.4.1
-
   '@digitalbazaar/http-client@4.4.0':
     dependencies:
       ky: 1.14.3
@@ -7549,8 +7354,6 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@multiformats/base-x@4.0.1': {}
-
   '@noble/ciphers@1.3.0': {}
 
   '@noble/ciphers@2.4.0': {}
@@ -7571,8 +7374,6 @@ snapshots:
     dependencies:
       '@noble/hashes': 2.4.0
 
-  '@noble/ed25519@2.3.0': {}
-
   '@noble/hashes@1.3.2': {}
 
   '@noble/hashes@1.4.0': {}
@@ -7582,8 +7383,6 @@ snapshots:
   '@noble/hashes@1.8.0': {}
 
   '@noble/hashes@2.4.0': {}
-
-  '@noble/secp256k1@2.3.0': {}
 
   '@npmcli/agent@2.2.2(supports-color@8.1.1)':
     dependencies:
@@ -7893,29 +7692,6 @@ snapshots:
 
   '@sinclair/typebox@0.27.12': {}
 
-  '@sphereon/ion-pow@0.2.0(@sphereon/react-native-argon2@2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)))(encoding@0.1.14)(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))(supports-color@8.1.1)':
-    dependencies:
-      '@sphereon/isomorphic-argon2': 1.0.1(@sphereon/react-native-argon2@2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)))(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))
-      '@sphereon/react-native-argon2': 2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))
-      cross-fetch: 3.2.0(encoding@0.1.14)
-      debug: 4.4.3(supports-color@8.1.1)
-      uint8arrays: 3.1.1
-    transitivePeerDependencies:
-      - encoding
-      - react-native
-      - supports-color
-
-  '@sphereon/isomorphic-argon2@1.0.1(@sphereon/react-native-argon2@2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)))(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))':
-    dependencies:
-      '@sphereon/react-native-argon2': 2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))
-      argon2-browser: 1.18.0
-      react-native: 0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)
-      uint8arrays: 3.1.1
-
-  '@sphereon/react-native-argon2@2.0.9(react-native@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7))':
-    dependencies:
-      react-native: 0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(@react-native/metro-config@0.88.1(@babel/core@7.29.13(supports-color@8.1.1))(bufferutil@4.0.7)(supports-color@8.1.1)(utf-8-validate@5.0.7))(@types/react@19.3.0)(bufferutil@4.0.7)(react@19.3.1)(supports-color@8.1.1)(utf-8-validate@5.0.7)
-
   '@sqltools/formatter@1.2.5': {}
 
   '@stablelib/aes-kw@2.0.1':
@@ -8019,12 +7795,6 @@ snapshots:
       bufferutil: 4.0.7
       utf-8-validate: 6.0.3
 
-  '@trust/keyto@1.0.1':
-    dependencies:
-      asn1.js: 5.4.1
-      base64url: 3.0.1
-      elliptic: 6.6.1
-
   '@types/accepts@1.3.7':
     dependencies:
       '@types/node': 26.5.1
@@ -8093,11 +7863,6 @@ snapshots:
       '@types/qs': 6.15.1
       '@types/serve-static': 1.15.10
 
-  '@types/fs-extra@11.0.4':
-    dependencies:
-      '@types/jsonfile': 6.1.4
-      '@types/node': 26.5.1
-
   '@types/http-assert@1.5.6': {}
 
   '@types/http-errors@2.0.5': {}
@@ -8124,10 +7889,6 @@ snapshots:
   '@types/json-buffer@3.0.0': {}
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/jsonfile@6.1.4':
-    dependencies:
-      '@types/node': 26.5.1
 
   '@types/keygrip@1.0.6': {}
 
@@ -8580,8 +8341,6 @@ snapshots:
 
   ansis@4.5.0: {}
 
-  argon2-browser@1.18.0: {}
-
   argparse@1.0.10:
     dependencies:
       sprintf-js: 1.0.3
@@ -8655,13 +8414,6 @@ snapshots:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
 
-  asn1.js@5.4.1:
-    dependencies:
-      bn.js: 4.12.5
-      inherits: 2.0.4
-      minimalistic-assert: 1.0.1
-      safer-buffer: 2.1.2
-
   assert@2.1.0:
     dependencies:
       call-bind: 1.0.9
@@ -8727,8 +8479,6 @@ snapshots:
   balanced-match@4.0.4: {}
 
   base64-js@1.5.1: {}
-
-  base64url@3.0.1: {}
 
   baseline-browser-mapping@2.11.35: {}
 
@@ -9073,12 +8823,6 @@ snapshots:
       '@epic-web/invariant': 1.0.0
       cross-spawn: 7.0.6
 
-  cross-fetch@3.2.0(encoding@0.1.14):
-    dependencies:
-      node-fetch: 2.7.0(encoding@0.1.14)
-    transitivePeerDependencies:
-      - encoding
-
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -9209,8 +8953,6 @@ snapshots:
       esutils: 2.0.3
 
   domain-browser@4.22.0: {}
-
-  dotenv@16.6.1: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -9523,19 +9265,6 @@ snapshots:
       '@noble/hashes': 1.4.0
       '@scure/bip32': 1.4.0
       '@scure/bip39': 1.3.0
-
-  ethers@6.17.0(bufferutil@4.0.7)(utf-8-validate@5.0.7):
-    dependencies:
-      '@adraffy/ens-normalize': 1.11.1
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@types/node': 22.7.5
-      aes-js: 4.0.0-beta.5
-      tslib: 2.7.0
-      ws: 8.21.0(bufferutil@4.0.7)(utf-8-validate@5.0.7)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
 
   ethers@6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
@@ -10221,8 +9950,6 @@ snapshots:
 
   json-schema-traverse@1.0.0: {}
 
-  json-schema@0.4.0: {}
-
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json-stringify-safe@5.0.1: {}
@@ -10865,23 +10592,11 @@ snapshots:
 
   ms@2.1.3: {}
 
-  multibase@4.0.6:
-    dependencies:
-      '@multiformats/base-x': 4.0.1
-
   multiformats@12.1.3: {}
 
   multiformats@13.4.2: {}
 
   multiformats@14.0.5: {}
-
-  multiformats@9.9.0: {}
-
-  multihashes@4.0.3:
-    dependencies:
-      multibase: 4.0.6
-      uint8arrays: 3.1.1
-      varint: 5.0.2
 
   mute-stream@1.0.0: {}
 
@@ -10920,12 +10635,6 @@ snapshots:
       es-errors: 1.3.0
       object.entries: 1.1.9
       semver: 6.3.2
-
-  node-fetch@2.7.0(encoding@0.1.14):
-    dependencies:
-      whatwg-url: 5.0.0
-    optionalDependencies:
-      encoding: 0.1.14
 
   node-gyp-build@4.8.4:
     optional: true
@@ -11982,8 +11691,6 @@ snapshots:
 
   totalist@3.0.1: {}
 
-  tr46@0.0.3: {}
-
   ts-api-utils@2.5.0(typescript@7.0.2):
     dependencies:
       typescript: 7.0.2
@@ -12165,10 +11872,6 @@ snapshots:
     dependencies:
       uint8arrays: 5.1.1
 
-  uint8arrays@3.1.1:
-    dependencies:
-      multiformats: 9.9.0
-
   uint8arrays@4.0.10:
     dependencies:
       multiformats: 12.1.3
@@ -12262,8 +11965,6 @@ snapshots:
 
   validator@13.15.35: {}
 
-  varint@5.0.2: {}
-
   vary@1.1.2: {}
 
   vite@8.3.7(@types/node@26.5.1)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1):
@@ -12319,14 +12020,7 @@ snapshots:
 
   web-vitals@3.5.2: {}
 
-  webidl-conversions@3.0.1: {}
-
   whatwg-fetch@3.6.20: {}
-
-  whatwg-url@5.0.0:
-    dependencies:
-      tr46: 0.0.3
-      webidl-conversions: 3.0.1
 
   which-boxed-primitive@1.1.1:
     dependencies:
@@ -12418,11 +12112,6 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.0.7
       utf-8-validate: 6.0.3
-
-  ws@8.21.0(bufferutil@4.0.7)(utf-8-validate@5.0.7):
-    optionalDependencies:
-      bufferutil: 4.0.7
-      utf-8-validate: 5.0.7
 
   ws@8.21.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     optionalDependencies:

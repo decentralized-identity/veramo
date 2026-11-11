@@ -24,7 +24,7 @@ export function createTrustPingMessage(senderDidUrl: string, recipientDidUrl: st
   }
 }
 
-export function createTrustPingResponse(
+function createTrustPingResponse(
   senderDidUrl: string,
   recipientDidUrl: string,
   pingId: string,

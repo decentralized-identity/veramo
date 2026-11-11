@@ -1,13 +1,13 @@
-import { readdir, createReadStream, writeFile } from 'fs-extra'
+import { createReadStream } from 'fs'
+import { mkdir, readdir, writeFile } from 'fs/promises'
 import { createInterface } from 'readline'
 import { join, parse } from 'path'
 import { exec } from 'child_process'
-import * as fs from 'fs'
 
 const DOCS_DIR = './docs/api'
 
 async function main() {
-  await fs.promises.mkdir(DOCS_DIR, { recursive: true })
+  await mkdir(DOCS_DIR, { recursive: true })
 
   await new Promise((resolve, reject) =>
     exec(`api-documenter markdown -i ./temp -o ${DOCS_DIR}`, (err, stdout, stderr) => {

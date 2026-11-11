@@ -38,7 +38,7 @@ export type CreateDidPkhOptions = CreateIdentifierBaseOptions<'Secp256k1'> & {
  * Helper method that can computes the ethereumAddress corresponding to a Secp256k1 public key.
  * @param hexPublicKey A hex encoded public key, optionally prefixed with `0x`
  */
-export function toEthereumAddress(hexPublicKey: string): string {
+function toEthereumAddress(hexPublicKey: string): string {
   const publicKey = hexPublicKey.startsWith('0x') ? hexPublicKey : '0x' + hexPublicKey
   return computeAddress(publicKey)
 }

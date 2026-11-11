@@ -12,7 +12,7 @@ import {
  *
  * @internal
  */
-export type IssuerMethods = Pick<
+type IssuerMethods = Pick<
   ICredentialIssuer,
   'createVerifiableCredential' | 'createVerifiablePresentation'
 >
@@ -22,7 +22,7 @@ export type IssuerMethods = Pick<
  *
  * @internal
  */
-export type VerifierMethods = Pick<ICredentialVerifier, 'verifyCredential' | 'verifyPresentation'>
+type VerifierMethods = Pick<ICredentialVerifier, 'verifyCredential' | 'verifyPresentation'>
 
 /**
  * Query a {@link ICredentialProvider} if a verification attempt can be made using the provided document

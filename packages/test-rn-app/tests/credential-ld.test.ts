@@ -184,7 +184,7 @@ describe('@veramo/credential-ld golden fixtures', () => {
         proofFormat: 'lds',
         resolutionOptions: c.resolutionOptions,
       })
-      expect(signed.credentialStatus.id).toBe(id)
+      expect(signed.credentialStatus?.id).toBe(id)
     }
   })
 

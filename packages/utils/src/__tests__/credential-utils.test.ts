@@ -304,8 +304,8 @@ describe('@veramo/utils credential utils', () => {
         'did:web:example.com:user:alice',
       )
       expect(
-        removeDIDParameters('did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w?service=hub#auth-key'),
-      ).toEqual('did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w')
+        removeDIDParameters('did:example:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w?service=hub#auth-key'),
+      ).toEqual('did:example:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w')
     })
 
     it('should handle edge cases gracefully', () => {

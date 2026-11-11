@@ -63,7 +63,7 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
   }
 }
 
-export const resolveDidJwk: DIDResolver = async (
+const resolveDidJwk: DIDResolver = async (
   did: string,
   parsed: ParsedDID,
   resolver: Resolvable,

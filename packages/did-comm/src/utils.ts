@@ -125,14 +125,6 @@ export async function mapRecipientsToLocalKeys(
 }
 
 /**
- * Generate private-public x25519 key pair
- */
-export function generateX25519KeyPair(): { secretKey: Uint8Array; publicKey: Uint8Array } {
-  const secretKey = x25519.utils.randomPrivateKey()
-  return generateX25519KeyPairFromSeed(secretKey)
-}
-
-/**
  * Generate private-public x25519 key pair from a 32 byte secret.
  */
 export function generateX25519KeyPairFromSeed(seed: Uint8Array): {

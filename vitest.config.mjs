@@ -26,7 +26,7 @@ const config = {
         'packages/test-utils/**',
       ],
     },
-    include: ['**/__tests__/**/*.test.ts'],
+    include: ['**/*.test.{ts,mts}'],
     globals: false,
     environment: 'node',
     // Give slow integration tests room (max jest.setTimeout was 300000)

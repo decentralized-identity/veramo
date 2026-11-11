@@ -4,6 +4,6 @@
  *
  * @packageDocumentation
  */
-export { MessageHandler } from './message-handler.js'
+export { MessageHandler, EventTypes } from './message-handler.js'
 export { AbstractMessageHandler } from './abstract-message-handler.js'
 export { Message } from './message.js'

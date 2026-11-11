@@ -21,7 +21,7 @@ export type IRequiredContext = IAgentContext<IKeyManager>
 /**
  * For most operations at most 60-70k gas is needed, larger amount for safety
  */
-export const DEFAULT_GAS_LIMIT = 100000
+const DEFAULT_GAS_LIMIT = 100000
 
 /**
  * Options for creating a did:ethr

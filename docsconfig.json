@@ -13,7 +13,6 @@
         "did-jwt",
         "did-manager",
         "did-provider-ethr",
-        "did-provider-ion",
         "did-provider-jwk",
         "did-provider-key",
         "did-provider-peer",
