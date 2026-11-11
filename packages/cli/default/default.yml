@@ -172,13 +172,7 @@ didResolver:
         $require: "@veramo/did-provider-jwk?t=function&p=/jwk#getDidJwkResolver"
       pkh:
         $require: "@veramo/did-provider-pkh?t=function&p=/pkh#getDidPkhResolver"
-      elem:
-        $ref: /universal-resolver
-      io:
-        $ref: /universal-resolver
-      ion:
-        $ref: /universal-resolver
-      sov:
+      webvh:
         $ref: /universal-resolver
 
 ethr-did-resolver:
