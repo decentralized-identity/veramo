@@ -197,9 +197,6 @@ importers:
       '@types/express':
         specifier: 4.17.25
         version: 4.17.25
-      '@types/fs-extra':
-        specifier: 11.0.4
-        version: 11.0.4
       '@types/node':
         specifier: 26.5.1
         version: 26.5.1
@@ -344,9 +341,6 @@ importers:
       '@veramo/kms-local':
         specifier: workspace:^
         version: link:../kms-local
-      '@veramo/kv-store':
-        specifier: workspace:^
-        version: link:../kv-store
       '@veramo/mediation-manager':
         specifier: workspace:^
         version: link:../mediation-manager
@@ -362,9 +356,6 @@ importers:
       '@veramo/selective-disclosure':
         specifier: workspace:^
         version: link:../selective-disclosure
-      '@veramo/url-handler':
-        specifier: workspace:^
-        version: link:../url-handler
       '@veramo/utils':
         specifier: workspace:^
         version: link:../utils
@@ -389,12 +380,6 @@ importers:
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
-      did-resolver:
-        specifier: ^6.0.0
-        version: 6.0.0
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.6.1
       ethr-did-resolver:
         specifier: ^14.1.4
         version: 14.1.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -413,9 +398,6 @@ importers:
       inquirer-autocomplete-prompt:
         specifier: ^3.0.1
         version: 3.0.1(inquirer@9.3.8(@types/node@26.5.1))
-      json-schema:
-        specifier: ^0.4.0
-        version: 0.4.0
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -449,9 +431,6 @@ importers:
       web-did-resolver:
         specifier: ^3.2.0
         version: 3.2.0
-      ws:
-        specifier: ^8.16.0
-        version: 8.22.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       yaml:
         specifier: ^2.3.4
         version: 2.9.1
@@ -1277,9 +1256,6 @@ importers:
       '@veramo/credential-w3c':
         specifier: workspace:*
         version: link:../credential-w3c
-      '@veramo/data-store':
-        specifier: workspace:*
-        version: link:../data-store
       '@veramo/data-store-json':
         specifier: workspace:*
         version: link:../data-store-json
@@ -1331,12 +1307,6 @@ importers:
       '@veramo/test-utils':
         specifier: workspace:*
         version: link:../test-utils
-      '@veramo/url-handler':
-        specifier: workspace:*
-        version: link:../url-handler
-      '@veramo/utils':
-        specifier: workspace:*
-        version: link:../utils
       did-resolver:
         specifier: ^6.0.0
         version: 6.0.0
@@ -1349,9 +1319,6 @@ importers:
       react-dom:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
-      typeorm:
-        specifier: ^1.1.2
-        version: 1.1.2(better-sqlite3@12.11.1)(pg@8.23.1)(supports-color@8.1.1)
       web-did-resolver:
         specifier: ^3.2.0
         version: 3.2.0
@@ -2765,9 +2732,6 @@ packages:
   '@types/express@4.17.25':
     resolution: {integrity: sha512-dVd04UKsfpINUnK0yBoYHDF3xu7xVH4BuDotC/xGuycx4CgbP48X/KF/586bcObxT0HENHXEU8Nqtu6NR+eKhw==}
 
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
   '@types/http-assert@1.5.6':
     resolution: {integrity: sha512-TTEwmtjgVbYAzZYWyeHPrrtWnfVkm8tQkP8P21uQifPgMRgjrow3XDEYqucuC8SKZJT7pUnhU/JymvjggxO9vw==}
 
@@ -2794,9 +2758,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/jsonfile@6.1.4':
-    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/keygrip@1.0.6':
     resolution: {integrity: sha512-lZuNAY9xeJt7Bx4t4dx0rYCDqGPW8RXhQZK1td7d4H6E9zYbLoOtjBvfwdTKpsyxQI/2jv+armjX/RW+ZNpXOQ==}
@@ -3769,10 +3730,6 @@ packages:
     resolution: {integrity: sha512-IGBwjF7tNk3cwypFNH/7bfzBcgSCbaMOD3GsaY1AU/JRrnHnYgEM0+9kQt52iZxjNsjBtJYtao146V+f8jFZNw==}
     engines: {node: '>=10'}
 
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
-
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -4569,9 +4526,6 @@ packages:
 
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
-
-  json-schema@0.4.0:
-    resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
@@ -7909,11 +7863,6 @@ snapshots:
       '@types/qs': 6.15.1
       '@types/serve-static': 1.15.10
 
-  '@types/fs-extra@11.0.4':
-    dependencies:
-      '@types/jsonfile': 6.1.4
-      '@types/node': 26.5.1
-
   '@types/http-assert@1.5.6': {}
 
   '@types/http-errors@2.0.5': {}
@@ -7940,10 +7889,6 @@ snapshots:
   '@types/json-buffer@3.0.0': {}
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/jsonfile@6.1.4':
-    dependencies:
-      '@types/node': 26.5.1
 
   '@types/keygrip@1.0.6': {}
 
@@ -9009,8 +8954,6 @@ snapshots:
 
   domain-browser@4.22.0: {}
 
-  dotenv@16.6.1: {}
-
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -10006,8 +9949,6 @@ snapshots:
   json-schema-traverse@0.4.1: {}
 
   json-schema-traverse@1.0.0: {}
-
-  json-schema@0.4.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 

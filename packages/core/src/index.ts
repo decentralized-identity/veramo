@@ -4,7 +4,7 @@
  * @packageDocumentation
  */
 export { Agent, createAgent } from './agent.js'
-export { ValidationError } from './validator.js'
+export { ValidationError, PluginReturnTypeError } from './validator.js'
 
 // re-export types for convenience
 export * from '@veramo/core-types'

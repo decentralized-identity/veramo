@@ -282,11 +282,15 @@ CredentialProviderLD:
 CredentialProviderJWT:
   $require: "@veramo/credential-jwt#CredentialProviderJWT"
 
+CredentialProviderEIP712:
+  $require: "@veramo/credential-eip712#CredentialProviderEIP712"
+
 credentialPlugin:
   $require: "@veramo/credential-w3c#CredentialPlugin"
   $args:
     - - $ref: /CredentialProviderLD
       - $ref: /CredentialProviderJWT
+      - $ref: /CredentialProviderEIP712
 
 # Agent
 agent:
