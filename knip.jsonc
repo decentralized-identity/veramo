@@ -1,0 +1,107 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
+  "workspaces": {
+    ".": {
+      // Spawned by __tests__/esm-interop.test.mts through execFile(); knip
+      // cannot follow the path because it is assembled at runtime.
+      "entry": [
+        "__tests__/fixtures/esm-smoke.mjs"
+      ]
+    },
+    "packages/cli": {
+      // Loaded by objectCreator.test.ts through createObjects()'s runtime
+      // `import(module)` call, so knip cannot follow the specifier.
+      "entry": [
+        "src/__tests__/fixtures/testClasses.js"
+      ],
+      // default/default.yml (and default/client.yml for remote-client) wires
+      // these packages up through `$require` strings that knip cannot follow.
+      // They are dependencies of the generated agent config and are pre-baked
+      // so it runs out of the box. `pg`, `passport` and `passport-http-bearer`
+      // are loaded transitively at runtime by TypeORM and @veramo/remote-server.
+      "ignoreDependencies": [
+        "@veramo/core",
+        "@veramo/credential-eip712",
+        "@veramo/credential-jwt",
+        "@veramo/credential-ld",
+        "@veramo/credential-w3c",
+        "@veramo/data-store",
+        "@veramo/did-jwt",
+        "@veramo/did-manager",
+        "@veramo/did-provider-ethr",
+        "@veramo/did-provider-jwk",
+        "@veramo/did-provider-key",
+        "@veramo/did-provider-peer",
+        "@veramo/did-provider-pkh",
+        "@veramo/did-provider-web",
+        "@veramo/did-resolver",
+        "@veramo/key-manager",
+        "@veramo/message-handler",
+        "@veramo/remote-client",
+        "@veramo/remote-server",
+        "better-sqlite3",
+        "cors",
+        "ethr-did-resolver",
+        "passport",
+        "passport-http-bearer",
+        "pg",
+        "swagger-ui-express",
+        "typeorm",
+        "web-did-resolver"
+      ]
+    },
+    "packages/did-comm": {
+      // TODO: Placeholders for the not-yet-implemented P-256 ECDH-1PU/ES key
+      // agreement. Both files are entirely commented-out reference code.
+      "ignore": [
+        "src/encryption/p256-ECDH-1PU.ts",
+        "src/encryption/p256-ECDH-ES.ts"
+      ]
+    },
+    "packages/core": {
+      // `events` shares its name with a Node.js builtin, so knip treats the
+      // import in src/agent.ts as the builtin rather than this dependency.
+      // @types/events types the same specifier, so it follows the same path.
+      "ignoreDependencies": [
+        "events",
+        "@types/events"
+      ]
+    },
+    "packages/test-react-app": {
+      // The browser tests use this package's own `.vite-test.ts` convention,
+      // which is not one of knip's default vitest entry patterns.
+      "entry": [
+        "headless-tests/**/*.vite-test.ts"
+      ],
+      // Only imported in a `declare module '@vitest/browser/context'`
+      // augmentation, which knip does not count as a dependency use.
+      "ignoreDependencies": [
+        "@vitest/browser"
+      ]
+    },
+    "packages/test-rn-app": {
+      // Metro bundles harness/app.ts, but knip cannot follow the entry path
+      // from the string in run.mjs; probe-builtins.js is a standalone manual
+      // tool. harness/vitest.ts is the entry module for `import 'vitest'` in
+      // tests/ (aliased by Metro), so its exports are a public surface.
+      "entry": [
+        "harness/app.ts",
+        "harness/probe-builtins.js",
+        "harness/vitest.ts"
+      ],
+      // Metro is required dynamically through createRequire() in run.mjs, and
+      // @babel/runtime helpers are injected by the RN babel preset rather than
+      // imported by source files.
+      "ignoreDependencies": [
+        "metro",
+        "@babel/runtime"
+      ],
+      // `test` is intentionally an alias of `it`, matching vitest's API.
+      "ignoreIssues": {
+        "harness/vitest.ts": [
+          "duplicates"
+        ]
+      }
+    }
+  }
+}
