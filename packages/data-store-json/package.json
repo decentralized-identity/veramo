@@ -20,7 +20,7 @@
     "uuid": "^14.0.3"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.13",
     "@types/ungap__structured-clone": "1.2.0",
     "typescript": "7.0.2"
   },
