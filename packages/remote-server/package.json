@@ -21,8 +21,8 @@
     "passport-http-bearer": "^1.0.1"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
-    "@types/express": "4.17.17",
+    "@types/debug": "4.1.13",
+    "@types/express": "4.17.25",
     "@types/passport": "1.0.17",
     "@types/passport-http-bearer": "1.0.42",
     "typescript": "7.0.2"
