@@ -12,8 +12,8 @@ import { encodeBase64url, decodeBase64url, isJWK } from '@veramo/utils'
 function generateDidResolution(jwk: JsonWebKey, parsed: ParsedDID): Promise<DIDResolutionResult> {
   return new Promise((resolve, reject) => {
     try {
-      const sig = jwk.use === 'sig'
-      const enc = jwk.use === 'enc'
+      const sig = jwk.use !== 'enc'
+      const enc = jwk.use !== 'sig'
       const did = `did:jwk:${encodeBase64url(JSON.stringify(jwk))}`
       const didDocument: DIDDocument = {
         id: did,
