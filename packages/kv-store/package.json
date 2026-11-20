@@ -19,7 +19,7 @@
     "@keyv/sqlite": "3.6.5",
     "@types/debug": "4.1.8",
     "@types/json-buffer": "3.0.0",
-    "@types/node": "26.5.1",
+    "@types/node": "26.6.6",
     "timekeeper": "2.3.1",
     "typescript": "7.0.2"
   },
