@@ -492,8 +492,8 @@ importers:
   packages/credential-eip712:
     dependencies:
       '@metamask/eth-sig-util':
-        specifier: ^7.0.0
-        version: 7.0.1(supports-color@8.1.1)
+        specifier: ^10.0.0
+        version: 10.0.1(supports-color@8.1.1)
       '@veramo/core-types':
         specifier: workspace:^
         version: link:../core-types
@@ -2129,18 +2129,34 @@ packages:
   '@ethereumjs/common@3.2.0':
     resolution: {integrity: sha512-pksvzI0VyLgmuEF2FA/JR/4/y6hcPq8OUail3/AvycBaW1d5VSauOZzqGvJ3RTmR4MU35lWE8KseKOsEhrFRBA==}
 
+  '@ethereumjs/common@4.4.0':
+    resolution: {integrity: sha512-Fy5hMqF6GsE6DpYTyqdDIJPJgUtDn4dL120zKw+Pswuo+iLyBsEYuSyzMw6NVzD2vDzcBG9fE4+qX4X2bPc97w==}
+
   '@ethereumjs/rlp@4.0.1':
     resolution: {integrity: sha512-tqsQiBQDQdmPWE1xkkBq4rlSW5QZpLOUJ5RJh2/9fug+q9tnUhuZoVLk7s0scUIKTOzEtR72DFBXI4WiZcMpvw==}
     engines: {node: '>=14'}
+    hasBin: true
+
+  '@ethereumjs/rlp@5.0.2':
+    resolution: {integrity: sha512-DziebCdg4JpGlEqEdGgXmjqcFoJi+JGulUXwEjsZGAscAQ7MyD/7LE/GVCP29vEQxKc7AAwjT3A2ywHp2xfoCA==}
+    engines: {node: '>=18'}
     hasBin: true
 
   '@ethereumjs/tx@4.2.0':
     resolution: {integrity: sha512-1nc6VO4jtFd172BbSnTnDQVr9IYBFl1y4xPzZdtkrkKIncBCkdbgfdRV+MiTkJYAtTxvV12GRZLqBFT1PNK6Yw==}
     engines: {node: '>=14'}
 
+  '@ethereumjs/tx@5.4.0':
+    resolution: {integrity: sha512-SCHnK7m/AouZ7nyoR0MEXw1OO/tQojSbp88t8oxhwes5iZkZCtfFdUrJaiIb72qIpH2FVw6s1k1uP7LXuH7PsA==}
+    engines: {node: '>=18'}
+
   '@ethereumjs/util@8.1.0':
     resolution: {integrity: sha512-zQ0IqbdX8FZ9aw11vP+dZkKDkS+kgIvQPHnSAXzP9pLu+Rfu3D3XEeLbicvoXJTYnhZiPmsZUxgdzXwNKxRPbA==}
     engines: {node: '>=14'}
+
+  '@ethereumjs/util@9.1.0':
+    resolution: {integrity: sha512-XBEKsYqLGXLah9PNJbgdkigthkG7TAGvlD/sH12beMXEyHDyigfcbdvHhmLyDWgDyOJn4QwiQUaF7yeuhnjdog==}
+    engines: {node: '>=18'}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -2234,13 +2250,53 @@ packages:
     resolution: {integrity: sha512-StnIgUB75x7a7AgUhiaUZDpCsqGp7VkNnZh2XivXkJ6mPkE83U8ARGQj5MbRis7VJY8BC5V1AbB1fjdh0hupPQ==}
     engines: {node: '>=16.0.0'}
 
+  '@metamask/abi-utils@3.0.0':
+    resolution: {integrity: sha512-a/l0DiSIr7+CBYVpHygUa3ztSlYLFCQMsklLna+t6qmNY9+eIO5TedNxhyIyvaJ+4cN7TLy0NQFbp9FV3X2ktg==}
+    engines: {node: ^18.18 || ^20.14 || >=22}
+
+  '@metamask/byte-utils@0.1.0':
+    resolution: {integrity: sha512-wEI4XqCTr6DD/D0Tz+Wge77M6LiViG+56WAg28VbGe1mz7W5knC9dneqHgkccSCMIESUayC3NT5DjIvuE6pPdA==}
+    engines: {node: ^22.14.0 || ^24 || ^26}
+
+  '@metamask/cryptography@1.1.2':
+    resolution: {integrity: sha512-IUc1z+BfbXjCpJku8lTJrBkLinIi9q4u+tK5R/kR5uW+YDXluB87YWAO4Uh2hvFMiuQVv0YL0bZ0NDTltKP65Q==}
+    engines: {node: ^22.14.0 || ^24}
+
+  '@metamask/error-utils@0.1.0':
+    resolution: {integrity: sha512-cwwBGUTp8QUuxSTDQ+4D3IONLtf+AzyoNKno5L75Xcbd8TDEyTGV5mlQprxlzLPJ0hOQXSY1Zl7oICq8fvg6rw==}
+    engines: {node: ^22.14.0 || ^24 || ^26}
+
+  '@metamask/eth-sig-util@10.0.1':
+    resolution: {integrity: sha512-tm3EFku3sWTsT6DDdDIqUJUsmU4ZuLxiczaDMw/pYJ0P8wI/SPbDjWx16VSRWDYj6ECweVBs0Un0LNg3yv5odg==}
+    engines: {node: ^22.14.0 || ^24 || ^26}
+
   '@metamask/eth-sig-util@7.0.1':
     resolution: {integrity: sha512-59GSrMyFH2fPfu7nKeIQdZ150zxXNNhAQIUaFRUW+MGtVA4w/ONbiQobcRBLi+jQProfIyss51G8pfLPcQ0ylg==}
+    engines: {node: ^16.20 || ^18.16 || >=20}
+
+  '@metamask/node-utils@0.1.0':
+    resolution: {integrity: sha512-OXuAS8qIToizYyt4NcgqdWWOkNAmNASm/czl9lV9IxsPIjI4+/RlqLriflsmGgMi0mv3I3eookpy8e105dtXsg==}
+    engines: {node: ^22.14.0 || ^24 || ^26}
+
+  '@metamask/scure-bip39@2.1.1':
+    resolution: {integrity: sha512-1K8aBsAqr6+8jWhguVl06n8e+zjV9sUnys+5PLyVU4mb8LbulQ60F6cq7iQys3xX/yCwKt1+7c7j2nuTEpW+ZQ==}
     engines: {node: ^16.20 || ^18.16 || >=20}
 
   '@metamask/superstruct@3.4.1':
     resolution: {integrity: sha512-caTaaBUcwBGbUNf3r0uT48upX4nECRbKhQ9pPOfW4sIkfcIUUDV4S9DZxq/5fuNPVt5KWpyd5xIIz0sP+iWLlg==}
     engines: {node: '>=16.0.0'}
+
+  '@metamask/type-utils@0.1.0':
+    resolution: {integrity: sha512-f8V8NgT0JaFMgU9Vf+OFrMbU5D9zQ+96tDBVPUOZ1vHhrbMG50qehela6VJIR2I0AHTEIjQefL/EknI45CpAqA==}
+    engines: {node: ^22.14.0 || ^24 || ^26}
+
+  '@metamask/utils@11.12.1':
+    resolution: {integrity: sha512-X97J5AEcaKDTIAfKb4X93ZTLfvOahzDVadlveQW+7OZ7yhXjMxXoFmhX2d9UKv48iS2Dxq9kbGJ1lUfphu9ebQ==}
+    engines: {node: ^18.18 || ^20.14 || >=22}
+
+  '@metamask/utils@12.0.2':
+    resolution: {integrity: sha512-OsGPRumB2qZhjMU+YVPWRBI5KbyX5UTnZu7256jgxHttZGaDM4Mp65sys91hZAhnDkCtgsjsrApyDI/ctbnVdA==}
+    engines: {node: ^22.14.0 || ^24 || ^26}
 
   '@metamask/utils@8.5.0':
     resolution: {integrity: sha512-I6bkduevXb72TIM9q2LRO63JSsF9EXduh3sBr9oybNX2hNNpr/j1tEjXrsG0Uabm4MJ1xkGAQEMwifvKZIkyxQ==}
@@ -2297,6 +2353,10 @@ packages:
 
   '@noble/curves@1.4.2':
     resolution: {integrity: sha512-TavHr8qycMChk8UwMld0ZDRvatedkzWfH8IiaeGCfymOP5i0hSCozz9vHOL0nkwk7HRMlFnAiKpS2jrUmSybcw==}
+
+  '@noble/curves@1.9.0':
+    resolution: {integrity: sha512-7YDlXiNMdO1YZeH6t/kvopHHbIZzlxrCV9WLqCY6QhcXOoXiNCMDqJIglZ9Yjx5+w7Dz30TITFrlTjnRg7sKEg==}
+    engines: {node: ^14.21.3 || >=16}
 
   '@noble/curves@1.9.7':
     resolution: {integrity: sha512-gbKGcRUYIjA3/zCCNaWDciTMFI0dCkvou3TL8Zmy5Nc7sJ47a0jtOeZoTaMxkuqRo9cRhjOdZJXegxYE5FN/xw==}
@@ -2603,8 +2663,14 @@ packages:
   '@scure/bip32@1.4.0':
     resolution: {integrity: sha512-sVUpc0Vq3tXCkDGYVWGIZTRfnvu8LoTDaev7vbwh0omSvVORONr960MQWdKqJDCReIEmTj3PAr73O3aoxz7OPg==}
 
+  '@scure/bip32@1.7.0':
+    resolution: {integrity: sha512-E4FFX/N3f4B80AKWp5dP6ow+flD1LQZo/w8UnLGYZO674jS6YnYeepycOOksv+vLPSpgN35wgKgy+ybfTb2SMw==}
+
   '@scure/bip39@1.3.0':
     resolution: {integrity: sha512-disdg7gHuTDZtY+ZdkmLpPCk7fxZSu3gBiEGuoC1XYxv9cGx3Z6cpTggCgW6odSOOIXCiDjuGejW+aJKCY/pIQ==}
+
+  '@scure/bip39@1.6.0':
+    resolution: {integrity: sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==}
 
   '@sinclair/typebox@0.27.12':
     resolution: {integrity: sha512-hhyNJ+nbR6ZR7pToHvllEFun9TL0sbL+tk/ON75lo+Xas054uez98qRbsuNt7MBCyZKK4+8Yli/OAGZhmfBZ/g==}
@@ -2767,6 +2833,9 @@ packages:
 
   '@types/koa@3.0.3':
     resolution: {integrity: sha512-TdtNEJ7sYSrFQcVuS2ySsVqnq5EyE3oJbnfFJvkC9UtGP4Kpem5KE7r+ivHIbIAQAofSqnlB5D3vkfYO69TQpg==}
+
+  '@types/lodash@4.17.27':
+    resolution: {integrity: sha512-VenMRv/eKNrspX9v3H4dbmjsrnCOYdYBG3kxXKk3dG6X+urBGcj2Prww3xw1U5K4FV/mE4h5GbWd0szEKf+9ew==}
 
   '@types/lru-cache@5.1.1':
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -3908,6 +3977,10 @@ packages:
 
   ethereum-cryptography@2.2.1:
     resolution: {integrity: sha512-r/W8lkHSiTLxUxW8Rf3u4HGB0xQweG2RyETjywylKZSzLWoWAijRz8WCuOtJ6wah+avllXBqZuk29HCCvhEIRg==}
+
+  ethereum-cryptography@3.2.0:
+    resolution: {integrity: sha512-Urr5YVsalH+Jo0sYkTkv1MyI9bLYZwW8BENZCeE1QYaTHETEYx0Nv/SVsWkSqpYrzweg6d8KMY1wTjH/1m/BIg==}
+    engines: {node: ^14.21.3 || >=16, npm: '>=9'}
 
   ethers@6.17.0:
     resolution: {integrity: sha512-BpyrpIPJ3ydEVow8zGaz1DuPS7YU8DcWxuBnY9a0UA/lvAPwrMr+EPXsfrul628SRaekPNeIM4UFh/91GWZang==}
@@ -6181,6 +6254,10 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
+  uuid@11.1.1:
+    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
+    hasBin: true
+
   uuid@14.0.3:
     resolution: {integrity: sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==}
     hasBin: true
@@ -7123,7 +7200,13 @@ snapshots:
       '@ethereumjs/util': 8.1.0
       crc-32: 1.2.2
 
+  '@ethereumjs/common@4.4.0':
+    dependencies:
+      '@ethereumjs/util': 9.1.0
+
   '@ethereumjs/rlp@4.0.1': {}
+
+  '@ethereumjs/rlp@5.0.2': {}
 
   '@ethereumjs/tx@4.2.0':
     dependencies:
@@ -7132,11 +7215,23 @@ snapshots:
       '@ethereumjs/util': 8.1.0
       ethereum-cryptography: 2.2.1
 
+  '@ethereumjs/tx@5.4.0':
+    dependencies:
+      '@ethereumjs/common': 4.4.0
+      '@ethereumjs/rlp': 5.0.2
+      '@ethereumjs/util': 9.1.0
+      ethereum-cryptography: 2.2.1
+
   '@ethereumjs/util@8.1.0':
     dependencies:
       '@ethereumjs/rlp': 4.0.1
       ethereum-cryptography: 2.2.1
       micro-ftch: 0.3.1
+
+  '@ethereumjs/util@9.1.0':
+    dependencies:
+      '@ethereumjs/rlp': 5.0.2
+      ethereum-cryptography: 2.2.1
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -7245,6 +7340,37 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@metamask/abi-utils@3.0.0(supports-color@8.1.1)':
+    dependencies:
+      '@metamask/superstruct': 3.4.1
+      '@metamask/utils': 11.12.1(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@metamask/byte-utils@0.1.0':
+    dependencies:
+      '@metamask/type-utils': 0.1.0
+      '@scure/base': 1.2.6
+
+  '@metamask/cryptography@1.1.2': {}
+
+  '@metamask/error-utils@0.1.0':
+    dependencies:
+      '@metamask/type-utils': 0.1.0
+      pony-cause: 2.1.11
+
+  '@metamask/eth-sig-util@10.0.1(supports-color@8.1.1)':
+    dependencies:
+      '@ethereumjs/rlp': 5.0.2
+      '@ethereumjs/util': 9.1.0
+      '@metamask/abi-utils': 3.0.0(supports-color@8.1.1)
+      '@metamask/cryptography': 1.1.2
+      '@metamask/utils': 12.0.2(supports-color@8.1.1)
+      '@noble/ciphers': 1.3.0
+      ethereum-cryptography: 3.2.0
+    transitivePeerDependencies:
+      - supports-color
+
   '@metamask/eth-sig-util@7.0.1(supports-color@8.1.1)':
     dependencies:
       '@ethereumjs/util': 8.1.0
@@ -7256,7 +7382,55 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@metamask/node-utils@0.1.0':
+    dependencies:
+      '@metamask/error-utils': 0.1.0
+      '@metamask/type-utils': 0.1.0
+      uuid: 11.1.1
+
+  '@metamask/scure-bip39@2.1.1':
+    dependencies:
+      '@noble/hashes': 1.3.2
+      '@scure/base': 1.1.9
+
   '@metamask/superstruct@3.4.1': {}
+
+  '@metamask/type-utils@0.1.0': {}
+
+  '@metamask/utils@11.12.1(supports-color@8.1.1)':
+    dependencies:
+      '@ethereumjs/tx': 4.2.0
+      '@metamask/scure-bip39': 2.1.1
+      '@metamask/superstruct': 3.4.1
+      '@noble/hashes': 1.8.0
+      '@scure/base': 1.2.6
+      '@types/debug': 4.1.8
+      '@types/lodash': 4.17.27
+      debug: 4.4.3(supports-color@8.1.1)
+      lodash: 4.18.1
+      pony-cause: 2.1.11
+      semver: 7.8.6
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@metamask/utils@12.0.2(supports-color@8.1.1)':
+    dependencies:
+      '@ethereumjs/tx': 5.4.0
+      '@metamask/byte-utils': 0.1.0
+      '@metamask/error-utils': 0.1.0
+      '@metamask/node-utils': 0.1.0
+      '@metamask/scure-bip39': 2.1.1
+      '@metamask/superstruct': 3.4.1
+      '@metamask/type-utils': 0.1.0
+      '@noble/hashes': 1.8.0
+      '@types/debug': 4.1.8
+      '@types/lodash': 4.17.27
+      debug: 4.4.3(supports-color@8.1.1)
+      lodash: 4.18.1
+      semver: 7.8.6
+    transitivePeerDependencies:
+      - supports-color
 
   '@metamask/utils@8.5.0(supports-color@8.1.1)':
     dependencies:
@@ -7365,6 +7539,10 @@ snapshots:
   '@noble/curves@1.4.2':
     dependencies:
       '@noble/hashes': 1.4.0
+
+  '@noble/curves@1.9.0':
+    dependencies:
+      '@noble/hashes': 1.8.0
 
   '@noble/curves@1.9.7':
     dependencies:
@@ -7685,10 +7863,21 @@ snapshots:
       '@noble/hashes': 1.4.0
       '@scure/base': 1.1.9
 
+  '@scure/bip32@1.7.0':
+    dependencies:
+      '@noble/curves': 1.9.7
+      '@noble/hashes': 1.8.0
+      '@scure/base': 1.2.6
+
   '@scure/bip39@1.3.0':
     dependencies:
       '@noble/hashes': 1.4.0
       '@scure/base': 1.1.9
+
+  '@scure/bip39@1.6.0':
+    dependencies:
+      '@noble/hashes': 1.8.0
+      '@scure/base': 1.2.6
 
   '@sinclair/typebox@0.27.12': {}
 
@@ -7906,6 +8095,8 @@ snapshots:
       '@types/keygrip': 1.0.6
       '@types/koa-compose': 3.2.9
       '@types/node': 26.5.1
+
+  '@types/lodash@4.17.27': {}
 
   '@types/lru-cache@5.1.1': {}
 
@@ -9265,6 +9456,14 @@ snapshots:
       '@noble/hashes': 1.4.0
       '@scure/bip32': 1.4.0
       '@scure/bip39': 1.3.0
+
+  ethereum-cryptography@3.2.0:
+    dependencies:
+      '@noble/ciphers': 1.3.0
+      '@noble/curves': 1.9.0
+      '@noble/hashes': 1.8.0
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
 
   ethers@6.17.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
     dependencies:
@@ -11958,6 +12157,8 @@ snapshots:
       which-typed-array: 1.1.24
 
   utils-merge@1.0.1: {}
+
+  uuid@11.1.1: {}
 
   uuid@14.0.3: {}
 
