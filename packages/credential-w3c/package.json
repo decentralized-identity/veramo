@@ -21,7 +21,7 @@
     "uuid": "^14.0.3"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.13",
     "typescript": "7.0.2"
   },
   "files": [
