@@ -16,9 +16,9 @@
     "typeorm": "^1.1.2"
   },
   "devDependencies": {
-    "@keyv/sqlite": "3.6.5",
-    "@types/debug": "4.1.8",
-    "@types/json-buffer": "3.0.0",
+    "@keyv/sqlite": "3.6.7",
+    "@types/debug": "4.1.13",
+    "@types/json-buffer": "3.0.2",
     "@types/node": "26.5.1",
     "timekeeper": "2.3.1",
     "typescript": "7.0.2"
